@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import Producto
 
 # ==========================================
@@ -57,20 +59,16 @@ def agregar_al_carrito(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
     producto_id_str = str(producto_id)
 
-    # Recuperar el carrito actual de la sesión (o crear uno vacío)
     carrito = request.session.get('carrito', {})
 
-    # Sumar 1 a la cantidad si ya existe, o crearlo con cantidad 1
     if producto_id_str in carrito:
         carrito[producto_id_str] += 1
     else:
         carrito[producto_id_str] = 1
 
-    # Guardar los cambios en la sesión
     request.session['carrito'] = carrito
-    request.session.modified = True  # Fuerza el guardado inmediato
+    request.session.modified = True
 
-    # EL CAMBIO CLAVE: Ahora redirige al carrito en lugar de la tienda
     return redirect('ver_carrito')
 
 
@@ -97,7 +95,6 @@ def ver_carrito(request):
         'total_compra': total_compra,
         'total_items': total_items
     }
-    # Asegúrate de tener este archivo HTML creado en tu carpeta templates
     return render(request, 'ecommerce/carrito.html', context)
 
 
@@ -106,3 +103,33 @@ def limpiar_carrito(request):
         del request.session['carrito']
         request.session.modified = True
     return redirect('ver_carrito')
+
+
+# ==========================================
+# 3. AUTENTICACIÓN EXCLUSIVA ECOMMERCE
+# ==========================================
+def registro_ecommerce(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('lista_productos')
+    else:
+        form = UserCreationForm()
+    return render(request, 'ecommerce/registro.html', {'form': form})
+
+def login_ecommerce(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('lista_productos')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'ecommerce/login.html', {'form': form})
+
+def logout_ecommerce(request):
+    logout(request)
+    return redirect('lista_productos')

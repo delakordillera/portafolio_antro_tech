@@ -1,145 +1,87 @@
-{% load static %}
-{% load humanize %}
+{% load static %}{% load humanize %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}ANTRO-TECH CORE | High-End Components{% endblock %}</title>
+    <title>{% block title %}ANTRO-TECH CORE | High-End Hardware{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
-        :root {
-            --pc-blue: #00d2ff;
-            --pc-dark: #020617;
-            --pc-card: #111827;
-            --pc-accent: #f59e0b;
-        }
+        :root { --pc-blue: #00d2ff; --pc-dark: #020617; --pc-card: #111827; }
+        body { background-color: var(--pc-dark); color: #f1f5f9; font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
 
-        body {
-            background-color: var(--pc-dark);
-            color: #f1f5f9;
-            font-family: 'Inter', sans-serif;
-            margin: 0; padding: 0;
-            overflow-x: hidden;
-        }
-
-        .navbar {
-            background: rgba(2, 6, 23, 0.98) !important;
-            border-bottom: 1px solid rgba(0, 210, 255, 0.2);
-            padding: 0.8rem 0;
-            backdrop-filter: blur(10px);
-        }
-
-        .navbar-brand { font-weight: 900; color: var(--pc-blue) !important; font-size: 1.4rem; letter-spacing: 1px; }
-        .navbar-brand span { color: #ffffff; }
-
-        .nav-link { font-weight: 600; font-size: 0.85rem; color: #cbd5e1 !important; text-transform: uppercase; letter-spacing: 0.5px; transition: color 0.3s; }
+        /* Navbar con Glassmorphism */
+        .navbar { background: rgba(2, 6, 23, 0.98) !important; border-bottom: 1px solid rgba(0, 210, 255, 0.2); backdrop-filter: blur(10px); }
+        .navbar-brand { font-weight: 900; color: var(--pc-blue) !important; letter-spacing: 1px; }
+        .nav-link { color: #cbd5e1 !important; font-size: 0.9rem; text-transform: uppercase; font-weight: 600; }
         .nav-link:hover { color: var(--pc-blue) !important; }
 
-        .search-bar {
-            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50px; padding: 0.4rem 1.2rem 0.4rem 2.5rem; color: white; width: 240px; transition: all 0.3s ease; font-size: 0.9rem;
-        }
-        .search-bar:focus { outline: none; border-color: var(--pc-blue); background: rgba(0, 0, 0, 0.5); width: 280px; box-shadow: 0 0 10px rgba(0, 210, 255, 0.2); }
-
-        .nav-badge-fire { background: var(--pc-accent); color: #000; font-size: 0.65rem; padding: 0.2rem 0.4rem; border-radius: 4px; margin-left: 5px; font-weight: 900; vertical-align: top; }
-
-        .card-custom {
-            background-color: var(--pc-card); border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 16px; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .card-custom:hover { transform: translateY(-8px); border-color: var(--pc-blue); box-shadow: 0 10px 25px rgba(0, 210, 255, 0.15); }
-
+        /* Contenedor de Imagen Profesional */
         .img-container {
             width: 100%; height: 220px; background-color: #ffffff;
-            display: flex; align-items: center; justify-content: center; padding: 1.5rem;
+            display: flex; align-items: center; justify-content: center;
+            padding: 1.5rem; overflow: hidden; border-radius: 12px 12px 0 0;
+            position: relative;
         }
         .img-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .text-pc { color: var(--pc-blue); font-weight: 900; font-size: 1.3rem; }
 
-        footer { border-top: 1px solid rgba(255,255,255,0.05); }
+        /* Estilos de botones */
+        .btn-portafolio { border: 1px solid var(--pc-blue); color: var(--pc-blue) !important; font-weight: 600; }
+        .btn-portafolio:hover { background: var(--pc-blue); color: var(--pc-dark) !important; }
+        .btn-info { background-color: var(--pc-blue) !important; border: none; }
+
+        footer { border-top: 1px solid rgba(255,255,255,0.1); background: #010409; padding: 2rem 0; color: #ffffff !important; margin-top: auto; }
+        main { flex: 1; }
     </style>
 </head>
 <body>
-
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
             <a class="navbar-brand" href="{% url 'lista_productos' %}">
-                <i class="bi bi-cpu-fill me-2 text-white"></i>ANTRO-TECH <span>CORE</span>
+                <i class="bi bi-cpu-fill me-2"></i>ANTRO-TECH CORE
             </a>
 
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navEcom">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <div class="d-flex align-items-center gap-2 order-lg-3">
+                <a href="{% url 'ver_carrito' %}" class="btn btn-outline-info border-0 position-relative p-2">
+                    <i class="bi bi-cart3 fs-4"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">{{ total_items|default:"0" }}</span>
+                </a>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navEcom">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
 
-            <div class="collapse navbar-collapse" id="navEcom">
-                <ul class="navbar-nav me-auto ms-lg-4 gap-1 align-items-lg-center">
+            <div class="collapse navbar-collapse order-lg-2" id="navEcom">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="{% url 'lista_productos' %}">Catálogo</a></li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Componentes</a>
-                        <ul class="dropdown-menu dropdown-menu-dark border-0 shadow">
-                            <li><a class="dropdown-item" href="{% url 'lista_productos' %}?categoria=gpu">Tarjetas Gráficas (GPU)</a></li>
-                            <li><a class="dropdown-item" href="{% url 'lista_productos' %}?categoria=cpu">Procesadores (CPU)</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link text-warning" href="{% url 'lista_productos' %}?ofertas=true">Ofertas <span class="nav-badge-fire"><i class="bi bi-fire"></i> HOT</span></a>
-                    </li>
                 </ul>
-
-                <div class="d-flex flex-wrap align-items-center gap-3 mt-3 mt-lg-0">
-                    <form method="GET" action="{% url 'lista_productos' %}" class="position-relative d-none d-lg-block">
-                        <button type="submit" class="btn border-0 position-absolute top-50 start-0 translate-middle-y ms-1 text-muted" style="z-index: 10;">
-                            <i class="bi bi-search"></i>
-                        </button>
-                        <input type="text" name="q" class="search-bar ps-5" placeholder="Buscar RTX, Ryzen..." value="{{ request.GET.q|default:'' }}">
+                <div class="d-flex flex-column flex-lg-row align-items-lg-center gap-3">
+                    <form method="GET" action="{% url 'lista_productos' %}" class="w-100">
+                        <input type="text" name="q" class="form-control bg-dark border-secondary text-white rounded-pill px-3" placeholder="Buscar RTX, Ryzen..." value="{{ request.GET.q|default:'' }}">
                     </form>
-
-                    <a href="{% url 'ver_carrito' %}" class="btn btn-outline-info position-relative border-0" title="Ver Carrito">
-                        <i class="bi bi-cart3 fs-5"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.65rem;">
-                            {{ total_items|default:"0" }}
-                        </span>
-                    </a>
-
-                    <div class="d-flex gap-2">
+                    <div class="d-flex flex-wrap gap-2 align-items-center border-start border-secondary ps-lg-3">
                         {% if user.is_authenticated %}
-                            <div class="dropdown">
-                                <button class="btn btn-outline-light btn-sm dropdown-toggle rounded-pill px-3" data-bs-toggle="dropdown">
-                                    <i class="bi bi-person-circle me-1"></i> {{ user.username }}
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end border-0 shadow">
-                                    <li><a class="dropdown-item text-danger" href="#">Cerrar Sesión</a></li>
+                            <div class="dropdown w-100 w-lg-auto">
+                                <button class="btn btn-outline-light btn-sm rounded-pill px-3 dropdown-toggle w-100" data-bs-toggle="dropdown">{{ user.username }}</button>
+                                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow">
+                                    <li><a class="dropdown-item text-danger" href="{% url 'logout_ecommerce' %}">Cerrar Sesión</a></li>
                                 </ul>
                             </div>
                         {% else %}
-                            <a href="#" class="btn btn-outline-light btn-sm rounded-pill px-4 fw-bold">Login</a>
+                            <a href="{% url 'login_ecommerce' %}" class="btn btn-outline-light btn-sm rounded-pill px-3 fw-bold">Login</a>
+                            <a href="{% url 'registro_ecommerce' %}" class="btn btn-info btn-sm rounded-pill px-3 text-dark fw-bold">Registro</a>
                         {% endif %}
-                        <a href="/" class="btn btn-sm btn-outline-secondary rounded-pill px-3 d-none d-md-block" title="Volver al CV">Portafolio</a>
+                        <a href="/" class="btn btn-sm btn-portafolio rounded-pill px-3 w-100 w-lg-auto">Mi Portafolio</a>
                     </div>
                 </div>
             </div>
         </div>
     </nav>
-
-    <main class="container py-4">
-        {% block content %}{% endblock %}
-    </main>
-
-    <footer class="py-5 text-center text-muted small mt-5">
-        <div class="container">
-            <div class="d-flex justify-content-center gap-4 mb-3 fs-4 text-secondary">
-                <i class="bi bi-gpu-card"></i>
-                <i class="bi bi-cpu-fill"></i>
-                <i class="bi bi-memory"></i>
-            </div>
-            © 2026 ANTRO-TECH CORE | DESARROLLADO POR ALEXIS LARA VIVEROS
-        </div>
+    <main class="container py-4">{% block content %}{% endblock %}</main>
+    <footer class="text-center">
+        <div class="container fw-bold">© 2026 ANTRO-TECH CORE | Alexis Lara Viveros</div>
     </footer>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

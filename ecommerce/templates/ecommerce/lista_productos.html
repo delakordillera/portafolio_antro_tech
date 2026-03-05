@@ -1,131 +1,44 @@
-{% extends 'ecommerce/base.html' %}
-{% load humanize %}
-
+{% extends 'ecommerce/base.html' %}{% load humanize %}
 {% block content %}
+<div class="container">
+    <div class="mb-4 border-bottom border-secondary pb-3">
+        <h5 class="fw-bold text-white">
+            <i class="bi bi-cpu text-info me-2"></i>{{ productos|length }}
+            <span style="color: #ffffff !important;">productos en stock</span>
+        </h5>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        {% for producto in productos %}
+            <div class="col">
+                <div class="card h-100 border-0 shadow-lg" style="background-color: #111827; border: 1px solid rgba(255,255,255,0.05) !important; transition: transform 0.2s;">
+                    <div class="img-container">
+                        {% if producto.imagen %}
+                            <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+                        {% elif producto.imagen_url %}
+                            <img src="{{ producto.imagen_url }}" alt="{{ producto.nombre }}">
+                        {% else %}
+                            <div class="text-center">
+                                <i class="bi bi-gpu-card text-secondary display-1"></i>
+                                <p class="small text-muted">Sin imagen</p>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="card-body d-flex flex-column p-3">
+                        <h6 class="text-white fw-bold mb-2" style="min-height: 2.5rem;">{{ producto.nombre }}</h6>
+                        <div class="mt-auto">
+                            <div class="fs-4 fw-bold" style="color: #00d2ff !important;">${{ producto.precio|intcomma }}</div>
+                            <a href="{% url 'agregar_al_carrito' producto.id %}" class="btn btn-info w-100 rounded-pill fw-bold text-dark mt-2 py-2">
+                                <i class="bi bi-cart-plus me-1"></i> AGREGAR
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 <style>
-    .card-custom {
-        background-color: #111827;
-        border: 1px solid rgba(255,255,255,0.05);
-        border-radius: 16px;
-        overflow: hidden !important;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        transition: transform 0.3s ease;
-    }
-    .card-custom:hover {
-        transform: translateY(-5px);
-        border-color: #00d2ff;
-        box-shadow: 0 10px 25px rgba(0, 210, 255, 0.15);
-    }
-
-    .img-container {
-        width: 100% !important;
-        height: 220px !important;
-        background-color: #ffffff;
-        display: flex; align-items: center; justify-content: center; padding: 1.5rem;
-        overflow: hidden !important;
-    }
-    .img-container img { max-width: 100% !important; max-height: 100% !important; object-fit: contain !important; }
-
-    .hardware-carousel { border-radius: 20px; overflow: hidden; margin-bottom: 2rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); }
-    .hardware-carousel .carousel-item { height: 400px; position: relative; }
-    .hardware-carousel img { width: 100%; height: 100%; object-fit: cover; }
-    .carousel-overlay-elegant { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(90deg, rgba(2,6,23,0.95) 0%, rgba(2,6,23,0.4) 50%, rgba(2,6,23,0.0) 100%); z-index: 1; }
-    .carousel-caption-elegant { position: absolute; top: 50%; left: 6%; transform: translateY(-50%); z-index: 2; text-align: left; max-width: 550px; }
-    .badge-cyber { background: #00d2ff; color: #000; font-weight: 900; padding: 0.4rem 1rem; border-radius: 6px; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 1rem; display: inline-block; }
-    .carousel-caption-elegant h3 { font-weight: 900; font-size: 2.5rem; text-transform: uppercase; color: #ffffff; line-height: 1.1; margin-bottom: 0.8rem; }
-    .carousel-caption-elegant p { font-size: 1.1rem; color: #cbd5e1; font-weight: 500; margin-bottom: 0; }
-
-    .btn-add-cart { background-color: #00d2ff; color: #020617 !important; font-weight: 900; text-transform: uppercase; border: none; padding: 12px; border-radius: 8px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 210, 255, 0.2); }
-    .btn-add-cart:hover { background-color: #f59e0b; color: #000 !important; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4); }
-
-    .category-nav { background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 1rem; margin-bottom: 3rem; display: flex; align-items: center; gap: 1rem; overflow-x: auto; white-space: nowrap; -ms-overflow-style: none; scrollbar-width: none; }
-    .category-nav::-webkit-scrollbar { display: none; }
-    .category-pill { color: #cbd5e1; text-decoration: none; font-weight: 600; font-size: 0.9rem; padding: 0.5rem 1.2rem; border-radius: 50px; background: rgba(255, 255, 255, 0.05); transition: 0.3s; }
-    .category-pill:hover, .category-pill.active { background: #00d2ff; color: #020617; box-shadow: 0 0 15px rgba(0, 210, 255, 0.4); }
-
-    @media (max-width: 768px) {
-        .hardware-carousel .carousel-item { height: 280px; }
-        .carousel-overlay-elegant { background: linear-gradient(180deg, rgba(2,6,23,0.1) 0%, rgba(2,6,23,0.95) 100%); }
-        .carousel-caption-elegant { top: auto; bottom: 15px; left: 15px; right: 15px; transform: none; }
-        .carousel-caption-elegant h3 { font-size: 1.5rem; }
-    }
+    .card:hover { transform: translateY(-5px); border-color: #00d2ff !important; }
 </style>
-
-<div id="carruselHardwareDestacado" class="carousel slide hardware-carousel carousel-fade" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="https://images.unsplash.com/photo-1587202372634-32705e3bf49c?q=80&w=1200&auto=format&fit=crop" alt="Tarjetas Gráficas">
-            <div class="carousel-overlay-elegant"></div>
-            <div class="carousel-caption-elegant">
-                <span class="badge-cyber">Stock Limitado</span>
-                <h3>Serie RTX Next-Gen</h3>
-                <p>Rendimiento gráfico extremo para entornos de desarrollo y modelado 3D.</p>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <img src="https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?q=80&w=1200&auto=format&fit=crop" alt="Procesadores">
-            <div class="carousel-overlay-elegant"></div>
-            <div class="carousel-caption-elegant">
-                <span class="badge-cyber">Workstation</span>
-                <h3>Procesadores Multi-core</h3>
-                <p>Compila tu código y ejecuta servidores locales sin cuellos de botella.</p>
-            </div>
-        </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carruselHardwareDestacado" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carruselHardwareDestacado" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-    </button>
-</div>
-
-<div class="category-nav shadow-sm">
-    <span class="text-white fw-bold py-1"><i class="bi bi-funnel-fill text-info me-2"></i>Filtrar:</span>
-    <a href="{% url 'lista_productos' %}" class="category-pill {% if not request.GET.categoria and not request.GET.q %}active{% endif %}">Todo el Catálogo</a>
-    <a href="{% url 'lista_productos' %}?categoria=gpu" class="category-pill {% if request.GET.categoria == 'gpu' %}active{% endif %}">Tarjetas Gráficas</a>
-    <a href="{% url 'lista_productos' %}?categoria=cpu" class="category-pill {% if request.GET.categoria == 'cpu' %}active{% endif %}">Procesadores</a>
-</div>
-
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold text-white text-uppercase m-0" style="letter-spacing: 1px;">
-        {% if request.GET.q %} Resultados para "{{ request.GET.q }}"
-        {% elif request.GET.categoria %} Filtrado
-        {% else %} Componentes {% endif %}
-    </h2>
-    <span class="text-muted small">{{ productos|length }} productos encontrados</span>
-</div>
-
-<div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
-    {% for producto in productos %}
-    <div class="col">
-        <div class="card card-custom h-100">
-
-            <div class="img-container">
-                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
-            </div>
-
-            <div class="card-body d-flex flex-column text-white">
-                <h6 class="card-title">{{ producto.nombre }}</h6>
-
-                <h5 class="mb-3" style="color: #00d2ff; font-weight: 900;">${{ producto.precio|intcomma }}</h5>
-
-                <a href="{% url 'agregar_al_carrito' producto.id %}" class="btn btn-add-cart w-100 mt-auto">
-                    <i class="bi bi-cart-plus-fill me-2"></i> Agregar
-                </a>
-            </div>
-        </div>
-    </div>
-    {% empty %}
-    <div class="col-12 py-5 text-center">
-        <div class="p-5" style="background: rgba(255,255,255,0.05); border-radius: 16px;">
-            <i class="bi bi-pc-display text-muted" style="font-size: 3rem;"></i>
-            <h4 class="text-white mt-3">No hay productos</h4>
-            <p class="text-muted">No se encontraron componentes para esta categoría.</p>
-        </div>
-    </div>
-    {% endfor %}
-</div>
 {% endblock %}

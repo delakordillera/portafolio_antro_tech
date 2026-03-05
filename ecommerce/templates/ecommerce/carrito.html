@@ -1,165 +1,54 @@
-{% extends 'ecommerce/base.html' %}
-
-{% block title %}Mi Carrito | ANTRO-TECH CORE{% endblock %}
-
+{% extends 'ecommerce/base.html' %}{% load humanize %}
 {% block content %}
-<style>
-    .cart-container {
-        background-color: #111827;
-        border: 1px solid rgba(255,255,255,0.05);
-        border-radius: 16px;
-        padding: 2rem;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    }
-
-    .cart-img-wrapper {
-        width: 90px;
-        height: 90px;
-        background: #ffffff;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0.5rem;
-    }
-
-    .cart-img-wrapper img {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-    }
-
-    .cart-title {
-        font-weight: 700;
-        color: #f1f5f9;
-        font-size: 1.1rem;
-    }
-
-    .cart-price {
-        color: #00d2ff;
-        font-weight: 900;
-        font-size: 1.25rem;
-    }
-
-    /* Botones específicos del carrito */
-    .btn-checkout {
-        background: linear-gradient(45deg, #00d2ff, #0284c7);
-        color: #020617;
-        font-weight: 900;
-        text-transform: uppercase;
-        border: none;
-        padding: 12px 30px;
-        border-radius: 8px;
-        transition: 0.3s ease;
-    }
-
-    .btn-checkout:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(0, 210, 255, 0.3);
-        color: #000;
-    }
-
-    .table-dark {
-        --bs-table-bg: transparent;
-        --bs-table-border-color: rgba(255, 255, 255, 0.1);
-    }
-</style>
-
-<div class="row justify-content-center">
-    <div class="col-lg-10">
-        <h2 class="fw-bold text-white text-uppercase mb-4" style="letter-spacing: 1px;">
-            <i class="bi bi-cart3 me-2 text-info"></i> Tu Carrito de Compras
-        </h2>
-
-        <div class="cart-container">
-            {% if items_carrito %}
-
-                <div class="table-responsive d-none d-md-block">
-                    <table class="table table-dark align-middle mb-0">
-                        <thead>
-                            <tr style="border-bottom: 2px solid #00d2ff;">
-                                <th scope="col" class="pb-3 text-uppercase text-muted small">Producto</th>
-                                <th scope="col" class="pb-3 text-center text-uppercase text-muted small">Precio Unitario</th>
-                                <th scope="col" class="pb-3 text-center text-uppercase text-muted small">Cantidad</th>
-                                <th scope="col" class="pb-3 text-end text-uppercase text-muted small">Subtotal</th>
+<div class="container">
+    <h2 class="mb-4 text-white fw-bold"><i class="bi bi-cart-check me-2"></i>TU SETUP</h2>
+    {% if items_carrito %}
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card p-4 border-0" style="background-color: #111827; border-radius: 20px;">
+                    <table class="table table-dark align-middle">
+                        <thead class="text-white border-bottom border-secondary">
+                            <tr style="color: #ffffff !important;">
+                                <th class="py-3">COMPONENTE</th>
+                                <th class="text-center py-3">CANTIDAD</th>
+                                <th class="text-end py-3">SUBTOTAL</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for item in items_carrito %}
-                            <tr>
+                            <tr class="border-bottom border-secondary">
                                 <td class="py-3">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="cart-img-wrapper">
-                                            <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}">
-                                        </div>
-                                        <span class="cart-title">{{ item.producto.nombre }}</span>
-                                    </div>
+                                    <span class="text-white fw-bold d-block">{{ item.producto.nombre }}</span>
+                                    <small class="text-info">Antro-Tech Verified</small>
                                 </td>
-                                <td class="text-center text-muted fw-bold py-3">${{ item.producto.precio }}</td>
-                                <td class="text-center py-3">
-                                    <span class="badge bg-secondary fs-6 px-3 py-2 rounded-pill">{{ item.cantidad }}</span>
-                                </td>
-                                <td class="text-end cart-price py-3">${{ item.subtotal }}</td>
+                                <td class="text-center text-white fw-bold">{{ item.cantidad }}</td>
+                                <td class="text-end text-white fw-bold fs-5">${{ item.subtotal|intcomma }}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
-
-                <div class="d-block d-md-none">
-                    {% for item in items_carrito %}
-                    <div class="d-flex flex-column border-bottom border-secondary py-3">
-                        <div class="d-flex gap-3 mb-2">
-                            <div class="cart-img-wrapper" style="width: 70px; height: 70px;">
-                                <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}">
-                            </div>
-                            <div>
-                                <div class="cart-title fs-6">{{ item.producto.nombre }}</div>
-                                <div class="text-muted small">Precio: ${{ item.producto.precio }}</div>
-                                <div class="text-muted small">Cantidad: <span class="badge bg-secondary">{{ item.cantidad }}</span></div>
-                            </div>
-                        </div>
-                        <div class="text-end cart-price">${{ item.subtotal }}</div>
+                <a href="{% url 'limpiar_carrito' %}" class="btn btn-outline-danger rounded-pill px-4 mt-3 fw-bold">Limpiar Carrito</a>
+            </div>
+            <div class="col-lg-4 mt-4 mt-lg-0">
+                <div class="card p-4 border-0" style="background-color: #111827; border: 2px solid #00d2ff; border-radius: 20px;">
+                    <h5 class="text-white mb-4 fw-bold">RESUMEN DE PAGO</h5>
+                    <div class="d-flex justify-content-between align-items-center py-3 border-top border-secondary">
+                        <span class="text-white fw-bold fs-5">TOTAL A PAGAR:</span>
+                        <span style="color: #00d2ff !important; font-weight: 900; font-size: 1.8rem; text-shadow: 0 0 10px rgba(0,210,255,0.3);">
+                            ${{ total_compra|intcomma }}
+                        </span>
                     </div>
-                    {% endfor %}
+                    <button class="btn btn-info w-100 py-3 fw-bold text-dark rounded-pill mt-3 fs-5 shadow">PAGAR AHORA</button>
                 </div>
-
-                <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-4 pt-4" style="border-top: 1px solid rgba(255,255,255,0.1);">
-                    <a href="{% url 'limpiar_carrito' %}" class="btn btn-outline-danger mb-4 mb-md-0 fw-bold px-4 rounded-pill">
-                        <i class="bi bi-trash3 me-1"></i> Vaciar Carrito
-                    </a>
-
-                    <div class="text-center text-md-end w-100 w-md-auto">
-                        <p class="text-muted mb-1 text-uppercase fw-bold letter-spacing-1">Total a pagar</p>
-                        <h3 class="display-5 fw-black text-white mb-3">${{ total_compra }}</h3>
-                        <button class="btn btn-checkout w-100">
-                            Proceder al Pago <i class="bi bi-shield-lock ms-2"></i>
-                        </button>
-                    </div>
-                </div>
-
-            {% else %}
-
-                <div class="text-center py-5">
-                    <i class="bi bi-cart-x text-muted" style="font-size: 5rem;"></i>
-                    <h4 class="text-white mt-4 fw-bold">Tu carrito está vacío</h4>
-                    <p class="text-muted mb-4">Parece que aún no has agregado componentes a tu setup.</p>
-                    <a href="{% url 'lista_productos' %}" class="btn btn-checkout rounded-pill">
-                        <i class="bi bi-arrow-left me-2"></i> Volver al Catálogo
-                    </a>
-                </div>
-
-            {% endif %}
+            </div>
         </div>
-
-        {% if items_carrito %}
-        <div class="mt-4">
-            <a href="{% url 'lista_productos' %}" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
-                <i class="bi bi-arrow-left me-1"></i> Seguir Comprando
-            </a>
+    {% else %}
+        <div class="text-center py-5">
+            <h3 class="text-white fw-bold mb-3">Parece que aún no tienes componentes en tu setup</h3>
+            <p style="color: #00d2ff;" class="fs-5 mb-4">Explora nuestro catálogo de hardware.</p>
+            <a href="{% url 'lista_productos' %}" class="btn btn-info btn-lg px-5 rounded-pill fw-bold text-dark mt-3">VER CATÁLOGO</a>
         </div>
-        {% endif %}
-
-    </div>
+    {% endif %}
 </div>
 {% endblock %}

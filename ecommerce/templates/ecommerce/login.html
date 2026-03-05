@@ -1,31 +1,24 @@
 {% extends 'ecommerce/base.html' %}
 {% block content %}
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card shadow-lg border-0 rounded-4 p-4">
-                <div class="card-body">
-                    <h2 class="fw-bold text-center mb-4 text-dark">Iniciar Sesión</h2>
-                    <form method="post">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <label for="username" class="form-label fw-semibold">Usuario</label>
-                            <input type="text" name="username" class="form-control rounded-pill px-3" id="username" placeholder="Tu nombre de usuario" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label fw-semibold">Contraseña</label>
-                            <input type="password" name="password" class="form-control rounded-pill px-3" id="password" placeholder="********" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold mt-3 shadow-sm">
-                            Entrar al E-commerce
-                        </button>
-                    </form>
-                    <div class="mt-4 text-center small text-muted">
-                        ¿No tienes cuenta? <a href="#" class="text-primary text-decoration-none fw-bold">Regístrate aquí</a>
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="card p-4 border-0 shadow-lg" style="background-color: #111827; border-radius: 20px; border: 1px solid #00d2ff;">
+            <h3 class="text-center mb-4 text-info fw-bold">AUTENTICACIÓN ANTRO-TECH</h3>
+            <form method="POST">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="mb-3">
+                        <label class="text-white fw-bold mb-1 d-block" style="font-size: 0.9rem;">{{ field.label|upper }}</label>
+                        {{ field }}
+                        {% if field.help_text %}<small style="color: #cbd5e1 !important;">{{ field.help_text }}</small>{% endif %}
                     </div>
-                </div>
-            </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-info w-100 py-3 fw-bold text-dark rounded-pill mt-3">CONFIRMAR</button>
+            </form>
         </div>
     </div>
 </div>
+<style>
+    input { background: rgba(255, 255, 255, 0.1) !important; border: 1px solid rgba(255, 255, 255, 0.3) !important; color: white !important; padding: 12px !important; width: 100% !important; border-radius: 10px !important; }
+</style>
 {% endblock %}
