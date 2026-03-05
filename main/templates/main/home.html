@@ -1,0 +1,252 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALV | Portafolio Antro-Tech</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --dark-bg: #0f172a; /* Navy Profundo */
+            --primary-indigo: #6366f1; /* Indigo Tecnológico */
+            --accent-emerald: #10b981; /* Esmeralda Analítico */
+            --text-slate: #94a3b8;
+        }
+
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #020617; /* Fondo ultra oscuro para resaltar el Cyber Look */
+            color: #f1f5f9;
+        }
+
+        /* NAVBAR CYBER */
+        .navbar {
+            backdrop-filter: blur(20px);
+            background: rgba(15, 23, 42, 0.8);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            padding: 0.8rem 0;
+        }
+        .nav-link { font-weight: 700; text-transform: uppercase; font-size: 0.85rem; color: #cbd5e1 !important; }
+        .nav-link:hover { color: var(--accent-emerald) !important; }
+        .btn-primary { background-color: var(--primary-indigo); border: none; transition: 0.3s; }
+        .btn-primary:hover { background-color: var(--accent-emerald); transform: scale(1.05); }
+
+        /* HERO OPTIMIZADO */
+        .carousel-item { height: 55vh; min-height: 500px; background-size: cover; background-position: center; }
+        .carousel-overlay {
+            background: linear-gradient(to bottom, rgba(2, 6, 23, 0.4), rgba(2, 6, 23, 0.9));
+            height: 100%; display: flex; align-items: center; justify-content: center;
+            flex-direction: column; color: white; text-align: center; padding: 20px;
+        }
+        .hero-title { font-size: calc(2rem + 2vw); font-weight: 900; text-transform: uppercase; letter-spacing: -2px; }
+        .text-primary { color: var(--accent-emerald) !important; }
+
+        /* TARJETAS DE STACK PROFESIONAL (CYBER LOOK) */
+        .skill-card {
+            background: rgba(30, 41, 59, 0.5); border-radius: 24px; padding: 2.5rem; height: 100%;
+            border: 1px solid rgba(99, 102, 241, 0.1); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+        }
+        .skill-card:hover {
+            transform: translateY(-12px);
+            border-color: var(--primary-indigo);
+            box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.3);
+            background: rgba(30, 41, 59, 0.8);
+        }
+        .skill-icon { font-size: 2.5rem; color: var(--accent-emerald); margin-bottom: 1.5rem; display: block; text-align: center; }
+
+        .tech-tag {
+            display: inline-block; background: rgba(99, 102, 241, 0.1); color: var(--primary-indigo);
+            padding: 0.3rem 0.7rem; border-radius: 8px; font-size: 0.75rem; font-weight: 800; margin: 0.2rem;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        /* PROYECTOS */
+        .card-custom {
+            border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); background: #1e293b; overflow: hidden;
+            transition: 0.4s; height: 100%;
+        }
+        .card-custom:hover { transform: scale(1.03); border-color: var(--primary-indigo); }
+        .project-img { height: 240px; width: 100%; object-fit: cover; opacity: 0.8; transition: 0.4s; }
+        .card-custom:hover .project-img { opacity: 1; }
+
+        /* FOOTER CYBER SIMÉTRICO */
+        .contact-section { background: #020617; color: white; padding: 100px 0; border-top: 1px solid rgba(99, 102, 241, 0.1); }
+        .social-container { display: flex; justify-content: center; gap: 45px; flex-wrap: wrap; margin-top: 40px; }
+
+        .action-btn {
+            font-size: 2.8rem;
+            color: var(--primary-indigo);
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-block;
+        }
+        .action-btn:hover {
+            transform: scale(1.2) translateY(-10px);
+            color: var(--accent-emerald);
+            filter: drop-shadow(0 0 10px var(--accent-emerald));
+        }
+        .btn-label { display: block; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-top: 10px; color: var(--text-slate); letter-spacing: 1px; }
+
+        @media (max-width: 991px) {
+            .navbar-collapse { background: rgba(15, 23, 42, 0.98); padding: 2rem; border-radius: 20px; border: 1px solid var(--primary-indigo); }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-4" href="/">ALV<span class="text-primary">.dev</span></a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-3 align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#modalSobreMi">Sobre Mí</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#habilidades">Tecnología</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#casos">Proyectos</a></li>
+                    <li class="nav-item ms-lg-4"><a class="btn btn-primary px-5 rounded-pill fw-bold w-100" href="#contacto">Iniciemos</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active" style="background-image: url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200&auto=format&fit=crop');">
+                <div class="carousel-overlay">
+                    <h1 class="hero-title">Antropología <span class="text-primary">Digital</span></h1>
+                    <p class="px-3 opacity-75 fw-bold">Análisis social aplicado al desarrollo de software y sistemas complejos.</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="habilidades" class="py-5 mt-4">
+        <div class="container py-5">
+            <h3 class="fw-bold text-center mb-5 text-uppercase letter-spacing-2">Stack e Investigación TI</h3>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="skill-card">
+                        <i class="bi bi-cpu skill-icon"></i>
+                        <h5 class="fw-bold text-center mb-3">Backend & Logic</h5>
+                        <p class="small text-slate mb-4">Arquitecturas robustas con <strong>Python y Django</strong>. Gestión de datos relacionales y lógica de servidor orientada a la autonomía de sistemas.</p>
+                        <div class="text-center mt-auto">
+                            <span class="tech-tag">Python</span><span class="tech-tag">Django</span><span class="tech-tag">SQL</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="skill-card">
+                        <i class="bi bi-diagram-3 skill-icon"></i>
+                        <h5 class="fw-bold text-center mb-3">User Research</h5>
+                        <p class="small text-slate mb-4">Herramientas de <strong>etnografía digital</strong> y diagnóstico territorial. Análisis crítico del comportamiento del usuario para el levantamiento de requerimientos.</p>
+                        <div class="text-center mt-auto">
+                            <span class="tech-tag">UX Research</span><span class="tech-tag">Cualitativo</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="skill-card">
+                        <i class="bi bi-shield-check skill-icon"></i>
+                        <h5 class="fw-bold text-center mb-3">Aptitudes Core</h5>
+                        <p class="small text-slate mb-4">Perfil <strong>proactivo y flexible</strong>. Alta capacidad de trabajo en equipo multidisciplinario, basado en la reciprocidad y mejora del producto.</p>
+                        <div class="text-center mt-auto">
+                            <span class="tech-tag">Autonomía</span><span class="tech-tag">Teamwork</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="casos" class="py-5 bg-transparent">
+        <div class="container py-5 text-center">
+            <h3 class="fw-bold mb-5 text-uppercase">Exploremos Soluciones</h3>
+            <div class="row g-5 justify-content-center">
+                <div class="col-md-6 col-lg-5">
+                    <div class="card-custom h-100 shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=800&auto=format&fit=crop" class="project-img" alt="Red Apoyo">
+                        <div class="p-5">
+                            <h5 class="fw-bold text-primary mb-3">Red de Apoyo Mutuo</h5>
+                            <p class="small text-slate mb-4">Digitalización de reciprocidad barrial en Peñalolén.</p>
+                            <a href="{% url 'muro' %}" class="btn btn-outline-light rounded-pill px-5">Ver App</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-5">
+                    <div class="card-custom h-100 shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop" class="project-img" alt="Ecommerce">
+                        <div class="p-5">
+                            <h5 class="fw-bold text-primary mb-3">Plataforma Ecommerce</h5>
+                            <p class="small text-slate mb-4">Ventas con integración de indicadores financieros reales.</p>
+                            <a href="/ecommerce/" class="btn btn-outline-light rounded-pill px-5">Ver Demo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contacto" class="contact-section text-center">
+        <div class="container">
+            <h2 class="fw-bold mb-5 text-uppercase letter-spacing-2">Iniciemos el siguiente paso</h2>
+            <div class="social-container">
+                <div class="text-center">
+                    <a href="mailto:{{ perfil.correo }}" class="action-btn" title="Enviar Correo"><i class="bi bi-envelope-at"></i></a>
+                    <span class="btn-label">Correo</span>
+                </div>
+                <div class="text-center">
+                    <a href="{{ perfil.cv_pdf.url }}" class="action-btn" target="_blank" title="Ver CV"><i class="bi bi-file-earmark-person"></i></a>
+                    <span class="btn-label">Ver CV</span>
+                </div>
+                <div class="text-center">
+                    <a href="{{ perfil.link_linkedin }}" class="action-btn" target="_blank" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                    <span class="btn-label">LinkedIn</span>
+                </div>
+                <div class="text-center">
+                    <a href="{{ perfil.link_github }}" class="action-btn" target="_blank" title="GitHub"><i class="bi bi-github"></i></a>
+                    <span class="btn-label">GitHub</span>
+                </div>
+            </div>
+            <p class="mt-5 opacity-25 small fw-bold pt-5">© 2026 ALEXIS LARA VIVEROS | Antropólogo & Full Stack Developer</p>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="modalSobreMi" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow-lg p-4 p-md-5 rounded-4 bg-dark text-light">
+                <div class="modal-header border-0">
+                    <h3 class="fw-bold text-primary mb-0">Perfil Profesional</h3>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-3">
+                        Hola mundo soy Alexis    estudiante de <strong>Antropología Social</strong> y <strong>Desarrollador Full Stack Python</strong>. Mi perfil se caracteriza por una alta <strong>autonomía</strong> y la capacidad de abordar proyectos tecnológicos desde una dimensión técnica y humana simultáneamente.
+                    </p>
+                    <p class="mb-4">
+                        Cuento con sólidas <strong>habilidades sociales</strong> desarrolladas en contextos de alta complejidad, lo que me permite destacar en el <strong>trabajo en equipo</strong> y la resolución de conflictos. Soy un profesional <strong>proactivo y flexible</strong>, capaz de adaptarme a entornos dinámicos y metodologías de trabajo ágiles dentro de la industria TI.
+                    </p>
+                    <div class="p-4 rounded-4" style="background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-indigo);">
+                        <h6 class="fw-bold text-primary"><i class="bi bi-check-circle-fill me-2"></i>Capacidades Destacadas:</h6>
+                        <ul class="small mb-0 mt-3 list-unstyled">
+                            <li class="mb-2"><i class="bi bi-record-circle me-2 text-emerald"></i><strong>Análisis de Requerimientos:</strong> Identificación de necesidades reales mediante herramientas cualitativas.</li>
+                            <li class="mb-2"><i class="bi bi-record-circle me-2 text-emerald"></i><strong>Trabajo en Equipo:</strong> Gestión de relaciones basadas en la reciprocidad y comunicación efectiva.</li>
+                            <li><i class="bi bi-record-circle me-2 text-emerald"></i><strong>Flexibilidad Técnica:</strong> Rápida capacidad de aprendizaje e implementación de flujos de trabajo.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-outline-light rounded-pill px-5" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

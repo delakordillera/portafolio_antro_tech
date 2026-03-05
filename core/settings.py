@@ -2,6 +2,7 @@
 Django settings for core project.
 """
 
+import os # IMPORTANTE: Se agregó esta línea para que funcione STATIC_ROOT
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -13,7 +14,7 @@ SECRET_KEY = 'django-insecure-nu28n6s-jczp%4c3qeblu*_-+p@2_+0a1+y3eqa8wy(=k5#r$a
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['delakordillera.pythonanywhere.com']
 
 # Application definition
 INSTALLED_APPS = [
@@ -23,7 +24,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'comunidad', # Tu app de Red de Apoyo
+    'django.contrib.humanize',
+    'comunidad',
+    'main',
+    'ecommerce',
 ]
 
 MIDDLEWARE = [
@@ -45,12 +49,11 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug', # Añadida por estándar
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
-                # NUEVO PASO 5: Motor de notificaciones dinámicas
                 'comunidad.context_processors.notificaciones_pendientes',
             ],
         },
@@ -80,16 +83,20 @@ LANGUAGE_CODE = 'es-cl'
 TIME_ZONE = 'America/Santiago'
 USE_I18N = True
 USE_TZ = True
+USE_THOUSAND_SEPARATOR = True
+THOUSAND_SEPARATOR = '.'
+NUMBER_GROUPING = 3
+
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# --- CONFIGURACIÓN DE ARCHIVOS MULTIMEDIA (MEDIA) ---
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Configuración de Rutas de Usuario
-LOGIN_URL = 'login' 
+LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'muro'
 LOGOUT_REDIRECT_URL = 'muro'
 

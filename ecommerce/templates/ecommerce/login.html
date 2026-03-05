@@ -1,0 +1,31 @@
+{% extends 'ecommerce/base.html' %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow-lg border-0 rounded-4 p-4">
+                <div class="card-body">
+                    <h2 class="fw-bold text-center mb-4 text-dark">Iniciar Sesión</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="username" class="form-label fw-semibold">Usuario</label>
+                            <input type="text" name="username" class="form-control rounded-pill px-3" id="username" placeholder="Tu nombre de usuario" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label fw-semibold">Contraseña</label>
+                            <input type="password" name="password" class="form-control rounded-pill px-3" id="password" placeholder="********" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold mt-3 shadow-sm">
+                            Entrar al E-commerce
+                        </button>
+                    </form>
+                    <div class="mt-4 text-center small text-muted">
+                        ¿No tienes cuenta? <a href="#" class="text-primary text-decoration-none fw-bold">Regístrate aquí</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
