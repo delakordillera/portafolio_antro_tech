@@ -1,24 +1,118 @@
 {% extends 'ecommerce/base.html' %}
+
 {% block content %}
 <div class="row justify-content-center mt-5">
     <div class="col-md-5">
-        <div class="card p-4 border-0 shadow-lg" style="background-color: #111827; border-radius: 20px; border: 1px solid #00d2ff;">
-            <h3 class="text-center mb-4 text-info fw-bold">AUTENTICACIÓN ANTRO-TECH</h3>
-            <form method="POST">
+        <div class="auth-card">
+            <h3 class="auth-title">AUTENTICACIÓN TECH-COMMERCE</h3>
+
+            <form method="POST" novalidate>
                 {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+                    </div>
+                {% endif %}
+
                 {% for field in form %}
-                    <div class="mb-3">
-                        <label class="text-white fw-bold mb-1 d-block" style="font-size: 0.9rem;">{{ field.label|upper }}</label>
+                    <div class="mb-4">
+                        <label for="{{ field.id_for_label }}" class="form-label-custom">
+                            {{ field.label|upper }}
+                        </label>
+
                         {{ field }}
-                        {% if field.help_text %}<small style="color: #cbd5e1 !important;">{{ field.help_text }}</small>{% endif %}
+
+                        {% if field.help_text %}
+                            <small class="help-text">{{ field.help_text }}</small>
+                        {% endif %}
+
+                        {% if field.errors %}
+                            <div class="error-message">
+                                {% for error in field.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                 {% endfor %}
-                <button type="submit" class="btn btn-info w-100 py-3 fw-bold text-dark rounded-pill mt-3">CONFIRMAR</button>
+
+                <button type="submit" class="btn-auth-submit">
+                    INICIAR SESIÓN
+                </button>
             </form>
         </div>
     </div>
 </div>
+
 <style>
-    input { background: rgba(255, 255, 255, 0.1) !important; border: 1px solid rgba(255, 255, 255, 0.3) !important; color: white !important; padding: 12px !important; width: 100% !important; border-radius: 10px !important; }
+    .auth-card {
+        background-color: #111827;
+        border-radius: 20px;
+        border: 1px solid #00d2ff;
+        padding: 2.5rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .auth-title {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #00e5ff;
+        font-weight: 800;
+        letter-spacing: 1px;
+    }
+
+    .form-label-custom {
+        color: #ffffff;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        display: block;
+        font-size: 0.85rem;
+    }
+
+    /* Selector específico para evitar !important */
+    .auth-card input {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        padding: 12px;
+        width: 100%;
+        border-radius: 10px;
+        transition: border-color 0.3s ease;
+    }
+
+    .auth-card input:focus {
+        outline: none;
+        border-color: #00d2ff;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-auth-submit {
+        width: 100%;
+        background-color: #00d2ff;
+        color: #111827;
+        padding: 1rem;
+        border-radius: 50px;
+        font-weight: 800;
+        border: none;
+        margin-top: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-auth-submit:hover {
+        background-color: #00e5ff;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+    }
+
+    .error-message {
+        color: #ff4d4d;
+        font-size: 0.8rem;
+        margin-top: 5px;
+        font-weight: 600;
+    }
+
+    .help-text {
+        color: #9ca3af;
+        font-size: 0.75rem;
+    }
 </style>
 {% endblock %}
