@@ -11,181 +11,316 @@
     <meta property="og:description" content="Investigación de usuarios + desarrollo. Etnografía digital aplicada a productos digitales.">
     <meta property="og:url" content="https://delakordillera.pythonanywhere.com">
     <meta name="twitter:card" content="summary_large_image">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>👤</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>ALV</text></svg>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --dark-bg: #0f172a;
-            --primary-indigo: #6366f1;
-            --accent-emerald: #10b981;
-            --text-slate: #94a3b8;
+            --bg-deep: #020617;
+            --bg-card: #0f172a;
+            --indigo: #6366f1;
+            --indigo-glow: rgba(99, 102, 241, 0.25);
+            --emerald: #10b981;
+            --emerald-glow: rgba(16, 185, 129, 0.2);
+            --slate: #94a3b8;
+            --border-subtle: rgba(99, 102, 241, 0.12);
         }
 
+        * { scrollbar-width: thin; scrollbar-color: var(--indigo) transparent; }
+
         html { scroll-behavior: smooth; }
+
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background-color: #020617;
+            background: var(--bg-deep);
             color: #f1f5f9;
         }
 
         .navbar {
-            backdrop-filter: blur(20px);
-            background: rgba(15, 23, 42, 0.8);
-            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
-            padding: 0.8rem 0;
+            backdrop-filter: blur(24px) saturate(1.4);
+            -webkit-backdrop-filter: blur(24px) saturate(1.4);
+            background: rgba(2, 6, 23, 0.75);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 0.75rem 0;
         }
-        .nav-link { font-weight: 700; text-transform: uppercase; font-size: 0.85rem; color: #cbd5e1 !important; }
-        .nav-link:hover { color: var(--accent-emerald) !important; }
-        .navbar-brand { font-weight: 800; letter-spacing: -1px; }
-        .btn-primary { background-color: var(--primary-indigo); border: none; transition: 0.3s; }
-        .btn-primary:hover { background-color: var(--accent-emerald); transform: scale(1.05); }
+        .navbar .nav-link {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--slate) !important;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+        .navbar .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 2px;
+            background: var(--indigo);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+        .navbar .nav-link:hover::after { transform: scaleX(1); }
+        .navbar .nav-link:hover { color: #fff !important; }
+
+        .navbar-brand {
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            font-size: 1.6rem;
+        }
+        .navbar-brand span { color: var(--indigo); }
 
         .hero {
-            min-height: 75vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #020617 100%);
+            background: linear-gradient(160deg, rgba(2,6,23,0.88) 0%, rgba(15,23,42,0.75) 50%, rgba(2,6,23,0.92) 100%), url('/media/hero-bg.jpg') center/cover no-repeat fixed;
             position: relative;
-            overflow: hidden;
         }
-        .hero::before {
-            content: '';
+        .hero-glow {
             position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
-            top: -200px;
-            right: -200px;
+            width: 700px; height: 700px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
         }
-        .hero::after {
-            content: '';
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.06) 0%, transparent 70%);
-            bottom: -100px;
-            left: -100px;
+        .hero-glow--1 { background: var(--indigo); top: -200px; right: -200px; }
+        .hero-glow--2 { background: var(--emerald); bottom: -200px; left: -200px; }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            padding: 0.4rem 1.2rem;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--indigo);
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(8px);
         }
-        .hero-content { position: relative; z-index: 1; padding: 2rem; }
-        .hero-title { font-size: calc(2.5rem + 2vw); font-weight: 900; text-transform: uppercase; letter-spacing: -2px; line-height: 1.1; }
-        .hero-subtitle { font-size: 1.2rem; color: var(--text-slate); max-width: 600px; margin: 1.5rem auto; }
-
-        .section-title {
-            font-weight: 800;
+        .hero-title {
+            font-size: clamp(2.2rem, 5.5vw, 5rem);
+            font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            font-size: 0.85rem;
-            color: var(--primary-indigo);
+            letter-spacing: -3px;
+            line-height: 1.05;
+        }
+        .hero-title .highlight {
+            background: linear-gradient(135deg, var(--indigo), var(--emerald));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-subtitle {
+            font-size: clamp(0.95rem, 1.3vw, 1.2rem);
+            color: var(--slate);
+            max-width: 580px;
+            margin: 1.5rem auto 0;
+            line-height: 1.7;
+        }
+
+        .section-tag {
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 0.75rem;
+            color: var(--indigo);
             margin-bottom: 0.5rem;
         }
-        .section-heading {
+        .section-title {
             font-weight: 900;
-            font-size: 2rem;
+            font-size: clamp(1.6rem, 3vw, 2.5rem);
             margin-bottom: 3rem;
         }
 
         .skill-card {
-            background: rgba(30, 41, 59, 0.5);
-            border-radius: 24px;
-            padding: 2.5rem;
+            background: linear-gradient(145deg, rgba(15,23,42,0.6), rgba(15,23,42,0.3));
+            border-radius: 20px;
+            padding: 2rem;
             height: 100%;
-            border: 1px solid rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--border-subtle);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
         }
         .skill-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--primary-indigo);
-            box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.3);
-            background: rgba(30, 41, 59, 0.8);
+            transform: translateY(-6px);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 24px 48px -16px rgba(99, 102, 241, 0.2);
+            background: rgba(15,23,42,0.8);
         }
-        .skill-icon { font-size: 2.2rem; color: var(--accent-emerald); margin-bottom: 1.2rem; }
-        .skill-level {
-            height: 4px;
-            background: rgba(99, 102, 241, 0.2);
-            border-radius: 4px;
-            margin-top: 0.8rem;
-            overflow: hidden;
-        }
-        .skill-level-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-indigo), var(--accent-emerald));
-            border-radius: 4px;
-            transition: width 0.6s ease;
+        .skill-icon {
+            width: 48px; height: 48px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 14px;
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--emerald);
+            font-size: 1.4rem;
+            flex-shrink: 0;
         }
 
         .project-card {
-            border-radius: 24px;
-            border: 1px solid rgba(255,255,255,0.05);
-            background: #1e293b;
+            border-radius: 20px;
+            border: 1px solid var(--border-subtle);
+            background: var(--bg-card);
             overflow: hidden;
-            transition: 0.4s;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             height: 100%;
+            position: relative;
         }
-        .project-card:hover { transform: scale(1.02); border-color: var(--primary-indigo); }
-        .project-method {
-            display: inline-block;
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--accent-emerald);
-            padding: 0.2rem 0.6rem;
-            border-radius: 6px;
+        .project-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            padding: 1px;
+            background: linear-gradient(145deg, rgba(99,102,241,0.2), transparent 60%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+        .project-card:hover::before { opacity: 1; }
+        .project-card:hover { transform: translateY(-8px) scale(1.01); box-shadow: 0 32px 64px -16px rgba(99,102,241,0.15); }
+        .project-img { height: 210px; width: 100%; object-fit: cover; object-position: center top; }
+        .project-img-wrapper { position: relative; overflow: hidden; }
+        .project-img-wrapper::after {
+            content: '';
+            position: absolute; bottom: 0; left: 0; right: 0;
+            height: 60%;
+            background: linear-gradient(transparent, #0f172a);
+            pointer-events: none;
+        }
+        .project-img-placeholder {
+            height: 210px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+        }
+        .project-card .card-body { padding: 1.5rem; }
+
+        .contact-section {
+            padding: 100px 0;
+            border-top: 1px solid var(--border-subtle);
+            background: var(--bg-deep);
+            position: relative;
+        }
+        .contact-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--indigo), var(--emerald), transparent);
+        }
+        .social-grid {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-top: 2.5rem;
+        }
+        .social-item {
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .social-item:hover { transform: translateY(-8px); }
+        .social-icon {
+            width: 64px; height: 64px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 18px;
+            background: rgba(99, 102, 241, 0.08);
+            border: 1px solid var(--border-subtle);
+            color: var(--indigo);
+            font-size: 1.8rem;
+            transition: all 0.4s;
+        }
+        .social-item:hover .social-icon {
+            background: rgba(99, 102, 241, 0.18);
+            border-color: var(--indigo);
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.15);
+            color: var(--emerald);
+        }
+        .social-label {
             font-size: 0.7rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            color: var(--slate);
         }
 
-        .contact-section {
-            background: #020617;
-            color: white;
-            padding: 100px 0;
-            border-top: 1px solid rgba(99, 102, 241, 0.1);
-        }
-        .social-container {
-            display: flex;
-            justify-content: center;
-            gap: 45px;
-            flex-wrap: wrap;
-            margin-top: 40px;
-        }
-        .action-btn {
-            font-size: 2.8rem;
-            color: var(--primary-indigo);
-            text-decoration: none;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        .tech-badge {
             display: inline-block;
-        }
-        .action-btn:hover {
-            transform: scale(1.2) translateY(-10px);
-            color: var(--accent-emerald);
-            filter: drop-shadow(0 0 10px var(--accent-emerald));
-        }
-        .btn-label {
-            display: block;
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--indigo);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
             font-size: 0.7rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            margin-top: 10px;
-            color: var(--text-slate);
-            letter-spacing: 1px;
-        }
-
-        .badge-research {
-            background: rgba(99, 102, 241, 0.15);
-            color: var(--primary-indigo);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
             font-weight: 600;
         }
 
+        .modal-modern .modal-content {
+            background: linear-gradient(160deg, #0f172a, #020617);
+            border: 1px solid var(--border-subtle);
+            border-radius: 24px;
+        }
+
+        .btn-indigo {
+            background: linear-gradient(135deg, var(--indigo), #4f46e5);
+            border: none;
+            color: #fff;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+        .btn-indigo:hover {
+            background: linear-gradient(135deg, #4f46e5, var(--indigo));
+            transform: scale(1.03);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.3);
+            color: #fff;
+        }
+        .btn-outline-modern {
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #f1f5f9;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-outline-modern:hover {
+            border-color: var(--indigo);
+            background: rgba(99, 102, 241, 0.1);
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .hero { min-height: 90vh; background-attachment: scroll; }
+            .social-grid { gap: 1.5rem; }
+            .social-icon { width: 54px; height: 54px; font-size: 1.4rem; }
+        }
+        @media (max-width: 576px) {
+            .skill-card { padding: 1.5rem; }
+        }
         @media (max-width: 991px) {
-            .navbar-collapse { background: rgba(15, 23, 42, 0.98); padding: 2rem; border-radius: 20px; border: 1px solid var(--primary-indigo); }
-            .hero { min-height: 60vh; }
+            .navbar-collapse {
+                background: rgba(2, 6, 23, 0.98);
+                padding: 1.5rem;
+                border-radius: 16px;
+                border: 1px solid var(--border-subtle);
+                margin-top: 0.5rem;
+            }
+            .navbar-nav .nav-item { text-align: center; }
         }
     </style>
 </head>
@@ -193,106 +328,93 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand fw-bold fs-4" href="/">ALV<span class="text-primary">.dev</span></a>
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <a class="navbar-brand" href="/">ALV<span>.dev</span></a>
+            <button class="navbar-toggler border-0 px-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto gap-3 align-items-center">
-                    <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#modalSobreMi">Sobre Mí</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#habilidades">Skills</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#casos">Proyectos</a></li>
-                    <li class="nav-item ms-lg-4"><a class="btn btn-primary px-5 rounded-pill fw-bold w-100" href="#contacto">Contacto</a></li>
+                <ul class="navbar-nav ms-auto align-items-center gap-1 gap-lg-3">
+                    <li class="nav-item"><a class="nav-link px-3" href="#" data-bs-toggle="modal" data-bs-target="#modalSobreMi">Sobre Mí</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="#habilidades">Skills</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="#casos">Proyectos</a></li>
+                    <li class="nav-item ms-lg-3"><a class="btn btn-indigo px-4 rounded-pill w-100" href="#contacto">Contacto</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
     <section class="hero">
-        <div class="hero-content">
-            <span class="badge-research mb-3 d-inline-block">UX Research &bull; Python/Django &bull; RStudio</span>
-            <h1 class="hero-title">Antropólogo <span class="text-primary">+</span><br>Full Stack Developer</h1>
+        <div class="hero-glow hero-glow--1"></div>
+        <div class="hero-glow hero-glow--2"></div>
+        <div class="position-relative z-1 px-3" data-aos="fade-up" data-aos-duration="1000">
+            <div class="hero-badge"><i class="bi bi-mortarboard-fill"></i> UX Research &bull; Python/Django &bull; RStudio</div>
+            <h1 class="hero-title">Antropólogo <span class="highlight">+</span><br>Full Stack Developer</h1>
             <p class="hero-subtitle">Transformo hallazgos etnográficos en requerimientos técnicos accionables. Investigación de usuarios con implementación real de código.</p>
-            <div class="mt-4 d-flex gap-3 justify-content-center flex-wrap">
-                <a href="#casos" class="btn btn-primary px-5 rounded-pill fw-bold">Ver Proyectos</a>
-                <a href="#contacto" class="btn btn-outline-light px-5 rounded-pill fw-bold">Contacto</a>
+            <div class="mt-5 d-flex gap-3 justify-content-center flex-wrap">
+                <a href="#casos" class="btn btn-indigo btn-lg px-5 rounded-pill">Ver Proyectos</a>
+                <a href="#contacto" class="btn btn-outline-modern btn-lg px-5 rounded-pill">Contacto</a>
             </div>
         </div>
     </section>
 
     <section id="habilidades" class="py-5">
         <div class="container py-5">
-            <div class="text-center mb-5">
-                <p class="section-title">Habilidades</p>
-                <h2 class="section-heading">Stack Profesional</h2>
+            <div class="text-center mb-5" data-aos="fade-up">
+                <p class="section-tag">Habilidades</p>
+                <h2 class="section-title">Stack Profesional</h2>
             </div>
-
             <div class="row g-4">
-                <div class="col-md-4">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="skill-card">
-                        <div class="d-flex align-items-center gap-3 mb-3">
-                            <i class="bi bi-diagram-3 skill-icon"></i>
-                            <h5 class="fw-bold mb-0">UX Research</h5>
+                        <div class="d-flex align-items-center gap-3 mb-4">
+                            <div class="skill-icon"><i class="bi bi-diagram-3"></i></div>
+                            <h5 class="fw-bold mb-0 fs-5">UX Research</h5>
                         </div>
-                        <ul class="list-unstyled small text-slate mb-3">
+                        <ul class="list-unstyled small mb-0" style="color: var(--slate);">
                             {% for skill in skills_ux %}
-                            <li class="mb-1">
-                                <i class="bi bi-check-circle-fill text-primary me-1" style="font-size: 0.7rem;"></i>
-                                {{ skill.nombre }}
-                                <div class="skill-level"><div class="skill-level-bar" style="width: {{ skill.nivel }}%;"></div></div>
-                            </li>
+                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> {{ skill.nombre }}</li>
                             {% empty %}
-                            <li>Etnografía digital y observación participante</li>
-                            <li>Entrevistas en profundidad y testing de usabilidad</li>
-                            <li>Análisis cualitativo con RStudio</li>
-                            <li>Síntesis de hallazgos en requerimientos técnicos</li>
-                            <li>Arquitectura de información localizada</li>
+                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> Etnografía digital y observación participante</li>
+                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> Entrevistas en profundidad y testing de usabilidad</li>
+                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> Análisis cualitativo con RStudio</li>
+                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> Síntesis de hallazgos en requerimientos técnicos</li>
+                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> Arquitectura de información localizada</li>
                             {% endfor %}
                         </ul>
                     </div>
                 </div>
-
-                <div class="col-md-4">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
                     <div class="skill-card">
-                        <div class="d-flex align-items-center gap-3 mb-3">
-                            <i class="bi bi-cpu skill-icon"></i>
-                            <h5 class="fw-bold mb-0">Backend & Data</h5>
+                        <div class="d-flex align-items-center gap-3 mb-4">
+                            <div class="skill-icon"><i class="bi bi-cpu"></i></div>
+                            <h5 class="fw-bold mb-0 fs-5">Backend & Data</h5>
                         </div>
-                        <ul class="list-unstyled small text-slate mb-3">
+                        <ul class="list-unstyled small mb-0" style="color: var(--slate);">
                             {% for skill in skills_tech %}
-                            <li class="mb-1">
-                                <i class="bi bi-check-circle-fill text-primary me-1" style="font-size: 0.7rem;"></i>
-                                {{ skill.nombre }}
-                                <div class="skill-level"><div class="skill-level-bar" style="width: {{ skill.nivel }}%;"></div></div>
-                            </li>
+                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> {{ skill.nombre }}</li>
                             {% empty %}
-                            <li>Python (automatización y procesamiento de datos)</li>
-                            <li>Django (backend y bases de datos)</li>
-                            <li>RStudio (análisis estadístico)</li>
-                            <li>Git / GitHub</li>
+                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> Python (automatización y procesamiento de datos)</li>
+                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> Django (backend y bases de datos)</li>
+                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> RStudio (análisis estadístico)</li>
+                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> Git / GitHub</li>
                             {% endfor %}
                         </ul>
                     </div>
                 </div>
-
-                <div class="col-md-4">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
                     <div class="skill-card">
-                        <div class="d-flex align-items-center gap-3 mb-3">
-                            <i class="bi bi-people skill-icon"></i>
-                            <h5 class="fw-bold mb-0">Habilidades Clave</h5>
+                        <div class="d-flex align-items-center gap-3 mb-4">
+                            <div class="skill-icon"><i class="bi bi-people"></i></div>
+                            <h5 class="fw-bold mb-0 fs-5">Habilidades Clave</h5>
                         </div>
-                        <ul class="list-unstyled small text-slate mb-3">
+                        <ul class="list-unstyled small mb-0" style="color: var(--slate);">
                             {% for skill in skills_soft %}
-                            <li class="mb-1">
-                                <i class="bi bi-check-circle-fill text-primary me-1" style="font-size: 0.7rem;"></i>
-                                {{ skill.nombre }}
-                                <div class="skill-level"><div class="skill-level-bar" style="width: {{ skill.nivel }}%;"></div></div>
-                            </li>
+                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> {{ skill.nombre }}</li>
                             {% empty %}
-                            <li>Empatía estratégica y escucha activa</li>
-                            <li>Pensamiento crítico orientado a patrones sociales</li>
-                            <li>Comunicación transversal humano-técnica</li>
-                            <li>Resolución de conflictos bajo presión</li>
+                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> Empatía estratégica y escucha activa</li>
+                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> Pensamiento crítico orientado a patrones sociales</li>
+                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> Comunicación transversal humano-técnica</li>
+                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> Resolución de conflictos bajo presión</li>
                             {% endfor %}
                         </ul>
                     </div>
@@ -301,150 +423,171 @@
         </div>
     </section>
 
-    <section id="casos" class="py-5 bg-transparent">
+    <section id="casos" class="py-5">
         <div class="container py-5">
-            <div class="text-center mb-5">
-                <p class="section-title">Proyectos</p>
-                <h2 class="section-heading">Casos de Estudio</h2>
+            <div class="text-center mb-5" data-aos="fade-up">
+                <p class="section-tag">Proyectos</p>
+                <h2 class="section-title">Casos de Estudio</h2>
             </div>
-            <div class="row g-5 justify-content-center">
-                {% for proyecto in proyectos %}
-                <div class="col-md-6 col-lg-5">
-                    <div class="project-card h-100">
-                        {% if proyecto.imagen %}
-                        <img src="{{ proyecto.imagen.url }}" class="w-100" style="height: 200px; object-fit: cover; opacity: 0.85;" alt="{{ proyecto.titulo }}">
-                        {% else %}
-                        <div class="w-100 d-flex align-items-center justify-content-center" style="height: 200px; background: #1e293b;">
-                            <i class="bi bi-folder2-open" style="font-size: 3rem; color: var(--text-slate);"></i>
-                        </div>
-                        {% endif %}
-                        <div class="p-4">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h5 class="fw-bold text-primary mb-0">{{ proyecto.titulo }}</h5>
-                                {% if proyecto.metodologia_ux %}
-                                <span class="project-method">{{ proyecto.metodologia_ux }}</span>
+            <div class="row g-4 justify-content-center">
+                {% if proyectos|length > 0 %}
+                    {% for proyecto in proyectos %}
+                    <div class="col-md-6 col-lg-5" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:'100' }}">
+                        <a href="{% if proyecto.link_github %}{{ proyecto.link_github }}{% else %}#{% endif %}" class="text-decoration-none d-block" {% if proyecto.link_github %}target="_blank"{% endif %}>
+                        <div class="project-card">
+                            {% if proyecto.imagen %}
+                            <div class="project-img-wrapper"><img src="{{ proyecto.imagen.url }}" class="project-img" alt="{{ proyecto.titulo }}"></div>
+                            {% else %}
+                            <div class="project-img-placeholder">
+                                <i class="bi bi-folder2-open" style="font-size: 2.5rem; color: var(--slate);"></i>
+                            </div>
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="fw-bold mb-2 text-white">{{ proyecto.titulo }}</h5>
+                                <p class="small mb-2" style="color: var(--slate);">{{ proyecto.descripcion_corta }}</p>
+                                {% if proyecto.contexto_social %}
+                                <p class="small mb-2" style="color: var(--emerald);"><i class="bi bi-people-fill me-1"></i> {{ proyecto.contexto_social }}</p>
+                                {% endif %}
+                                {% if proyecto.tech_list %}
+                                <div class="mt-3 d-flex flex-wrap gap-1">{% for tech in proyecto.tech_list %}<span class="tech-badge">{{ tech }}</span>{% endfor %}</div>
+                                {% endif %}
+                                {% if proyecto.link_github %}
+                                <span class="btn btn-outline-modern rounded-pill px-4 mt-3 btn-sm">Ver Proyecto</span>
                                 {% endif %}
                             </div>
-                            <p class="small text-slate mb-2">{{ proyecto.descripcion_corta }}</p>
-                            {% if proyecto.contexto_social %}
-                            <p class="small mb-2" style="color: var(--accent-emerald);">
-                                <i class="bi bi-people-fill me-1"></i> {{ proyecto.contexto_social }}
-                            </p>
-                            {% endif %}
-                            <div class="mt-3">
-                                {% for tech in proyecto.tech_list %}
-                                <span class="badge-research me-1">{{ tech }}</span>
-                                {% endfor %}
-                            </div>
-                            {% if proyecto.link_github %}
-                            <a href="{{ proyecto.link_github }}" target="_blank" class="btn btn-outline-light rounded-pill px-4 mt-3 btn-sm">
-                                <i class="bi bi-github me-1"></i> Código
-                            </a>
-                            {% endif %}
                         </div>
+                        </a>
                     </div>
-                </div>
-                {% empty %}
-                <div class="col-md-6 col-lg-5">
-                    <div class="project-card h-100">
-                        <div class="p-4">
-                            <h5 class="fw-bold text-primary mb-3">Red de Apoyo Mutuo</h5>
-                            <p class="small text-slate mb-2">Digitalización de reciprocidad barrial en Peñalolén.</p>
-                            <p class="small mb-2" style="color: var(--accent-emerald);">
-                                <i class="bi bi-people-fill me-1"></i> Investigación etnográfica con vecinos para comprender lógicas de intercambio de saberes y oficios.
-                            </p>
-                            <div class="mt-3">
-                                <span class="badge-research me-1">Etnografía</span>
-                                <span class="badge-research me-1">Entrevistas</span>
-                                <span class="badge-research me-1">Python</span>
-                                <span class="badge-research me-1">Django</span>
-                            </div>
-                            <a href="/apoyo-mutuo/" class="btn btn-outline-light rounded-pill px-4 mt-3 btn-sm">Ver App</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-5">
-                    <div class="project-card h-100">
-                        <div class="p-4">
-                            <h5 class="fw-bold text-primary mb-3">Dr. Franco Álvarez</h5>
-                            <p class="small text-slate mb-2">Sitio web para psicólogo clínico con testing de usabilidad.</p>
-                            <p class="small mb-2" style="color: var(--accent-emerald);">
-                                <i class="bi bi-people-fill me-1"></i> Testing end-to-end detectó botón duplicado y calendario hardcodeado que rompían la experiencia.
-                            </p>
-                            <div class="mt-3">
-                                <span class="badge-research me-1">Testing UX</span>
-                                <span class="badge-research me-1">Django</span>
-                                <span class="badge-research me-1">Hardening</span>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-md-6 col-lg-5" data-aos="fade-up" data-aos-delay="100">
+                        <a href="/apoyo-mutuo/" class="text-decoration-none d-block">
+                        <div class="project-card">
+                            <div class="project-img-wrapper"><img src="/media/apoyo-mutuo.jpg" class="project-img" alt="Red de Apoyo Mutuo"></div>
+                            <div class="card-body">
+                                <h5 class="fw-bold mb-2 text-white">Red de Apoyo Mutuo</h5>
+                                <p class="small mb-2" style="color: var(--slate);">Digitalización de reciprocidad barrial en Peñalolén.</p>
+                                <p class="small mb-2" style="color: var(--emerald);"><i class="bi bi-people-fill me-1"></i> Investigación etnográfica con vecinos para comprender lógicas de intercambio de saberes y oficios.</p>
+                                <div class="mt-3 d-flex flex-wrap gap-1">
+                                    <span class="tech-badge">Etnografía</span>
+                                    <span class="tech-badge">Entrevistas</span>
+                                    <span class="tech-badge">Python</span>
+                                    <span class="tech-badge">Django</span>
+                                </div>
+                                <span class="btn btn-outline-modern rounded-pill px-4 mt-3 btn-sm">Ver App</span>
                             </div>
                         </div>
+                        </a>
                     </div>
-                </div>
-                {% endfor %}
+                    <div class="col-md-6 col-lg-5" data-aos="fade-up" data-aos-delay="200">
+                        <a href="/ecommerce/" class="text-decoration-none d-block">
+                        <div class="project-card">
+                            <div class="project-img-wrapper"><img src="/media/ecommerce.jpg" class="project-img" alt="Plataforma Ecommerce"></div>
+                            <div class="card-body">
+                                <h5 class="fw-bold mb-2 text-white">Plataforma Ecommerce</h5>
+                                <p class="small mb-2" style="color: var(--slate);">Ventas con integración de indicadores financieros reales (API mindicador.cl).</p>
+                                <p class="small mb-2" style="color: var(--emerald);"><i class="bi bi-people-fill me-1"></i> Catálogo de productos tech con carrito, registro de usuarios y precios en tiempo real.</p>
+                                <div class="mt-3 d-flex flex-wrap gap-1">
+                                    <span class="tech-badge">Python</span>
+                                    <span class="tech-badge">Django</span>
+                                    <span class="tech-badge">API</span>
+                                    <span class="tech-badge">SQLite</span>
+                                </div>
+                                <span class="btn btn-outline-modern rounded-pill px-4 mt-3 btn-sm">Ver Demo</span>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-lg-5" data-aos="fade-up" data-aos-delay="300">
+                        <a href="https://psfrancoalvarez.pythonanywhere.com" class="text-decoration-none d-block" target="_blank">
+                        <div class="project-card">
+                            <div class="project-img-wrapper"><img src="/media/franco-alvarez.jpg" class="project-img" alt="Dr. Franco Álvarez"></div>
+                            <div class="card-body">
+                                <h5 class="fw-bold mb-2 text-white">Dr. Franco Álvarez</h5>
+                                <p class="small mb-2" style="color: var(--slate);">Sitio web para psicólogo clínico con testing de usabilidad.</p>
+                                <p class="small mb-2" style="color: var(--emerald);"><i class="bi bi-people-fill me-1"></i> Se trabajó directamente con el psicólogo para levantar sus necesidades operativas, diseñar la arquitectura de información y desarrollar una plataforma que él mismo administra con autonomía.</p>
+                                <div class="mt-3 d-flex flex-wrap gap-1">
+                                    <span class="tech-badge">Testing UX</span>
+                                    <span class="tech-badge">Django</span>
+                                    <span class="tech-badge">Hardening</span>
+                                </div>
+                                <span class="btn btn-outline-modern rounded-pill px-4 mt-3 btn-sm">Visitar Sitio</span>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </section>
 
     <footer id="contacto" class="contact-section text-center">
         <div class="container">
-            <p class="section-title text-center" style="color: var(--accent-emerald);">Contacto</p>
-            <h2 class="fw-bold mb-2">Iniciemos el siguiente paso</h2>
-            <p class="text-slate mb-4 small">¿Tienes un proyecto donde la investigación de usuarios y el código se encuentren?</p>
-            <div class="social-container">
-                <div class="text-center">
-                    <a href="mailto:{{ perfil.correo|default:'delakordillera@proton.me' }}" class="action-btn" title="Enviar Correo"><i class="bi bi-envelope-at"></i></a>
-                    <span class="btn-label">Correo</span>
-                </div>
-                <div class="text-center">
-                    <a href="{{ perfil.cv_pdf.url }}" class="action-btn" target="_blank" title="Ver CV"><i class="bi bi-file-earmark-person"></i></a>
-                    <span class="btn-label">Ver CV</span>
-                </div>
-                <div class="text-center">
-                    <a href="{{ perfil.link_linkedin|default:'https://linkedin.com/in/alexis-lara-viveros' }}" class="action-btn" target="_blank" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
-                    <span class="btn-label">LinkedIn</span>
-                </div>
-                <div class="text-center">
-                    <a href="{{ perfil.link_github|default:'https://github.com/delakordillera' }}" class="action-btn" target="_blank" title="GitHub"><i class="bi bi-github"></i></a>
-                    <span class="btn-label">GitHub</span>
-                </div>
+            <div data-aos="fade-up">
+                <p class="section-tag" style="color: var(--emerald);">Contacto</p>
+                <h2 class="fw-bold mb-2 display-6">Iniciemos el siguiente paso</h2>
+                <p style="color: var(--slate);" class="mb-0">¿Tienes un proyecto donde la investigación de usuarios y el código se encuentren?</p>
             </div>
-            <p class="mt-5 opacity-25 small fw-bold pt-5">© 2026 ALEXIS LARA VIVEROS | Antropólogo & Full Stack Developer</p>
+            <div class="social-grid">
+                <a href="mailto:{{ perfil.correo|default:'delakordillera@proton.me' }}" class="social-item">
+                    <div class="social-icon"><i class="bi bi-envelope-at"></i></div>
+                    <span class="social-label">Correo</span>
+                </a>
+                <a href="{{ perfil.cv_pdf.url }}" class="social-item" target="_blank">
+                    <div class="social-icon"><i class="bi bi-file-earmark-person"></i></div>
+                    <span class="social-label">CV</span>
+                </a>
+                <a href="{{ perfil.link_linkedin|default:'https://linkedin.com/in/alexis-lara-viveros' }}" class="social-item" target="_blank">
+                    <div class="social-icon"><i class="bi bi-linkedin"></i></div>
+                    <span class="social-label">LinkedIn</span>
+                </a>
+                <a href="{{ perfil.link_github|default:'https://github.com/delakordillera' }}" class="social-item" target="_blank">
+                    <div class="social-icon"><i class="bi bi-github"></i></div>
+                    <span class="social-label">GitHub</span>
+                </a>
+            </div>
+            <p class="mt-5 opacity-25 small fw-bold pt-5">&copy; 2026 Alexis Lara Viveros &mdash; Antropólogo &amp; Full Stack Developer</p>
         </div>
     </footer>
 
-    <div class="modal fade" id="modalSobreMi" tabindex="-1">
+    <div class="modal fade modal-modern" id="modalSobreMi" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content border-0 shadow-lg p-4 p-md-5 rounded-4 bg-dark text-light">
-                <div class="modal-header border-0">
-                    <h3 class="fw-bold text-primary mb-0">{{ perfil.nombre|default:'Alexis Lara Viveros' }}</h3>
+            <div class="modal-content p-3 p-md-5 mx-2 mx-md-0">
+                <div class="modal-header border-0 px-0 pt-0">
+                    <h3 class="fw-bold mb-0" style="color: var(--indigo);">{{ perfil.nombre|default:'Alexis Lara Viveros' }}</h3>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body px-0">
                     {% if perfil and perfil.contar_sobre_mi %}
-                    <p class="mb-3">{{ perfil.contar_sobre_mi|linebreaks }}</p>
+                    <p class="mb-3" style="color: var(--slate); line-height: 1.7;">{{ perfil.contar_sobre_mi|linebreaks }}</p>
                     {% else %}
-                    <p class="mb-3">
-                        Soy Antropólogo con formación en desarrollo Full Stack (Python/Django) y análisis de datos (RStudio). Mi perfil se caracteriza por cerrar la brecha entre la investigación de usuarios y la implementación técnica, combinando metodologías etnográficas con manejo real de código.
-                    </p>
-                    <p class="mb-4">
-                        He aplicado esta doble mirada —humana y técnica— en proyectos como la Red de Apoyo Mutuo en Peñalolén, donde la investigación etnográfica en terreno definió la arquitectura de información y las funcionalidades de la plataforma.
-                    </p>
-                    <div class="p-4 rounded-4" style="background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-indigo);">
-                        <h6 class="fw-bold text-primary"><i class="bi bi-check-circle-fill me-2"></i>Enfoque:</h6>
-                        <ul class="small mb-0 mt-3 list-unstyled">
-                            <li class="mb-2"><i class="bi bi-record-circle me-2" style="color: var(--accent-emerald);"></i><strong>UX Research:</strong> Etnografía digital, entrevistas, testing de usabilidad, análisis con RStudio.</li>
-                            <li class="mb-2"><i class="bi bi-record-circle me-2" style="color: var(--accent-emerald);"></i><strong>Desarrollo:</strong> Python, Django, Git, despliegue en PythonAnywhere.</li>
-                            <li><i class="bi bi-record-circle me-2" style="color: var(--accent-emerald);"></i><strong>Valor Diferencial:</strong> Traduzco hallazgos cualitativos en requerimientos técnicos accionables.</li>
+                    <p style="color: var(--slate); line-height: 1.7;">Soy Antropólogo de formación y desarrollador por convicción. Mi carrera se construye en el punto exacto donde la investigación de usuarios se encuentra con la implementación técnica, un perfil que no separa al que observa del que construye.</p>
+
+                    <p style="color: var(--slate); line-height: 1.7;">En la <strong class="text-white">Red de Apoyo Mutuo</strong>, llegué con libreta de campo a entrevistar a vecinos. Volví con un hallazgo clave: el prestigio comunitario, no el dinero, mueve la reciprocidad barrial. Ese insight se tradujo directamente en dos funcionalidades del producto: un sistema de Puntos de Confianza y un Círculo de la Gratitud. Sin capas de abstracción. Sin requerimientos que se pierden en la traducción.</p>
+
+                    <p style="color: var(--slate); line-height: 1.7;">Con la <strong class="text-white">web de Ps. Franco Álvarez</strong>, psicólogo clínico, el proceso fue similar. Sentarme a su lado, mapear con lápiz y papel su flujo de atención, entender la fricción de las agendas manuales y el WhatsApp desordenado. El resultado: una base de datos real en Django que él mismo administra, notificaciones automáticas por correo y una guía descargable sobre ansiedad. Código que nació de una conversación, no de un spec.</p>
+
+                    <div class="p-3 p-md-4 rounded-4 mt-4" style="background: rgba(99, 102, 241, 0.06); border: 1px solid var(--border-subtle);">
+                        <h6 class="fw-bold mb-0" style="color: var(--indigo);"><i class="bi bi-check-circle-fill me-2"></i>Mi enfoque:</h6>
+                        <ul class="small mb-0 mt-3 list-unstyled" style="color: var(--slate);">
+                            <li class="mb-2"><i class="bi bi-record-circle me-2" style="color: var(--emerald);"></i><strong class="text-white">UX Research:</strong> Etnografía digital y presencial, entrevistas en profundidad, testing de usabilidad, análisis cualitativo con RStudio.</li>
+                            <li class="mb-2"><i class="bi bi-record-circle me-2" style="color: var(--emerald);"></i><strong class="text-white">Desarrollo:</strong> Python, Django, bases de datos, Git, despliegue full stack.</li>
+                            <li><i class="bi bi-record-circle me-2" style="color: var(--emerald);"></i><strong class="text-white">Valor diferencial:</strong> Traduzco hallazgos etnográficos directamente en requerimientos técnicos accionables. Sin intermediarios. Sin pérdida de sentido.</li>
                         </ul>
                     </div>
+
+                    <p class="mt-4" style="color: var(--slate); line-height: 1.7;">Mi objetivo profesional es integrar la investigación de usuarios y el desarrollo en un mismo flujo de trabajo, donde los hallazgos cualitativos se traduzcan directamente en decisiones de producto sin pérdida de sentido. Busco roles donde esta doble perspectiva —antropológica y técnica— sea el eje de la construcción de experiencias digitales centradas en las personas.</p>
                     {% endif %}
                 </div>
-                <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-outline-light rounded-pill px-5" data-bs-dismiss="modal">Cerrar</button>
+                <div class="modal-footer border-0 px-0 pb-0">
+                    <button type="button" class="btn btn-outline-modern rounded-pill px-5 fw-bold" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({ once: true, duration: 800 });</script>
 </body>
 </html>
