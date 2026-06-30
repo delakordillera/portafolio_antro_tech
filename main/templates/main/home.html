@@ -4,25 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ALV | Portafolio Antro-Tech</title>
+    <title>Alexis Lara Viveros | Portafolio Antropología Digital & Full Stack</title>
+    <meta name="description" content="Portafolio de Alexis Lara Viveros, Antropólogo y Desarrollador Full Stack Python especializado en UX Research, etnografía digital y análisis de datos con RStudio.">
+    <meta name="keywords" content="UX Research, Antropología Digital, Full Stack Python, Django, RStudio, Portafolio, Chile">
+    <meta property="og:title" content="Alexis Lara Viveros | Antropólogo & Full Stack Developer">
+    <meta property="og:description" content="Investigación de usuarios + desarrollo. Etnografía digital aplicada a productos digitales.">
+    <meta property="og:url" content="https://delakordillera.pythonanywhere.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>👤</text></svg>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
         :root {
-            --dark-bg: #0f172a; /* Navy Profundo */
-            --primary-indigo: #6366f1; /* Indigo Tecnológico */
-            --accent-emerald: #10b981; /* Esmeralda Analítico */
+            --dark-bg: #0f172a;
+            --primary-indigo: #6366f1;
+            --accent-emerald: #10b981;
             --text-slate: #94a3b8;
         }
 
         html { scroll-behavior: smooth; }
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background-color: #020617; /* Fondo ultra oscuro para resaltar el Cyber Look */
+            background-color: #020617;
             color: #f1f5f9;
         }
 
-        /* NAVBAR CYBER */
         .navbar {
             backdrop-filter: blur(20px);
             background: rgba(15, 23, 42, 0.8);
@@ -31,52 +37,120 @@
         }
         .nav-link { font-weight: 700; text-transform: uppercase; font-size: 0.85rem; color: #cbd5e1 !important; }
         .nav-link:hover { color: var(--accent-emerald) !important; }
+        .navbar-brand { font-weight: 800; letter-spacing: -1px; }
         .btn-primary { background-color: var(--primary-indigo); border: none; transition: 0.3s; }
         .btn-primary:hover { background-color: var(--accent-emerald); transform: scale(1.05); }
 
-        /* HERO OPTIMIZADO */
-        .carousel-item { height: 55vh; min-height: 500px; background-size: cover; background-position: center; }
-        .carousel-overlay {
-            background: linear-gradient(to bottom, rgba(2, 6, 23, 0.4), rgba(2, 6, 23, 0.9));
-            height: 100%; display: flex; align-items: center; justify-content: center;
-            flex-direction: column; color: white; text-align: center; padding: 20px;
+        .hero {
+            min-height: 75vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #020617 100%);
+            position: relative;
+            overflow: hidden;
         }
-        .hero-title { font-size: calc(2rem + 2vw); font-weight: 900; text-transform: uppercase; letter-spacing: -2px; }
-        .text-primary { color: var(--accent-emerald) !important; }
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.06) 0%, transparent 70%);
+            bottom: -100px;
+            left: -100px;
+        }
+        .hero-content { position: relative; z-index: 1; padding: 2rem; }
+        .hero-title { font-size: calc(2.5rem + 2vw); font-weight: 900; text-transform: uppercase; letter-spacing: -2px; line-height: 1.1; }
+        .hero-subtitle { font-size: 1.2rem; color: var(--text-slate); max-width: 600px; margin: 1.5rem auto; }
 
-        /* TARJETAS DE STACK PROFESIONAL (CYBER LOOK) */
+        .section-title {
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.85rem;
+            color: var(--primary-indigo);
+            margin-bottom: 0.5rem;
+        }
+        .section-heading {
+            font-weight: 900;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+        }
+
         .skill-card {
-            background: rgba(30, 41, 59, 0.5); border-radius: 24px; padding: 2.5rem; height: 100%;
-            border: 1px solid rgba(99, 102, 241, 0.1); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 24px;
+            padding: 2.5rem;
+            height: 100%;
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             backdrop-filter: blur(10px);
         }
         .skill-card:hover {
-            transform: translateY(-12px);
+            transform: translateY(-8px);
             border-color: var(--primary-indigo);
             box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.3);
             background: rgba(30, 41, 59, 0.8);
         }
-        .skill-icon { font-size: 2.5rem; color: var(--accent-emerald); margin-bottom: 1.5rem; display: block; text-align: center; }
-
-        .tech-tag {
-            display: inline-block; background: rgba(99, 102, 241, 0.1); color: var(--primary-indigo);
-            padding: 0.3rem 0.7rem; border-radius: 8px; font-size: 0.75rem; font-weight: 800; margin: 0.2rem;
-            border: 1px solid rgba(99, 102, 241, 0.2);
+        .skill-icon { font-size: 2.2rem; color: var(--accent-emerald); margin-bottom: 1.2rem; }
+        .skill-level {
+            height: 4px;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 4px;
+            margin-top: 0.8rem;
+            overflow: hidden;
+        }
+        .skill-level-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-indigo), var(--accent-emerald));
+            border-radius: 4px;
+            transition: width 0.6s ease;
         }
 
-        /* PROYECTOS */
-        .card-custom {
-            border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); background: #1e293b; overflow: hidden;
-            transition: 0.4s; height: 100%;
+        .project-card {
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.05);
+            background: #1e293b;
+            overflow: hidden;
+            transition: 0.4s;
+            height: 100%;
         }
-        .card-custom:hover { transform: scale(1.03); border-color: var(--primary-indigo); }
-        .project-img { height: 240px; width: 100%; object-fit: cover; opacity: 0.8; transition: 0.4s; }
-        .card-custom:hover .project-img { opacity: 1; }
+        .project-card:hover { transform: scale(1.02); border-color: var(--primary-indigo); }
+        .project-method {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-emerald);
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-        /* FOOTER CYBER SIMÉTRICO */
-        .contact-section { background: #020617; color: white; padding: 100px 0; border-top: 1px solid rgba(99, 102, 241, 0.1); }
-        .social-container { display: flex; justify-content: center; gap: 45px; flex-wrap: wrap; margin-top: 40px; }
-
+        .contact-section {
+            background: #020617;
+            color: white;
+            padding: 100px 0;
+            border-top: 1px solid rgba(99, 102, 241, 0.1);
+        }
+        .social-container {
+            display: flex;
+            justify-content: center;
+            gap: 45px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
         .action-btn {
             font-size: 2.8rem;
             color: var(--primary-indigo);
@@ -89,10 +163,29 @@
             color: var(--accent-emerald);
             filter: drop-shadow(0 0 10px var(--accent-emerald));
         }
-        .btn-label { display: block; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-top: 10px; color: var(--text-slate); letter-spacing: 1px; }
+        .btn-label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-top: 10px;
+            color: var(--text-slate);
+            letter-spacing: 1px;
+        }
+
+        .badge-research {
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--primary-indigo);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
 
         @media (max-width: 991px) {
             .navbar-collapse { background: rgba(15, 23, 42, 0.98); padding: 2rem; border-radius: 20px; border: 1px solid var(--primary-indigo); }
+            .hero { min-height: 60vh; }
         }
     </style>
 </head>
@@ -107,57 +200,101 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto gap-3 align-items-center">
                     <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#modalSobreMi">Sobre Mí</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#habilidades">Tecnología</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#habilidades">Skills</a></li>
                     <li class="nav-item"><a class="nav-link" href="#casos">Proyectos</a></li>
-                    <li class="nav-item ms-lg-4"><a class="btn btn-primary px-5 rounded-pill fw-bold w-100" href="#contacto">Iniciemos</a></li>
+                    <li class="nav-item ms-lg-4"><a class="btn btn-primary px-5 rounded-pill fw-bold w-100" href="#contacto">Contacto</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <header class="carousel slide carousel-fade" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active" style="background-image: url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200&auto=format&fit=crop');">
-                <div class="carousel-overlay">
-                    <h1 class="hero-title">Antropología <span class="text-primary">Digital</span></h1>
-                    <p class="px-3 opacity-75 fw-bold">Análisis social aplicado al desarrollo de software y sistemas complejos.</p>
-                </div>
+    <section class="hero">
+        <div class="hero-content">
+            <span class="badge-research mb-3 d-inline-block">UX Research &bull; Python/Django &bull; RStudio</span>
+            <h1 class="hero-title">Antropólogo <span class="text-primary">+</span><br>Full Stack Developer</h1>
+            <p class="hero-subtitle">Transformo hallazgos etnográficos en requerimientos técnicos accionables. Investigación de usuarios con implementación real de código.</p>
+            <div class="mt-4 d-flex gap-3 justify-content-center flex-wrap">
+                <a href="#casos" class="btn btn-primary px-5 rounded-pill fw-bold">Ver Proyectos</a>
+                <a href="#contacto" class="btn btn-outline-light px-5 rounded-pill fw-bold">Contacto</a>
             </div>
         </div>
-    </header>
+    </section>
 
-    <section id="habilidades" class="py-5 mt-4">
+    <section id="habilidades" class="py-5">
         <div class="container py-5">
-            <h3 class="fw-bold text-center mb-5 text-uppercase letter-spacing-2">Stack e Investigación TI</h3>
+            <div class="text-center mb-5">
+                <p class="section-title">Habilidades</p>
+                <h2 class="section-heading">Stack Profesional</h2>
+            </div>
+
             <div class="row g-4">
                 <div class="col-md-4">
                     <div class="skill-card">
-                        <i class="bi bi-cpu skill-icon"></i>
-                        <h5 class="fw-bold text-center mb-3">Backend & Logic</h5>
-                        <p class="small text-slate mb-4">Arquitecturas robustas con <strong>Python y Django</strong>. Gestión de datos relacionales y lógica de servidor orientada a la autonomía de sistemas.</p>
-                        <div class="text-center mt-auto">
-                            <span class="tech-tag">Python</span><span class="tech-tag">Django</span><span class="tech-tag">SQL</span>
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <i class="bi bi-diagram-3 skill-icon"></i>
+                            <h5 class="fw-bold mb-0">UX Research</h5>
                         </div>
+                        <ul class="list-unstyled small text-slate mb-3">
+                            {% for skill in skills_ux %}
+                            <li class="mb-1">
+                                <i class="bi bi-check-circle-fill text-primary me-1" style="font-size: 0.7rem;"></i>
+                                {{ skill.nombre }}
+                                <div class="skill-level"><div class="skill-level-bar" style="width: {{ skill.nivel }}%;"></div></div>
+                            </li>
+                            {% empty %}
+                            <li>Etnografía digital y observación participante</li>
+                            <li>Entrevistas en profundidad y testing de usabilidad</li>
+                            <li>Análisis cualitativo con RStudio</li>
+                            <li>Síntesis de hallazgos en requerimientos técnicos</li>
+                            <li>Arquitectura de información localizada</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
+
                 <div class="col-md-4">
                     <div class="skill-card">
-                        <i class="bi bi-diagram-3 skill-icon"></i>
-                        <h5 class="fw-bold text-center mb-3">User Research</h5>
-                        <p class="small text-slate mb-4">Herramientas de <strong>etnografía digital</strong> y diagnóstico territorial. Análisis crítico del comportamiento del usuario para el levantamiento de requerimientos.</p>
-                        <div class="text-center mt-auto">
-                            <span class="tech-tag">UX Research</span><span class="tech-tag">Cualitativo</span>
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <i class="bi bi-cpu skill-icon"></i>
+                            <h5 class="fw-bold mb-0">Backend & Data</h5>
                         </div>
+                        <ul class="list-unstyled small text-slate mb-3">
+                            {% for skill in skills_tech %}
+                            <li class="mb-1">
+                                <i class="bi bi-check-circle-fill text-primary me-1" style="font-size: 0.7rem;"></i>
+                                {{ skill.nombre }}
+                                <div class="skill-level"><div class="skill-level-bar" style="width: {{ skill.nivel }}%;"></div></div>
+                            </li>
+                            {% empty %}
+                            <li>Python (automatización y procesamiento de datos)</li>
+                            <li>Django (backend y bases de datos)</li>
+                            <li>RStudio (análisis estadístico)</li>
+                            <li>Git / GitHub</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
+
                 <div class="col-md-4">
                     <div class="skill-card">
-                        <i class="bi bi-shield-check skill-icon"></i>
-                        <h5 class="fw-bold text-center mb-3">Aptitudes Core</h5>
-                        <p class="small text-slate mb-4">Perfil <strong>proactivo y flexible</strong>. Alta capacidad de trabajo en equipo multidisciplinario, basado en la reciprocidad y mejora del producto.</p>
-                        <div class="text-center mt-auto">
-                            <span class="tech-tag">Autonomía</span><span class="tech-tag">Teamwork</span>
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <i class="bi bi-people skill-icon"></i>
+                            <h5 class="fw-bold mb-0">Habilidades Clave</h5>
                         </div>
+                        <ul class="list-unstyled small text-slate mb-3">
+                            {% for skill in skills_soft %}
+                            <li class="mb-1">
+                                <i class="bi bi-check-circle-fill text-primary me-1" style="font-size: 0.7rem;"></i>
+                                {{ skill.nombre }}
+                                <div class="skill-level"><div class="skill-level-bar" style="width: {{ skill.nivel }}%;"></div></div>
+                            </li>
+                            {% empty %}
+                            <li>Empatía estratégica y escucha activa</li>
+                            <li>Pensamiento crítico orientado a patrones sociales</li>
+                            <li>Comunicación transversal humano-técnica</li>
+                            <li>Resolución de conflictos bajo presión</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -165,39 +302,96 @@
     </section>
 
     <section id="casos" class="py-5 bg-transparent">
-        <div class="container py-5 text-center">
-            <h3 class="fw-bold mb-5 text-uppercase">Exploremos Soluciones</h3>
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <p class="section-title">Proyectos</p>
+                <h2 class="section-heading">Casos de Estudio</h2>
+            </div>
             <div class="row g-5 justify-content-center">
+                {% for proyecto in proyectos %}
                 <div class="col-md-6 col-lg-5">
-                    <div class="card-custom h-100 shadow-lg">
-                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=800&auto=format&fit=crop" class="project-img" alt="Red Apoyo">
-                        <div class="p-5">
+                    <div class="project-card h-100">
+                        {% if proyecto.imagen %}
+                        <img src="{{ proyecto.imagen.url }}" class="w-100" style="height: 200px; object-fit: cover; opacity: 0.85;" alt="{{ proyecto.titulo }}">
+                        {% else %}
+                        <div class="w-100 d-flex align-items-center justify-content-center" style="height: 200px; background: #1e293b;">
+                            <i class="bi bi-folder2-open" style="font-size: 3rem; color: var(--text-slate);"></i>
+                        </div>
+                        {% endif %}
+                        <div class="p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="fw-bold text-primary mb-0">{{ proyecto.titulo }}</h5>
+                                {% if proyecto.metodologia_ux %}
+                                <span class="project-method">{{ proyecto.metodologia_ux }}</span>
+                                {% endif %}
+                            </div>
+                            <p class="small text-slate mb-2">{{ proyecto.descripcion_corta }}</p>
+                            {% if proyecto.contexto_social %}
+                            <p class="small mb-2" style="color: var(--accent-emerald);">
+                                <i class="bi bi-people-fill me-1"></i> {{ proyecto.contexto_social }}
+                            </p>
+                            {% endif %}
+                            <div class="mt-3">
+                                {% for tech in proyecto.tech_list %}
+                                <span class="badge-research me-1">{{ tech }}</span>
+                                {% endfor %}
+                            </div>
+                            {% if proyecto.link_github %}
+                            <a href="{{ proyecto.link_github }}" target="_blank" class="btn btn-outline-light rounded-pill px-4 mt-3 btn-sm">
+                                <i class="bi bi-github me-1"></i> Código
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-md-6 col-lg-5">
+                    <div class="project-card h-100">
+                        <div class="p-4">
                             <h5 class="fw-bold text-primary mb-3">Red de Apoyo Mutuo</h5>
-                            <p class="small text-slate mb-4">Digitalización de reciprocidad barrial en Peñalolén.</p>
-                            <a href="{% url 'muro' %}" class="btn btn-outline-light rounded-pill px-5">Ver App</a>
+                            <p class="small text-slate mb-2">Digitalización de reciprocidad barrial en Peñalolén.</p>
+                            <p class="small mb-2" style="color: var(--accent-emerald);">
+                                <i class="bi bi-people-fill me-1"></i> Investigación etnográfica con vecinos para comprender lógicas de intercambio de saberes y oficios.
+                            </p>
+                            <div class="mt-3">
+                                <span class="badge-research me-1">Etnografía</span>
+                                <span class="badge-research me-1">Entrevistas</span>
+                                <span class="badge-research me-1">Python</span>
+                                <span class="badge-research me-1">Django</span>
+                            </div>
+                            <a href="/apoyo-mutuo/" class="btn btn-outline-light rounded-pill px-4 mt-3 btn-sm">Ver App</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-5">
-                    <div class="card-custom h-100 shadow-lg">
-                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop" class="project-img" alt="Ecommerce">
-                        <div class="p-5">
-                            <h5 class="fw-bold text-primary mb-3">Plataforma Ecommerce</h5>
-                            <p class="small text-slate mb-4">Ventas con integración de indicadores financieros reales.</p>
-                            <a href="/ecommerce/" class="btn btn-outline-light rounded-pill px-5">Ver Demo</a>
+                    <div class="project-card h-100">
+                        <div class="p-4">
+                            <h5 class="fw-bold text-primary mb-3">Dr. Franco Álvarez</h5>
+                            <p class="small text-slate mb-2">Sitio web para psicólogo clínico con testing de usabilidad.</p>
+                            <p class="small mb-2" style="color: var(--accent-emerald);">
+                                <i class="bi bi-people-fill me-1"></i> Testing end-to-end detectó botón duplicado y calendario hardcodeado que rompían la experiencia.
+                            </p>
+                            <div class="mt-3">
+                                <span class="badge-research me-1">Testing UX</span>
+                                <span class="badge-research me-1">Django</span>
+                                <span class="badge-research me-1">Hardening</span>
+                            </div>
                         </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
         </div>
     </section>
 
     <footer id="contacto" class="contact-section text-center">
         <div class="container">
-            <h2 class="fw-bold mb-5 text-uppercase letter-spacing-2">Iniciemos el siguiente paso</h2>
+            <p class="section-title text-center" style="color: var(--accent-emerald);">Contacto</p>
+            <h2 class="fw-bold mb-2">Iniciemos el siguiente paso</h2>
+            <p class="text-slate mb-4 small">¿Tienes un proyecto donde la investigación de usuarios y el código se encuentren?</p>
             <div class="social-container">
                 <div class="text-center">
-                    <a href="mailto:{{ perfil.correo }}" class="action-btn" title="Enviar Correo"><i class="bi bi-envelope-at"></i></a>
+                    <a href="mailto:{{ perfil.correo|default:'delakordillera@proton.me' }}" class="action-btn" title="Enviar Correo"><i class="bi bi-envelope-at"></i></a>
                     <span class="btn-label">Correo</span>
                 </div>
                 <div class="text-center">
@@ -205,11 +399,11 @@
                     <span class="btn-label">Ver CV</span>
                 </div>
                 <div class="text-center">
-                    <a href="{{ perfil.link_linkedin }}" class="action-btn" target="_blank" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                    <a href="{{ perfil.link_linkedin|default:'https://linkedin.com/in/alexis-lara-viveros' }}" class="action-btn" target="_blank" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
                     <span class="btn-label">LinkedIn</span>
                 </div>
                 <div class="text-center">
-                    <a href="{{ perfil.link_github }}" class="action-btn" target="_blank" title="GitHub"><i class="bi bi-github"></i></a>
+                    <a href="{{ perfil.link_github|default:'https://github.com/delakordillera' }}" class="action-btn" target="_blank" title="GitHub"><i class="bi bi-github"></i></a>
                     <span class="btn-label">GitHub</span>
                 </div>
             </div>
@@ -221,24 +415,28 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content border-0 shadow-lg p-4 p-md-5 rounded-4 bg-dark text-light">
                 <div class="modal-header border-0">
-                    <h3 class="fw-bold text-primary mb-0">Perfil Profesional</h3>
+                    <h3 class="fw-bold text-primary mb-0">{{ perfil.nombre|default:'Alexis Lara Viveros' }}</h3>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
+                    {% if perfil and perfil.contar_sobre_mi %}
+                    <p class="mb-3">{{ perfil.contar_sobre_mi|linebreaks }}</p>
+                    {% else %}
                     <p class="mb-3">
-                        Hola mundo soy Alexis estudiante de <strong>Antropología </strong> y <strong>Desarrollador Full Stack Python</strong>. Mi perfil se caracteriza por una alta <strong>autonomía</strong> y la capacidad de abordar proyectos tecnológicos desde una dimensión técnica y humana simultáneamente.
+                        Soy Antropólogo con formación en desarrollo Full Stack (Python/Django) y análisis de datos (RStudio). Mi perfil se caracteriza por cerrar la brecha entre la investigación de usuarios y la implementación técnica, combinando metodologías etnográficas con manejo real de código.
                     </p>
                     <p class="mb-4">
-                        Cuento con sólidas <strong>habilidades sociales</strong> desarrolladas en contextos de alta complejidad, lo que me permite destacar en el <strong>trabajo en equipo</strong> y la resolución de conflictos. Soy un profesional <strong>proactivo y flexible</strong>, capaz de adaptarme a entornos dinámicos y metodologías de trabajo ágiles dentro de la industria TI.
+                        He aplicado esta doble mirada —humana y técnica— en proyectos como la Red de Apoyo Mutuo en Peñalolén, donde la investigación etnográfica en terreno definió la arquitectura de información y las funcionalidades de la plataforma.
                     </p>
                     <div class="p-4 rounded-4" style="background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary-indigo);">
-                        <h6 class="fw-bold text-primary"><i class="bi bi-check-circle-fill me-2"></i>Capacidades Destacadas:</h6>
+                        <h6 class="fw-bold text-primary"><i class="bi bi-check-circle-fill me-2"></i>Enfoque:</h6>
                         <ul class="small mb-0 mt-3 list-unstyled">
-                            <li class="mb-2"><i class="bi bi-record-circle me-2 text-emerald"></i><strong>Análisis de Requerimientos:</strong> Identificación de necesidades reales mediante herramientas cualitativas.</li>
-                            <li class="mb-2"><i class="bi bi-record-circle me-2 text-emerald"></i><strong>Trabajo en Equipo:</strong> Gestión de relaciones basadas en la reciprocidad y comunicación efectiva.</li>
-                            <li><i class="bi bi-record-circle me-2 text-emerald"></i><strong>Flexibilidad Técnica:</strong> Rápida capacidad de aprendizaje e implementación de flujos de trabajo.</li>
+                            <li class="mb-2"><i class="bi bi-record-circle me-2" style="color: var(--accent-emerald);"></i><strong>UX Research:</strong> Etnografía digital, entrevistas, testing de usabilidad, análisis con RStudio.</li>
+                            <li class="mb-2"><i class="bi bi-record-circle me-2" style="color: var(--accent-emerald);"></i><strong>Desarrollo:</strong> Python, Django, Git, despliegue en PythonAnywhere.</li>
+                            <li><i class="bi bi-record-circle me-2" style="color: var(--accent-emerald);"></i><strong>Valor Diferencial:</strong> Traduzco hallazgos cualitativos en requerimientos técnicos accionables.</li>
                         </ul>
                     </div>
+                    {% endif %}
                 </div>
                 <div class="modal-footer border-0">
                     <button type="button" class="btn btn-outline-light rounded-pill px-5" data-bs-dismiss="modal">Cerrar</button>
