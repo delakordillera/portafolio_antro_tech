@@ -73,6 +73,8 @@
 
         .hero {
             min-height: 100vh;
+            min-height: 100dvh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -312,13 +314,28 @@
         @media (max-width: 576px) {
             .skill-card { padding: 1.5rem; }
         }
+        @media (max-width: 400px) {
+            .hero-badge { font-size: 0.7rem; padding: 0.3rem 0.8rem; }
+            .hero-title { letter-spacing: -1.5px; }
+            .btn-lg { padding-left: 1.5rem; padding-right: 1.5rem; font-size: 0.9rem; }
+            .section-title { margin-bottom: 2rem; }
+            .project-img { height: 170px; }
+        }
         @media (max-width: 991px) {
             .navbar-collapse {
                 background: rgba(2, 6, 23, 0.98);
+                backdrop-filter: blur(24px);
+                -webkit-backdrop-filter: blur(24px);
                 padding: 1.5rem;
-                border-radius: 16px;
+                border-radius: 0 0 16px 16px;
                 border: 1px solid var(--border-subtle);
-                margin-top: 0.5rem;
+                border-top: none;
+                margin-top: 0;
+                position: absolute;
+                top: 100%;
+                left: -0.75rem;
+                right: -0.75rem;
+                z-index: 1000;
             }
             .navbar-nav .nav-item { text-align: center; }
         }
