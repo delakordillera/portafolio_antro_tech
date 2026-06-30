@@ -11,3 +11,7 @@ __pycache__/
 
 # Archivos multimedia subidos por usuarios locales
 media/
+
+# Archivos de seguridad
+.env_secret_key
+core/settings.py
