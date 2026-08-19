@@ -3,43 +3,55 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Red de Apoyo Mutuo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
-        /* FIX DE SCROLL: Forzamos al navegador a ser scrollable */
+        :root {
+            --bs-primary: #d9773f;
+            --bs-primary-rgb: 217, 119, 63;
+            --bs-link-color: #d9773f;
+            --bs-link-hover-color: #e08c5b;
+            --bs-body-bg: #110f0c;
+            --bs-body-color: #c9c0b1;
+            --bs-dark: #1a1712;
+            --bs-dark-rgb: 26, 23, 18;
+            accent: #8aa888;
+        }
+
         html, body {
             overflow-x: hidden !important;
             overflow-y: auto !important;
             height: auto !important;
             min-height: 100vh;
         }
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; color: #f4ede0; }
 
-        /* Ajuste para que el Navbar no tape el contenido en móvil */
-        .navbar {
-            z-index: 1030;
-        }
+        .navbar { z-index: 1030; background: rgba(17,15,12,0.95) !important; border-bottom: 1px solid rgba(217,119,63,0.16); }
+        .navbar-brand { font-family: 'JetBrains Mono', monospace; font-weight: 700; letter-spacing: -0.5px; }
 
-        /* Padding inferior para que la última tarjeta no se corte con el borde de la pantalla */
-        main {
-            padding-bottom: 80px;
-        }
+        main { padding-bottom: 80px; padding-top: 1.5rem; }
 
-        /* Estilo para el menú colapsable en móvil */
+        .card { background: #1a1712; border: 1px solid rgba(244,237,224,0.08); color: #c9c0b1; }
+        .card .text-dark, .card h5, .card h6 { color: #f4ede0 !important; }
+
         @media (max-width: 991.98px) {
             .navbar-collapse {
-                background-color: #0d6efd; /* El mismo azul de tu captura */
+                background-color: #1a1712;
+                border: 1px solid rgba(217,119,63,0.16);
                 padding: 1rem;
                 border-radius: 0 0 1rem 1rem;
-                box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+                box-shadow: 0 10px 15px rgba(0,0,0,0.3);
             }
         }
     </style>
 </head>
-<body class="bg-light">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm sticky-top">
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm sticky-top">
         <div class="container">
             <a class="navbar-brand fw-bold" href="{% url 'muro' %}">
                 <i class="bi bi-people-fill me-2"></i>Red de Apoyo
@@ -83,6 +95,9 @@
                         <a class="nav-link text-white py-2" href="{% url 'login' %}">Entrar</a>
                         <a class="nav-link text-white py-2" href="{% url 'registro' %}">Unirse</a>
                     {% endif %}
+                    <a class="nav-link text-white py-2 border-start border-secondary ps-lg-3 ms-lg-2" href="/">
+                        <i class="bi bi-arrow-left-short me-1"></i> Portafolio
+                    </a>
                 </div>
             </div>
         </div>
@@ -104,8 +119,8 @@
 
     <div class="modal fade" id="modalAcercaDe" tabindex="-1" aria-labelledby="modalAcercaDeLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content border-0 shadow">
-          <div class="modal-header bg-primary text-white">
+        <div class="modal-content border-0 shadow" style="background: #1a1712; border: 1px solid rgba(217,119,63,0.16) !important;">
+          <div class="modal-header bg-dark text-white" style="border-bottom: 1px solid rgba(217,119,63,0.16);">
             <h5 class="modal-title fw-bold" id="modalAcercaDeLabel">
                 <i class="bi bi-info-circle-fill me-2"></i>Sobre la Red de Apoyo Mutuo
             </h5>
@@ -113,21 +128,21 @@
           </div>
           <div class="modal-body p-4">
 
-            <h6 class="fw-bold text-primary border-bottom pb-2 mb-3">¿Qué es esta plataforma?</h6>
-            <p class="text-secondary small">
-                La Red de Apoyo Mutuo es un proyecto de <strong>Antropología Digital</strong> que busca fortalecer el tejido social barrial digitalizando la reciprocidad y el intercambio de saberes, trascendiendo la transacción monetaria. El proyecto se basa en la lógica del don y el capital social, priorizando el prestigio comunitario sobre el beneficio económico.
+            <h6 class="fw-bold border-bottom pb-2 mb-3" style="color: #d9773f; border-color: rgba(217,119,63,0.16) !important;">¿Qué es esta plataforma?</h6>
+            <p class="small" style="color: #c9c0b1;">
+                La Red de Apoyo Mutuo es un proyecto de <strong style="color:#f4ede0;">Antropología Digital</strong> que busca fortalecer el tejido social barrial digitalizando la reciprocidad y el intercambio de saberes, trascendiendo la transacción monetaria. El proyecto se basa en la lógica del don y el capital social, priorizando el prestigio comunitario sobre el beneficio económico.
             </p>
 
-            <h6 class="fw-bold text-primary border-bottom pb-2 mb-3 mt-4">El Valor Antropológico</h6>
-            <ul class="text-secondary small">
-                <li class="mb-2"><strong>Capital Simbólico:</strong> Creación de un sistema de "Puntos de Confianza" y un "Círculo de la Gratitud" (testimonios públicos) para visibilizar el prestigio social.</li>
-                <li class="mb-2"><strong>Agencia:</strong> El CRUD protegido permite a los vecinos gestionar su identidad y presencia en el territorio digital.</li>
-                <li class="mb-2"><strong>Diseño Localizado:</strong> Arquitectura de información adaptada a la realidad territorial para reducir la brecha digital.</li>
-                <li class="mb-2"><strong>Contexto:</strong> Investigación basada en la movilización vecinal de Peñalolén.</li>
+            <h6 class="fw-bold border-bottom pb-2 mb-3 mt-4" style="color: #d9773f; border-color: rgba(217,119,63,0.16) !important;">El Valor Antropológico</h6>
+            <ul class="small" style="color: #c9c0b1;">
+                <li class="mb-2"><strong style="color:#f4ede0;">Capital Simbólico:</strong> Creación de un sistema de "Puntos de Confianza" y un "Círculo de la Gratitud" (testimonios públicos) para visibilizar el prestigio social.</li>
+                <li class="mb-2"><strong style="color:#f4ede0;">Agencia:</strong> El CRUD protegido permite a los vecinos gestionar su identidad y presencia en el territorio digital.</li>
+                <li class="mb-2"><strong style="color:#f4ede0;">Diseño Localizado:</strong> Arquitectura de información adaptada a la realidad territorial para reducir la brecha digital.</li>
+                <li class="mb-2"><strong style="color:#f4ede0;">Contexto:</strong> Investigación basada en la movilización vecinal de Peñalolén.</li>
             </ul>
 
           </div>
-          <div class="modal-footer bg-light">
+          <div class="modal-footer" style="background: #17140f; border-top: 1px solid rgba(217,119,63,0.16);">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
           </div>
         </div>

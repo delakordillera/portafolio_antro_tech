@@ -11,333 +11,345 @@
     <meta property="og:description" content="Investigación de usuarios + desarrollo. Etnografía digital aplicada a productos digitales.">
     <meta property="og:url" content="https://delakordillera.pythonanywhere.com">
     <meta name="twitter:card" content="summary_large_image">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>ALV</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23110f0c'/><text x='16' y='22' font-family='monospace' font-size='14' fill='%23d9773f' text-anchor='middle'>&gt;_</text></svg>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #020617;
-            --bg-card: #0f172a;
-            --indigo: #6366f1;
-            --indigo-glow: rgba(99, 102, 241, 0.25);
-            --emerald: #10b981;
-            --emerald-glow: rgba(16, 185, 129, 0.2);
-            --slate: #94a3b8;
-            --border-subtle: rgba(99, 102, 241, 0.12);
+            --bg: #110f0c;
+            --bg-alt: #1a1712;
+            --bg-alt-2: #211d16;
+            --paper: #f4ede0;
+            --ink: #c9c0b1;
+            --muted: #857c6d;
+            --accent: #d9773f;
+            --accent-soft: rgba(217, 119, 63, 0.14);
+            --moss: #8aa888;
+            --moss-soft: rgba(138, 168, 136, 0.14);
+            --line: rgba(217, 119, 63, 0.16);
+            --line-soft: rgba(244, 237, 224, 0.08);
         }
 
-        * { scrollbar-width: thin; scrollbar-color: var(--indigo) transparent; }
-
+        * { scrollbar-width: thin; scrollbar-color: var(--accent) transparent; }
         html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background: var(--bg-deep);
-            color: #f1f5f9;
+            background: var(--bg);
+            background-image:
+                radial-gradient(circle at 12% 8%, var(--line) 0, transparent 45%),
+                radial-gradient(circle at 88% 92%, var(--moss-soft) 0, transparent 45%);
+            background-attachment: fixed;
+            color: var(--ink);
         }
 
+        .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+        h1, h2, h3, h5, .display-6 {
+            font-family: 'Space Grotesk', 'Inter', sans-serif;
+            color: var(--paper);
+        }
+
+        a { color: var(--accent); }
+
+        ::selection { background: var(--accent); color: #110f0c; }
+
+        /* ---------- NAV ---------- */
         .navbar {
-            backdrop-filter: blur(24px) saturate(1.4);
-            -webkit-backdrop-filter: blur(24px) saturate(1.4);
-            background: rgba(2, 6, 23, 0.75);
-            border-bottom: 1px solid var(--border-subtle);
-            padding: 0.75rem 0;
+            background: rgba(17, 15, 12, 0.9);
+            border-bottom: 1px solid var(--line-soft);
+            padding: 0.9rem 0;
         }
-        .navbar .nav-link {
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: var(--slate) !important;
-            position: relative;
-            padding: 0.5rem 0;
-        }
-        .navbar .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 2px;
-            background: var(--indigo);
-            transform: scaleX(0);
-            transition: transform 0.3s;
-        }
-        .navbar .nav-link:hover::after { transform: scaleX(1); }
-        .navbar .nav-link:hover { color: #fff !important; }
-
         .navbar-brand {
-            font-weight: 900;
-            letter-spacing: -1.5px;
-            font-size: 1.6rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--paper) !important;
+            letter-spacing: -0.5px;
         }
-        .navbar-brand span { color: var(--indigo); }
+        .navbar-brand .bracket { color: var(--accent); }
+        .navbar .nav-link {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            font-size: 0.82rem;
+            color: var(--muted) !important;
+            padding: 0.5rem 0.9rem !important;
+        }
+        .navbar .nav-link::before { content: '['; color: var(--line); margin-right: 1px; }
+        .navbar .nav-link::after { content: ']'; color: var(--line); margin-left: 1px; }
+        .navbar .nav-link:hover { color: var(--paper) !important; }
+        .navbar .nav-link:hover::before,
+        .navbar .nav-link:hover::after { color: var(--accent); }
 
+        .btn-contacto {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--bg) !important;
+            background: var(--accent);
+            border: 1px solid var(--accent);
+            border-radius: 3px;
+            padding: 0.5rem 1.1rem !important;
+        }
+        .btn-contacto:hover { background: #c8672f; }
+
+        .navbar-toggler { border: none; box-shadow: none !important; padding: 0.4rem; }
+        .navbar-toggler-icon { background-image: none !important; position: relative; width: 22px; height: 16px; display: block; }
+        .navbar-toggler-icon::before,
+        .navbar-toggler-icon::after,
+        .navbar-toggler-icon span { display: none; }
+        .navbar-toggler {
+            position: relative;
+        }
+        .navbar-toggler .hbar { display: block; width: 22px; height: 2px; background: var(--paper); margin: 5px 0; }
+
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                background: var(--bg-alt);
+                border: 1px solid var(--line-soft);
+                border-radius: 8px;
+                padding: 1.25rem;
+                margin-top: 0.75rem;
+            }
+            .navbar .nav-link { text-align: center; }
+        }
+
+        /* ---------- HERO ---------- */
         .hero {
             min-height: 100vh;
             min-height: 100dvh;
-            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            background: linear-gradient(160deg, rgba(2,6,23,0.88) 0%, rgba(15,23,42,0.75) 50%, rgba(2,6,23,0.92) 100%), url('/media/hero-bg.jpg') center/cover no-repeat fixed;
             position: relative;
+            padding: 7rem 1rem 4rem;
+            overflow: hidden;
         }
-        .hero-glow {
+        .hero-contours {
             position: absolute;
-            width: 700px; height: 700px;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.15;
+            inset: -10%;
             pointer-events: none;
+            opacity: 0.55;
+            background-image:
+                repeating-radial-gradient(circle at 20% 30%, transparent 0, transparent 38px, var(--line) 39px, transparent 40px),
+                repeating-radial-gradient(circle at 85% 75%, transparent 0, transparent 46px, var(--moss-soft) 47px, transparent 48px);
         }
-        .hero-glow--1 { background: var(--indigo); top: -200px; right: -200px; }
-        .hero-glow--2 { background: var(--emerald); bottom: -200px; left: -200px; }
-        .hero-badge {
+        .hero-inner { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; animation: rise 0.9s ease both; }
+        @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+        .hero-prompt {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--moss);
+            margin-bottom: 1.5rem;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.25);
-            padding: 0.4rem 1.2rem;
-            border-radius: 100px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--indigo);
-            margin-bottom: 1.5rem;
-            backdrop-filter: blur(8px);
+            border: 1px solid var(--line-soft);
+            padding: 0.5rem 1rem;
+            border-radius: 3px;
+            background: rgba(255,255,255,0.02);
         }
-        .hero-title {
-            font-size: clamp(2.2rem, 5.5vw, 5rem);
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -3px;
-            line-height: 1.05;
+        .hero-prompt .user { color: var(--accent); }
+        .hero-prompt .caret {
+            display: inline-block; width: 7px; height: 1.1em; background: var(--moss);
+            animation: blink 1.1s step-end infinite; margin-left: 2px; vertical-align: text-bottom;
         }
-        .hero-title .highlight {
-            background: linear-gradient(135deg, var(--indigo), var(--emerald));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .hero-subtitle {
-            font-size: clamp(0.95rem, 1.3vw, 1.2rem);
-            color: var(--slate);
-            max-width: 580px;
-            margin: 1.5rem auto 0;
-            line-height: 1.7;
-        }
+        @keyframes blink { 50% { opacity: 0; } }
 
-        .section-tag {
+        .hero-title {
+            font-size: clamp(2.1rem, 5vw, 4.2rem);
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            font-size: 0.75rem;
-            color: var(--indigo);
-            margin-bottom: 0.5rem;
+            line-height: 1.12;
+            letter-spacing: -1.5px;
         }
+        .hero-title .and { color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 0.75em; }
+        .hero-subtitle {
+            font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+            color: var(--ink);
+            max-width: 540px;
+            margin: 1.4rem auto 0;
+            line-height: 1.75;
+        }
+        .hero-cta { margin-top: 2.75rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .btn-primary-line {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600; font-size: 0.85rem;
+            background: var(--accent); color: var(--bg); border: 1px solid var(--accent);
+            border-radius: 3px; padding: 0.75rem 1.75rem;
+        }
+        .btn-primary-line:hover { background: #c8672f; color: var(--bg); }
+        .btn-ghost-line {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600; font-size: 0.85rem;
+            background: transparent; color: var(--paper); border: 1px solid var(--line-soft);
+            border-radius: 3px; padding: 0.75rem 1.75rem;
+        }
+        .btn-ghost-line:hover { border-color: var(--accent); color: var(--accent); }
+
+        /* ---------- SECTIONS ---------- */
+        .section-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.72rem;
+            color: var(--accent);
+            margin-bottom: 0.6rem;
+        }
+        .section-tag::before { content: '// '; color: var(--line); }
         .section-title {
-            font-weight: 900;
-            font-size: clamp(1.6rem, 3vw, 2.5rem);
+            font-weight: 700;
+            font-size: clamp(1.5rem, 2.6vw, 2.1rem);
             margin-bottom: 3rem;
         }
 
+        /* ---------- SKILL CARDS ---------- */
         .skill-card {
-            background: linear-gradient(145deg, rgba(15,23,42,0.6), rgba(15,23,42,0.3));
-            border-radius: 20px;
-            padding: 2rem;
+            background: var(--bg-alt);
+            border-radius: 10px;
+            padding: 2rem 1.75rem 1.75rem;
             height: 100%;
-            border: 1px solid var(--border-subtle);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            backdrop-filter: blur(12px);
+            border: 1px solid var(--line-soft);
+            position: relative;
+            transition: border-color 0.25s ease, transform 0.25s ease;
         }
-        .skill-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(99, 102, 241, 0.3);
-            box-shadow: 0 24px 48px -16px rgba(99, 102, 241, 0.2);
-            background: rgba(15,23,42,0.8);
+        .skill-card:hover { border-color: var(--line); transform: translateY(-3px); }
+        .skill-tab {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            color: var(--muted);
+            letter-spacing: 1px;
+            position: absolute;
+            top: -0.6rem; left: 1.5rem;
+            background: var(--bg);
+            border: 1px solid var(--line-soft);
+            padding: 0.15rem 0.6rem;
+            border-radius: 3px;
         }
-        .skill-icon {
-            width: 48px; height: 48px;
-            display: flex; align-items: center; justify-content: center;
-            border-radius: 14px;
-            background: rgba(16, 185, 129, 0.12);
-            color: var(--emerald);
-            font-size: 1.4rem;
-            flex-shrink: 0;
+        .skill-card h5 { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; margin-top: 0.4rem; }
+        .skill-card ul { margin-top: 1.25rem; }
+        .skill-card li {
+            font-size: 0.88rem;
+            display: flex; align-items: baseline; gap: 0.55rem;
+            margin-bottom: 0.65rem; color: var(--ink);
         }
+        .skill-card li::before { content: '›'; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-weight: 700; }
 
+        /* ---------- PROJECT / CASE CARDS ---------- */
         .project-card {
-            border-radius: 20px;
-            border: 1px solid var(--border-subtle);
-            background: var(--bg-card);
+            border-radius: 10px;
+            border: 1px solid var(--line-soft);
+            background: var(--bg-alt);
             overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             height: 100%;
             position: relative;
+            transition: border-color 0.3s ease, transform 0.3s ease;
         }
-        .project-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 20px;
-            padding: 1px;
-            background: linear-gradient(145deg, rgba(99,102,241,0.2), transparent 60%);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.5s;
-            pointer-events: none;
+        .project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+        .case-label {
+            position: absolute; top: 0.9rem; left: 0.9rem; z-index: 2;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem; letter-spacing: 1px;
+            background: rgba(17,15,12,0.85);
+            color: var(--accent);
+            border: 1px solid var(--line);
+            padding: 0.25rem 0.6rem;
+            border-radius: 3px;
         }
-        .project-card:hover::before { opacity: 1; }
-        .project-card:hover { transform: translateY(-8px) scale(1.01); box-shadow: 0 32px 64px -16px rgba(99,102,241,0.15); }
-        .project-img { height: 210px; width: 100%; object-fit: cover; object-position: center top; }
-        .project-img-wrapper { position: relative; overflow: hidden; }
+        .project-img-wrapper { position: relative; overflow: hidden; height: 200px; }
+        .project-img {
+            height: 200px; width: 100%; object-fit: cover; object-position: center top;
+            filter: grayscale(65%) contrast(1.05);
+            transition: filter 0.4s ease, transform 0.4s ease;
+        }
+        .project-card:hover .project-img { filter: grayscale(0%) contrast(1); transform: scale(1.04); }
         .project-img-wrapper::after {
             content: '';
-            position: absolute; bottom: 0; left: 0; right: 0;
-            height: 60%;
-            background: linear-gradient(transparent, #0f172a);
+            position: absolute; bottom: 0; left: 0; right: 0; height: 55%;
+            background: linear-gradient(transparent, var(--bg-alt));
             pointer-events: none;
         }
         .project-img-placeholder {
-            height: 210px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #1e293b, #0f172a);
+            height: 200px; display: flex; align-items: center; justify-content: center;
+            background: var(--bg-alt-2); color: var(--muted);
         }
         .project-card .card-body { padding: 1.5rem; }
-
-        .contact-section {
-            padding: 100px 0;
-            border-top: 1px solid var(--border-subtle);
-            background: var(--bg-deep);
-            position: relative;
+        .project-card h5 { font-family: 'Space Grotesk', sans-serif; }
+        .project-context {
+            font-size: 0.82rem; color: var(--moss);
+            display: flex; gap: 0.5rem; align-items: flex-start;
+            border-left: 2px solid var(--moss-soft);
+            padding-left: 0.65rem; margin: 0.75rem 0;
         }
-        .contact-section::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--indigo), var(--emerald), transparent);
-        }
-        .social-grid {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            flex-wrap: wrap;
-            margin-top: 2.5rem;
-        }
-        .social-item {
-            text-align: center;
-            text-decoration: none;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .social-item:hover { transform: translateY(-8px); }
-        .social-icon {
-            width: 64px; height: 64px;
-            display: flex; align-items: center; justify-content: center;
-            border-radius: 18px;
-            background: rgba(99, 102, 241, 0.08);
-            border: 1px solid var(--border-subtle);
-            color: var(--indigo);
-            font-size: 1.8rem;
-            transition: all 0.4s;
-        }
-        .social-item:hover .social-icon {
-            background: rgba(99, 102, 241, 0.18);
-            border-color: var(--indigo);
-            box-shadow: 0 0 30px rgba(99, 102, 241, 0.15);
-            color: var(--emerald);
-        }
-        .social-label {
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--slate);
-        }
-
         .tech-badge {
+            font-family: 'JetBrains Mono', monospace;
             display: inline-block;
-            background: rgba(99, 102, 241, 0.1);
-            color: var(--indigo);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            padding: 0.25rem 0.75rem;
-            border-radius: 100px;
-            font-size: 0.7rem;
-            font-weight: 600;
+            color: var(--muted);
+            border: 1px solid var(--line-soft);
+            padding: 0.2rem 0.55rem;
+            border-radius: 3px;
+            font-size: 0.68rem;
         }
+        .btn-project-link {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem; font-weight: 600;
+            color: var(--paper); border: 1px solid var(--line-soft);
+            border-radius: 3px; padding: 0.45rem 1rem; display: inline-block; margin-top: 1rem;
+        }
+        .project-card:hover .btn-project-link { border-color: var(--accent); color: var(--accent); }
 
+        /* ---------- CREDENTIALS ---------- */
+        .credential-row {
+            display: flex; gap: 1.5rem; align-items: baseline;
+            padding: 1.25rem 0; border-bottom: 1px solid var(--line-soft);
+        }
+        .credential-row:last-child { border-bottom: none; }
+        .credential-year {
+            flex: 0 0 auto; width: 4.5rem;
+            font-size: 0.8rem; color: var(--accent); font-weight: 600;
+        }
+        .credential-body h6 { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; }
+        .credential-body p { color: var(--ink); }
+
+        /* ---------- CONTACT ---------- */
+        .contact-section { padding: 100px 0 70px; border-top: 1px solid var(--line-soft); position: relative; }
+        .contact-section::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), var(--moss), transparent);
+        }
+        .social-grid { display: flex; justify-content: center; gap: 2.75rem; flex-wrap: wrap; margin-top: 2.5rem; }
+        .social-item { text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 0.6rem; transition: transform 0.25s ease; }
+        .social-item:hover { transform: translateY(-5px); }
+        .social-icon {
+            width: 58px; height: 58px; display: flex; align-items: center; justify-content: center;
+            border-radius: 10px; border: 1px solid var(--line-soft); color: var(--paper);
+        }
+        .social-item:hover .social-icon { border-color: var(--accent); color: var(--accent); }
+        .social-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem; letter-spacing: 1px; text-transform: uppercase; color: var(--muted);
+        }
+        .footer-line { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--muted); }
+
+        /* ---------- MODAL ---------- */
         .modal-modern .modal-content {
-            background: linear-gradient(160deg, #0f172a, #020617);
-            border: 1px solid var(--border-subtle);
-            border-radius: 24px;
+            background: var(--bg-alt);
+            border: 1px solid var(--line-soft);
+            border-radius: 14px;
         }
-
-        .btn-indigo {
-            background: linear-gradient(135deg, var(--indigo), #4f46e5);
-            border: none;
-            color: #fff;
-            font-weight: 700;
-            transition: all 0.3s;
-        }
-        .btn-indigo:hover {
-            background: linear-gradient(135deg, #4f46e5, var(--indigo));
-            transform: scale(1.03);
-            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.3);
-            color: #fff;
-        }
-        .btn-outline-modern {
-            border: 1px solid rgba(255,255,255,0.15);
-            color: #f1f5f9;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        .btn-outline-modern:hover {
-            border-color: var(--indigo);
-            background: rgba(99, 102, 241, 0.1);
-            color: #fff;
-        }
+        .modal-modern .mono-label { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; }
+        .modal-modern .btn-close { filter: invert(1) grayscale(1); opacity: 0.6; }
+        .approach-box { background: rgba(217,119,63,0.06); border: 1px solid var(--line); border-radius: 10px; }
+        .approach-box strong { color: var(--paper); }
 
         @media (max-width: 768px) {
-            .hero { min-height: 90vh; background-attachment: scroll; }
             .social-grid { gap: 1.5rem; }
-            .social-icon { width: 54px; height: 54px; font-size: 1.4rem; }
-        }
-        @media (max-width: 576px) {
-            .skill-card { padding: 1.5rem; }
+            .social-icon { width: 50px; height: 50px; }
         }
         @media (max-width: 400px) {
-            .hero-badge { font-size: 0.7rem; padding: 0.3rem 0.8rem; }
-            .hero-title { letter-spacing: -1.5px; }
-            .btn-lg { padding-left: 1.5rem; padding-right: 1.5rem; font-size: 0.9rem; }
-            .section-title { margin-bottom: 2rem; }
-            .project-img { height: 170px; }
-        }
-        @media (max-width: 991px) {
-            .navbar-collapse {
-                background: rgba(2, 6, 23, 0.98);
-                backdrop-filter: blur(24px);
-                -webkit-backdrop-filter: blur(24px);
-                padding: 1.5rem;
-                border-radius: 0 0 16px 16px;
-                border: 1px solid var(--border-subtle);
-                border-top: none;
-                margin-top: 0;
-                position: absolute;
-                top: 100%;
-                left: -0.75rem;
-                right: -0.75rem;
-                z-index: 1000;
-            }
-            .navbar-nav .nav-item { text-align: center; }
+            .project-img, .project-img-wrapper, .project-img-placeholder { height: 165px; }
         }
     </style>
     <script type="application/ld+json">
@@ -360,93 +372,89 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="/">ALV<span>.dev</span></a>
-            <button class="navbar-toggler border-0 px-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
+            <a class="navbar-brand" href="/"><span class="bracket">~/</span>alv<span class="bracket">.dev</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="hbar"></span><span class="hbar"></span><span class="hbar"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center gap-1 gap-lg-3">
-                    <li class="nav-item"><a class="nav-link px-3" href="#" data-bs-toggle="modal" data-bs-target="#modalSobreMi">Sobre Mí</a></li>
-                    <li class="nav-item"><a class="nav-link px-3" href="#habilidades">Skills</a></li>
-                    <li class="nav-item"><a class="nav-link px-3" href="#casos">Proyectos</a></li>
-                    <li class="nav-item ms-lg-3"><a class="btn btn-indigo px-4 rounded-pill w-100" href="#contacto">Contacto</a></li>
+                <ul class="navbar-nav ms-auto align-items-center gap-lg-1">
+                    <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#modalSobreMi">sobre-mi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#habilidades">skills</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#casos">proyectos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#formacion">formación</a></li>
+                    <li class="nav-item ms-lg-2"><a class="btn-contacto" href="#contacto">contacto()</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
     <section class="hero">
-        <div class="hero-glow hero-glow--1"></div>
-        <div class="hero-glow hero-glow--2"></div>
-        <div class="position-relative z-1 px-3" data-aos="fade-up" data-aos-duration="1000">
-            <div class="hero-badge"><i class="bi bi-mortarboard-fill"></i> UX Research &bull; Python/Django &bull; RStudio</div>
-            <h1 class="hero-title">Antropólogo <span class="highlight">+</span><br>Full Stack Developer</h1>
+        <div class="hero-contours"></div>
+        <div class="hero-inner">
+            <div class="hero-prompt">
+                <span class="user">alexis@precordillera</span><span>:~$ whoami</span><span class="caret"></span>
+            </div>
+            <h1 class="hero-title">Antropólogo <span class="and">+</span><br>Full Stack Developer</h1>
             <p class="hero-subtitle">Transformo hallazgos etnográficos en requerimientos técnicos accionables. Investigación de usuarios con implementación real de código.</p>
-            <div class="mt-5 d-flex gap-3 justify-content-center flex-wrap">
-                <a href="#casos" class="btn btn-indigo btn-lg px-5 rounded-pill">Ver Proyectos</a>
-                <a href="#contacto" class="btn btn-outline-modern btn-lg px-5 rounded-pill">Contacto</a>
+            <div class="hero-cta">
+                <a href="#casos" class="btn-primary-line">Ver proyectos →</a>
+                <a href="#contacto" class="btn-ghost-line">Contacto</a>
             </div>
         </div>
     </section>
 
     <section id="habilidades" class="py-5">
         <div class="container py-5">
-            <div class="text-center mb-5" data-aos="fade-up">
-                <p class="section-tag">Habilidades</p>
-                <h2 class="section-title">Stack Profesional</h2>
+            <div class="text-center mb-5">
+                <p class="section-tag">habilidades</p>
+                <h2 class="section-title">Stack profesional</h2>
             </div>
             <div class="row g-4">
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-md-4">
                     <div class="skill-card">
-                        <div class="d-flex align-items-center gap-3 mb-4">
-                            <div class="skill-icon"><i class="bi bi-diagram-3"></i></div>
-                            <h5 class="fw-bold mb-0 fs-5">UX Research</h5>
-                        </div>
-                        <ul class="list-unstyled small mb-0" style="color: var(--slate);">
+                        <span class="skill-tab mono">UX·01</span>
+                        <h5 class="fw-bold mb-0">UX Research</h5>
+                        <ul class="list-unstyled small mb-0">
                             {% for skill in skills_ux %}
-                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> {{ skill.nombre }}</li>
+                            <li>{{ skill.nombre }}</li>
                             {% empty %}
-                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> Etnografía digital y observación participante</li>
-                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> Entrevistas en profundidad y testing de usabilidad</li>
-                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> Análisis cualitativo con RStudio</li>
-                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> Síntesis de hallazgos en requerimientos técnicos</li>
-                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> Arquitectura de información localizada</li>
+                            <li>Etnografía digital y observación participante</li>
+                            <li>Entrevistas en profundidad y testing de usabilidad</li>
+                            <li>Análisis cualitativo con RStudio</li>
+                            <li>Síntesis de hallazgos en requerimientos técnicos</li>
+                            <li>Arquitectura de información localizada</li>
                             {% endfor %}
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="col-md-4">
                     <div class="skill-card">
-                        <div class="d-flex align-items-center gap-3 mb-4">
-                            <div class="skill-icon"><i class="bi bi-cpu"></i></div>
-                            <h5 class="fw-bold mb-0 fs-5">Backend & Data</h5>
-                        </div>
-                        <ul class="list-unstyled small mb-0" style="color: var(--slate);">
+                        <span class="skill-tab mono">DEV·02</span>
+                        <h5 class="fw-bold mb-0">Backend &amp; Data</h5>
+                        <ul class="list-unstyled small mb-0">
                             {% for skill in skills_tech %}
-                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> {{ skill.nombre }}</li>
+                            <li>{{ skill.nombre }}</li>
                             {% empty %}
-                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> Python (automatización y procesamiento de datos)</li>
-                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> Django (backend y bases de datos)</li>
-                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> RStudio (análisis estadístico)</li>
-                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> Git / GitHub</li>
+                            <li>Python (automatización y procesamiento de datos)</li>
+                            <li>Django (backend y bases de datos)</li>
+                            <li>RStudio (análisis estadístico)</li>
+                            <li>Git / GitHub</li>
                             {% endfor %}
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="col-md-4">
                     <div class="skill-card">
-                        <div class="d-flex align-items-center gap-3 mb-4">
-                            <div class="skill-icon"><i class="bi bi-people"></i></div>
-                            <h5 class="fw-bold mb-0 fs-5">Habilidades Clave</h5>
-                        </div>
-                        <ul class="list-unstyled small mb-0" style="color: var(--slate);">
+                        <span class="skill-tab mono">SOFT·03</span>
+                        <h5 class="fw-bold mb-0">Habilidades clave</h5>
+                        <ul class="list-unstyled small mb-0">
                             {% for skill in skills_soft %}
-                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> {{ skill.nombre }}</li>
+                            <li>{{ skill.nombre }}</li>
                             {% empty %}
-                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> Empatía estratégica y escucha activa</li>
-                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> Pensamiento crítico orientado a patrones sociales</li>
-                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> Comunicación transversal humano-técnica</li>
-                            <li class="mb-2 d-flex align-items-start gap-2"><i class="bi bi-check-circle-fill text-primary mt-1 flex-shrink-0" style="font-size: 0.65rem;"></i> Resolución de conflictos bajo presión</li>
+                            <li>Empatía estratégica y escucha activa</li>
+                            <li>Pensamiento crítico orientado a patrones sociales</li>
+                            <li>Comunicación transversal humano-técnica</li>
+                            <li>Resolución de conflictos bajo presión</li>
                             {% endfor %}
                         </ul>
                     </div>
@@ -457,34 +465,33 @@
 
     <section id="casos" class="py-5">
         <div class="container py-5">
-            <div class="text-center mb-5" data-aos="fade-up">
-                <p class="section-tag">Proyectos</p>
-                <h2 class="section-title">Casos de Estudio</h2>
+            <div class="text-center mb-5">
+                <p class="section-tag">proyectos</p>
+                <h2 class="section-title">Casos de estudio</h2>
             </div>
             <div class="row g-4 justify-content-center">
                 {% if proyectos|length > 0 %}
                     {% for proyecto in proyectos %}
-                    <div class="col-md-6 col-lg-5" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:'100' }}">
+                    <div class="col-md-6 col-lg-5">
                         <a href="{% if proyecto.link_github %}{{ proyecto.link_github }}{% else %}#{% endif %}" class="text-decoration-none d-block" {% if proyecto.link_github %}target="_blank"{% endif %}>
                         <div class="project-card">
+                            <span class="case-label mono">expediente nº {{ forloop.counter|stringformat:"02d" }}</span>
                             {% if proyecto.imagen %}
                             <div class="project-img-wrapper"><img src="{{ proyecto.imagen.url }}" class="project-img" alt="{{ proyecto.titulo }}"></div>
                             {% else %}
-                            <div class="project-img-placeholder">
-                                <i class="bi bi-folder2-open" style="font-size: 2.5rem; color: var(--slate);"></i>
-                            </div>
+                            <div class="project-img-placeholder mono">sin imagen</div>
                             {% endif %}
                             <div class="card-body">
-                                <h5 class="fw-bold mb-2 text-white">{{ proyecto.titulo }}</h5>
-                                <p class="small mb-2" style="color: var(--slate);">{{ proyecto.descripcion_corta }}</p>
+                                <h5 class="fw-bold mb-2" style="color: var(--paper);">{{ proyecto.titulo }}</h5>
+                                <p class="small mb-2">{{ proyecto.descripcion_corta }}</p>
                                 {% if proyecto.contexto_social %}
-                                <p class="small mb-2" style="color: var(--emerald);"><i class="bi bi-people-fill me-1"></i> {{ proyecto.contexto_social }}</p>
+                                <p class="project-context">{{ proyecto.contexto_social }}</p>
                                 {% endif %}
                                 {% if proyecto.tech_list %}
-                                <div class="mt-3 d-flex flex-wrap gap-1">{% for tech in proyecto.tech_list %}<span class="tech-badge">{{ tech }}</span>{% endfor %}</div>
+                                <div class="mt-3 d-flex flex-wrap gap-2">{% for tech in proyecto.tech_list %}<span class="tech-badge">{{ tech }}</span>{% endfor %}</div>
                                 {% endif %}
                                 {% if proyecto.link_github %}
-                                <span class="btn btn-outline-modern rounded-pill px-4 mt-3 btn-sm">Ver Proyecto</span>
+                                <span class="btn-project-link">ver proyecto →</span>
                                 {% endif %}
                             </div>
                         </div>
@@ -492,58 +499,61 @@
                     </div>
                     {% endfor %}
                 {% else %}
-                    <div class="col-md-6 col-lg-5" data-aos="fade-up" data-aos-delay="100">
+                    <div class="col-md-6 col-lg-5">
                         <a href="/apoyo-mutuo/" class="text-decoration-none d-block">
                         <div class="project-card">
+                            <span class="case-label mono">expediente nº 01</span>
                             <div class="project-img-wrapper"><img src="/media/apoyo-mutuo.jpg" class="project-img" loading="lazy" alt="Red de Apoyo Mutuo"></div>
                             <div class="card-body">
-                                <h5 class="fw-bold mb-2 text-white">Red de Apoyo Mutuo</h5>
-                                <p class="small mb-2" style="color: var(--slate);">Digitalización de reciprocidad barrial en Peñalolén.</p>
-                                <p class="small mb-2" style="color: var(--emerald);"><i class="bi bi-people-fill me-1"></i> Investigación etnográfica con vecinos para comprender lógicas de intercambio de saberes y oficios.</p>
-                                <div class="mt-3 d-flex flex-wrap gap-1">
+                                <h5 class="fw-bold mb-2" style="color: var(--paper);">Red de Apoyo Mutuo</h5>
+                                <p class="small mb-2">Digitalización de reciprocidad barrial en Peñalolén.</p>
+                                <p class="project-context">Investigación etnográfica con vecinos para comprender lógicas de intercambio de saberes y oficios.</p>
+                                <div class="mt-3 d-flex flex-wrap gap-2">
                                     <span class="tech-badge">Etnografía</span>
                                     <span class="tech-badge">Entrevistas</span>
                                     <span class="tech-badge">Python</span>
                                     <span class="tech-badge">Django</span>
                                 </div>
-                                <span class="btn btn-outline-modern rounded-pill px-4 mt-3 btn-sm">Ver App</span>
+                                <span class="btn-project-link">ver app →</span>
                             </div>
                         </div>
                         </a>
                     </div>
-                    <div class="col-md-6 col-lg-5" data-aos="fade-up" data-aos-delay="200">
+                    <div class="col-md-6 col-lg-5">
                         <a href="/ecommerce/" class="text-decoration-none d-block">
                         <div class="project-card">
+                            <span class="case-label mono">expediente nº 02</span>
                             <div class="project-img-wrapper"><img src="/media/ecommerce.jpg" class="project-img" loading="lazy" alt="Plataforma Ecommerce"></div>
                             <div class="card-body">
-                                <h5 class="fw-bold mb-2 text-white">Plataforma Ecommerce</h5>
-                                <p class="small mb-2" style="color: var(--slate);">Ventas con integración de indicadores financieros reales (API mindicador.cl).</p>
-                                <p class="small mb-2" style="color: var(--emerald);"><i class="bi bi-people-fill me-1"></i> Catálogo de productos tech con carrito, registro de usuarios y precios en tiempo real.</p>
-                                <div class="mt-3 d-flex flex-wrap gap-1">
+                                <h5 class="fw-bold mb-2" style="color: var(--paper);">Plataforma Ecommerce</h5>
+                                <p class="small mb-2">Ventas con integración de indicadores financieros reales (API mindicador.cl).</p>
+                                <p class="project-context">Catálogo de productos tech con carrito, registro de usuarios y precios en tiempo real.</p>
+                                <div class="mt-3 d-flex flex-wrap gap-2">
                                     <span class="tech-badge">Python</span>
                                     <span class="tech-badge">Django</span>
                                     <span class="tech-badge">API</span>
                                     <span class="tech-badge">SQLite</span>
                                 </div>
-                                <span class="btn btn-outline-modern rounded-pill px-4 mt-3 btn-sm">Ver Demo</span>
+                                <span class="btn-project-link">ver demo →</span>
                             </div>
                         </div>
                         </a>
                     </div>
-                    <div class="col-md-6 col-lg-5" data-aos="fade-up" data-aos-delay="300">
+                    <div class="col-md-6 col-lg-5">
                         <a href="https://psfrancoalvarez.pythonanywhere.com" class="text-decoration-none d-block" target="_blank">
                         <div class="project-card">
+                            <span class="case-label mono">expediente nº 03</span>
                             <div class="project-img-wrapper"><img src="/media/franco-alvarez.jpg" class="project-img" loading="lazy" alt="Dr. Franco Álvarez"></div>
                             <div class="card-body">
-                                <h5 class="fw-bold mb-2 text-white">Dr. Franco Álvarez</h5>
-                                <p class="small mb-2" style="color: var(--slate);">Sitio web para psicólogo clínico con testing de usabilidad.</p>
-                                <p class="small mb-2" style="color: var(--emerald);"><i class="bi bi-people-fill me-1"></i> Se trabajó directamente con el psicólogo para levantar sus necesidades operativas, diseñar la arquitectura de información y desarrollar una plataforma que él mismo administra con autonomía.</p>
-                                <div class="mt-3 d-flex flex-wrap gap-1">
+                                <h5 class="fw-bold mb-2" style="color: var(--paper);">Dr. Franco Álvarez</h5>
+                                <p class="small mb-2">Sitio web para psicólogo clínico con testing de usabilidad.</p>
+                                <p class="project-context">Se trabajó directamente con el psicólogo para levantar sus necesidades operativas, diseñar la arquitectura de información y desarrollar una plataforma que él mismo administra con autonomía.</p>
+                                <div class="mt-3 d-flex flex-wrap gap-2">
                                     <span class="tech-badge">Testing UX</span>
                                     <span class="tech-badge">Django</span>
                                     <span class="tech-badge">Hardening</span>
                                 </div>
-                                <span class="btn btn-outline-modern rounded-pill px-4 mt-3 btn-sm">Visitar Sitio</span>
+                                <span class="btn-project-link">visitar sitio →</span>
                             </div>
                         </div>
                         </a>
@@ -553,73 +563,121 @@
         </div>
     </section>
 
+    <section id="formacion" class="py-5">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <p class="section-tag">formación</p>
+                <h2 class="section-title">Certificaciones &amp; estudios</h2>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    {% for cred in credenciales %}
+                    <div class="credential-row">
+                        <span class="credential-year mono">{{ cred.periodo }}</span>
+                        <div class="credential-body">
+                            <h6 class="fw-bold mb-1" style="color: var(--paper);">{{ cred.titulo }}</h6>
+                            <p class="small mb-0">{{ cred.institucion }}</p>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="credential-row">
+                        <span class="credential-year mono">2025—</span>
+                        <div class="credential-body">
+                            <h6 class="fw-bold mb-1" style="color: var(--paper);">Full Stack Python Web Developer</h6>
+                            <p class="small mb-0">Talento Digital / SENCE — certificación verificada en blockchain vía Acreditta.</p>
+                        </div>
+                    </div>
+                    <div class="credential-row">
+                        <span class="credential-year mono">2023—</span>
+                        <div class="credential-body">
+                            <h6 class="fw-bold mb-1" style="color: var(--paper);">Antropología</h6>
+                            <p class="small mb-0">Universidad Academia de Humanismo Cristiano, Santiago de Chile — en curso.</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
     <footer id="contacto" class="contact-section text-center">
         <div class="container">
-            <div data-aos="fade-up">
-                <p class="section-tag" style="color: var(--emerald);">Contacto</p>
+            <div>
+                <p class="section-tag" style="color: var(--moss);">contacto</p>
                 <h2 class="fw-bold mb-2 display-6">Iniciemos el siguiente paso</h2>
-                <p style="color: var(--slate);" class="mb-0">¿Tienes un proyecto donde la investigación de usuarios y el código se encuentren?</p>
+                <p class="mb-0">¿Tienes un proyecto donde la investigación de usuarios y el código se encuentren?</p>
             </div>
             <div class="social-grid">
                 <a href="mailto:{{ perfil.correo|default:'delakordillera@proton.me' }}" class="social-item">
-                    <div class="social-icon"><i class="bi bi-envelope-at"></i></div>
-                    <span class="social-label">Correo</span>
+                    <div class="social-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+                    </div>
+                    <span class="social-label">correo</span>
                 </a>
+                {% if perfil.cv_pdf %}
                 <a href="{{ perfil.cv_pdf.url }}" class="social-item" target="_blank">
-                    <div class="social-icon"><i class="bi bi-file-earmark-person"></i></div>
-                    <span class="social-label">CV</span>
+                    <div class="social-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                    </div>
+                    <span class="social-label">cv</span>
                 </a>
+                {% endif %}
                 <a href="{{ perfil.link_linkedin|default:'https://linkedin.com/in/alexis-lara-viveros' }}" class="social-item" target="_blank">
-                    <div class="social-icon"><i class="bi bi-linkedin"></i></div>
-                    <span class="social-label">LinkedIn</span>
+                    <div class="social-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/><path d="M10 9v12M10 13c0-2.2 1.8-4 4-4s4 1.8 4 4v8"/></svg>
+                    </div>
+                    <span class="social-label">linkedin</span>
                 </a>
                 <a href="{{ perfil.link_github|default:'https://github.com/delakordillera' }}" class="social-item" target="_blank">
-                    <div class="social-icon"><i class="bi bi-github"></i></div>
-                    <span class="social-label">GitHub</span>
+                    <div class="social-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
+                    </div>
+                    <span class="social-label">github</span>
                 </a>
             </div>
-            <p class="mt-5 opacity-25 small fw-bold pt-5">&copy; 2026 Alexis Lara Viveros &mdash; Antropólogo &amp; Full Stack Developer</p>
+            <p class="mt-5 footer-line pt-5">© 2026 Alexis Lara Viveros — Antropólogo &amp; Full Stack Developer</p>
         </div>
     </footer>
 
     <div class="modal fade modal-modern" id="modalSobreMi" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content p-3 p-md-5 mx-2 mx-md-0">
-                <div class="modal-header border-0 px-0 pt-0">
-                    <h3 class="fw-bold mb-0" style="color: var(--indigo);">{{ perfil.nombre|default:'Alexis Lara Viveros' }}</h3>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <div class="modal-header border-0 px-0 pt-0 d-block">
+                    <p class="mono-label mb-1">expediente personal</p>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h3 class="fw-bold mb-0" style="color: var(--paper);">{{ perfil.nombre|default:'Alexis Lara Viveros' }}</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
                 </div>
                 <div class="modal-body px-0">
                     {% if perfil and perfil.contar_sobre_mi %}
-                    <p class="mb-3" style="color: var(--slate); line-height: 1.7;">{{ perfil.contar_sobre_mi|linebreaks }}</p>
+                    <p class="mb-3" style="line-height: 1.7;">{{ perfil.contar_sobre_mi|linebreaks }}</p>
                     {% else %}
-                    <p style="color: var(--slate); line-height: 1.7;">Soy Antropólogo de formación y desarrollador por convicción. Mi carrera se construye en el punto exacto donde la investigación de usuarios se encuentra con la implementación técnica, un perfil que no separa al que observa del que construye.</p>
+                    <p style="line-height: 1.7;">Soy Antropólogo de formación y desarrollador por convicción. Mi carrera se construye en el punto exacto donde la investigación de usuarios se encuentra con la implementación técnica, un perfil que no separa al que observa del que construye.</p>
 
-                    <p style="color: var(--slate); line-height: 1.7;">En la <strong class="text-white">Red de Apoyo Mutuo</strong>, llegué con libreta de campo a entrevistar a vecinos. Volví con un hallazgo clave: el prestigio comunitario, no el dinero, mueve la reciprocidad barrial. Ese insight se tradujo directamente en dos funcionalidades del producto: un sistema de Puntos de Confianza y un Círculo de la Gratitud. Sin capas de abstracción. Sin requerimientos que se pierden en la traducción.</p>
+                    <p style="line-height: 1.7;">En la <strong>Red de Apoyo Mutuo</strong>, llegué con libreta de campo a entrevistar a vecinos. Volví con un hallazgo clave: el prestigio comunitario, no el dinero, mueve la reciprocidad barrial. Ese insight se tradujo directamente en dos funcionalidades del producto: un sistema de Puntos de Confianza y un Círculo de la Gratitud. Sin capas de abstracción. Sin requerimientos que se pierden en la traducción.</p>
 
-                    <p style="color: var(--slate); line-height: 1.7;">Con la <strong class="text-white">web de Ps. Franco Álvarez</strong>, psicólogo clínico, el proceso fue similar. Sentarme a su lado, mapear con lápiz y papel su flujo de atención, entender la fricción de las agendas manuales y el WhatsApp desordenado. El resultado: una base de datos real en Django que él mismo administra, notificaciones automáticas por correo y una guía descargable sobre ansiedad. Código que nació de una conversación, no de un spec.</p>
+                    <p style="line-height: 1.7;">Con la <strong>web de Ps. Franco Álvarez</strong>, psicólogo clínico, el proceso fue similar. Sentarme a su lado, mapear con lápiz y papel su flujo de atención, entender la fricción de las agendas manuales y el WhatsApp desordenado. El resultado: una base de datos real en Django que él mismo administra, notificaciones automáticas por correo y una guía descargable sobre ansiedad. Código que nació de una conversación, no de un spec.</p>
 
-                    <div class="p-3 p-md-4 rounded-4 mt-4" style="background: rgba(99, 102, 241, 0.06); border: 1px solid var(--border-subtle);">
-                        <h6 class="fw-bold mb-0" style="color: var(--indigo);"><i class="bi bi-check-circle-fill me-2"></i>Mi enfoque:</h6>
-                        <ul class="small mb-0 mt-3 list-unstyled" style="color: var(--slate);">
-                            <li class="mb-2"><i class="bi bi-record-circle me-2" style="color: var(--emerald);"></i><strong class="text-white">UX Research:</strong> Etnografía digital y presencial, entrevistas en profundidad, testing de usabilidad, análisis cualitativo con RStudio.</li>
-                            <li class="mb-2"><i class="bi bi-record-circle me-2" style="color: var(--emerald);"></i><strong class="text-white">Desarrollo:</strong> Python, Django, bases de datos, Git, despliegue full stack.</li>
-                            <li><i class="bi bi-record-circle me-2" style="color: var(--emerald);"></i><strong class="text-white">Valor diferencial:</strong> Traduzco hallazgos etnográficos directamente en requerimientos técnicos accionables. Sin intermediarios. Sin pérdida de sentido.</li>
+                    <div class="p-3 p-md-4 approach-box mt-4">
+                        <h6 class="fw-bold mb-0 mono" style="color: var(--accent); font-size: 0.85rem; letter-spacing: 1px;">MI ENFOQUE</h6>
+                        <ul class="small mb-0 mt-3 list-unstyled">
+                            <li class="mb-2"><strong>UX Research:</strong> Etnografía digital y presencial, entrevistas en profundidad, testing de usabilidad, análisis cualitativo con RStudio.</li>
+                            <li class="mb-2"><strong>Desarrollo:</strong> Python, Django, bases de datos, Git, despliegue full stack.</li>
+                            <li><strong>Valor diferencial:</strong> Traduzco hallazgos etnográficos directamente en requerimientos técnicos accionables. Sin intermediarios. Sin pérdida de sentido.</li>
                         </ul>
                     </div>
 
-                    <p class="mt-4" style="color: var(--slate); line-height: 1.7;">Mi objetivo profesional es integrar la investigación de usuarios y el desarrollo en un mismo flujo de trabajo, donde los hallazgos cualitativos se traduzcan directamente en decisiones de producto sin pérdida de sentido. Busco roles donde esta doble perspectiva —antropológica y técnica— sea el eje de la construcción de experiencias digitales centradas en las personas.</p>
+                    <p class="mt-4" style="line-height: 1.7;">Mi objetivo profesional es integrar la investigación de usuarios y el desarrollo en un mismo flujo de trabajo, donde los hallazgos cualitativos se traduzcan directamente en decisiones de producto sin pérdida de sentido. Busco roles donde esta doble perspectiva —antropológica y técnica— sea el eje de la construcción de experiencias digitales centradas en las personas.</p>
                     {% endif %}
                 </div>
                 <div class="modal-footer border-0 px-0 pb-0">
-                    <button type="button" class="btn btn-outline-modern rounded-pill px-5 fw-bold" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn-ghost-line" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>AOS.init({ once: true, duration: 800 });</script>
 </body>
 </html>
