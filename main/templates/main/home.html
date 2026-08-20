@@ -619,6 +619,39 @@
         }
         .project-link:hover svg { transform: translateX(2px); }
 
+        .demo-notice {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            margin-top: 0.5rem;
+            padding: 0.85rem 1rem;
+            background: rgba(217, 119, 63, 0.06);
+            border-left: 2px solid var(--accent);
+            border-radius: 0 8px 8px 0;
+        }
+        .demo-notice svg {
+            flex-shrink: 0;
+            color: var(--accent);
+            margin-top: 2px;
+        }
+        .demo-notice p {
+            font-size: 0.75rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+        .demo-notice strong {
+            color: var(--accent);
+            font-weight: 600;
+        }
+        .demo-notice code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--paper);
+            background: rgba(240, 232, 216, 0.06);
+            padding: 0.1rem 0.35rem;
+            border-radius: 4px;
+        }
+
         @media (max-width: 768px) {
             .project-card,
             .project-card:nth-child(even) {
@@ -1199,6 +1232,10 @@
                                 <span class="tech-pill">Django</span>
                                 <span class="tech-pill">API</span>
                                 <span class="tech-pill">SQLite</span>
+                            </div>
+                            <div class="demo-notice">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+                                <p><strong>Demo técnica — no es un producto en producción.</strong> Proyecto construido para demostrar un stack full end-to-end: catálogo dinámico, carrito de compras con sesiones, autenticación de usuarios (<code>Django auth</code>), panel de administración (<code>/admin/</code>) con CRUD sobre modelos, integración de API REST externa (<code>mindicador.cl</code>) para datos financieros en tiempo real, y backend relational con <code>SQLite</code>. Aplicación desplegada en PythonAnywhere con <code>Gunicorn</code>.</p>
                             </div>
                             <span class="project-link">Ver demo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
                         </div>
