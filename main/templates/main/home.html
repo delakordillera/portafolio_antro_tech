@@ -325,28 +325,13 @@
             text-shadow: 0 0 20px rgba(217, 119, 63, 0.3);
             pointer-events: none;
         }
-        .orbit-ring {
+        .orb-canvas {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            border: 1px solid rgba(240, 232, 216, 0.06);
-            border-radius: 50%;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 280px;
             pointer-events: none;
-        }
-        .orbit-ring:nth-child(1) {
-            width: 240px; height: 240px;
-            margin: -120px 0 0 -120px;
-            transform: rotateX(65deg) rotateZ(0deg);
-        }
-        .orbit-ring:nth-child(2) {
-            width: 200px; height: 200px;
-            margin: -100px 0 0 -100px;
-            transform: rotateX(65deg) rotateZ(60deg);
-        }
-        .orbit-ring:nth-child(3) {
-            width: 170px; height: 170px;
-            margin: -85px 0 0 -85px;
-            transform: rotateX(65deg) rotateZ(120deg);
         }
         .orb-icon {
             position: absolute;
@@ -1060,9 +1045,7 @@
                 </div>
                 <div class="hero-visual anim anim-d2">
                     <div class="hero-orb">
-                        <div class="orbit-ring"></div>
-                        <div class="orbit-ring"></div>
-                        <div class="orbit-ring"></div>
+                        <canvas class="orb-canvas" width="280" height="280"></canvas>
                         <span class="orb-nucleus">alv.dev</span>
                         <div class="orb-icon" data-ring="0" data-i="0"><svg viewBox="0 0 24 24" fill="none" stroke="#d9773f" stroke-width="1.5"><path d="M12 2C8.5 2 7 4 7 6v2.5h5v1H5.5C3 9.5 1 11.5 1 15s2 5.5 4.5 5.5h2V18c0-2.2 1.8-4 4-4h5c1.7 0 3-1.3 3-3V7C19.5 4 17 2 14 2h-2z"/><circle cx="9" cy="5.5" r="1" fill="#d9773f" stroke="none"/></svg></div>
                         <div class="orb-icon" data-ring="0" data-i="1"><svg viewBox="0 0 24 24" fill="none" stroke="#8aa888" stroke-width="1.5"><path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z"/><path d="M9 10h2a2 2 0 010 4H9v-4zm0 6v2m6-8h2m-2 4h2"/></svg></div>
@@ -1428,38 +1411,89 @@
     (function(){
         var orb=document.querySelector('.hero-orb');
         if(!orb) return;
+        var canvas=orb.querySelector('.orb-canvas');
+        var ctx=canvas.getContext('2d');
         var icons=orb.querySelectorAll('.orb-icon');
-        var cx=140, cy=140;
+        var W=280,H=280,cx=W/2,cy=H/2;
         var tilt=65*Math.PI/180;
-        var rings=[
-            {r:120, zOff:0,   speed:0.012, icons:[]},
-            {r:100, zOff:1.047,speed:0.015, icons:[]},
-            {r:85,  zOff:2.094,speed:0.018, icons:[]}
+        var tiltCos=Math.cos(tilt), tiltSin=Math.sin(tilt);
+        var ringColors=[
+            {r:'#d9773f',g:'rgba(217,119,63,'},
+            {r:'#8aa888',g:'rgba(138,168,136,'},
+            {r:'#e8dcc8',g:'rgba(232,220,200,'}
         ];
+        var ringDefs=[
+            {r:120,zOff:0,speed:0.014,count:3,ci:0},
+            {r:100,zOff:1.047,speed:0.018,count:2,ci:1},
+            {r:85,zOff:2.094,speed:0.022,count:2,ci:2}
+        ];
+        var allIcons=[];
         for(var i=0;i<icons.length;i++){
             var ri=parseInt(icons[i].getAttribute('data-ring'));
             var ii=parseInt(icons[i].getAttribute('data-i'));
-            var count=ri===0?3:2;
-            var angle=ii*(2*Math.PI/count)+rings[ri].zOff;
-            rings[ri].icons.push({el:icons[i], angle:angle});
+            var rd=ringDefs[ri];
+            var angle=ii*(2*Math.PI/rd.count)+rd.zOff;
+            allIcons.push({
+                el:icons[i],angle:angle,
+                r:rd.r,speed:rd.speed,ci:rd.ci,
+                trail:[],maxTrail:60
+            });
+        }
+        function drawEllipse(rx,ry,rot,color){
+            ctx.save();
+            ctx.translate(cx,cy);
+            ctx.rotate(rot);
+            ctx.beginPath();
+            ctx.ellipse(0,0,rx,ry,0,0,Math.PI*2);
+            ctx.strokeStyle=color;
+            ctx.lineWidth=1;
+            ctx.stroke();
+            ctx.restore();
         }
         function tick(){
-            for(var r=0;r<rings.length;r++){
-                var ring=rings[r];
-                for(var j=0;j<ring.icons.length;j++){
-                    var icon=ring.icons[j];
-                    icon.angle+=ring.speed;
-                    var x3=ring.r*Math.cos(icon.angle);
-                    var y3=ring.r*Math.sin(icon.angle)*Math.cos(tilt);
-                    var sz=1+0.3*Math.sin(icon.angle)*Math.sin(tilt);
-                    var px=cx+x3-icon.offsetWidth/2;
-                    var py=cy+y3-icon.offsetHeight/2;
-                    icon.el.style.left=px+'px';
-                    icon.el.style.top=py+'px';
-                    icon.el.style.zIndex=Math.round(y3+100);
-                    icon.el.style.opacity=0.4+0.6*Math.max(0,(y3+ring.r)/(2*ring.r));
-                    icon.el.style.transform='scale('+sz+')';
+            ctx.clearRect(0,0,W,H);
+            for(var ri=0;ri<ringDefs.length;ri++){
+                var rd=ringDefs[ri];
+                var col=ringColors[ri];
+                var ry=rd.r*tiltCos;
+                var rotAngle=ri*(Math.PI/3);
+                drawEllipse(rd.r,ry,rotAngle,col.g+'0.07)');
+                drawEllipse(rd.r,ry,rotAngle,col.g+'0.03)');
+            }
+            for(var i=0;i<allIcons.length;i++){
+                var ic=allIcons[i];
+                ic.angle+=ic.speed;
+                var x3=ic.r*Math.cos(ic.angle);
+                var y3=ic.r*Math.sin(ic.angle)*tiltCos;
+                var px=cx+x3;
+                var py=cy+y3;
+                ic.trail.push({x:px,y:py});
+                if(ic.trail.length>ic.maxTrail) ic.trail.shift();
+                var col=ringColors[ic.ci];
+                if(ic.trail.length>2){
+                    for(var t=1;t<ic.trail.length;t++){
+                        var alpha=(t/ic.trail.length)*0.55;
+                        ctx.beginPath();
+                        ctx.moveTo(ic.trail[t-1].x,ic.trail[t-1].y);
+                        ctx.lineTo(ic.trail[t].x,ic.trail[t].y);
+                        ctx.strokeStyle=col.g+alpha+')';
+                        ctx.lineWidth=1.5*(t/ic.trail.length);
+                        ctx.stroke();
+                    }
+                    var last=ic.trail[ic.trail.length-1];
+                    ctx.beginPath();
+                    ctx.arc(last.x,last.y,3,0,Math.PI*2);
+                    ctx.fillStyle=col.r;
+                    ctx.fill();
                 }
+                var sz=1+0.3*Math.sin(ic.angle)*tiltSin;
+                var iconPx=px-ic.el.offsetWidth/2;
+                var iconPy=py-ic.el.offsetHeight/2;
+                ic.el.style.left=iconPx+'px';
+                ic.el.style.top=iconPy+'px';
+                ic.el.style.zIndex=Math.round(y3+100);
+                ic.el.style.opacity=0.4+0.6*Math.max(0,(y3+ic.r)/(2*ic.r));
+                ic.el.style.transform='scale('+sz+')';
             }
             requestAnimationFrame(tick);
         }
