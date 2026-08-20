@@ -394,25 +394,32 @@
             padding: 2rem 1.75rem;
             position: relative;
             overflow: hidden;
-            transition: border-color 0.3s, transform 0.3s, background 0.3s;
+            transition: border-color 0.4s, transform 0.3s, background 0.3s, box-shadow 0.4s;
         }
         .skill-card::after {
             content: '';
             position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            border-radius: 18px;
-            background: conic-gradient(from 0deg, transparent, var(--accent), transparent, var(--moss), transparent);
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--moss), var(--accent));
+            background-size: 200% 100%;
             opacity: 0;
-            z-index: -1;
-            transition: opacity 0.4s;
-            animation: beam-spin 4s linear infinite;
+            transition: opacity 0.3s;
+            animation: beam-slide 3s linear infinite;
         }
         .skill-card:hover::after { opacity: 1; }
-        .skill-card:hover { border-color: transparent; transform: translateY(-4px); background: var(--bg-card-hover); }
-        @keyframes beam-spin { to { transform: rotate(360deg); } }
+        .skill-card:hover {
+            border-color: rgba(217, 119, 63, 0.15);
+            transform: translateY(-4px);
+            background: var(--bg-card-hover);
+            box-shadow: 0 8px 32px rgba(217, 119, 63, 0.06);
+        }
+        @keyframes beam-slide {
+            from { background-position: 200% 0; }
+            to { background-position: -200% 0; }
+        }
         .skill-card::before {
             content: '';
             position: absolute;
@@ -995,20 +1002,13 @@
                 </div>
                 <div class="hero-visual anim anim-d2">
                     <div class="hero-orb">
-                        <!-- Python -->
-                        <div class="orb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"><path d="M12 2c-4 0-4.5 1.8-4.5 4v2h5v1H6.5C4 9 2 10.5 2 14.5S4 20 6.5 20h2v-2.5c0-2 1.5-3.5 3.5-3.5h5c1.5 0 2.5-1 2.5-2.5v-4.5C19.5 4.5 17.5 2 14.5 2H12z"/><circle cx="9.5" cy="5.5" r="0.8" fill="var(--accent)" stroke="none"/><path d="M12 22c4 0 4.5-1.8 4.5-4v-2h-5v-1H17.5C20 15 22 13.5 22 9.5S20 6 17.5 6h-2v2.5c0 2-1.5 3.5-3.5 3.5h-5C5.5 12 4.5 13 4.5 14.5v4.5C4.5 19.5 6.5 22 9.5 22H12z"/><circle cx="14.5" cy="18.5" r="0.8" fill="var(--accent)" stroke="none"/></svg></div>
-                        <!-- Django -->
-                        <div class="orb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--moss)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="4"/><text x="12" y="16" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="10" fill="var(--moss)" stroke="none">D</text></svg></div>
-                        <!-- Research -->
-                        <div class="orb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--paper)" stroke-width="1.5"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg></div>
-                        <!-- Code -->
-                        <div class="orb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
-                        <!-- Git -->
-                        <div class="orb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--moss)" stroke-width="1.5"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><circle cx="18" cy="12" r="2"/><path d="M12 8v4m6-2h-4"/></svg></div>
-                        <!-- RStudio -->
-                        <div class="orb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--paper)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><text x="12" y="16" text-anchor="middle" font-family="serif" font-weight="700" font-size="11" fill="var(--paper)" stroke="none">R</text></svg></div>
-                        <!-- Database -->
-                        <div class="orb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/><path d="M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3"/></svg></div>
+                        <div class="orb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#d9773f" stroke-width="1.5"><path d="M12 2C8 2 7.5 3.5 7.5 5.5V8h5v1H6C3.5 9 2 10.8 2 14s1.5 5 4 5h2v-2c0-2 1.8-3.5 4-3.5h5c1.5 0 2.5-1 2.5-2.5v-5C19.5 4.5 17.5 2 15 2h-3z"/><circle cx="9.5" cy="5.5" r="0.8" fill="#d9773f" stroke="none"/></svg></div>
+                        <div class="orb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#8aa888" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="4"/><text x="12" y="16.5" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="11" fill="#8aa888" stroke="none">D</text></svg></div>
+                        <div class="orb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#e8dcc8" stroke-width="1.5"><circle cx="11" cy="11" r="6.5"/><path d="M15.5 15.5L20 20"/></svg></div>
+                        <div class="orb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#d9773f" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+                        <div class="orb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#8aa888" stroke-width="1.5"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><circle cx="18" cy="12" r="2"/><path d="M12 8v4m6-2h-4"/></svg></div>
+                        <div class="orb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#e8dcc8" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><text x="12" y="16.5" text-anchor="middle" font-family="serif" font-weight="700" font-size="12" fill="#e8dcc8" stroke="none">R</text></svg></div>
+                        <div class="orb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#d9773f" stroke-width="1.5"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/><path d="M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3"/></svg></div>
                     </div>
                 </div>
             </div>
