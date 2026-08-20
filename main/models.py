@@ -16,6 +16,11 @@ class Skill(models.Model):
 
 # 2. TUS PROYECTOS
 class Proyecto(models.Model):
+    CATEGORIAS = [
+        ('investigacion', 'Investigación + código'),
+        ('producto', 'Producto real'),
+        ('demo', 'Demo técnica'),
+    ]
     titulo = models.CharField(max_length=200)
     descripcion_corta = models.TextField()
     contexto_social = models.TextField(help_text="¿Qué problema humano o social resuelve?")
@@ -23,6 +28,7 @@ class Proyecto(models.Model):
     tecnologias = models.CharField(max_length=200, help_text="Ej: Python, Django, SQLite")
     imagen = models.ImageField(upload_to='proyectos/')
     link_github = models.URLField(blank=True)
+    categoria = models.CharField(max_length=20, choices=CATEGORIAS, default='investigacion')
 
     def __str__(self):
         return self.titulo
