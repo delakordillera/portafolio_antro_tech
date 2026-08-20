@@ -4,75 +4,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alexis Lara Viveros | Portafolio Antropología Digital & Full Stack</title>
+    <title>Alexis Lara Viveros | Antropólogo & Full Stack Developer</title>
     <meta name="description" content="Portafolio de Alexis Lara Viveros, Antropólogo y Desarrollador Full Stack Python especializado en UX Research, etnografía digital y análisis de datos con RStudio.">
-    <meta name="keywords" content="UX Research, Antropología Digital, Full Stack Python, Django, RStudio, Portafolio, Chile">
     <meta property="og:title" content="Alexis Lara Viveros | Antropólogo & Full Stack Developer">
     <meta property="og:description" content="Investigación de usuarios + desarrollo. Etnografía digital aplicada a productos digitales.">
     <meta property="og:url" content="https://delakordillera.pythonanywhere.com">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="es_CL">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Alexis Lara Viveros | Antropólogo & Full Stack Developer">
-    <meta name="twitter:description" content="Investigación de usuarios + desarrollo. Etnografía digital aplicada a productos digitales.">
-    <meta name="theme-color" content="#110f0c">
-    <meta name="robots" content="index, follow">
     <meta property="og:image" content="https://delakordillera.pythonanywhere.com/static/og-preview.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Alexis Lara Viveros — Antropólogo & Full Stack Developer">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Alexis Lara Viveros | Antropólogo & Full Stack Developer">
+    <meta name="twitter:description" content="Investigación de usuarios + desarrollo. Etnografía digital aplicada a productos digitales.">
     <meta name="twitter:image" content="https://delakordillera.pythonanywhere.com/static/og-preview.png">
+    <meta name="theme-color" content="#110f0c">
+    <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://delakordillera.pythonanywhere.com/">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23110f0c'/><text x='16' y='22' font-family='monospace' font-size='14' fill='%23d9773f' text-anchor='middle'>&gt;_</text></svg>">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23110f0c'/><text x='16' y='22' font-family='serif' font-size='16' fill='%23d9773f' text-anchor='middle'>A</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #110f0c;
-            --bg-alt: #1a1712;
-            --bg-alt-2: #211d16;
-            --paper: #f4ede0;
-            --ink: #c9c0b1;
-            --muted: #857c6d;
+            --bg: #0f0e0b;
+            --bg-raised: #171511;
+            --bg-card: #1c1a15;
+            --bg-card-hover: #221f18;
+            --paper: #f0e8d8;
+            --ink: #bfb5a3;
+            --muted: #7a7164;
             --accent: #d9773f;
-            --accent-soft: rgba(217, 119, 63, 0.14);
+            --accent-dim: rgba(217, 119, 63, 0.12);
             --moss: #8aa888;
-            --moss-soft: rgba(138, 168, 136, 0.14);
-            --line: rgba(217, 119, 63, 0.16);
-            --line-soft: rgba(244, 237, 224, 0.08);
+            --moss-dim: rgba(138, 168, 136, 0.10);
+            --border: rgba(240, 232, 216, 0.06);
+            --border-accent: rgba(217, 119, 63, 0.2);
         }
 
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         * { scrollbar-width: thin; scrollbar-color: var(--accent) transparent; }
         html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: 'Inter', system-ui, sans-serif;
             background: var(--bg);
-            background-image:
-                radial-gradient(circle at 12% 8%, var(--line) 0, transparent 45%),
-                radial-gradient(circle at 88% 92%, var(--moss-soft) 0, transparent 45%);
-            background-attachment: fixed;
             color: var(--ink);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
-        .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+        /* Noise overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 200px;
+        }
 
-        h1, h2, h3, h5, .display-6 {
-            font-family: 'Space Grotesk', 'Inter', sans-serif;
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
             color: var(--paper);
+            line-height: 1.15;
         }
 
-        a { color: var(--accent); }
+        a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+        a:hover { color: #e88a52; }
+        ::selection { background: var(--accent); color: var(--bg); }
 
-        ::selection { background: var(--accent); color: #110f0c; }
+        .container { max-width: 1140px; margin: 0 auto; padding: 0 1.5rem; }
 
-        a:focus-visible, button:focus-visible, .btn-contacto:focus-visible,
-        .nav-link:focus-visible, .navbar-toggler:focus-visible,
-        .btn-primary-line:focus-visible, .btn-ghost-line:focus-visible,
-        .btn-project-link:focus-visible, .social-item:focus-visible {
+        /* Focus */
+        :focus-visible {
             outline: 2px solid var(--accent);
             outline-offset: 3px;
-            border-radius: 3px;
+            border-radius: 4px;
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -84,427 +95,715 @@
             }
         }
 
-        /* ---------- NAV ---------- */
-        .navbar {
-            background: rgba(17, 15, 12, 0.9);
-            border-bottom: 1px solid var(--line-soft);
-            padding: 0.9rem 0;
+        /* ===== NAVBAR — floating pill ===== */
+        .nav-wrap {
+            position: fixed;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            width: calc(100% - 2rem);
+            max-width: 720px;
         }
-        .navbar-brand {
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: var(--paper) !important;
-            letter-spacing: -0.5px;
+        .nav-pill {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(15, 14, 11, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 0.55rem 1.25rem;
         }
-        .navbar-brand .bracket { color: var(--accent); }
-        .navbar .nav-link {
+        .nav-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--paper);
+            letter-spacing: -0.3px;
+            white-space: nowrap;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            list-style: none;
+        }
+        .nav-links a {
             font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
             font-weight: 500;
-            font-size: 0.82rem;
-            color: var(--muted) !important;
-            padding: 0.5rem 0.9rem !important;
+            color: var(--muted);
+            padding: 0.4rem 0.7rem;
+            border-radius: 999px;
+            transition: color 0.2s, background 0.2s;
+            white-space: nowrap;
         }
-        .navbar .nav-link::before { content: '['; color: var(--line); margin-right: 1px; }
-        .navbar .nav-link::after { content: ']'; color: var(--line); margin-left: 1px; }
-        .navbar .nav-link:hover { color: var(--paper) !important; }
-        .navbar .nav-link:hover::before,
-        .navbar .nav-link:hover::after { color: var(--accent); }
-
-        .btn-contacto {
+        .nav-links a:hover {
+            color: var(--paper);
+            background: rgba(240, 232, 216, 0.06);
+        }
+        .nav-cta {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.82rem;
+            font-size: 0.72rem;
             font-weight: 600;
             color: var(--bg) !important;
             background: var(--accent);
-            border: 1px solid var(--accent);
-            border-radius: 3px;
-            padding: 0.5rem 1.1rem !important;
+            padding: 0.45rem 1rem;
+            border-radius: 999px;
+            transition: background 0.2s;
         }
-        .btn-contacto:hover { background: #c8672f; }
+        .nav-cta:hover { background: #c8672f; color: var(--bg) !important; }
 
-        .navbar-toggler { border: none; box-shadow: none !important; padding: 0.4rem; }
-        .navbar-toggler-icon { background-image: none !important; position: relative; width: 22px; height: 16px; display: block; }
-        .navbar-toggler-icon::before,
-        .navbar-toggler-icon::after,
-        .navbar-toggler-icon span { display: none; }
-        .navbar-toggler {
-            position: relative;
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.4rem;
         }
-        .navbar-toggler .hbar { display: block; width: 22px; height: 2px; background: var(--paper); margin: 5px 0; }
+        .nav-toggle span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--paper);
+            margin: 4px 0;
+            transition: transform 0.2s, opacity 0.2s;
+        }
 
-        @media (max-width: 991px) {
-            .navbar-collapse {
-                background: var(--bg-alt);
-                border: 1px solid var(--line-soft);
-                border-radius: 8px;
-                padding: 1.25rem;
-                margin-top: 0.75rem;
+        @media (max-width: 640px) {
+            .nav-toggle { display: block; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: calc(100% + 0.5rem);
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: rgba(15, 14, 11, 0.95);
+                backdrop-filter: blur(16px);
+                border: 1px solid var(--border);
+                border-radius: 16px;
+                padding: 1rem;
+                gap: 0.25rem;
             }
-            .navbar .nav-link { text-align: center; }
+            .nav-links.open { display: flex; }
+            .nav-links a { text-align: center; width: 100%; padding: 0.6rem; }
         }
 
-        /* ---------- HERO ---------- */
+        /* ===== HERO — asymmetric ===== */
         .hero {
             min-height: 100vh;
             min-height: 100dvh;
             display: flex;
             align-items: center;
-            justify-content: center;
-            text-align: center;
+            padding: 8rem 0 5rem;
             position: relative;
-            padding: 7rem 1rem 4rem;
-            overflow: hidden;
         }
-        .hero-contours {
-            position: absolute;
-            inset: -10%;
-            pointer-events: none;
-            opacity: 0.55;
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 0.45fr;
+            gap: 4rem;
+            align-items: center;
         }
-        .hero-contours svg { width: 100%; height: 100%; display: block; }
-        .hero-inner { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; animation: rise 0.9s ease both; }
-        @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
-
-        .hero-title {
-            font-size: clamp(2.1rem, 5vw, 4.2rem);
-            font-weight: 700;
-            line-height: 1.12;
-            letter-spacing: -1.5px;
-        }
-        .hero-title .and { color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 0.75em; }
-        .hero-subtitle {
-            font-size: clamp(0.95rem, 1.2vw, 1.1rem);
-            color: var(--ink);
-            max-width: 540px;
-            margin: 1.4rem auto 0;
-            line-height: 1.75;
-        }
-        .hero-cta { margin-top: 2.75rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-        .btn-primary-line {
+        .hero-label {
             font-family: 'JetBrains Mono', monospace;
-            font-weight: 600; font-size: 0.85rem;
-            background: var(--accent); color: var(--bg); border: 1px solid var(--accent);
-            border-radius: 3px; padding: 0.75rem 1.75rem;
-        }
-        .btn-primary-line:hover { background: #c8672f; color: var(--bg); }
-        .btn-ghost-line {
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 600; font-size: 0.85rem;
-            background: transparent; color: var(--paper); border: 1px solid var(--line-soft);
-            border-radius: 3px; padding: 0.75rem 1.75rem;
-        }
-        .btn-ghost-line:hover { border-color: var(--accent); color: var(--accent); }
-
-        /* ---------- SECTIONS ---------- */
-        .section-tag {
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-size: 0.72rem;
+            font-size: 0.7rem;
+            font-weight: 500;
             color: var(--accent);
-            margin-bottom: 0.6rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
-        .section-tag::before { content: '// '; color: var(--line); }
-        .section-title {
+        .hero-label::before {
+            content: '';
+            width: 32px;
+            height: 1px;
+            background: var(--accent);
+        }
+        .hero-title {
+            font-size: clamp(2.5rem, 5.5vw, 4.5rem);
             font-weight: 700;
-            font-size: clamp(1.5rem, 2.6vw, 2.1rem);
-            margin-bottom: 3rem;
+            letter-spacing: -2px;
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+        }
+        .hero-title em {
+            font-style: normal;
+            color: var(--accent);
+        }
+        .hero-subtitle {
+            font-size: clamp(1rem, 1.2vw, 1.15rem);
+            color: var(--ink);
+            max-width: 480px;
+            line-height: 1.75;
+            margin-bottom: 2.5rem;
+        }
+        .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn-primary {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            background: var(--accent);
+            color: var(--bg);
+            padding: 0.85rem 2rem;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-primary:hover { background: #c8672f; color: var(--bg); transform: translateY(-1px); }
+        .btn-secondary {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            background: transparent;
+            color: var(--paper);
+            padding: 0.85rem 2rem;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: border-color 0.2s, color 0.2s;
+            display: inline-flex;
+            align-items: center;
+        }
+        .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .hero-orb {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, var(--accent-dim), transparent 70%),
+                        radial-gradient(circle at 65% 65%, var(--moss-dim), transparent 70%);
+            border: 1px solid var(--border);
+            position: relative;
+            animation: orb-float 8s ease-in-out infinite;
+        }
+        .hero-orb::after {
+            content: 'Anthropologist\n+\nDeveloper';
+            white-space: pre;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--paper);
+            text-align: center;
+            line-height: 1.6;
+            opacity: 0.7;
+        }
+        @keyframes orb-float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-12px) scale(1.02); }
         }
 
-        /* ---------- SKILL CARDS ---------- */
-        .skill-card {
-            background: var(--bg-alt);
-            border-radius: 10px;
-            padding: 2rem 1.75rem 1.75rem;
-            height: 100%;
-            border: 1px solid var(--line-soft);
-            position: relative;
-            transition: border-color 0.25s ease, transform 0.25s ease;
+        @media (max-width: 768px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                text-align: center;
+            }
+            .hero-subtitle { margin-left: auto; margin-right: auto; }
+            .hero-actions { justify-content: center; }
+            .hero-visual { order: -1; }
+            .hero-orb { width: 180px; height: 180px; }
+            .hero-orb::after { font-size: 0.7rem; }
+            .hero-label { justify-content: center; }
         }
-        .skill-card:hover { border-color: var(--line); transform: translateY(-3px); }
-        .skill-tab {
+
+        /* ===== SECTIONS — editorial ===== */
+        .section { padding: clamp(4rem, 8vw, 7rem) 0; }
+        .section-eyebrow {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.68rem;
-            color: var(--muted);
-            letter-spacing: 1px;
-            position: absolute;
-            top: -0.6rem; left: 1.5rem;
-            background: var(--bg);
-            border: 1px solid var(--line-soft);
-            padding: 0.15rem 0.6rem;
-            border-radius: 3px;
+            font-weight: 500;
+            color: var(--accent);
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
         }
-        .skill-card h5 { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; margin-top: 0.4rem; }
-        .skill-card ul { margin-top: 1.25rem; }
+        .section-eyebrow::before {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--accent);
+        }
+        .section-heading {
+            font-size: clamp(1.6rem, 3vw, 2.4rem);
+            font-weight: 700;
+            letter-spacing: -0.8px;
+            margin-bottom: 3rem;
+            max-width: 520px;
+        }
+
+        /* ===== SKILL CARDS — varied ===== */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        .skill-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem 1.75rem;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s, transform 0.3s, background 0.3s;
+        }
+        .skill-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-4px);
+            background: var(--bg-card-hover);
+        }
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+        .skill-card:nth-child(1)::before { background: var(--accent); }
+        .skill-card:nth-child(2)::before { background: var(--moss); }
+        .skill-card:nth-child(3)::before {
+            background: linear-gradient(90deg, var(--accent), var(--moss));
+        }
+
+        .skill-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+            font-size: 1.1rem;
+        }
+        .skill-card:nth-child(1) .skill-icon { background: var(--accent-dim); color: var(--accent); }
+        .skill-card:nth-child(2) .skill-icon { background: var(--moss-dim); color: var(--moss); }
+        .skill-card:nth-child(3) .skill-icon { background: rgba(240, 232, 216, 0.06); color: var(--paper); }
+
+        .skill-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .skill-card ul { list-style: none; }
         .skill-card li {
             font-size: 0.88rem;
-            display: flex; align-items: baseline; gap: 0.55rem;
-            margin-bottom: 0.65rem; color: var(--ink);
-        }
-        .skill-card li::before { content: '›'; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-weight: 700; }
-
-        /* ---------- PROJECT / CASE CARDS ---------- */
-        .project-card {
-            border-radius: 10px;
-            border: 1px solid var(--line-soft);
-            background: var(--bg-alt);
-            overflow: hidden;
-            height: 100%;
+            color: var(--ink);
+            padding: 0.4rem 0;
+            padding-left: 1rem;
             position: relative;
-            transition: border-color 0.3s ease, transform 0.3s ease;
+            line-height: 1.5;
         }
-        .project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
-        .case-label {
-            position: absolute; top: 0.9rem; left: 0.9rem; z-index: 2;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem; letter-spacing: 1px;
-            background: rgba(17,15,12,0.85);
-            color: var(--accent);
-            border: 1px solid var(--line);
-            padding: 0.25rem 0.6rem;
-            border-radius: 3px;
-        }
-        .project-img-wrapper { position: relative; overflow: hidden; height: 200px; }
-        .project-img {
-            height: 200px; width: 100%; object-fit: cover; object-position: center top;
-            filter: grayscale(65%) contrast(1.05);
-            transition: filter 0.4s ease, transform 0.4s ease;
-        }
-        .project-card:hover .project-img { filter: grayscale(0%) contrast(1); transform: scale(1.04); }
-        .project-img-wrapper::after {
+        .skill-card li::before {
             content: '';
-            position: absolute; bottom: 0; left: 0; right: 0; height: 55%;
-            background: linear-gradient(transparent, var(--bg-alt));
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+        .skill-card:nth-child(1) li::before { background: var(--accent); }
+        .skill-card:nth-child(2) li::before { background: var(--moss); }
+        .skill-card:nth-child(3) li::before { background: var(--paper); opacity: 0.4; }
+
+        @media (max-width: 768px) {
+            .skills-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ===== PROJECT CARDS — editorial, varied ===== */
+        .projects-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .project-card {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .project-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-3px);
+        }
+        .project-card:nth-child(even) {
+            grid-template-columns: 1fr 340px;
+        }
+        .project-card:nth-child(even) .project-img-wrap { order: 2; }
+
+        .project-img-wrap {
+            position: relative;
+            overflow: hidden;
+            min-height: 260px;
+        }
+        .project-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .project-card:hover .project-img-wrap img { transform: scale(1.04); }
+        .project-img-wrap::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(15,14,11,0.1), rgba(15,14,11,0.3));
             pointer-events: none;
         }
         .project-img-placeholder {
-            height: 200px; display: flex; align-items: center; justify-content: center;
-            background: var(--bg-alt-2); color: var(--muted);
-        }
-        .project-card .card-body { padding: 1.5rem; }
-        .project-card h5 { font-family: 'Space Grotesk', sans-serif; }
-        .project-context {
-            font-size: 0.82rem; color: var(--moss);
-            display: flex; gap: 0.5rem; align-items: flex-start;
-            border-left: 2px solid var(--moss-soft);
-            padding-left: 0.65rem; margin: 0.75rem 0;
-        }
-        .field-record {
-            margin: 1rem 0 0;
-            padding-top: 0.9rem;
-            border-top: 1px solid var(--line-soft);
-        }
-        .field-row { display: flex; gap: 0.75rem; margin-bottom: 0.6rem; }
-        .field-row:last-child { margin-bottom: 0; }
-        .field-row dt {
-            flex: 0 0 auto; width: 6rem;
+            min-height: 260px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-raised);
+            color: var(--muted);
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.6rem; letter-spacing: 0.5px;
-            text-transform: uppercase; color: var(--moss);
+            font-size: 0.8rem;
+        }
+
+        .project-body {
+            padding: 2rem 2.25rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .project-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: var(--accent);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+        .project-body h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            letter-spacing: -0.3px;
+        }
+        .project-body > p {
+            font-size: 0.9rem;
+            color: var(--ink);
+            line-height: 1.65;
+            margin-bottom: 1.25rem;
+        }
+        .project-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-bottom: 1.25rem;
+        }
+        .project-meta-row {
+            display: flex;
+            gap: 0.75rem;
+            align-items: baseline;
+        }
+        .project-meta-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--moss);
+            flex: 0 0 5.5rem;
+        }
+        .project-meta-value {
+            font-size: 0.82rem;
+            color: var(--ink);
+            line-height: 1.5;
+        }
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 1.25rem;
+        }
+        .tech-pill {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--muted);
+            background: rgba(240, 232, 216, 0.04);
+            border: 1px solid var(--border);
+            padding: 0.25rem 0.65rem;
+            border-radius: 999px;
+        }
+        .project-link {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--paper);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: color 0.2s, gap 0.2s;
+        }
+        .project-link:hover { color: var(--accent); gap: 0.65rem; }
+        .project-link svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.2s;
+        }
+        .project-link:hover svg { transform: translateX(2px); }
+
+        @media (max-width: 768px) {
+            .project-card,
+            .project-card:nth-child(even) {
+                grid-template-columns: 1fr;
+            }
+            .project-card:nth-child(even) .project-img-wrap { order: 0; }
+            .project-img-wrap { min-height: 200px; }
+            .project-body { padding: 1.5rem; }
+        }
+
+        /* ===== CREDENTIALS ===== */
+        .cred-list { max-width: 680px; }
+        .cred-row {
+            display: flex;
+            gap: 2rem;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border);
+            transition: padding-left 0.25s ease;
+        }
+        .cred-row:last-child { border-bottom: none; }
+        .cred-row:hover { padding-left: 0.5rem; }
+        .cred-year {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--accent);
+            flex: 0 0 5rem;
             padding-top: 0.15rem;
         }
-        .field-row dd { margin: 0; font-size: 0.8rem; color: var(--ink); line-height: 1.5; }
-        .tech-badge {
-            font-family: 'JetBrains Mono', monospace;
-            display: inline-block;
-            color: var(--muted);
-            border: 1px solid var(--line-soft);
-            padding: 0.2rem 0.55rem;
-            border-radius: 3px;
-            font-size: 0.68rem;
+        .cred-body h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
         }
-        .btn-project-link {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.78rem; font-weight: 600;
-            color: var(--paper); border: 1px solid var(--line-soft);
-            border-radius: 3px; padding: 0.45rem 1rem; display: inline-block; margin-top: 1rem;
-        }
-        .project-card:hover .btn-project-link { border-color: var(--accent); color: var(--accent); }
+        .cred-body p { font-size: 0.88rem; color: var(--muted); }
 
-        /* ---------- CREDENTIALS ---------- */
-        .credential-row {
-            display: flex; gap: 1.5rem; align-items: baseline;
-            padding: 1.25rem 0; border-bottom: 1px solid var(--line-soft);
+        /* ===== CONTACT ===== */
+        .contact {
+            padding: clamp(5rem, 10vw, 8rem) 0;
+            text-align: center;
+            position: relative;
         }
-        .credential-row:last-child { border-bottom: none; }
-        .credential-year {
-            flex: 0 0 auto; width: 4.5rem;
-            font-size: 0.8rem; color: var(--accent); font-weight: 600;
-        }
-        .credential-body h6 { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; }
-        .credential-body p { color: var(--ink); }
-
-        /* ---------- CONTACT ---------- */
-        .contact-section { padding: 100px 0 70px; border-top: 1px solid var(--line-soft); position: relative; }
-        .contact-section::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+        .contact::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 10%;
+            right: 10%;
+            height: 1px;
             background: linear-gradient(90deg, transparent, var(--accent), var(--moss), transparent);
         }
-        .social-grid { display: flex; justify-content: center; gap: 2.75rem; flex-wrap: wrap; margin-top: 2.5rem; }
-        .social-item { text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 0.6rem; transition: transform 0.25s ease; }
-        .social-item:hover { transform: translateY(-5px); }
-        .social-icon {
-            width: 58px; height: 58px; display: flex; align-items: center; justify-content: center;
-            border-radius: 10px; border: 1px solid var(--line-soft); color: var(--paper);
-        }
-        .social-item:hover .social-icon { border-color: var(--accent); color: var(--accent); }
-        .social-label {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.68rem; letter-spacing: 1px; text-transform: uppercase; color: var(--muted);
-        }
-        .footer-line { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--muted); }
-
-        /* ---------- MODAL ---------- */
-        .modal-modern .modal-content {
-            background: var(--bg-alt);
-            border: 1px solid var(--line-soft);
-            border-radius: 16px;
-        }
-        .modal-modern .mono-label {
+        .contact-eyebrow {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.68rem;
+            color: var(--moss);
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        .contact h2 {
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 1rem;
+        }
+        .contact > .container > p {
+            font-size: 1.05rem;
+            color: var(--ink);
+            max-width: 480px;
+            margin: 0 auto 3rem;
+            line-height: 1.7;
+        }
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.25rem;
+            flex-wrap: wrap;
+        }
+        .contact-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            padding: 1.25rem 1.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            transition: border-color 0.25s, transform 0.25s, background 0.25s;
+            min-width: 100px;
+        }
+        .contact-link:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-4px);
+            background: var(--bg-card-hover);
+        }
+        .contact-link svg {
+            width: 24px;
+            height: 24px;
+            color: var(--paper);
+            transition: color 0.2s;
+        }
+        .contact-link:hover svg { color: var(--accent); }
+        .contact-link span {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            font-weight: 500;
+            color: var(--muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .footer-copy {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--muted);
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        @media (max-width: 480px) {
+            .contact-links { gap: 0.75rem; }
+            .contact-link { min-width: 80px; padding: 1rem; }
+        }
+
+        /* ===== MODAL ===== */
+        .modal-modern .modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+        }
+        .modal-modern .btn-close {
+            filter: invert(1) grayscale(1);
+            opacity: 0.4;
+            transition: opacity 0.2s;
+        }
+        .modal-modern .btn-close:hover { opacity: 1; }
+        .modal-eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
             color: var(--accent);
             letter-spacing: 2.5px;
             text-transform: uppercase;
         }
-        .modal-modern .btn-close {
-            filter: invert(1) grayscale(1);
-            opacity: 0.5;
-            transition: opacity 0.2s ease;
-        }
-        .modal-modern .btn-close:hover { opacity: 1; }
-        .modal-header-name {
+        .modal-name {
             font-family: 'Space Grotesk', sans-serif;
             font-weight: 700;
             font-size: clamp(1.4rem, 2vw, 1.75rem);
             color: var(--paper);
             letter-spacing: -0.5px;
         }
-        .modal-divider {
-            width: 48px;
+        .modal-rule {
+            width: 40px;
             height: 2px;
             background: var(--accent);
             border: none;
-            margin: 1.5rem 0;
+            margin: 1.25rem 0;
         }
         .modal-prose {
             font-size: 0.95rem;
             line-height: 1.8;
             color: var(--ink);
         }
+        .modal-prose p { margin-bottom: 1.1rem; }
+        .modal-prose p:last-child { margin-bottom: 0; }
         .modal-prose strong { color: var(--paper); font-weight: 600; }
         .approach-box {
-            background: var(--bg-alt-2);
+            background: var(--bg-raised);
             border-left: 3px solid var(--accent);
-            border-radius: 0 10px 10px 0;
+            border-radius: 0 12px 12px 0;
             padding: 1.5rem 1.75rem;
+            margin: 1.5rem 0;
         }
         .approach-box h6 {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             letter-spacing: 2px;
             color: var(--accent);
             margin-bottom: 1rem;
         }
+        .approach-box ul { list-style: none; }
         .approach-box li {
             font-size: 0.88rem;
             line-height: 1.65;
-            margin-bottom: 0.75rem;
+            padding: 0.35rem 0 0.35rem 1rem;
+            position: relative;
             color: var(--ink);
         }
-        .approach-box li:last-child { margin-bottom: 0; }
         .approach-box li::before {
-            content: '›';
-            color: var(--accent);
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 700;
-            margin-right: 0.5rem;
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--accent);
+            transform: translateY(-50%);
         }
         .approach-box strong { color: var(--paper); }
         .modal-objective {
             font-size: 0.88rem;
             line-height: 1.75;
             color: var(--muted);
-            border-top: 1px solid var(--line-soft);
+            border-top: 1px solid var(--border);
             padding-top: 1.25rem;
             margin-top: 1.5rem;
         }
-        .modal-footer {
-            border-top: 1px solid var(--line-soft) !important;
-            padding-top: 1rem !important;
-        }
         @keyframes modal-in {
-            from { opacity: 0; transform: translateY(12px) scale(0.98); }
+            from { opacity: 0; transform: translateY(10px) scale(0.98); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
         .modal.show .modal-content {
-            animation: modal-in 0.35s cubic-bezier(0.32, 0.72, 0, 1) both;
+            animation: modal-in 0.3s cubic-bezier(0.32, 0.72, 0, 1) both;
         }
 
-        @media (max-width: 768px) {
-            .social-grid { gap: 1.5rem; }
-            .social-icon { width: 50px; height: 50px; }
-        }
-        @media (max-width: 400px) {
-            .project-img, .project-img-wrapper, .project-img-placeholder { height: 165px; }
-        }
-
-        /* ---------- SCROLL ENTRY ANIMATIONS ---------- */
-        @keyframes fade-up {
-            from { opacity: 0; transform: translateY(28px); }
+        /* ===== SCROLL ANIMATIONS ===== */
+        @keyframes reveal-up {
+            from { opacity: 0; transform: translateY(32px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .scroll-reveal {
-            animation: fade-up 0.7s ease both;
-            animation-timeline: view();
-            animation-range: entry 0% entry 40%;
+        @keyframes reveal-left {
+            from { opacity: 0; transform: translateX(-24px); }
+            to { opacity: 1; transform: translateX(0); }
         }
-        .scroll-reveal-delay-1 { animation-delay: 0.1s; }
-        .scroll-reveal-delay-2 { animation-delay: 0.2s; }
-
-        /* ---------- SKILL CARD HOVER ---------- */
-        .skill-card {
-            transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .skill-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(217, 119, 63, 0.08);
-        }
-        .skill-card .skill-tab {
-            transition: background 0.25s ease, color 0.25s ease;
-        }
-        .skill-card:hover .skill-tab {
-            background: var(--accent);
-            color: var(--bg);
-            border-color: var(--accent);
-        }
-
-        /* ---------- PROJECT CARD HOVER ---------- */
-        .project-card {
-            transition: border-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
-        }
-        .project-card:hover {
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
-        }
-
-        /* ---------- CREDENTIAL ROW HOVER ---------- */
-        .credential-row {
-            transition: background 0.25s ease, padding-left 0.25s ease;
-            border-radius: 6px;
-            padding-left: 0;
-        }
-        .credential-row:hover {
-            background: var(--bg-alt);
-            padding-left: 0.75rem;
-        }
-
-        /* ---------- SMOOTH FOCUS RING ---------- */
-        a:focus-visible, button:focus-visible {
-            transition: outline-offset 0.15s ease;
-        }
+        .anim { opacity: 0; }
+        .anim.in { animation: reveal-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+        .anim-left.in { animation-name: reveal-left; }
+        .anim-d1 { animation-delay: 0.08s; }
+        .anim-d2 { animation-delay: 0.16s; }
+        .anim-d3 { animation-delay: 0.24s; }
     </style>
     <script type="application/ld+json">
     {
@@ -532,319 +831,315 @@
       ]
     }
     </script>
-
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="/"><span class="bracket">~/</span>delakordillera</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="hbar"></span><span class="hbar"></span><span class="hbar"></span>
+    <!-- NAVBAR -->
+    <div class="nav-wrap">
+        <nav class="nav-pill" aria-label="Navegación principal">
+            <a class="nav-brand" href="/">delakordillera</a>
+            <button class="nav-toggle" aria-label="Menú" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+                <span></span><span></span><span></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center gap-lg-1">
-                    <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#modalSobreMi">sobre-mi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#habilidades">skills</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#casos">proyectos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#formacion">formación</a></li>
-                    <li class="nav-item ms-lg-2"><a class="btn-contacto" href="#contacto">contacto()</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+            <ul class="nav-links">
+                <li><a href="#" data-bs-toggle="modal" data-bs-target="#modalSobreMi" onclick="document.querySelector('.nav-links').classList.remove('open')">Sobre mí</a></li>
+                <li><a href="#habilidades" onclick="document.querySelector('.nav-links').classList.remove('open')">Habilidades</a></li>
+                <li><a href="#proyectos" onclick="document.querySelector('.nav-links').classList.remove('open')">Proyectos</a></li>
+                <li><a href="#formacion" onclick="document.querySelector('.nav-links').classList.remove('open')">Formación</a></li>
+                <li><a class="nav-cta" href="#contacto" onclick="document.querySelector('.nav-links').classList.remove('open')">Contacto</a></li>
+            </ul>
+        </nav>
+    </div>
 
+    <!-- HERO -->
     <section class="hero">
-        <div class="hero-contours" aria-hidden="true">
-            <svg viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <path id="ring-a" d="M0,-42 C24,-44 38,-24 42,0 C46,24 32,44 6,46 C-20,48 -42,30 -44,4 C-46,-22 -26,-40 0,-42 Z" />
-                    <path id="ring-b" d="M0,-50 C30,-52 48,-26 50,2 C52,30 30,52 2,54 C-26,56 -52,32 -54,2 C-56,-28 -32,-48 0,-50 Z" />
-                </defs>
-                <g transform="translate(180,260)" fill="none" stroke="var(--line)" stroke-width="1.4">
-                    <use href="#ring-a" transform="scale(1)" />
-                    <use href="#ring-a" transform="scale(2.1)" />
-                    <use href="#ring-a" transform="scale(3.3)" />
-                    <use href="#ring-a" transform="scale(4.6)" />
-                    <use href="#ring-a" transform="scale(6)" />
-                </g>
-                <g transform="translate(830,760)" fill="none" stroke="var(--moss-soft)" stroke-width="1.4">
-                    <use href="#ring-b" transform="scale(1)" />
-                    <use href="#ring-b" transform="scale(1.9)" />
-                    <use href="#ring-b" transform="scale(2.9)" />
-                    <use href="#ring-b" transform="scale(4)" />
-                </g>
-            </svg>
-        </div>
-        <div class="hero-inner">
-            <h1 class="hero-title">Antropólogo <span class="and">+</span><br>Full Stack Developer</h1>
-            <p class="hero-subtitle">Transformo hallazgos etnográficos en requerimientos técnicos accionables. Investigación de usuarios con implementación real de código.</p>
-            <div class="hero-cta">
-                <a href="#casos" class="btn-primary-line">Ver proyectos →</a>
-                <a href="#contacto" class="btn-ghost-line">Contacto</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="habilidades" class="py-5">
-        <div class="container py-5">
-            <div class="text-center mb-5 scroll-reveal">
-                <p class="section-tag">habilidades</p>
-                <h2 class="section-title">Stack profesional</h2>
-            </div>
-            <div class="row g-4">
-                <div class="col-md-4 scroll-reveal">
-                    <div class="skill-card">
-                        <span class="skill-tab mono">investigación</span>
-                        <h5 class="fw-bold mb-0">UX Research</h5>
-                        <ul class="list-unstyled small mb-0">
-                            {% for skill in skills_ux %}
-                            <li>{{ skill.nombre }}</li>
-                            {% empty %}
-                            <li>Etnografía digital y observación participante</li>
-                            <li>Entrevistas en profundidad y testing de usabilidad</li>
-                            <li>Análisis cualitativo con RStudio</li>
-                            <li>Síntesis de hallazgos en requerimientos técnicos</li>
-                            <li>Arquitectura de información localizada</li>
-                            {% endfor %}
-                        </ul>
+        <div class="container">
+            <div class="hero-grid">
+                <div>
+                    <p class="hero-label anim">Antropología + Tecnología</p>
+                    <h1 class="hero-title anim anim-d1">Investigo personas.<br>Construyo <em>productos</em>.</h1>
+                    <p class="hero-subtitle anim anim-d2">Transformo hallazgos etnográficos en requerimientos técnicos accionables. Investigación de usuarios con implementación real de código.</p>
+                    <div class="hero-actions anim anim-d3">
+                        <a href="#proyectos" class="btn-primary">Ver proyectos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                        <a href="#contacto" class="btn-secondary">Contacto</a>
                     </div>
                 </div>
-                <div class="col-md-4 scroll-reveal scroll-reveal-delay-1">
-                    <div class="skill-card">
-                        <span class="skill-tab mono">implementación</span>
-                        <h5 class="fw-bold mb-0">Backend &amp; Data</h5>
-                        <ul class="list-unstyled small mb-0">
-                            {% for skill in skills_tech %}
-                            <li>{{ skill.nombre }}</li>
-                            {% empty %}
-                            <li>Python (automatización y procesamiento de datos)</li>
-                            <li>Django (backend y bases de datos)</li>
-                            <li>RStudio (análisis estadístico)</li>
-                            <li>Git / GitHub</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-4 scroll-reveal scroll-reveal-delay-2">
-                    <div class="skill-card">
-                        <span class="skill-tab mono">trabajo en equipo</span>
-                        <h5 class="fw-bold mb-0">Habilidades clave</h5>
-                        <ul class="list-unstyled small mb-0">
-                            {% for skill in skills_soft %}
-                            <li>{{ skill.nombre }}</li>
-                            {% empty %}
-                            <li>Empatía estratégica y escucha activa</li>
-                            <li>Pensamiento crítico orientado a patrones sociales</li>
-                            <li>Comunicación transversal humano-técnica</li>
-                            <li>Resolución de conflictos bajo presión</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+                <div class="hero-visual anim anim-d2">
+                    <div class="hero-orb"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="casos" class="py-5">
-        <div class="container py-5">
-            <div class="text-center mb-5 scroll-reveal">
-                <p class="section-tag">proyectos</p>
-                <h2 class="section-title">Casos de estudio</h2>
+    <!-- HABILIDADES -->
+    <section id="habilidades" class="section">
+        <div class="container">
+            <p class="section-eyebrow anim">Capacidades</p>
+            <h2 class="section-heading anim anim-d1">Lo que sé hacer</h2>
+            <div class="skills-grid">
+                <div class="skill-card anim">
+                    <div class="skill-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                    </div>
+                    <h3>UX Research</h3>
+                    <ul>
+                        {% for skill in skills_ux %}
+                        <li>{{ skill.nombre }}</li>
+                        {% empty %}
+                        <li>Etnografía digital y observación participante</li>
+                        <li>Entrevistas en profundidad y testing de usabilidad</li>
+                        <li>Análisis cualitativo con RStudio</li>
+                        <li>Síntesis de hallazgos en requerimientos técnicos</li>
+                        <li>Arquitectura de información localizada</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="skill-card anim anim-d1">
+                    <div class="skill-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    </div>
+                    <h3>Backend &amp; Data</h3>
+                    <ul>
+                        {% for skill in skills_tech %}
+                        <li>{{ skill.nombre }}</li>
+                        {% empty %}
+                        <li>Python (automatización y procesamiento de datos)</li>
+                        <li>Django (backend y bases de datos)</li>
+                        <li>RStudio (análisis estadístico)</li>
+                        <li>Git / GitHub</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="skill-card anim anim-d2">
+                    <div class="skill-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <h3>Habilidades clave</h3>
+                    <ul>
+                        {% for skill in skills_soft %}
+                        <li>{{ skill.nombre }}</li>
+                        {% empty %}
+                        <li>Empatía estratégica y escucha activa</li>
+                        <li>Pensamiento crítico orientado a patrones sociales</li>
+                        <li>Comunicación transversal humano-técnica</li>
+                        <li>Resolución de conflictos bajo presión</li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
-            <div class="row g-4 justify-content-center">
+        </div>
+    </section>
+
+    <!-- PROYECTOS -->
+    <section id="proyectos" class="section" style="background: var(--bg-raised);">
+        <div class="container">
+            <p class="section-eyebrow anim">Trabajo reciente</p>
+            <h2 class="section-heading anim anim-d1">Proyectos</h2>
+            <div class="projects-list">
                 {% if proyectos|length > 0 %}
                     {% for proyecto in proyectos %}
-                    <div class="col-md-6 col-lg-5">
-                        <a href="{% if proyecto.link_github %}{{ proyecto.link_github }}{% else %}#{% endif %}" class="text-decoration-none d-block" {% if proyecto.link_github %}target="_blank"{% endif %}>
-                        <div class="project-card">
-                            {% if proyecto.imagen %}
-                            <div class="project-img-wrapper"><img src="{{ proyecto.imagen.url }}" class="project-img" alt="{{ proyecto.titulo }}"></div>
-                            {% else %}
-                            <div class="project-img-placeholder mono">sin imagen</div>
-                            {% endif %}
-                            <div class="card-body">
-                                <h5 class="fw-bold mb-2" style="color: var(--paper);">{{ proyecto.titulo }}</h5>
-                                <p class="small mb-2">{{ proyecto.descripcion_corta }}</p>
-                                {% if proyecto.contexto_social %}
-                                <dl class="field-record">
-                                    <div class="field-row"><dt class="mono">hallazgo</dt><dd>{{ proyecto.contexto_social }}</dd></div>
-                                </dl>
-                                {% endif %}
-                                {% if proyecto.tech_list %}
-                                <div class="mt-3 d-flex flex-wrap gap-2">{% for tech in proyecto.tech_list %}<span class="tech-badge">{{ tech }}</span>{% endfor %}</div>
-                                {% endif %}
-                                {% if proyecto.link_github %}
-                                <span class="btn-project-link">ver proyecto →</span>
-                                {% endif %}
+                    <a href="{% if proyecto.link_github %}{{ proyecto.link_github }}{% else %}#{% endif %}" class="text-decoration-none d-block anim" {% if proyecto.link_github %}target="_blank"{% endif %}>
+                    <div class="project-card">
+                        {% if proyecto.imagen %}
+                        <div class="project-img-wrap"><img src="{{ proyecto.imagen.url }}" alt="{{ proyecto.titulo }}" loading="lazy"></div>
+                        {% else %}
+                        <div class="project-img-placeholder">sin imagen</div>
+                        {% endif %}
+                        <div class="project-body">
+                            <p class="project-tag">Caso de estudio</p>
+                            <h3>{{ proyecto.titulo }}</h3>
+                            <p>{{ proyecto.descripcion_corta }}</p>
+                            {% if proyecto.contexto_social %}
+                            <div class="project-meta">
+                                <div class="project-meta-row">
+                                    <span class="project-meta-label">Hallazgo</span>
+                                    <span class="project-meta-value">{{ proyecto.contexto_social }}</span>
+                                </div>
                             </div>
+                            {% endif %}
+                            {% if proyecto.tech_list %}
+                            <div class="project-tech">{% for tech in proyecto.tech_list %}<span class="tech-pill">{{ tech }}</span>{% endfor %}</div>
+                            {% endif %}
+                            {% if proyecto.link_github %}
+                            <span class="project-link">Ver proyecto <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+                            {% endif %}
                         </div>
-                        </a>
                     </div>
+                    </a>
                     {% endfor %}
                 {% else %}
-                    <div class="col-md-6 col-lg-5">
-                        <a href="/apoyo-mutuo/" class="text-decoration-none d-block">
-                        <div class="project-card">
-                            <span class="case-label mono">investigación + código</span>
-                            <div class="project-img-wrapper"><img src="/media/apoyo-mutuo.jpg" class="project-img" loading="lazy" alt="Red de Apoyo Mutuo"></div>
-                            <div class="card-body">
-                                <h5 class="fw-bold mb-2" style="color: var(--paper);">Red de Apoyo Mutuo</h5>
-                                <p class="small mb-2">Digitalización de reciprocidad barrial en Peñalolén.</p>
-                                <dl class="field-record">
-                                    <div class="field-row"><dt class="mono">método</dt><dd>Entrevistas en terreno con libreta de campo a vecinos de Peñalolén.</dd></div>
-                                    <div class="field-row"><dt class="mono">hallazgo</dt><dd>El prestigio comunitario, no el dinero, mueve la reciprocidad barrial.</dd></div>
-                                    <div class="field-row"><dt class="mono">traducción</dt><dd>Sistema de Puntos de Confianza + Círculo de la Gratitud.</dd></div>
-                                </dl>
-                                <div class="mt-3 d-flex flex-wrap gap-2">
-                                    <span class="tech-badge">Etnografía</span>
-                                    <span class="tech-badge">Entrevistas</span>
-                                    <span class="tech-badge">Python</span>
-                                    <span class="tech-badge">Django</span>
+                    <a href="/apoyo-mutuo/" class="text-decoration-none d-block anim">
+                    <div class="project-card">
+                        <div class="project-img-wrap"><img src="/media/apoyo-mutuo.jpg" alt="Red de Apoyo Mutuo" loading="lazy"></div>
+                        <div class="project-body">
+                            <p class="project-tag">Investigación + código</p>
+                            <h3>Red de Apoyo Mutuo</h3>
+                            <p>Digitalización de reciprocidad barrial en Peñalolén.</p>
+                            <div class="project-meta">
+                                <div class="project-meta-row">
+                                    <span class="project-meta-label">Método</span>
+                                    <span class="project-meta-value">Entrevistas en terreno con libreta de campo a vecinos de Peñalolén.</span>
                                 </div>
-                                <span class="btn-project-link">ver app →</span>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    <div class="col-md-6 col-lg-5">
-                        <a href="https://pagina-web-franco-alvarez.vercel.app/" class="text-decoration-none d-block" target="_blank">
-                        <div class="project-card">
-                            <span class="case-label mono">producto real</span>
-                            <div class="project-img-wrapper"><img src="/media/franco-alvarez.jpg" class="project-img" loading="lazy" alt="Dr. Franco Álvarez"></div>
-                            <div class="card-body">
-                                <h5 class="fw-bold mb-2" style="color: var(--paper);">Dr. Franco Álvarez</h5>
-                                <p class="small mb-2">Sitio web para psicólogo clínico con testing de usabilidad.</p>
-                                <dl class="field-record">
-                                    <div class="field-row"><dt class="mono">método</dt><dd>Mapeo del flujo de atención junto al psicólogo, con lápiz y papel.</dd></div>
-                                    <div class="field-row"><dt class="mono">hallazgo</dt><dd>Fricción real en agendas manuales y WhatsApp desordenado.</dd></div>
-                                    <div class="field-row"><dt class="mono">traducción</dt><dd>Base de datos Django autoadministrable, notificaciones automáticas y guía descargable.</dd></div>
-                                </dl>
-                                <div class="mt-3 d-flex flex-wrap gap-2">
-                                    <span class="tech-badge">Testing UX</span>
-                                    <span class="tech-badge">Django</span>
-                                    <span class="tech-badge">Hardening</span>
+                                <div class="project-meta-row">
+                                    <span class="project-meta-label">Hallazgo</span>
+                                    <span class="project-meta-value">El prestigio comunitario, no el dinero, mueve la reciprocidad barrial.</span>
                                 </div>
-                                <span class="btn-project-link">visitar sitio →</span>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    <div class="col-md-6 col-lg-5">
-                        <a href="/ecommerce/" class="text-decoration-none d-block">
-                        <div class="project-card">
-                            <span class="case-label mono">demo técnica</span>
-                            <div class="project-img-wrapper"><img src="/media/ecommerce.jpg" class="project-img" loading="lazy" alt="Plataforma Ecommerce"></div>
-                            <div class="card-body">
-                                <h5 class="fw-bold mb-2" style="color: var(--paper);">Plataforma Ecommerce</h5>
-                                <p class="small mb-2">Ventas con integración de indicadores financieros reales (API mindicador.cl).</p>
-                                <dl class="field-record">
-                                    <div class="field-row"><dt class="mono">objetivo</dt><dd>Mostrar stack completo: catálogo, carrito, autenticación y datos en vivo.</dd></div>
-                                    <div class="field-row"><dt class="mono">dato en vivo</dt><dd>Precios indexados a la API pública mindicador.cl (UF, USD).</dd></div>
-                                    <div class="field-row"><dt class="mono">alcance</dt><dd>SQLite gestiona usuarios, sesiones de carrito, stock y órdenes.</dd></div>
-                                </dl>
-                                <div class="mt-3 d-flex flex-wrap gap-2">
-                                    <span class="tech-badge">Python</span>
-                                    <span class="tech-badge">Django</span>
-                                    <span class="tech-badge">API</span>
-                                    <span class="tech-badge">SQLite</span>
+                                <div class="project-meta-row">
+                                    <span class="project-meta-label">Traducción</span>
+                                    <span class="project-meta-value">Sistema de Puntos de Confianza + Círculo de la Gratitud.</span>
                                 </div>
-                                <span class="btn-project-link">ver demo →</span>
                             </div>
+                            <div class="project-tech">
+                                <span class="tech-pill">Etnografía</span>
+                                <span class="tech-pill">Entrevistas</span>
+                                <span class="tech-pill">Python</span>
+                                <span class="tech-pill">Django</span>
+                            </div>
+                            <span class="project-link">Ver app <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
                         </div>
-                        </a>
                     </div>
+                    </a>
+                    <a href="https://pagina-web-franco-alvarez.vercel.app/" class="text-decoration-none d-block anim" target="_blank">
+                    <div class="project-card">
+                        <div class="project-body">
+                            <p class="project-tag">Producto real</p>
+                            <h3>Dr. Franco Álvarez</h3>
+                            <p>Sitio web para psicólogo clínico con testing de usabilidad.</p>
+                            <div class="project-meta">
+                                <div class="project-meta-row">
+                                    <span class="project-meta-label">Método</span>
+                                    <span class="project-meta-value">Mapeo del flujo de atención junto al psicólogo, con lápiz y papel.</span>
+                                </div>
+                                <div class="project-meta-row">
+                                    <span class="project-meta-label">Hallazgo</span>
+                                    <span class="project-meta-value">Fricción real en agendas manuales y WhatsApp desordenado.</span>
+                                </div>
+                                <div class="project-meta-row">
+                                    <span class="project-meta-label">Traducción</span>
+                                    <span class="project-meta-value">Base de datos Django autoadministrable, notificaciones automáticas y guía descargable.</span>
+                                </div>
+                            </div>
+                            <div class="project-tech">
+                                <span class="tech-pill">Testing UX</span>
+                                <span class="tech-pill">Django</span>
+                                <span class="tech-pill">Hardening</span>
+                            </div>
+                            <span class="project-link">Visitar sitio <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+                        </div>
+                        <div class="project-img-wrap"><img src="/media/franco-alvarez.jpg" alt="Dr. Franco Álvarez" loading="lazy"></div>
+                    </div>
+                    </a>
+                    <a href="/ecommerce/" class="text-decoration-none d-block anim">
+                    <div class="project-card">
+                        <div class="project-img-wrap"><img src="/media/ecommerce.jpg" alt="Plataforma Ecommerce" loading="lazy"></div>
+                        <div class="project-body">
+                            <p class="project-tag">Demo técnica</p>
+                            <h3>Plataforma Ecommerce</h3>
+                            <p>Ventas con integración de indicadores financieros reales (API mindicador.cl).</p>
+                            <div class="project-meta">
+                                <div class="project-meta-row">
+                                    <span class="project-meta-label">Objetivo</span>
+                                    <span class="project-meta-value">Mostrar stack completo: catálogo, carrito, autenticación y datos en vivo.</span>
+                                </div>
+                                <div class="project-meta-row">
+                                    <span class="project-meta-label">Dato en vivo</span>
+                                    <span class="project-meta-value">Precios indexados a la API pública mindicador.cl (UF, USD).</span>
+                                </div>
+                                <div class="project-meta-row">
+                                    <span class="project-meta-label">Alcance</span>
+                                    <span class="project-meta-value">SQLite gestiona usuarios, sesiones de carrito, stock y órdenes.</span>
+                                </div>
+                            </div>
+                            <div class="project-tech">
+                                <span class="tech-pill">Python</span>
+                                <span class="tech-pill">Django</span>
+                                <span class="tech-pill">API</span>
+                                <span class="tech-pill">SQLite</span>
+                            </div>
+                            <span class="project-link">Ver demo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+                        </div>
+                    </div>
+                    </a>
                 {% endif %}
             </div>
         </div>
     </section>
 
-    <section id="formacion" class="py-5">
-        <div class="container py-5">
-            <div class="text-center mb-5 scroll-reveal">
-                <p class="section-tag">formación</p>
-                <h2 class="section-title">Certificaciones &amp; estudios</h2>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    {% for cred in credenciales %}
-                    <div class="credential-row scroll-reveal">
-                        <span class="credential-year mono">{{ cred.periodo }}</span>
-                        <div class="credential-body">
-                            <h6 class="fw-bold mb-1" style="color: var(--paper);">{{ cred.titulo }}</h6>
-                            <p class="small mb-0">{{ cred.institucion }}</p>
-                        </div>
+    <!-- FORMACIÓN -->
+    <section id="formacion" class="section">
+        <div class="container">
+            <p class="section-eyebrow anim">Formación</p>
+            <h2 class="section-heading anim anim-d1">Certificaciones &amp; estudios</h2>
+            <div class="cred-list">
+                {% for cred in credenciales %}
+                <div class="cred-row anim">
+                    <span class="cred-year">{{ cred.periodo }}</span>
+                    <div class="cred-body">
+                        <h4>{{ cred.titulo }}</h4>
+                        <p>{{ cred.institucion }}</p>
                     </div>
-                    {% empty %}
-                    <div class="credential-row scroll-reveal">
-                        <span class="credential-year mono">2025—</span>
-                        <div class="credential-body">
-                            <h6 class="fw-bold mb-1" style="color: var(--paper);">Full Stack Python Web Developer</h6>
-                            <p class="small mb-0">Talento Digital / SENCE — certificación verificada en blockchain vía Acreditta.</p>
-                        </div>
-                    </div>
-                    <div class="credential-row scroll-reveal">
-                        <span class="credential-year mono">2024—</span>
-                        <div class="credential-body">
-                            <h6 class="fw-bold mb-1" style="color: var(--paper);">Antropología</h6>
-                            <p class="small mb-0">Universidad Academia de Humanismo Cristiano, Santiago de Chile — en curso.</p>
-                        </div>
-                    </div>
-                    {% endfor %}
                 </div>
+                {% empty %}
+                <div class="cred-row anim">
+                    <span class="cred-year">2025—</span>
+                    <div class="cred-body">
+                        <h4>Full Stack Python Web Developer</h4>
+                        <p>Talento Digital / SENCE — certificación verificada en blockchain vía Acreditta.</p>
+                    </div>
+                </div>
+                <div class="cred-row anim anim-d1">
+                    <span class="cred-year">2024—</span>
+                    <div class="cred-body">
+                        <h4>Antropología</h4>
+                        <p>Universidad Academia de Humanismo Cristiano, Santiago de Chile — en curso.</p>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
         </div>
     </section>
 
-    <footer id="contacto" class="contact-section text-center scroll-reveal">
+    <!-- CONTACTO -->
+    <footer id="contacto" class="contact">
         <div class="container">
-            <div>
-                <p class="section-tag" style="color: var(--moss);">contacto</p>
-                <h2 class="fw-bold mb-2 display-6">Iniciemos el siguiente paso</h2>
-                <p class="mb-0">¿Tienes un proyecto donde la investigación de usuarios y el código se encuentren?</p>
-            </div>
-            <div class="social-grid">
-                <a href="mailto:{{ perfil.correo|default:'delakordillera@proton.me' }}" class="social-item">
-                    <div class="social-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
-                    </div>
-                    <span class="social-label">correo</span>
+            <p class="contact-eyebrow anim">Contacto</p>
+            <h2 class="anim anim-d1">Iniciemos el<br>siguiente paso</h2>
+            <p class="anim anim-d2">¿Tienes un proyecto donde la investigación de usuarios y el código se encuentren?</p>
+            <div class="contact-links anim anim-d3">
+                <a href="mailto:{{ perfil.correo|default:'delakordillera@proton.me' }}" class="contact-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+                    <span>Correo</span>
                 </a>
                 {% if perfil.cv_pdf %}
-                <a href="{{ perfil.cv_pdf.url }}" class="social-item" target="_blank">
-                    <div class="social-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
-                    </div>
-                    <span class="social-label">cv</span>
+                <a href="{{ perfil.cv_pdf.url }}" class="contact-link" target="_blank">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                    <span>CV</span>
                 </a>
                 {% endif %}
-                <a href="{{ perfil.link_linkedin|default:'https://linkedin.com/in/alexis-lara-viveros' }}" class="social-item" target="_blank">
-                    <div class="social-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/><path d="M10 9v12M10 13c0-2.2 1.8-4 4-4s4 1.8 4 4v8"/></svg>
-                    </div>
-                    <span class="social-label">linkedin</span>
+                <a href="{{ perfil.link_linkedin|default:'https://linkedin.com/in/alexis-lara-viveros' }}" class="contact-link" target="_blank">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/><path d="M10 9v12M10 13c0-2.2 1.8-4 4-4s4 1.8 4 4v8"/></svg>
+                    <span>LinkedIn</span>
                 </a>
-                <a href="{{ perfil.link_github|default:'https://github.com/delakordillera' }}" class="social-item" target="_blank">
-                    <div class="social-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
-                    </div>
-                    <span class="social-label">github</span>
+                <a href="{{ perfil.link_github|default:'https://github.com/delakordillera' }}" class="contact-link" target="_blank">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
+                    <span>GitHub</span>
                 </a>
             </div>
-            <p class="mt-5 footer-line pt-5">© 2026 Alexis Lara Viveros — Antropólogo &amp; Full Stack Developer</p>
+            <p class="footer-copy">© 2026 Alexis Lara Viveros</p>
         </div>
     </footer>
 
+    <!-- MODAL SOBRE MÍ -->
     <div class="modal fade modal-modern" id="modalSobreMi" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content p-4 p-md-5 mx-2 mx-md-0">
                 <div class="modal-header border-0 px-0 pt-0 d-block">
                     <div class="d-flex align-items-center justify-content-between mb-2">
-                        <p class="mono-label mb-0">expediente personal</p>
+                        <p class="modal-eyebrow mb-0">Expediente personal</p>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
-                    <h3 class="modal-header-name">{{ perfil.nombre|default:'Alexis Lara Viveros' }}</h3>
-                    <hr class="modal-divider">
+                    <h3 class="modal-name">{{ perfil.nombre|default:'Alexis Lara Viveros' }}</h3>
+                    <hr class="modal-rule">
                 </div>
                 <div class="modal-body px-0">
                     {% if perfil and perfil.contar_sobre_mi %}
@@ -858,9 +1153,9 @@
                         <p>Con la <strong>web de Ps. Franco Álvarez</strong>, psicólogo clínico, el proceso fue similar. Sentarme a su lado, mapear con lápiz y papel su flujo de atención, entender la fricción de las agendas manuales y el WhatsApp desordenado. El resultado: una base de datos real en Django que él mismo administra, notificaciones automáticas por correo y una guía descargable sobre ansiedad. Código que nació de una conversación, no de un spec.</p>
                     </div>
 
-                    <div class="approach-box mt-4">
-                        <h6 class="mb-0">Mi enfoque</h6>
-                        <ul class="list-unstyled mb-0">
+                    <div class="approach-box">
+                        <h6>Mi enfoque</h6>
+                        <ul>
                             <li><strong>UX Research:</strong> Etnografía digital y presencial, entrevistas en profundidad, testing de usabilidad, análisis cualitativo con RStudio.</li>
                             <li><strong>Desarrollo:</strong> Python, Django, bases de datos, Git, despliegue full stack.</li>
                             <li><strong>Valor diferencial:</strong> Traduzco hallazgos etnográficos directamente en requerimientos técnicos accionables. Sin intermediarios. Sin pérdida de sentido.</li>
@@ -871,12 +1166,25 @@
                     {% endif %}
                 </div>
                 <div class="modal-footer border-0 px-0 pb-0">
-                    <button type="button" class="btn-ghost-line" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    (function(){
+        var observer = new IntersectionObserver(function(entries){
+            entries.forEach(function(e){
+                if(e.isIntersecting){
+                    e.target.classList.add('in');
+                    observer.unobserve(e.target);
+                }
+            });
+        },{threshold:0.12});
+        document.querySelectorAll('.anim').forEach(function(el){observer.observe(el);});
+    })();
+    </script>
 </body>
 </html>
