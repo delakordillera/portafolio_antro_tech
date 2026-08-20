@@ -293,21 +293,26 @@
             border: 1px solid var(--border);
             position: relative;
             animation: orb-float 8s ease-in-out infinite;
+            overflow: hidden;
         }
-        .hero-orb::after {
-            content: 'Antropólogo\n+\nDesarrollador';
-            white-space: pre;
+        .orb-icon {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--paper);
-            text-align: center;
-            line-height: 1.6;
-            opacity: 0.7;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+        .hero-orb:hover .orb-icon { opacity: 0.8; }
+        .orb-icon svg { width: 100%; height: 100%; }
+        .orb-icon:nth-child(1) { width: 36px; height: 36px; top: 22%; left: 18%; animation: orb-bob 5s ease-in-out infinite; }
+        .orb-icon:nth-child(2) { width: 32px; height: 32px; top: 55%; left: 12%; animation: orb-bob 6s ease-in-out infinite 0.8s; }
+        .orb-icon:nth-child(3) { width: 30px; height: 30px; top: 15%; right: 20%; animation: orb-bob 5.5s ease-in-out infinite 1.4s; }
+        .orb-icon:nth-child(4) { width: 34px; height: 34px; top: 50%; right: 15%; animation: orb-bob 6.5s ease-in-out infinite 0.4s; }
+        .orb-icon:nth-child(5) { width: 28px; height: 28px; bottom: 22%; left: 28%; animation: orb-bob 5.8s ease-in-out infinite 1.8s; }
+        .orb-icon:nth-child(6) { width: 26px; height: 26px; bottom: 25%; right: 25%; animation: orb-bob 6.2s ease-in-out infinite 1s; }
+        .orb-icon:nth-child(7) { width: 38px; height: 38px; top: 36%; left: 36%; animation: orb-bob 7s ease-in-out infinite 0.6s; opacity: 0.65; }
+        @keyframes orb-bob {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-6px) rotate(3deg); }
+            66% { transform: translateY(4px) rotate(-2deg); }
         }
         @keyframes orb-float {
             0%, 100% { transform: translateY(0) scale(1); }
@@ -940,7 +945,22 @@
                     </div>
                 </div>
                 <div class="hero-visual anim anim-d2">
-                    <div class="hero-orb"></div>
+                    <div class="hero-orb">
+                        <!-- Python -->
+                        <div class="orb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"><path d="M12 2c-4 0-4.5 1.8-4.5 4v2h5v1H6.5C4 9 2 10.5 2 14.5S4 20 6.5 20h2v-2.5c0-2 1.5-3.5 3.5-3.5h5c1.5 0 2.5-1 2.5-2.5v-4.5C19.5 4.5 17.5 2 14.5 2H12z"/><circle cx="9.5" cy="5.5" r="0.8" fill="var(--accent)" stroke="none"/><path d="M12 22c4 0 4.5-1.8 4.5-4v-2h-5v-1H17.5C20 15 22 13.5 22 9.5S20 6 17.5 6h-2v2.5c0 2-1.5 3.5-3.5 3.5h-5C5.5 12 4.5 13 4.5 14.5v4.5C4.5 19.5 6.5 22 9.5 22H12z"/><circle cx="14.5" cy="18.5" r="0.8" fill="var(--accent)" stroke="none"/></svg></div>
+                        <!-- Django -->
+                        <div class="orb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--moss)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="4"/><text x="12" y="16" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="10" fill="var(--moss)" stroke="none">D</text></svg></div>
+                        <!-- Research -->
+                        <div class="orb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--paper)" stroke-width="1.5"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg></div>
+                        <!-- Code -->
+                        <div class="orb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+                        <!-- Git -->
+                        <div class="orb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--moss)" stroke-width="1.5"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><circle cx="18" cy="12" r="2"/><path d="M12 8v4m6-2h-4"/></svg></div>
+                        <!-- RStudio -->
+                        <div class="orb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--paper)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><text x="12" y="16" text-anchor="middle" font-family="serif" font-weight="700" font-size="11" fill="var(--paper)" stroke="none">R</text></svg></div>
+                        <!-- Database -->
+                        <div class="orb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/><path d="M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3"/></svg></div>
+                    </div>
                 </div>
             </div>
         </div>
