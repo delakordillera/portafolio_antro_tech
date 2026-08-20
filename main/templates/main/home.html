@@ -293,26 +293,30 @@
             border: 1px solid var(--border);
             position: relative;
             animation: orb-float 8s ease-in-out infinite;
-            overflow: hidden;
         }
         .orb-icon {
             position: absolute;
-            opacity: 0.5;
+            top: 50%;
+            left: 50%;
+            margin-top: -16px;
+            margin-left: -16px;
+            width: 32px;
+            height: 32px;
+            opacity: 0.55;
             transition: opacity 0.3s;
         }
-        .hero-orb:hover .orb-icon { opacity: 0.8; }
+        .hero-orb:hover .orb-icon { opacity: 0.85; }
         .orb-icon svg { width: 100%; height: 100%; }
-        .orb-icon:nth-child(1) { width: 36px; height: 36px; top: 22%; left: 18%; animation: orb-bob 5s ease-in-out infinite; }
-        .orb-icon:nth-child(2) { width: 32px; height: 32px; top: 55%; left: 12%; animation: orb-bob 6s ease-in-out infinite 0.8s; }
-        .orb-icon:nth-child(3) { width: 30px; height: 30px; top: 15%; right: 20%; animation: orb-bob 5.5s ease-in-out infinite 1.4s; }
-        .orb-icon:nth-child(4) { width: 34px; height: 34px; top: 50%; right: 15%; animation: orb-bob 6.5s ease-in-out infinite 0.4s; }
-        .orb-icon:nth-child(5) { width: 28px; height: 28px; bottom: 22%; left: 28%; animation: orb-bob 5.8s ease-in-out infinite 1.8s; }
-        .orb-icon:nth-child(6) { width: 26px; height: 26px; bottom: 25%; right: 25%; animation: orb-bob 6.2s ease-in-out infinite 1s; }
-        .orb-icon:nth-child(7) { width: 38px; height: 38px; top: 36%; left: 36%; animation: orb-bob 7s ease-in-out infinite 0.6s; opacity: 0.65; }
-        @keyframes orb-bob {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            33% { transform: translateY(-6px) rotate(3deg); }
-            66% { transform: translateY(4px) rotate(-2deg); }
+        .orb-icon:nth-child(1) { animation: orbit 12s linear infinite; }
+        .orb-icon:nth-child(2) { animation: orbit 16s linear infinite reverse; }
+        .orb-icon:nth-child(3) { animation: orbit 14s linear infinite; }
+        .orb-icon:nth-child(4) { animation: orbit 18s linear infinite reverse; }
+        .orb-icon:nth-child(5) { animation: orbit 13s linear infinite; }
+        .orb-icon:nth-child(6) { animation: orbit 17s linear infinite reverse; }
+        .orb-icon:nth-child(7) { animation: orbit 15s linear infinite; width: 36px; height: 36px; margin-top: -18px; margin-left: -18px; }
+        @keyframes orbit {
+            from { transform: rotate(0deg) translateX(85px) rotate(0deg); }
+            to { transform: rotate(360deg) translateX(85px) rotate(-360deg); }
         }
         @keyframes orb-float {
             0%, 100% { transform: translateY(0) scale(1); }
