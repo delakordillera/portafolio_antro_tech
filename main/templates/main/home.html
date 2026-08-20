@@ -260,6 +260,22 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0%, 100% { left: -100%; }
+            50% { left: 150%; }
         }
         .btn-primary:hover { background: #c8672f; color: var(--bg); transform: translateY(-1px); }
         .btn-secondary {
@@ -380,11 +396,23 @@
             overflow: hidden;
             transition: border-color 0.3s, transform 0.3s, background 0.3s;
         }
-        .skill-card:hover {
-            border-color: var(--border-accent);
-            transform: translateY(-4px);
-            background: var(--bg-card-hover);
+        .skill-card::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 18px;
+            background: conic-gradient(from 0deg, transparent, var(--accent), transparent, var(--moss), transparent);
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.4s;
+            animation: beam-spin 4s linear infinite;
         }
+        .skill-card:hover::after { opacity: 1; }
+        .skill-card:hover { border-color: transparent; transform: translateY(-4px); background: var(--bg-card-hover); }
+        @keyframes beam-spin { to { transform: rotate(360deg); } }
         .skill-card::before {
             content: '';
             position: absolute;
@@ -844,19 +872,35 @@
 
         /* ===== SCROLL ANIMATIONS ===== */
         @keyframes reveal-up {
-            from { opacity: 0; transform: translateY(32px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(32px); filter: blur(6px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
         }
         @keyframes reveal-left {
-            from { opacity: 0; transform: translateX(-24px); }
-            to { opacity: 1; transform: translateX(0); }
+            from { opacity: 0; transform: translateX(-24px); filter: blur(4px); }
+            to { opacity: 1; transform: translateX(0); filter: blur(0); }
         }
         .anim { opacity: 0; }
-        .anim.in { animation: reveal-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+        .anim.in { animation: reveal-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
         .anim-left.in { animation-name: reveal-left; }
         .anim-d1 { animation-delay: 0.08s; }
         .anim-d2 { animation-delay: 0.16s; }
         .anim-d3 { animation-delay: 0.24s; }
+
+        /* ===== TEXT REVEAL ===== */
+        .reveal-word {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(4px);
+            transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                        filter 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal-word.visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
 
         /* ===== PROJECT CARD LINKS ===== */
         .project-link-wrap {
@@ -942,7 +986,7 @@
             <div class="hero-grid">
                 <div>
                     <p class="hero-label anim">Antropología + Tecnología</p>
-                    <h1 class="hero-title anim anim-d1">Investigo personas.<br>Construyo <em>productos</em>.</h1>
+                    <h1 class="hero-title anim anim-d1"><span class="reveal-word">Investigo</span> <span class="reveal-word">personas.</span><br><span class="reveal-word">Construyo</span> <span class="reveal-word"><em>productos</em>.</span></h1>
                     <p class="hero-subtitle anim anim-d2">Transformo hallazgos etnográficos en requerimientos técnicos accionables. Investigación de usuarios con implementación real de código.</p>
                     <div class="hero-actions anim anim-d3">
                         <a href="#proyectos" class="btn-primary">Ver proyectos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
@@ -1265,6 +1309,7 @@
 
     <script>
     (function(){
+        /* Scroll reveal */
         var observer = new IntersectionObserver(function(entries){
             entries.forEach(function(e){
                 if(e.isIntersecting){
@@ -1274,6 +1319,26 @@
             });
         },{threshold:0.12});
         document.querySelectorAll('.anim').forEach(function(el){observer.observe(el);});
+
+        /* Text reveal — hero title */
+        setTimeout(function(){
+            document.querySelectorAll('.reveal-word').forEach(function(w,i){
+                setTimeout(function(){ w.classList.add('visible'); }, 200 + i * 120);
+            });
+        }, 400);
+
+        /* Magnetic hover — contact icons */
+        document.querySelectorAll('.contact-link').forEach(function(el){
+            el.addEventListener('mousemove',function(e){
+                var r = el.getBoundingClientRect();
+                var x = e.clientX - r.left - r.width/2;
+                var y = e.clientY - r.top - r.height/2;
+                el.style.transform = 'translateY(-4px) translate(' + (x*0.15) + 'px, ' + (y*0.15) + 'px)';
+            });
+            el.addEventListener('mouseleave',function(){
+                el.style.transform = '';
+            });
+        });
     })();
 
     function openModal(){
