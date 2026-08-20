@@ -1,14 +1,155 @@
 {% extends 'comunidad/base.html' %}
 
+{% block extra_style %}
+<style>
+    .muro-header { margin-bottom: 2.5rem; }
+    .muro-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 600; text-transform: uppercase; letter-spacing: 3px;
+        font-size: 0.72rem; color: var(--accent); margin-bottom: 0.5rem;
+    }
+    .muro-tag::before { content: '// '; color: var(--line); }
+    .muro-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: var(--paper); }
+    .muro-sub { color: var(--muted); margin-bottom: 0; }
+
+    .search-form { display: flex; box-shadow: none; }
+    .search-form .form-control {
+        background: var(--bg-alt); border: 1px solid var(--line-soft); color: var(--paper);
+        border-radius: 3px 0 0 3px; font-family: 'Inter', sans-serif;
+    }
+    .search-form .form-control:focus {
+        background: var(--bg-alt); color: var(--paper); border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-soft); outline: none;
+    }
+    .search-form .form-control::placeholder { color: var(--muted); }
+    .search-form .btn-primary {
+        background: var(--accent); border: 1px solid var(--accent); border-radius: 0 3px 3px 0;
+        color: var(--bg); font-weight: 600;
+    }
+    .search-form .btn-primary:hover { background: #c8672f; }
+    .search-form .btn-outline-secondary {
+        border: 1px solid var(--line-soft); color: var(--muted); border-radius: 0;
+    }
+    .search-form .btn-outline-secondary:hover { border-color: var(--accent); color: var(--accent); background: transparent; }
+
+    /* --- Círculo de la Gratitud --- */
+    .gratitud-panel {
+        background: var(--bg-alt);
+        border: 1px solid var(--line);
+        border-left: 3px solid var(--moss);
+        border-radius: 10px;
+        padding: 1.75rem;
+        position: relative;
+        overflow: hidden;
+    }
+    .gratitud-title {
+        font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: var(--paper);
+        display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.25rem;
+    }
+    .gratitud-title i { color: var(--moss); }
+    .gratitud-scroll {
+        display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 1rem; padding-bottom: 0.5rem;
+        scrollbar-width: thin; scrollbar-color: var(--accent) transparent;
+    }
+    .gratitud-card {
+        min-width: 270px; max-width: 300px; flex: 0 0 auto;
+        background: var(--bg-alt-2); border: 1px solid var(--line-soft); border-radius: 8px;
+        padding: 1.25rem; display: flex; flex-direction: column; height: 100%;
+        transition: border-color 0.25s ease, transform 0.25s ease;
+    }
+    .gratitud-card:hover { border-color: var(--moss-soft); transform: translateY(-2px); }
+    .gratitud-quote { font-style: italic; font-size: 0.9rem; color: var(--ink); margin-bottom: 1rem; }
+    .gratitud-footer { display: flex; align-items: center; margin-top: auto; gap: 0.6rem; }
+    .gratitud-icon {
+        width: 26px; height: 26px; border-radius: 50%; background: var(--moss-soft); color: var(--moss);
+        display: flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0;
+    }
+    .gratitud-names { font-size: 0.8rem; color: var(--muted); }
+    .gratitud-names strong { color: var(--paper); }
+    .gratitud-names .to-name { color: var(--accent); }
+
+    /* --- Tarjetas de habilidad --- */
+    .habilidad-card {
+        background: var(--bg-alt);
+        border: 1px solid var(--line-soft);
+        border-radius: 10px;
+        overflow: hidden;
+        height: 100%;
+        display: flex; flex-direction: column;
+        transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+    .habilidad-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .habilidad-img {
+        height: 190px; width: 100%; object-fit: cover; display: block;
+    }
+    .habilidad-img-placeholder {
+        height: 190px; display: flex; align-items: center; justify-content: center;
+        background: var(--bg-alt-2); color: var(--muted); font-size: 2.5rem;
+    }
+    .habilidad-body { padding: 1.4rem; display: flex; flex-direction: column; flex: 1; }
+    .habilidad-title-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.6rem; }
+    .habilidad-title {
+        font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: var(--paper);
+        font-size: 1.1rem; text-transform: capitalize; margin: 0;
+    }
+    .habilidad-badge {
+        font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.5px;
+        background: var(--accent-soft); color: var(--accent); border: 1px solid var(--line);
+        padding: 0.25rem 0.55rem; border-radius: 3px; white-space: nowrap; text-transform: uppercase;
+    }
+    .habilidad-desc { color: var(--ink); font-size: 0.88rem; margin-bottom: 1.5rem; }
+    .habilidad-actions { margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--line-soft); }
+
+    .btn-solicitar {
+        font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 0.82rem;
+        background: var(--accent); color: var(--bg); border: 1px solid var(--accent);
+        border-radius: 3px; padding: 0.6rem 1rem; width: 100%;
+        transition: background 0.2s ease;
+    }
+    .btn-solicitar:hover { background: #c8672f; color: var(--bg); }
+    .habilidad-own {
+        text-align: center; font-size: 0.82rem; color: var(--muted);
+        border: 1px dashed var(--line-soft); border-radius: 3px; padding: 0.55rem;
+    }
+    .btn-login-prompt {
+        display: block; text-align: center; width: 100%;
+        font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 600;
+        background: transparent; color: var(--paper); border: 1px solid var(--line-soft);
+        border-radius: 3px; padding: 0.55rem;
+    }
+    .btn-login-prompt:hover { border-color: var(--accent); color: var(--accent); }
+
+    .habilidad-footer {
+        padding: 0 1.4rem 1.1rem; font-size: 0.78rem; color: var(--muted);
+        display: flex; align-items: center; gap: 0.4rem;
+    }
+
+    /* --- Estado vacío --- */
+    .empty-state {
+        text-align: center; padding: 4.5rem 1.5rem;
+        border: 1px dashed var(--line-soft); border-radius: 10px;
+        background: var(--bg-alt);
+    }
+    .empty-state i { font-size: 2.75rem; color: var(--muted); margin-bottom: 1rem; display: block; }
+    .empty-state h4 { color: var(--paper); font-weight: 700; }
+    .empty-state p { color: var(--muted); margin-bottom: 0; }
+
+    @media (max-width: 767.98px) {
+        .search-form { margin-top: 0.5rem; }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="row align-items-center mb-4">
+<div class="row align-items-center muro-header">
     <div class="col-md-7">
-        <h2 class="fw-bold m-0"><i class="bi bi-houses-fill text-primary"></i> Muro Comunitario</h2>
-        <p class="text-muted mb-0">Explora los saberes y oficios del territorio.</p>
+        <p class="muro-tag">apoyo mutuo</p>
+        <h2 class="muro-title fw-bold m-0"><i class="bi bi-houses-fill text-primary"></i> Muro Comunitario</h2>
+        <p class="muro-sub">Explora los saberes y oficios del territorio.</p>
     </div>
-    
+
     <div class="col-md-5 mt-3 mt-md-0">
-        <form method="GET" action="{% url 'muro' %}" class="input-group shadow-sm">
+        <form method="GET" action="{% url 'muro' %}" class="search-form">
             <input type="text" id="input-buscador" name="q" class="form-control" placeholder="¿Qué ayuda buscas?" value="{{ query|default:'' }}">
             <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
             {% if query %}
@@ -21,25 +162,17 @@
 {% if agradecimientos %}
 <div class="row mb-5">
     <div class="col-12">
-        <div class="p-3 p-md-4 bg-light rounded-4 border-start border-4 border-primary shadow-sm">
-            <h5 class="fw-bold text-primary mb-3">
-                <i class="bi bi-chat-heart-fill me-2"></i> La voz del barrio
-            </h5>
-            <div class="d-flex flex-nowrap overflow-auto pb-3" style="scrollbar-width: thin; -webkit-overflow-scrolling: touch; gap: 1rem;">
+        <div class="gratitud-panel">
+            <h5 class="gratitud-title"><i class="bi bi-chat-heart-fill"></i> La voz del barrio</h5>
+            <div class="gratitud-scroll">
                 {% for agra in agradecimientos %}
-                <div style="min-width: 280px; max-width: 320px;">
-                    <div class="card h-100 border-0 shadow-sm bg-white">
-                        <div class="card-body p-3 d-flex flex-column">
-                            <p class="fst-italic small mb-2 text-dark">"{{ agra.comentario_gratitud }}"</p>
-                            <div class="d-flex align-items-center mt-auto">
-                                <div class="bg-success-subtle text-success rounded-circle p-1 me-2" style="font-size: 0.7rem;">
-                                    <i class="bi bi-heart-fill"></i>
-                                </div>
-                                <small class="text-muted">
-                                    <strong>{{ agra.solicitante.username }}</strong> agradeció a 
-                                    <span class="text-primary">{{ agra.habilidad.ofertante.username }}</span>
-                                </small>
-                            </div>
+                <div class="gratitud-card">
+                    <p class="gratitud-quote">&ldquo;{{ agra.comentario_gratitud }}&rdquo;</p>
+                    <div class="gratitud-footer">
+                        <div class="gratitud-icon"><i class="bi bi-heart-fill"></i></div>
+                        <div class="gratitud-names">
+                            <strong>{{ agra.solicitante.username }}</strong> agradeció a
+                            <span class="to-name">{{ agra.habilidad.ofertante.username }}</span>
                         </div>
                     </div>
                 </div>
@@ -53,53 +186,49 @@
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="contenedor-habilidades">
     {% for habilidad in habilidades %}
     <div class="col tarjeta-habilidad">
-        <div class="card h-100 shadow-sm border-0 overflow-hidden">
-            
+        <div class="habilidad-card">
+
             {% if habilidad.imagen %}
-                <img src="{{ habilidad.imagen.url }}" class="card-img-top" alt="{{ habilidad.titulo }}" style="height: 200px; object-fit: cover;">
+                <img src="{{ habilidad.imagen.url }}" class="habilidad-img" alt="{{ habilidad.titulo }}">
             {% else %}
-                <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
-                    <i class="bi bi-image text-muted display-1"></i>
-                </div>
+                <div class="habilidad-img-placeholder"><i class="bi bi-image"></i></div>
             {% endif %}
 
-            <div class="card-body d-flex flex-column">
-                <div class="d-flex justify-content-between align-items-start mb-2">
-                    <h5 class="card-title text-capitalize m-0 fw-bold">{{ habilidad.titulo }}</h5>
-                    <span class="badge bg-info text-dark">{{ habilidad.categoria }}</span>
+            <div class="habilidad-body">
+                <div class="habilidad-title-row">
+                    <h5 class="habilidad-title">{{ habilidad.titulo }}</h5>
+                    <span class="habilidad-badge">{{ habilidad.categoria }}</span>
                 </div>
-                <p class="card-text text-secondary small mb-4">{{ habilidad.descripcion|truncatewords:20 }}</p>
+                <p class="habilidad-desc">{{ habilidad.descripcion|truncatewords:20 }}</p>
 
-                <div class="mt-auto">
-                    <hr>
+                <div class="habilidad-actions">
                     {% if user.is_authenticated %}
                         {% if user != habilidad.ofertante %}
-                            <a href="{% url 'solicitar_intercambio' habilidad.id %}" class="btn btn-primary w-100 shadow-sm">
+                            <a href="{% url 'solicitar_intercambio' habilidad.id %}" class="btn-solicitar">
                                 <i class="bi bi-hand-index-thumb me-1"></i> Solicitar Ayuda
                             </a>
                         {% else %}
-                            <div class="alert alert-light py-1 text-center m-0 border small">
-                                <i class="bi bi-person-check"></i> Es tu publicación
-                            </div>
+                            <div class="habilidad-own"><i class="bi bi-person-check"></i> Es tu publicación</div>
                         {% endif %}
                     {% else %}
-                        <a href="{% url 'login' %}" class="btn btn-outline-secondary btn-sm w-100">Inicia sesión</a>
+                        <a href="{% url 'login' %}" class="btn-login-prompt">Inicia sesión</a>
                     {% endif %}
                 </div>
             </div>
 
-            <div class="card-footer bg-white border-0 pb-3 pt-0">
-                <div class="d-flex align-items-center justify-content-between">
-                    <small class="text-muted"><i class="bi bi-person-circle"></i> {{ habilidad.ofertante.username }}</small>
-                </div>
+            <div class="habilidad-footer">
+                <i class="bi bi-person-circle"></i> {{ habilidad.ofertante.username }}
             </div>
-            
+
         </div>
     </div>
     {% empty %}
-    <div class="col-12 text-center py-5">
-        <h4 class="text-muted">Aún no hay habilidades publicadas.</h4>
-        <p>Sé el primero en ofrecer tu ayuda al barrio.</p>
+    <div class="col-12">
+        <div class="empty-state">
+            <i class="bi bi-signpost-split"></i>
+            <h4>Aún no hay habilidades publicadas</h4>
+            <p>Sé el primero en ofrecer tu ayuda al barrio.</p>
+        </div>
     </div>
     {% endfor %}
 </div>

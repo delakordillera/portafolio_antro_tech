@@ -1,34 +1,84 @@
 {% extends 'comunidad/base.html' %}
 
+{% block extra_style %}
+<style>
+    .form-card {
+        background: var(--bg-alt);
+        border: 1px solid var(--line-soft);
+        border-radius: 10px;
+        padding: 2.25rem;
+    }
+    .form-tag {
+        font-family: 'JetBrains Mono', monospace; font-weight: 600; text-transform: uppercase;
+        letter-spacing: 3px; font-size: 0.7rem; color: var(--moss); margin-bottom: 0.5rem;
+    }
+    .form-tag::before { content: '// '; color: var(--line); }
+    .form-card h3 {
+        font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: var(--paper);
+        display: flex; align-items: center; gap: 0.6rem;
+    }
+    .form-card h3 i { color: var(--moss); }
+    .form-card > p.text-muted { color: var(--muted) !important; margin-bottom: 1.5rem; }
+    .form-card hr { border-color: var(--line-soft); margin-bottom: 1.5rem; }
+
+    .ofrecer-form p { margin-bottom: 1.25rem; }
+    .ofrecer-form label {
+        display: block; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+        letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem;
+    }
+    .ofrecer-form input.form-control,
+    .ofrecer-form textarea.form-control {
+        background: var(--bg-alt-2); border: 1px solid var(--line-soft); color: var(--paper);
+        border-radius: 6px; padding: 0.7rem 0.9rem; transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .ofrecer-form input.form-control::placeholder,
+    .ofrecer-form textarea.form-control::placeholder { color: var(--muted); }
+    .ofrecer-form input.form-control:focus,
+    .ofrecer-form textarea.form-control:focus {
+        background: var(--bg-alt-2); color: var(--paper); border-color: var(--moss);
+        box-shadow: 0 0 0 3px var(--moss-soft); outline: none;
+    }
+    .ofrecer-form ul.errorlist {
+        list-style: none; padding: 0; margin: 0.4rem 0 0; color: #e08072; font-size: 0.8rem;
+    }
+
+    .btn-publicar {
+        font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 0.9rem;
+        background: var(--moss); border: 1px solid var(--moss); color: var(--bg);
+        border-radius: 3px; padding: 0.85rem 1rem; transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .btn-publicar:hover { background: #799775; color: var(--bg); transform: translateY(-2px); }
+    .btn-volver { color: var(--muted); font-size: 0.85rem; }
+    .btn-volver:hover { color: var(--accent); }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card shadow-sm border-0">
-            <div class="card-body p-4">
-                <h3 class="fw-bold mb-3">
-                    <i class="bi bi-plus-circle-fill text-success me-2"></i>Ofrecer una Habilidad
-                </h3>
-                <p class="text-muted">Describe qué puedes aportar a la comunidad. Una imagen ayudará a generar más confianza entre tus vecinxs.</p>
-                
-                <hr>
+    <div class="col-md-7">
+        <div class="form-card">
+            <p class="form-tag">{% if editando %}editar oficio{% else %}nuevo oficio{% endif %}</p>
+            <h3>
+                <i class="bi bi-plus-circle-fill"></i>{% if editando %}Editar Habilidad{% else %}Ofrecer una Habilidad{% endif %}
+            </h3>
+            <p class="text-muted">Describe qué puedes aportar a la comunidad. Una imagen ayudará a generar más confianza entre tus vecinxs.</p>
 
-                <form method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    
-                    <div class="mb-3">
-                        {{ form.as_p }}
-                    </div>
+            <hr>
 
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-success btn-lg shadow-sm">
-                            <i class="bi bi-cloud-arrow-up-fill me-1"></i> Publicar en el Muro
-                        </button>
-                        <a href="{% url 'muro' %}" class="btn btn-link text-secondary btn-sm text-decoration-none">
-                            Volver al muro
-                        </a>
-                    </div>
-                </form>
-            </div>
+            <form method="POST" enctype="multipart/form-data" class="ofrecer-form">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <div class="d-grid gap-2 mt-3">
+                    <button type="submit" class="btn-publicar">
+                        <i class="bi bi-cloud-arrow-up-fill me-1"></i> {% if editando %}Guardar Cambios{% else %}Publicar en el Muro{% endif %}
+                    </button>
+                    <a href="{% url 'muro' %}" class="btn btn-link btn-volver text-decoration-none">
+                        Volver al muro
+                    </a>
+                </div>
+            </form>
         </div>
     </div>
 </div>

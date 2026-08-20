@@ -9,7 +9,22 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root { --pc-blue: #d9773f; --pc-dark: #110f0c; --pc-card: #1a1712; --bs-info: #d9773f; --bs-info-rgb: 217, 119, 63; }
+        :root {
+            --pc-blue: #d9773f; --pc-dark: #110f0c; --pc-card: #1a1712; --bs-info: #d9773f; --bs-info-rgb: 217, 119, 63;
+
+            --bg: #110f0c;
+            --bg-alt: #1a1712;
+            --bg-alt-2: #211d16;
+            --paper: #f4ede0;
+            --ink: #c9c0b1;
+            --muted: #857c6d;
+            --accent: #d9773f;
+            --accent-soft: rgba(217, 119, 63, 0.14);
+            --moss: #8aa888;
+            --moss-soft: rgba(138, 168, 136, 0.14);
+            --line: rgba(217, 119, 63, 0.16);
+            --line-soft: rgba(244, 237, 224, 0.08);
+        }
         body { background-color: var(--pc-dark); color: #c9c0b1; font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
         h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; color: #f4ede0; }
 
@@ -36,6 +51,7 @@
         footer { border-top: 1px solid rgba(255,255,255,0.1); background: #010409; padding: 2rem 0; color: #ffffff !important; margin-top: auto; }
         main { flex: 1; }
     </style>
+    {% block extra_style %}{% endblock %}
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">

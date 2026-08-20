@@ -1,34 +1,65 @@
 {% extends 'comunidad/base.html' %}
 
+{% block extra_style %}
+<style>
+    .confirm-wrap { min-height: 55vh; display: flex; align-items: center; }
+    .confirm-card {
+        background: var(--bg-alt);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 3rem 2.5rem;
+        text-align: center;
+    }
+    .confirm-icon {
+        width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 1.5rem;
+        display: flex; align-items: center; justify-content: center;
+        background: rgba(224,128,114,0.12); border: 1px solid rgba(224,128,114,0.3);
+        font-size: 2rem; color: #e08072;
+    }
+    .confirm-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: var(--paper); }
+    .confirm-text { color: var(--muted); margin-bottom: 0; }
+    .confirm-text strong { color: var(--paper); }
+    .confirm-hr { border-color: var(--line-soft); margin: 2rem 0; }
+    .btn-confirm-delete {
+        font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 0.9rem;
+        background: #c9584a; border: 1px solid #c9584a; color: var(--paper);
+        border-radius: 3px; padding: 0.85rem 1rem; transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .btn-confirm-delete:hover { background: #b64837; color: var(--paper); transform: translateY(-2px); }
+    .btn-confirm-cancel {
+        font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 0.85rem;
+        background: transparent; border: 1px solid var(--line-soft); color: var(--ink);
+        border-radius: 3px; padding: 0.75rem 1rem;
+    }
+    .btn-confirm-cancel:hover { border-color: var(--accent); color: var(--accent); }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="row justify-content-center">
+<div class="row justify-content-center confirm-wrap">
     <div class="col-md-6">
-        <div class="card shadow-lg border-0 mt-5">
-            <div class="card-body p-5 text-center">
-                <div class="text-danger mb-4">
-                    <i class="bi bi-exclamation-triangle-fill display-1"></i>
+        <div class="confirm-card">
+            <div class="confirm-icon"><i class="bi bi-exclamation-triangle-fill"></i></div>
+
+            <h2 class="confirm-title mb-3">¿Retirar esta habilidad?</h2>
+            <p class="confirm-text">
+                Estás a punto de retirar <strong>&ldquo;{{ habilidad.titulo }}&rdquo;</strong> de la Red de Capital Social.
+                Esta acción no se puede deshacer y otros vecinxs ya no podrán solicitar tu ayuda en este oficio.
+            </p>
+
+            <hr class="confirm-hr">
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn-confirm-delete">
+                        <i class="bi bi-trash-fill me-1"></i> Sí, retirar de la red
+                    </button>
+                    <a href="{% url 'perfil' %}" class="btn-confirm-cancel">
+                        No, mantener mi oferta
+                    </a>
                 </div>
-                
-                <h2 class="fw-bold text-dark mb-3">¿Retirar esta habilidad?</h2>
-                <p class="text-muted mb-4">
-                    Estás a punto de retirar <strong>"{{ habilidad.titulo }}"</strong> de la Red de Capital Social. 
-                    Esta acción no se puede deshacer y otros vecinxs ya no podrán solicitar tu ayuda en este oficio.
-                </p>
-
-                <hr class="my-4">
-
-                <form method="POST">
-                    {% csrf_token %}
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-danger btn-lg shadow-sm">
-                            <i class="bi bi-trash-fill me-1"></i> Sí, retirar de la red
-                        </button>
-                        <a href="{% url 'perfil' %}" class="btn btn-outline-secondary">
-                            No, mantener mi oferta
-                        </a>
-                    </div>
-                </form>
-            </div>
+            </form>
         </div>
     </div>
 </div>

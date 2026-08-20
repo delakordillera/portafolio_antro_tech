@@ -20,6 +20,19 @@
             --bs-dark: #1a1712;
             --bs-dark-rgb: 26, 23, 18;
             accent: #8aa888;
+
+            --bg: #110f0c;
+            --bg-alt: #1a1712;
+            --bg-alt-2: #211d16;
+            --paper: #f4ede0;
+            --ink: #c9c0b1;
+            --muted: #857c6d;
+            --accent: #d9773f;
+            --accent-soft: rgba(217, 119, 63, 0.14);
+            --moss: #8aa888;
+            --moss-soft: rgba(138, 168, 136, 0.14);
+            --line: rgba(217, 119, 63, 0.16);
+            --line-soft: rgba(244, 237, 224, 0.08);
         }
 
         html, body {
@@ -49,6 +62,7 @@
             }
         }
     </style>
+    {% block extra_style %}{% endblock %}
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm sticky-top">

@@ -1,51 +1,239 @@
 {% extends 'comunidad/base.html' %}
 
+{% block extra_style %}
+<style>
+    .panel-tag {
+        font-family: 'JetBrains Mono', monospace; font-weight: 600; text-transform: uppercase;
+        letter-spacing: 3px; font-size: 0.72rem; color: var(--accent); margin-bottom: 0.5rem;
+    }
+    .panel-tag::before { content: '// '; color: var(--line); }
+    .panel-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: var(--paper); }
+    .panel-sub { color: var(--muted); margin-bottom: 0; }
+
+    .prestigio-box {
+        background: var(--bg-alt);
+        border: 1px solid var(--line);
+        border-left: 3px solid var(--accent);
+        border-radius: 10px;
+        padding: 1.1rem 1.5rem;
+        min-width: 170px;
+        text-align: center;
+    }
+    .prestigio-label {
+        font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 2px;
+        text-transform: uppercase; color: var(--muted); display: block;
+    }
+    .prestigio-points { color: var(--accent); font-family: 'Space Grotesk', sans-serif; font-weight: 700; margin: 0.25rem 0; }
+    .rango-badge {
+        font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.5px;
+        padding: 0.3rem 0.6rem; border-radius: 3px; border: 1px solid transparent;
+    }
+    .rango-badge.bg-secondary { background: var(--line-soft) !important; color: var(--muted) !important; border-color: var(--line-soft); }
+    .rango-badge.bg-success { background: var(--moss-soft) !important; color: var(--moss) !important; border-color: rgba(138,168,136,0.35); }
+    .rango-badge.bg-danger { background: var(--accent-soft) !important; color: var(--accent) !important; border-color: var(--line); }
+    .prestigio-hint { font-size: 0.68rem; color: var(--muted); display: block; margin-top: 0.4rem; }
+
+    /* --- Cards genéricas --- */
+    .panel-card {
+        background: var(--bg-alt);
+        border: 1px solid var(--line-soft);
+        border-radius: 10px;
+        overflow: hidden;
+        height: 100%;
+    }
+    .panel-card-header {
+        padding: 1.1rem 1.4rem;
+        border-bottom: 1px solid var(--line-soft);
+        display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+    }
+    .panel-card-header h5 {
+        font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: var(--paper);
+        margin: 0; font-size: 1.02rem; display: flex; align-items: center; gap: 0.5rem;
+    }
+    .panel-card-body { padding: 1.4rem; }
+
+    .header-accent { border-bottom-color: var(--accent); background: var(--accent-soft); }
+    .header-accent h5 i { color: var(--accent); }
+    .header-moss { background: var(--moss-soft); }
+    .header-moss h5 i { color: var(--moss); }
+    .header-muted { background: var(--bg-alt-2); }
+    .header-muted h5 i { color: var(--muted); }
+
+    /* --- Bio --- */
+    .bio-label {
+        font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 1.5px;
+        text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 0.4rem;
+    }
+    .btn-edit-toggle {
+        background: transparent; border: 1px solid var(--line-soft); color: var(--muted);
+        border-radius: 3px; font-size: 0.78rem; padding: 0.3rem 0.65rem;
+    }
+    .btn-edit-toggle:hover { border-color: var(--accent); color: var(--accent); }
+    .bio-text { color: var(--paper); font-size: 1.05rem; font-style: italic; margin: 0; }
+    .bio-empty { color: var(--muted); font-size: 0.9rem; font-style: italic; margin: 0; }
+    .bio-edit-form {
+        background: var(--bg-alt-2); border: 1px solid var(--line-soft); border-radius: 8px;
+        padding: 1.1rem; margin-top: 1rem;
+    }
+    .bio-edit-form label { font-size: 0.78rem; color: var(--muted); font-weight: 600; margin-bottom: 0.4rem; display: block; }
+    .bio-edit-form textarea.form-control {
+        background: var(--bg); border: 1px solid var(--line-soft); color: var(--paper); border-radius: 6px;
+    }
+    .bio-edit-form textarea.form-control:focus {
+        background: var(--bg); color: var(--paper); border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-soft); outline: none;
+    }
+    .btn-save {
+        font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 0.8rem;
+        background: var(--accent); border: 1px solid var(--accent); color: var(--bg);
+        border-radius: 3px; padding: 0.5rem 1.2rem;
+    }
+    .btn-save:hover { background: #c8672f; color: var(--bg); }
+
+    /* --- Lista de pedidos recibidos --- */
+    .pedido-row {
+        display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+        padding: 1rem 1.4rem; border-bottom: 1px solid var(--line-soft); flex-wrap: wrap;
+    }
+    .pedido-row:last-child { border-bottom: none; }
+    .pedido-row.completado { opacity: 0.6; }
+    .pedido-text { color: var(--ink); font-size: 0.92rem; }
+    .pedido-text strong { color: var(--paper); }
+    .pedido-badge {
+        font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+        background: var(--accent-soft); color: var(--accent); border: 1px solid var(--line);
+        padding: 0.22rem 0.5rem; border-radius: 3px; margin-left: 0.3rem;
+    }
+    .pedido-meta { color: var(--muted); font-size: 0.78rem; display: flex; align-items: center; gap: 1rem; }
+    .btn-realizado {
+        font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 0.78rem;
+        background: var(--moss); border: 1px solid var(--moss); color: var(--bg);
+        border-radius: 3px; padding: 0.4rem 0.8rem;
+    }
+    .btn-realizado:hover { background: #799775; color: var(--bg); }
+    .badge-completado {
+        font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+        background: var(--moss-soft); color: var(--moss); border: 1px solid rgba(138,168,136,0.35);
+        padding: 0.3rem 0.6rem; border-radius: 3px;
+    }
+
+    .mini-empty { text-align: center; padding: 2.5rem 1rem; color: var(--muted); }
+    .mini-empty i { font-size: 1.75rem; display: block; margin-bottom: 0.6rem; color: var(--line); }
+    .mini-empty p { margin: 0; font-size: 0.88rem; }
+
+    /* --- Mis oficios --- */
+    .oficio-item {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 0.85rem 0; border-bottom: 1px solid var(--line-soft);
+    }
+    .oficio-item:last-child { border-bottom: none; }
+    .oficio-name { color: var(--paper); font-weight: 600; font-size: 0.92rem; display: flex; align-items: center; gap: 0.4rem; }
+    .oficio-name i { color: var(--accent); }
+    .oficio-cat {
+        font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; background: var(--bg-alt-2);
+        color: var(--muted); border: 1px solid var(--line-soft); padding: 0.2rem 0.5rem; border-radius: 3px;
+        display: inline-block; margin-top: 0.35rem;
+    }
+    .icon-btn {
+        width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;
+        border-radius: 3px; border: 1px solid var(--line-soft); color: var(--muted); background: transparent;
+        transition: border-color 0.2s ease, color 0.2s ease;
+    }
+    .icon-btn:hover.edit { border-color: var(--accent); color: var(--accent); }
+    .icon-btn:hover.del { border-color: #c9584a; color: #c9584a; }
+    .btn-ofrecer-nuevo {
+        display: block; text-align: center; width: 100%; margin-top: 1rem;
+        font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 0.8rem;
+        background: transparent; border: 1px dashed var(--line); color: var(--moss);
+        border-radius: 3px; padding: 0.6rem;
+    }
+    .btn-ofrecer-nuevo:hover { border-style: solid; border-color: var(--moss); background: var(--moss-soft); }
+
+    /* --- Mis solicitudes --- */
+    .solicitud-item { padding: 0.9rem 0; border-bottom: 1px solid var(--line-soft); }
+    .solicitud-item:last-child { border-bottom: none; }
+    .solicitud-text { color: var(--ink); font-size: 0.9rem; }
+    .solicitud-text strong { color: var(--paper); }
+    .solicitud-text .a-quien { color: var(--accent); }
+    .badge-listo {
+        font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+        background: var(--moss-soft); color: var(--moss); border: 1px solid rgba(138,168,136,0.35);
+        padding: 0.25rem 0.55rem; border-radius: 3px;
+    }
+    .badge-pendiente {
+        font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+        background: rgba(217,119,63,0.1); color: var(--accent); border: 1px solid var(--line);
+        padding: 0.25rem 0.55rem; border-radius: 3px;
+    }
+    .agradecer-form { margin-top: 0.65rem; background: var(--bg-alt-2); padding: 0.7rem; border-radius: 6px; }
+    .agradecer-form input.form-control {
+        background: var(--bg); border: 1px solid var(--line-soft); color: var(--paper);
+    }
+    .agradecer-form input.form-control:focus {
+        background: var(--bg); color: var(--paper); border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+    .agradecer-form .btn-primary { background: var(--accent); border: 1px solid var(--accent); }
+    .agradecer-form .btn-primary:hover { background: #c8672f; }
+    .agradecer-hint { color: var(--muted); font-size: 0.7rem; }
+    .mi-agradecimiento {
+        background: var(--bg-alt-2); border-left: 3px solid var(--accent); border-radius: 6px;
+        padding: 0.65rem 0.85rem; margin-top: 0.4rem;
+    }
+    .mi-agradecimiento .tag { font-size: 0.68rem; color: var(--muted); font-weight: 700; display: block; letter-spacing: 1px; }
+    .mi-agradecimiento .quote { font-style: italic; font-size: 0.86rem; color: var(--ink); }
+
+    @media (max-width: 767.98px) {
+        .col-12.mb-4.d-flex { flex-direction: column; align-items: flex-start !important; gap: 1rem; }
+        .prestigio-box { width: 100%; }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="row">
     <div class="col-12 mb-4 d-flex justify-content-between align-items-center">
         <div>
-            <h2 class="fw-bold"><i class="bi bi-person-badge text-primary"></i> Mi Panel de Reciprocidad</h2>
-            <p class="text-muted">Gestiona tus vínculos y aportes a la comunidad.</p>
+            <p class="panel-tag">mi cuenta</p>
+            <h2 class="panel-title fw-bold"><i class="bi bi-person-badge text-primary"></i> Mi Panel de Reciprocidad</h2>
+            <p class="panel-sub">Gestiona tus vínculos y aportes a la comunidad.</p>
         </div>
-        <div class="text-center p-3 bg-white shadow-sm rounded border-start border-4 border-warning" style="min-width: 150px;">
-            <span class="text-muted small d-block uppercase fw-bold">Prestigio Social</span>
-            <h3 class="m-0 text-warning"><i class="bi bi-star-fill"></i> {{ puntos }}</h3>
+        <div class="prestigio-box">
+            <span class="prestigio-label">Prestigio Social</span>
+            <h3 class="prestigio-points"><i class="bi bi-star-fill"></i> {{ puntos }}</h3>
             <div class="mt-1">
-                <span class="badge {{ user.perfil.rango_clase }} shadow-sm">
+                <span class="badge rango-badge {{ user.perfil.rango_clase }}">
                     <i class="bi bi-patch-check-fill me-1"></i> {{ user.perfil.rango }}
                 </span>
             </div>
-            <small class="text-muted d-block mt-1" style="font-size: 0.7rem;">Puntos de Confianza</small>
+            <small class="prestigio-hint">Puntos de Confianza</small>
         </div>
     </div>
 
     <div class="col-12 mb-4">
-        <div class="card shadow-sm border-0">
-            <div class="card-body">
+        <div class="panel-card">
+            <div class="panel-card-body">
                 <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h5 class="card-title text-secondary small fw-bold text-uppercase m-0">
-                        <i class="bi bi-person-lines-fill me-1"></i> Sobre mí
-                    </h5>
-                    <button class="btn btn-sm btn-outline-primary border-0" type="button" data-bs-toggle="collapse" data-bs-target="#editBio">
+                    <span class="bio-label"><i class="bi bi-person-lines-fill"></i> Sobre mí</span>
+                    <button class="btn-edit-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#editBio">
                         <i class="bi bi-pencil-square"></i> Editar Bio
                     </button>
                 </div>
 
                 {% if user.perfil.bio %}
-                    <p class="card-text fs-5 text-dark italic">"{{ user.perfil.bio }}"</p>
+                    <p class="bio-text">&ldquo;{{ user.perfil.bio }}&rdquo;</p>
                 {% else %}
-                    <p class="card-text text-muted small italic">Aún no has escrito tu biografía. ¡Cuéntale a tus vecinxs quién eres!</p>
+                    <p class="bio-empty">Aún no has escrito tu biografía. ¡Cuéntale a tus vecinxs quién eres!</p>
                 {% endif %}
 
-                <div class="collapse mt-3" id="editBio">
-                    <form method="post" class="bg-light p-3 rounded border shadow-sm">
+                <div class="collapse" id="editBio">
+                    <form method="post" class="bio-edit-form">
                         {% csrf_token %}
                         <div class="mb-3">
-                            <label class="form-label small fw-bold">Tu biografía comunitaria:</label>
+                            <label>Tu biografía comunitaria:</label>
                             {{ form.bio }}
                         </div>
                         <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary btn-sm px-4">
+                            <button type="submit" class="btn-save">
                                 <i class="bi bi-save me-1"></i> Guardar Cambios
                             </button>
                         </div>
@@ -56,38 +244,38 @@
     </div>
 
     <div class="col-md-12 mb-4">
-        <div class="card border-primary shadow-sm">
-            <div class="card-header bg-primary text-white d-flex align-items-center">
-                <h5 class="m-0"><i class="bi bi-bell-fill me-2"></i> Vecinxs que necesitan tu ayuda</h5>
+        <div class="panel-card">
+            <div class="panel-card-header header-accent">
+                <h5><i class="bi bi-bell-fill"></i> Vecinxs que necesitan tu ayuda</h5>
             </div>
-            <div class="list-group list-group-flush">
+            <div>
                 {% for pedido in pedidos_recibidos %}
-                    <div class="list-group-item d-flex justify-content-between align-items-center py-3 {% if pedido.completado %}bg-light opacity-75{% endif %}">
-                        <div>
+                    <div class="pedido-row {% if pedido.completado %}completado{% endif %}">
+                        <div class="pedido-text">
                             {% if pedido.completado %}
-                                <i class="bi bi-check-all text-success fs-4 me-2"></i>
-                                <del class="text-muted"><strong>{{ pedido.solicitante.username }}</strong> solicitó {{ pedido.habilidad.titulo }}</del>
+                                <i class="bi bi-check-all text-success me-1"></i>
+                                <del>{{ pedido.solicitante.username }}</del> solicitó {{ pedido.habilidad.titulo }}
                             {% else %}
-                                <i class="bi bi-person-fill text-secondary me-2"></i>
-                                <strong>{{ pedido.solicitante.username }}</strong> te solicitó: 
-                                <span class="badge bg-info text-dark ms-1">{{ pedido.habilidad.titulo }}</span>
+                                <i class="bi bi-person-fill me-1"></i>
+                                <strong>{{ pedido.solicitante.username }}</strong> te solicitó
+                                <span class="pedido-badge">{{ pedido.habilidad.titulo }}</span>
                             {% endif %}
                         </div>
-                        <div>
-                            <span class="text-muted small me-3"><i class="bi bi-calendar-event"></i> {{ pedido.fecha_creacion|date:"d/m/Y" }}</span>
+                        <div class="pedido-meta">
+                            <span><i class="bi bi-calendar-event"></i> {{ pedido.fecha_creacion|date:"d/m/Y" }}</span>
                             {% if not pedido.completado %}
-                                <a href="{% url 'completar_intercambio' pedido.id %}" class="btn btn-sm btn-success shadow-sm">
+                                <a href="{% url 'completar_intercambio' pedido.id %}" class="btn-realizado">
                                     <i class="bi bi-check-circle me-1"></i> Realizado
                                 </a>
                             {% else %}
-                                <span class="badge bg-success"><i class="bi bi-patch-check"></i> Completado</span>
+                                <span class="badge-completado"><i class="bi bi-patch-check"></i> Completado</span>
                             {% endif %}
                         </div>
                     </div>
                 {% empty %}
-                    <div class="p-4 text-center text-muted">
-                        <i class="bi bi-chat-dots display-6 text-light"></i>
-                        <p class="mt-2">Nadie ha solicitado tus oficios aún.</p>
+                    <div class="mini-empty">
+                        <i class="bi bi-chat-dots"></i>
+                        <p>Nadie ha solicitado tus oficios aún.</p>
                     </div>
                 {% endfor %}
             </div>
@@ -95,32 +283,33 @@
     </div>
 
     <div class="col-md-6 mb-4">
-        <div class="card h-100 shadow-sm border-0">
-            <div class="card-header bg-dark text-white d-flex align-items-center">
-                <h5 class="m-0"><i class="bi bi-tools me-2"></i> Mis Oficios Ofrecidos</h5>
+        <div class="panel-card">
+            <div class="panel-card-header header-muted">
+                <h5><i class="bi bi-tools"></i> Mis Oficios Ofrecidos</h5>
             </div>
-            <div class="card-body bg-white">
-                <ul class="list-group list-group-flush mb-3">
-                    {% for h in mis_habilidades %}
-                        <li class="list-group-item px-0 border-bottom">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="fw-bold text-dark"><i class="bi bi-check2 text-primary me-1"></i> {{ h.titulo }}</span>
-                                <div class="btn-group shadow-sm">
-                                    <a href="{% url 'editar_habilidad' h.id %}" class="btn btn-sm btn-outline-primary" title="Editar">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
-                                    <a href="{% url 'eliminar_habilidad' h.id %}" class="btn btn-sm btn-outline-danger" title="Eliminar">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <span class="badge rounded-pill bg-light text-dark border small mt-1">{{ h.categoria }}</span>
-                        </li>
-                    {% empty %}
-                        <li class="list-group-item text-muted border-0 px-0">Aún no has ofrecido dones a la comunidad.</li>
-                    {% endfor %}
-                </ul>
-                <a href="{% url 'ofrecer' %}" class="btn btn-sm btn-outline-success w-100">
+            <div class="panel-card-body">
+                {% for h in mis_habilidades %}
+                    <div class="oficio-item">
+                        <div>
+                            <span class="oficio-name"><i class="bi bi-check2"></i> {{ h.titulo }}</span>
+                            <span class="oficio-cat">{{ h.categoria }}</span>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'editar_habilidad' h.id %}" class="icon-btn edit" title="Editar">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <a href="{% url 'eliminar_habilidad' h.id %}" class="icon-btn del" title="Eliminar">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="mini-empty">
+                        <i class="bi bi-gift"></i>
+                        <p>Aún no has ofrecido dones a la comunidad.</p>
+                    </div>
+                {% endfor %}
+                <a href="{% url 'ofrecer' %}" class="btn-ofrecer-nuevo">
                     <i class="bi bi-plus-lg"></i> Ofrecer nuevo
                 </a>
             </div>
@@ -128,48 +317,49 @@
     </div>
 
     <div class="col-md-6 mb-4">
-        <div class="card h-100 shadow-sm border-0">
-            <div class="card-header bg-secondary text-white d-flex align-items-center">
-                <h5 class="m-0"><i class="bi bi-send-fill me-2"></i> Mis Solicitudes enviadas</h5>
+        <div class="panel-card">
+            <div class="panel-card-header header-moss">
+                <h5><i class="bi bi-send-fill"></i> Mis Solicitudes enviadas</h5>
             </div>
-            <div class="card-body bg-white">
-                <ul class="list-group list-group-flush">
-                    {% for p in mis_pedidos %}
-                        <li class="list-group-item px-0">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <div>
-                                    <i class="bi bi-arrow-right-short"></i> Pediste <strong>{{ p.habilidad.titulo }}</strong> 
-                                    a <span class="text-primary">{{ p.habilidad.ofertante.username }}</span>
-                                </div>
-                                {% if p.completado %}
-                                    <span class="badge bg-success-subtle text-success border border-success-subtle">Listo</span>
-                                {% else %}
-                                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle">Pendiente</span>
-                                {% endif %}
+            <div class="panel-card-body">
+                {% for p in mis_pedidos %}
+                    <div class="solicitud-item">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <div class="solicitud-text">
+                                <i class="bi bi-arrow-right-short"></i> Pediste <strong>{{ p.habilidad.titulo }}</strong>
+                                a <span class="a-quien">{{ p.habilidad.ofertante.username }}</span>
                             </div>
-
-                            {% if p.completado and not p.comentario_gratitud %}
-                                <form action="{% url 'dejar_agradecimiento' p.id %}" method="post" class="mt-2 bg-light p-2 rounded">
-                                    {% csrf_token %}
-                                    <div class="input-group input-group-sm">
-                                        <input type="text" name="comentario" class="form-control" placeholder="Escribe un agradecimiento público..." required>
-                                        <button class="btn btn-primary" type="submit">
-                                            <i class="bi bi-chat-heart"></i>
-                                        </button>
-                                    </div>
-                                    <small class="text-muted x-small">Tu testimonio fortalece la confianza en la red.</small>
-                                </form>
-                            {% elif p.comentario_gratitud %}
-                                <div class="bg-light p-2 rounded border-start border-4 border-primary mt-1">
-                                    <small class="text-muted d-block fw-bold" style="font-size: 0.75rem;">TU AGRADECIMIENTO:</small>
-                                    <span class="fst-italic small">"{{ p.comentario_gratitud }}"</span>
-                                </div>
+                            {% if p.completado %}
+                                <span class="badge-listo">Listo</span>
+                            {% else %}
+                                <span class="badge-pendiente">Pendiente</span>
                             {% endif %}
-                        </li>
-                    {% empty %}
-                        <li class="list-group-item text-muted border-0 px-0">No has pedido ayuda aún.</li>
-                    {% endfor %}
-                </ul>
+                        </div>
+
+                        {% if p.completado and not p.comentario_gratitud %}
+                            <form action="{% url 'dejar_agradecimiento' p.id %}" method="post" class="agradecer-form">
+                                {% csrf_token %}
+                                <div class="input-group input-group-sm">
+                                    <input type="text" name="comentario" class="form-control" placeholder="Escribe un agradecimiento público..." required>
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="bi bi-chat-heart"></i>
+                                    </button>
+                                </div>
+                                <small class="agradecer-hint">Tu testimonio fortalece la confianza en la red.</small>
+                            </form>
+                        {% elif p.comentario_gratitud %}
+                            <div class="mi-agradecimiento">
+                                <span class="tag">TU AGRADECIMIENTO</span>
+                                <span class="quote">&ldquo;{{ p.comentario_gratitud }}&rdquo;</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% empty %}
+                    <div class="mini-empty">
+                        <i class="bi bi-hand-thumbs-up"></i>
+                        <p>No has pedido ayuda aún.</p>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>

@@ -1,24 +1,96 @@
 {% extends 'ecommerce/base.html' %}
+
+{% block extra_style %}
+<style>
+    .auth-wrap { min-height: 55vh; display: flex; align-items: center; }
+    .auth-card {
+        background: var(--bg-alt);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 2.5rem;
+    }
+    .auth-tag {
+        font-family: 'JetBrains Mono', monospace; font-weight: 600; text-transform: uppercase;
+        letter-spacing: 3px; font-size: 0.7rem; color: var(--moss); text-align: center; margin-bottom: 0.5rem;
+    }
+    .auth-tag::before { content: '// '; color: var(--line); }
+    .auth-title {
+        text-align: center; margin-bottom: 2rem; color: var(--paper); font-weight: 700;
+        font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem;
+    }
+    .form-label-custom {
+        color: var(--muted); font-family: 'JetBrains Mono', monospace; font-weight: 600;
+        margin-bottom: 0.5rem; display: block; font-size: 0.72rem; letter-spacing: 1px; text-transform: uppercase;
+    }
+    .auth-card input {
+        background: var(--bg-alt-2); border: 1px solid var(--line-soft); color: var(--paper);
+        padding: 0.7rem 0.9rem; width: 100%; border-radius: 8px;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .auth-card input:focus {
+        outline: none; border-color: var(--moss); box-shadow: 0 0 0 3px var(--moss-soft);
+        background: var(--bg-alt-2);
+    }
+    .btn-auth-submit {
+        width: 100%; background: var(--moss); color: var(--bg); padding: 0.9rem;
+        border-radius: 50px; font-weight: 700; border: none; margin-top: 1.5rem;
+        font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px;
+        transition: all 0.25s ease;
+    }
+    .btn-auth-submit:hover { background: #799775; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(138,168,136,0.3); }
+    .error-message { color: #e08072; font-size: 0.8rem; margin-top: 5px; font-weight: 600; }
+    .help-text { color: var(--muted); font-size: 0.75rem; }
+    .auth-footer { text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: var(--muted); }
+    .auth-footer a { color: var(--accent); text-decoration: none; }
+    .auth-footer a:hover { text-decoration: underline; }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="row justify-content-center mt-5">
+<div class="row justify-content-center auth-wrap">
     <div class="col-md-5">
-        <div class="card p-4 border-0 shadow-lg" style="background-color: #111827; border-radius: 20px; border: 1px solid #00d2ff;">
-            <h3 class="text-center mb-4 text-info fw-bold">AUTENTICACIÓN ANTRO-TECH</h3>
-            <form method="POST">
+        <div class="auth-card">
+            <p class="auth-tag">ecommerce tech</p>
+            <h3 class="auth-title">Crear Cuenta</h3>
+
+            <form method="POST" novalidate>
                 {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+                    </div>
+                {% endif %}
+
                 {% for field in form %}
-                    <div class="mb-3">
-                        <label class="text-white fw-bold mb-1 d-block" style="font-size: 0.9rem;">{{ field.label|upper }}</label>
+                    <div class="mb-4">
+                        <label for="{{ field.id_for_label }}" class="form-label-custom">
+                            {{ field.label|upper }}
+                        </label>
+
                         {{ field }}
-                        {% if field.help_text %}<small style="color: #cbd5e1 !important;">{{ field.help_text }}</small>{% endif %}
+
+                        {% if field.help_text %}
+                            <small class="help-text">{{ field.help_text }}</small>
+                        {% endif %}
+
+                        {% if field.errors %}
+                            <div class="error-message">
+                                {% for error in field.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                 {% endfor %}
-                <button type="submit" class="btn btn-info w-100 py-3 fw-bold text-dark rounded-pill mt-3">CONFIRMAR</button>
+
+                <button type="submit" class="btn-auth-submit">
+                    CONFIRMAR REGISTRO
+                </button>
             </form>
+
+            <div class="auth-footer">
+                ¿Ya tienes cuenta? <a href="{% url 'login_ecommerce' %}">Inicia sesión</a>
+            </div>
         </div>
     </div>
 </div>
-<style>
-    input { background: rgba(255, 255, 255, 0.1) !important; border: 1px solid rgba(255, 255, 255, 0.3) !important; color: white !important; padding: 12px !important; width: 100% !important; border-radius: 10px !important; }
-</style>
 {% endblock %}
