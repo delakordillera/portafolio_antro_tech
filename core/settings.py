@@ -9,11 +9,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECRET_KEY: Se lee de la variable de entorno DJANGO_SECRET_KEY.
 # Configúrala en PythonAnywhere (Web > Environment variables) o en el WSGI.
-# NUNCA hardcodees la clave aquí ni la subas al repositorio.
-SECRET_KEY = os.environ.get(
-    'DJANGO_SECRET_KEY',
-    'django-insecure-local-dev-only-do-not-use-in-production-3fj28x',
-)
+# Si no está configurada, el sitio NO arranca (evita usar la clave known en prod).
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+if not SECRET_KEY:
+    raise ValueError(
+        "DJANGO_SECRET_KEY no está configurada. "
+        "Agrécala en PythonAnywhere > Web > Environment variables."
+    )
 
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
@@ -113,7 +115,6 @@ if not DEBUG:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
-    X_FRAME_OPTIONS = 'DENY'
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
@@ -141,5 +142,13 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 2097152
 FILE_UPLOAD_MAX_MEMORY_SIZE = 2097152
 DATA_UPLOAD_MAX_NUMBER_FILES = 5
 
+# --- Cache persistente (rate-limiting no se pierde al reiniciar) ---
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(BASE_DIR, 'cache'),
+    }
+}
+
 # --- Rotación de sesión al autenticar (anti-session fixation) ---
-SESSION_SAVE_EVERY_REQUEST = False
+SESSION_SAVE_EVERY_REQUEST = True

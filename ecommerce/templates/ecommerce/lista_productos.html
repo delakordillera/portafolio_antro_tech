@@ -110,9 +110,12 @@
                         <h6 class="producto-nombre fw-bold mb-2" style="min-height: 2.5rem;">{{ producto.nombre }}</h6>
                         <div class="mt-auto">
                             <div class="producto-precio fs-4 fw-bold">${{ producto.precio|intcomma }}</div>
-                            <a href="{% url 'agregar_al_carrito' producto.id %}" class="btn btn-agregar w-100 rounded-pill fw-bold mt-2 py-2">
-                                <i class="bi bi-cart-plus me-1"></i> AGREGAR
-                            </a>
+                            <form action="{% url 'agregar_al_carrito' producto.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-agregar w-100 rounded-pill fw-bold mt-2 py-2">
+                                    <i class="bi bi-cart-plus me-1"></i> AGREGAR
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

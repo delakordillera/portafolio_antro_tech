@@ -59,6 +59,7 @@ class PerfilForm(forms.ModelForm):
 class HabilidadForm(HoneypotMixin, forms.ModelForm):
     url_website = forms.CharField(
         required=False,
+        label='',
         widget=forms.HiddenInput(attrs={'tabindex': '-1', 'autocomplete': 'off'})
     )
 
@@ -113,6 +114,7 @@ class HabilidadForm(HoneypotMixin, forms.ModelForm):
 class RegistroForm(HoneypotMixin, UserCreationForm):
     url_website = forms.CharField(
         required=False,
+        label='',
         widget=forms.HiddenInput(attrs={'tabindex': '-1', 'autocomplete': 'off'})
     )
 
@@ -140,5 +142,6 @@ class LoginForm(HoneypotMixin, forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
     url_website = forms.CharField(
         required=False,
+        label='',
         widget=forms.HiddenInput(attrs={'tabindex': '-1', 'autocomplete': 'off'})
     )

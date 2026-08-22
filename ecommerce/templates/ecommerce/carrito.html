@@ -169,9 +169,12 @@
                     </div>
 
                     <button type="button" class="btn-finalizar">Finalizar Compra</button>
-                    <a href="{% url 'limpiar_carrito' %}" class="btn-vaciar">
-                        <i class="bi bi-trash me-1"></i> Vaciar Carrito
-                    </a>
+                    <form action="{% url 'limpiar_carrito' %}" method="post" class="d-grid">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-vaciar" style="text-decoration:none;">
+                            <i class="bi bi-trash me-1"></i> Vaciar Carrito
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

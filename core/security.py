@@ -40,9 +40,9 @@ def record_failed_login(sender, request, credentials, **kwargs):
 
 
 def get_client_ip(request):
-    xff = request.META.get('HTTP_X_FORWARDED_FOR')
-    if xff:
-        return xff.split(',')[0].strip()
+    # PythonAnywhere sets REMOTE_ADDR to the real client IP.
+    # Never trust X-Forwarded-For from the client — it's trivially spoofable
+    # and would allow complete bypass of the rate limiter.
     return request.META.get('REMOTE_ADDR', '0.0.0.0')
 
 

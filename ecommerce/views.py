@@ -7,7 +7,7 @@ from django.views.decorators.session import cycle_session_key
 from django.contrib.auth.signals import user_login_failed
 from django.dispatch import receiver
 from core.security import get_client_ip
-from comunidad.forms import LoginForm
+from comunidad.forms import LoginForm, RegistroForm
 from .models import Producto
 
 LOGIN_ATTEMPTS_LIMIT = 5
@@ -63,6 +63,7 @@ def lista_productos(request):
 # ==========================================
 # 2. FUNCIONES DEL CARRITO DE COMPRAS
 # ==========================================
+@require_POST
 def agregar_al_carrito(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
     producto_id_str = str(producto_id)
@@ -106,6 +107,7 @@ def ver_carrito(request):
     return render(request, 'ecommerce/carrito.html', context)
 
 
+@require_POST
 def limpiar_carrito(request):
     if 'carrito' in request.session:
         del request.session['carrito']
@@ -116,15 +118,16 @@ def limpiar_carrito(request):
 # ==========================================
 # 3. AUTENTICACIÓN EXCLUSIVA ECOMMERCE
 # ==========================================
+@cycle_session_key
 def registro_ecommerce(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = RegistroForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect('lista_productos')
     else:
-        form = UserCreationForm()
+        form = RegistroForm()
     return render(request, 'ecommerce/registro.html', {'form': form})
 
 @cycle_session_key
