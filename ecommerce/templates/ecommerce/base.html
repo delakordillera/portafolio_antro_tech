@@ -100,6 +100,14 @@
         </div>
     </nav>
     <main class="container py-4">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
         {% if request.path == '/ecommerce/' or request.path == '/ecommerce/productos/' %}
         <div id="hardwareCarousel" class="carousel slide mb-5 shadow-lg" data-bs-ride="carousel" data-bs-interval="5000" data-bs-pause="false" data-bs-touch="false">
             <div class="carousel-inner shadow-lg">
