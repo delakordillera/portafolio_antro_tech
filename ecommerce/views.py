@@ -3,7 +3,14 @@ from django.db.models import Q
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.views.decorators.http import require_POST
+from django.views.decorators.session import cycle_session_key
+from django.contrib.auth.signals import user_login_failed
+from django.dispatch import receiver
+from core.security import get_client_ip
+from comunidad.forms import LoginForm
 from .models import Producto
+
+LOGIN_ATTEMPTS_LIMIT = 5
 
 # ==========================================
 # 1. FUNCIÓN PRINCIPAL (Catálogo y Filtros)
@@ -120,15 +127,24 @@ def registro_ecommerce(request):
         form = UserCreationForm()
     return render(request, 'ecommerce/registro.html', {'form': form})
 
+@cycle_session_key
 def login_ecommerce(request):
     if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
+        form = LoginForm(request.POST)
         if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('lista_productos')
+            user = authenticate(
+                request,
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password']
+            )
+            if user is not None:
+                login(request, user)
+                return redirect('lista_productos')
+            else:
+                from django.contrib import messages
+                messages.error(request, 'Usuario o contraseña incorrectos.')
     else:
-        form = AuthenticationForm()
+        form = LoginForm()
     return render(request, 'ecommerce/login.html', {'form': form})
 
 @require_POST

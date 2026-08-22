@@ -35,6 +35,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'core.security.SecurityMiddleware',
+    'core.security.RateLimitLoginMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -123,3 +125,11 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
+
+# --- Límites de upload ---
+DATA_UPLOAD_MAX_MEMORY_SIZE = 2097152
+FILE_UPLOAD_MAX_MEMORY_SIZE = 2097152
+DATA_UPLOAD_MAX_NUMBER_FILES = 5
+
+# --- Rotación de sesión al autenticar (anti-session fixation) ---
+SESSION_SAVE_EVERY_REQUEST = False

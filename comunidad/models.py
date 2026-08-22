@@ -1,9 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import FileExtensionValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-# 1. El Sujeto Social (Perfil)
+MAX_UPLOAD_SIZE_MB = 2
+
+
+def validate_image_size(file):
+    if file.size > MAX_UPLOAD_SIZE_MB * 1024 * 1024:
+        from django.core.exceptions import ValidationError
+        raise ValidationError(f'La imagen no puede superar {MAX_UPLOAD_SIZE_MB} MB.')
+
+
 class Perfil(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=1000, blank=True)
@@ -39,7 +48,14 @@ class Habilidad(models.Model):
     
     # NUEVA MEJORA: Campo para imagen del oficio
     # null=True y blank=True permiten que subir una foto sea opcional
-    imagen = models.ImageField(upload_to='habilidades/', null=True, blank=True)
+    imagen = models.ImageField(
+        upload_to='habilidades/',
+        null=True, blank=True,
+        validators=[
+            FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'webp', 'gif']),
+            validate_image_size,
+        ]
+    )
 
     def __str__(self):
         return self.titulo

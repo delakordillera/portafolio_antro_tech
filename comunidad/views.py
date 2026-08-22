@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.forms import UserCreationForm
-from .forms import RegistroForm, HabilidadForm, PerfilForm
-from django.contrib.auth import login
+from .forms import RegistroForm, LoginForm, HabilidadForm, PerfilForm
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
 from .models import Habilidad, Intercambio, Perfil
 from django.contrib import messages
 from django.db.models import Q, F
 from django.views.decorators.http import require_POST
+from django.views.decorators.session import cycle_session_key
 
 # --- GESTIÓN DEL MURO Y BÚSQUEDA ---
 
@@ -137,6 +138,7 @@ def dejar_agradecimiento(request, intercambio_id):
 
 # --- USUARIOS Y PERFILES ---
 
+@cycle_session_key
 def registro(request):
     if request.method == 'POST':
         form = RegistroForm(request.POST)
