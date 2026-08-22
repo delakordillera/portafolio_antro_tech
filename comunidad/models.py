@@ -17,6 +17,7 @@ class Perfil(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=1000, blank=True)
     puntos_confianza = models.IntegerField(default=0)
+    email_verified = models.BooleanField(default=False)
 
     @property
     def rango(self):

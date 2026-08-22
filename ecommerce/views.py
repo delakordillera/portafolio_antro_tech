@@ -3,10 +3,9 @@ from django.db.models import Q
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.views.decorators.http import require_POST
-from django.views.decorators.session import cycle_session_key
 from django.contrib.auth.signals import user_login_failed
 from django.dispatch import receiver
-from core.security import get_client_ip
+from core.security import get_client_ip, cycle_session_key
 from comunidad.forms import LoginForm, RegistroForm
 from .models import Producto
 import logging
@@ -126,13 +125,48 @@ def registro_ecommerce(request):
     if request.method == 'POST':
         form = RegistroForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            security_logger.info(
-                'Ecommerce registration: %s from IP %s',
-                user.username, get_client_ip(request)
+            user = form.save(commit=False)
+            user.is_active = False
+            user.save()
+            from comunidad.models import Perfil
+            perfil = Perfil.objects.get(usuario=user)
+            perfil.email_verified = False
+            perfil.save()
+
+            # Send verification email
+            from django.contrib.auth.tokens import default_token_generator
+            from django.utils.http import urlsafe_base64_encode
+            from django.utils.encoding import force_bytes
+            from django.core.mail import send_mail
+            from django.conf import settings as dj_settings
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            verify_url = request.build_absolute_uri(
+                f'/apoyo-mutuo/verificar/{uid}/{token}/'
             )
-            return redirect('lista_productos')
+            try:
+                send_mail(
+                    subject='Verifica tu correo — Tienda Tech',
+                    message=(
+                        f'Hola {user.username},\n\n'
+                        f'Activa tu cuenta haciendo clic en este enlace:\n\n'
+                        f'{verify_url}\n\n'
+                        f'Este enlace expira en 1 hora.\n'
+                        f'Si no creaste esta cuenta, ignora este mensaje.'
+                    ),
+                    from_email=dj_settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[user.email],
+                    fail_silently=True,
+                )
+            except Exception:
+                pass
+
+            from django.contrib import messages
+            messages.success(
+                request,
+                f'Cuenta creada. Revisa tu correo ({user.email}) para activar tu cuenta.'
+            )
+            return redirect('login_ecommerce')
     else:
         form = RegistroForm()
     return render(request, 'ecommerce/registro.html', {'form': form})
@@ -148,6 +182,19 @@ def login_ecommerce(request):
                 password=form.cleaned_data['password']
             )
             if user is not None:
+                from django.contrib import messages as msgs
+                if not user.is_active:
+                    msgs.warning(
+                        request,
+                        'Tu cuenta no está activada. Revisa tu correo para verificar tu email.'
+                    )
+                    return redirect('login_ecommerce')
+                if hasattr(user, 'perfil') and not user.perfil.email_verified:
+                    msgs.warning(
+                        request,
+                        'Tu correo no ha sido verificado. Revisa tu bandeja de entrada.'
+                    )
+                    return redirect('login_ecommerce')
                 login(request, user)
                 security_logger.info(
                     'Ecommerce login: %s from IP %s',

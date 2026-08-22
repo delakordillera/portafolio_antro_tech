@@ -243,6 +243,26 @@
         </div>
     </div>
 
+    {% if user.is_staff %}
+    <div class="col-12 mb-4">
+        <div class="panel-card">
+            <div class="panel-card-body" style="padding: 1rem 1.4rem;">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="bio-label"><i class="bi bi-shield-lock-fill"></i> Seguridad Admin</span>
+                        <p style="color: var(--muted); font-size: 0.85rem; margin: 0.25rem 0 0 0;">
+                            Protege el panel de administración con autenticación de dos factores (2FA).
+                        </p>
+                    </div>
+                    <a href="{% url 'setup_2fa' %}" class="btn-realizado text-decoration-none">
+                        <i class="bi bi-shield-check me-1"></i> Configurar 2FA
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="col-md-12 mb-4">
         <div class="panel-card">
             <div class="panel-card-header header-accent">

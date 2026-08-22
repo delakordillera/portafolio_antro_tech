@@ -1,0 +1,99 @@
+{% extends 'comunidad/base.html' %}
+
+{% block extra_style %}
+<style>
+    .auth-wrap { min-height: 60vh; display: flex; align-items: center; }
+    .auth-card {
+        background: var(--bg-alt); border: 1px solid var(--line); border-radius: 12px; padding: 2.5rem;
+    }
+    .auth-tag {
+        font-family: 'JetBrains Mono', monospace; font-weight: 600; text-transform: uppercase;
+        letter-spacing: 3px; font-size: 0.7rem; color: var(--accent); text-align: center; margin-bottom: 0.5rem;
+    }
+    .auth-tag::before { content: '// '; color: var(--line); }
+    .auth-title {
+        font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: var(--paper);
+        text-align: center; margin-bottom: 1.75rem;
+    }
+    .qr-container {
+        text-align: center; margin-bottom: 1.5rem;
+        background: white; display: inline-block; padding: 1rem; border-radius: 10px;
+    }
+    .qr-container img { display: block; width: 200px; height: 200px; }
+    .auth-form .field-group { margin-bottom: 1.25rem; }
+    .auth-form label {
+        display: block; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+        letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem;
+    }
+    .auth-form input {
+        width: 100%; background: var(--bg-alt-2); border: 1px solid var(--line-soft); color: var(--paper);
+        border-radius: 6px; padding: 0.7rem 0.9rem; font-size: 1.1rem; letter-spacing: 4px; text-align: center;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .auth-form input:focus {
+        background: var(--bg-alt-2); color: var(--paper); border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-soft); outline: none;
+    }
+    .btn-auth {
+        width: 100%; font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 0.9rem;
+        background: var(--accent); border: 1px solid var(--accent); color: var(--bg);
+        border-radius: 3px; padding: 0.8rem; margin-top: 0.5rem; transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .btn-auth:hover { background: #c8672f; color: var(--bg); transform: translateY(-2px); }
+    .steps { color: var(--ink); font-size: 0.9rem; line-height: 1.8; margin-bottom: 1.5rem; }
+    .steps li { margin-bottom: 0.5rem; }
+    .steps strong { color: var(--paper); }
+    .step-num {
+        display: inline-block; width: 24px; height: 24px; line-height: 24px; text-align: center;
+        background: var(--accent); color: var(--bg); border-radius: 50%; font-size: 0.75rem;
+        font-weight: 700; margin-right: 0.5rem;
+    }
+    .secret-key {
+        font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--accent);
+        background: var(--bg-alt-2); border: 1px solid var(--line); border-radius: 6px;
+        padding: 0.5rem 1rem; display: inline-block; margin: 0.5rem 0 1rem 0; letter-spacing: 2px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center auth-wrap">
+    <div class="col-md-6">
+        <div class="auth-card">
+            <p class="auth-tag">seguridad</p>
+            <h3 class="auth-title"><i class="bi bi-shield-lock me-2"></i>Configurar 2FA</h3>
+
+            <ol class="steps">
+                <li><span class="step-num">1</span> Instala una app de autenticación en tu celular:
+                    <strong>Google Authenticator</strong>, <strong>Authy</strong> o <strong>Microsoft Authenticator</strong>.</li>
+                <li><span class="step-num">2</span> Escanea este código QR con la app.</li>
+                <li><span class="step-num">3</span> Escribe el código de 6 dígitos que genera la app.</li>
+            </ol>
+
+            <div class="qr-container">
+                <img src="data:image/png;base64,{{ qr_b64 }}" alt="QR Code para 2FA">
+            </div>
+
+            {% if device.id and device.confirmed == False %}
+                <p class="text-center" style="color: var(--muted); font-size: 0.8rem;">
+                    Si no puedes escanear, ingresa esta clave manualmente:
+                </p>
+                <div class="text-center">
+                    <code class="secret-key">{{ device.key }}</code>
+                </div>
+            {% endif %}
+
+            <form method="POST" class="auth-form" novalidate>
+                {% csrf_token %}
+                <div class="field-group">
+                    <label for="code">Código de 6 dígitos</label>
+                    <input type="text" name="code" id="code" maxlength="6" pattern="[0-9]{6}"
+                           inputmode="numeric" autocomplete="one-time-code" required
+                           placeholder="000000" autofocus>
+                </div>
+                <button type="submit" class="btn-auth">Activar 2FA</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

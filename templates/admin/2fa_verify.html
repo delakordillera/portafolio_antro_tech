@@ -1,0 +1,43 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block title %}2FA Verification{% endblock %}
+
+{% block content %}
+<div id="content-main" style="max-width: 400px; margin: 60px auto;">
+    <div style="background: #f8f8f8; border: 1px solid #ddd; border-radius: 8px; padding: 30px;">
+        <h2 style="margin-top: 0; color: #333; text-align: center;">
+            <i class="fas fa-shield-alt"></i> Verificación 2FA
+        </h2>
+
+        <p style="color: #666; text-align: center; margin-bottom: 20px;">
+            Ingresa el código de tu app de autenticación.
+        </p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div style="background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 10px; border-radius: 4px; margin-bottom: 15px;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            <div style="margin-bottom: 15px;">
+                <label for="code" style="display: block; margin-bottom: 5px; font-weight: bold; color: #333;">
+                    Código de 6 dígitos
+                </label>
+                <input type="text" name="code" id="code" maxlength="6" pattern="[0-9]{6}"
+                       inputmode="numeric" autocomplete="one-time-code"
+                       required autofocus placeholder="000000"
+                       style="width: 100%; padding: 12px; font-size: 18px; letter-spacing: 4px; text-align: center; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+            </div>
+
+            <button type="submit" style="width: 100%; padding: 12px; background: #417690; color: white; border: none; border-radius: 4px; font-size: 14px; cursor: pointer;">
+                Verificar y Acceder
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

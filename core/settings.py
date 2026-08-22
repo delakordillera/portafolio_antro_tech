@@ -32,6 +32,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'axes',
+    'django_otp',
+    'django_otp.plugins.otp_totp',
+    'django_otp.plugins.otp_static',
     'comunidad',
     'main',
     'ecommerce',
@@ -44,11 +47,15 @@ AUTHENTICATION_BACKENDS = [
 MIDDLEWARE = [
     'core.security.NonceMiddleware',
     'core.security.SecurityMiddleware',
+    'core.security.AdminIPMiddleware',
+    'core.security.Admin2FAMiddleware',
+    'core.security.RateLimitPasswordReset',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django_otp.middleware.OTPMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'axes.middleware.AxesMiddleware',
@@ -59,7 +66,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -101,7 +108,36 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'muro'
 LOGOUT_REDIRECT_URL = 'muro'
 
-# Django messages → Bootstrap alert classes
+# --- Admin IP restriction ---
+# IPs allowed to access /admin/. Empty list = no restriction.
+# Set via env var ADMIN_ALLOWED_IPS as comma-separated IPs.
+ADMIN_ALLOWED_IPS = [
+    ip.strip()
+    for ip in os.environ.get('ADMIN_ALLOWED_IPS', '').split(',')
+    if ip.strip()
+]
+
+# --- Email (configura en PythonAnywhere > Account > Email) ---
+EMAIL_BACKEND = os.environ.get(
+    'EMAIL_BACKEND',
+    'django.core.mail.backends.console.EmailBackend'  # fallback: logs to console
+)
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.pythonanywhere.com')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', '587'))
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'noreply@delakordillera.pythonanywhere.com')
+
+# --- Password reset ---
+PASSWORD_RESET_TIMEOUT = 3600  # 1 hour to use the reset link
+
+# --- CSP Report-Only mode ---
+# Set CSP_REPORT_ONLY=True in env var to test CSP without enforcement.
+# Once confirmed no legitimate resources are blocked, set to False for enforcement.
+CSP_REPORT_ONLY = os.environ.get('CSP_REPORT_ONLY', 'False') == 'True'
+
+# --- Django messages → Bootstrap alert classes ---
 from django.contrib.messages import constants as message_constants
 MESSAGE_TAGS = {
     message_constants.DEBUG: 'secondary',
@@ -163,7 +199,7 @@ SESSION_SAVE_EVERY_REQUEST = True
 from datetime import timedelta
 AXES_FAILURE_LIMIT = 5
 AXES_COOLOFF_TIME = timedelta(minutes=15)
-AXES_LOCK_OUT_BY_COMBINATION_USER_AND_IP = True
+AXES_LOCK_OUT_COMBINATION = True
 AXES_RESET_ON_SUCCESS = True
 AXES_ENABLE_ADMIN = True
 AXES_VERBOSE = True

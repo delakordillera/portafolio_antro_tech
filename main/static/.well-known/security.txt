@@ -1,0 +1,5 @@
+Contact: mailto:delakordillera@gmail.com
+Expires: 2027-01-01T00:00:00.000Z
+Preferred-Languages: es en
+Canonical: https://delakordillera.pythonanywhere.com/.well-known/security.txt
+Policy: https://delakordillera.pythonanywhere.com/
