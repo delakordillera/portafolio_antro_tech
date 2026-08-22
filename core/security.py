@@ -179,7 +179,8 @@ class Admin2FAMiddleware:
 
     def __call__(self, request):
         if (
-            request.path.startswith('/admin/')
+            hasattr(request, 'user')
+            and request.path.startswith('/admin/')
             and request.user.is_authenticated
             and request.user.is_staff
             and request.path not in ('/admin/login/', '/admin/logout/')
