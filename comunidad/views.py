@@ -8,6 +8,9 @@ from django.contrib import messages
 from django.db.models import Q, F
 from django.views.decorators.http import require_POST
 from django.views.decorators.session import cycle_session_key
+import logging
+
+security_logger = logging.getLogger('security')
 
 # --- GESTIÓN DEL MURO Y BÚSQUEDA ---
 
@@ -145,6 +148,10 @@ def registro(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
+            security_logger.info(
+                'New user registered: %s from IP %s',
+                user.username, request.META.get('REMOTE_ADDR', 'unknown')
+            )
             messages.success(request, f"¡Bienvenido/a {user.username}! Ya eres parte de esta red.")
             return redirect('muro')
     else:

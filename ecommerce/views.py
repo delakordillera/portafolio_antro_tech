@@ -9,6 +9,9 @@ from django.dispatch import receiver
 from core.security import get_client_ip
 from comunidad.forms import LoginForm, RegistroForm
 from .models import Producto
+import logging
+
+security_logger = logging.getLogger('security')
 
 LOGIN_ATTEMPTS_LIMIT = 5
 
@@ -125,6 +128,10 @@ def registro_ecommerce(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
+            security_logger.info(
+                'Ecommerce registration: %s from IP %s',
+                user.username, get_client_ip(request)
+            )
             return redirect('lista_productos')
     else:
         form = RegistroForm()
@@ -142,6 +149,10 @@ def login_ecommerce(request):
             )
             if user is not None:
                 login(request, user)
+                security_logger.info(
+                    'Ecommerce login: %s from IP %s',
+                    user.username, get_client_ip(request)
+                )
                 return redirect('lista_productos')
             else:
                 from django.contrib import messages

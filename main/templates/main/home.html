@@ -1016,15 +1016,15 @@
     <div class="nav-wrap">
         <nav class="nav-pill" aria-label="Navegación principal">
             <a class="nav-brand" href="/">delakordillera</a>
-            <button class="nav-toggle" aria-label="Menú" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+             <button class="nav-toggle" aria-label="Menú">
                 <span></span><span></span><span></span>
             </button>
             <ul class="nav-links">
-                <li><a href="#" onclick="event.preventDefault(); openModal(); document.querySelector('.nav-links').classList.remove('open')">Sobre mí</a></li>
-                <li><a href="#habilidades" onclick="document.querySelector('.nav-links').classList.remove('open')">Habilidades</a></li>
-                <li><a href="#proyectos" onclick="document.querySelector('.nav-links').classList.remove('open')">Proyectos</a></li>
-                <li><a href="#formacion" onclick="document.querySelector('.nav-links').classList.remove('open')">Formación</a></li>
-                <li><a class="nav-cta" href="#contacto" onclick="document.querySelector('.nav-links').classList.remove('open')">Contacto</a></li>
+                <li><a href="#" data-action="open-modal">Sobre mí</a></li>
+                <li><a href="#habilidades" data-action="close-nav">Habilidades</a></li>
+                <li><a href="#proyectos" data-action="close-nav">Proyectos</a></li>
+                <li><a href="#formacion" data-action="close-nav">Formación</a></li>
+                <li><a class="nav-cta" href="#contacto" data-action="close-nav">Contacto</a></li>
             </ul>
         </nav>
     </div>
@@ -1326,7 +1326,7 @@
     <!-- MODAL SOBRE MÍ -->
     <div class="modal-overlay" id="modalSobreMi" role="dialog" aria-modal="true" aria-label="Sobre mí">
         <div class="modal-box">
-            <button class="modal-close" aria-label="Cerrar" onclick="closeModal()">&times;</button>
+            <button class="modal-close" aria-label="Cerrar">&times;</button>
             <p class="modal-eyebrow">Expediente personal</p>
             <h3 class="modal-name">{{ perfil.nombre|default:'Alexis Lara Viveros' }}</h3>
             <hr class="modal-rule">
@@ -1352,13 +1352,60 @@
 
             <p class="modal-objective">Mi objetivo profesional es integrar la investigación de usuarios y el desarrollo en un mismo flujo de trabajo, donde los hallazgos cualitativos se traduzcan directamente en decisiones de producto sin pérdida de sentido. Busco roles donde esta doble perspectiva —antropológica y técnica— sea el eje de la construcción de experiencias digitales centradas en las personas.</p>
             {% endif %}
-            <button class="modal-footer-btn" onclick="closeModal()">Cerrar</button>
+            <button class="modal-footer-btn">Cerrar</button>
         </div>
     </div>
 
-    <script>
+    <script nonce="{{ request.nonce }}">
     (function(){
-        /* Scroll reveal */
+        /* --- Navigation: toggle + close on link click --- */
+        var navToggle=document.querySelector('.nav-toggle');
+        var navLinks=document.querySelector('.nav-links');
+        if(navToggle){
+            navToggle.addEventListener('click',function(){
+                navLinks.classList.toggle('open');
+            });
+        }
+        document.querySelectorAll('[data-action="close-nav"]').forEach(function(el){
+            el.addEventListener('click',function(){
+                navLinks.classList.remove('open');
+            });
+        });
+        document.querySelectorAll('[data-action="open-modal"]').forEach(function(el){
+            el.addEventListener('click',function(e){
+                e.preventDefault();
+                openModal();
+                navLinks.classList.remove('open');
+            });
+        });
+
+        /* --- Modal open/close --- */
+        window.openModal=function(){
+            var m=document.getElementById('modalSobreMi');
+            m.classList.add('open');
+            document.body.style.overflow='hidden';
+            m.querySelector('.modal-close').focus();
+        };
+        window.closeModal=function(){
+            var m=document.getElementById('modalSobreMi');
+            m.classList.remove('open');
+            document.body.style.overflow='';
+        };
+        var modalCloseBtns=document.querySelectorAll('.modal-close, .modal-footer-btn');
+        modalCloseBtns.forEach(function(btn){
+            btn.addEventListener('click',closeModal);
+        });
+        var modal=document.getElementById('modalSobreMi');
+        if(modal){
+            modal.addEventListener('click',function(e){
+                if(e.target===this) closeModal();
+            });
+        }
+        document.addEventListener('keydown',function(e){
+            if(e.key==='Escape' && document.getElementById('modalSobreMi').classList.contains('open')) closeModal();
+        });
+
+        /* --- Scroll reveal --- */
         var observer = new IntersectionObserver(function(entries){
             entries.forEach(function(e){
                 if(e.isIntersecting){
@@ -1369,14 +1416,14 @@
         },{threshold:0.12});
         document.querySelectorAll('.anim').forEach(function(el){observer.observe(el);});
 
-        /* Text reveal — hero title */
+        /* --- Text reveal — hero title --- */
         setTimeout(function(){
             document.querySelectorAll('.reveal-word').forEach(function(w,i){
                 setTimeout(function(){ w.classList.add('visible'); }, 200 + i * 120);
             });
         }, 400);
 
-        /* Magnetic hover — contact icons */
+        /* --- Magnetic hover — contact icons --- */
         document.querySelectorAll('.contact-link').forEach(function(el){
             el.addEventListener('mousemove',function(e){
                 var r = el.getBoundingClientRect();
@@ -1389,24 +1436,6 @@
             });
         });
     })();
-
-    function openModal(){
-        var m=document.getElementById('modalSobreMi');
-        m.classList.add('open');
-        document.body.style.overflow='hidden';
-        m.querySelector('.modal-close').focus();
-    }
-    function closeModal(){
-        var m=document.getElementById('modalSobreMi');
-        m.classList.remove('open');
-        document.body.style.overflow='';
-    }
-    document.getElementById('modalSobreMi').addEventListener('click',function(e){
-        if(e.target===this) closeModal();
-    });
-    document.addEventListener('keydown',function(e){
-        if(e.key==='Escape' && document.getElementById('modalSobreMi').classList.contains('open')) closeModal();
-    });
 
     (function(){
         var orb=document.querySelector('.hero-orb');

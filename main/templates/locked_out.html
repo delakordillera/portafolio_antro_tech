@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuenta bloqueada</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            background: #110f0c; color: #c9c0b1; font-family: 'Inter', sans-serif;
+        }
+        .lock-card {
+            background: #1a1712; border: 1px solid rgba(217,119,63,0.16);
+            border-radius: 12px; padding: 3rem 2.5rem; max-width: 420px; text-align: center;
+        }
+        .lock-icon {
+            width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 1.5rem;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(224,128,114,0.12); border: 1px solid rgba(224,128,114,0.3);
+            font-size: 2rem; color: #e08072;
+        }
+        h1 {
+            font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+            color: #f4ede0; margin-bottom: 1rem; font-size: 1.3rem;
+        }
+        p { color: #857c6d; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem; }
+        .tag {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 2px;
+            text-transform: uppercase; color: #d9773f; display: block; margin-bottom: 0.5rem;
+        }
+        .tag::before { content: '// '; color: rgba(217,119,63,0.3); }
+        a {
+            display: inline-block; color: #d9773f; text-decoration: none;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; font-weight: 600;
+        }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="lock-card">
+        <div class="lock-icon">&#128274;</div>
+        <p class="tag">seguridad</p>
+        <h1>Cuenta bloqueada temporalmente</h1>
+        <p>Demasiados intentos de acceso fallidos. Tu cuenta ha sido bloqueada por 15 minutos como medida de protección.</p>
+        <p>Si necesitas acceso urgente, contacta al administrador.</p>
+        <a href="/">&#8592; Volver al inicio</a>
+    </div>
+</body>
+</html>
