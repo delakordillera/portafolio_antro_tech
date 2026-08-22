@@ -5,7 +5,8 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from .models import Habilidad, Intercambio, Perfil
 from django.contrib import messages
-from django.db.models import Q
+from django.db.models import Q, F
+from django.views.decorators.http import require_POST
 
 # --- GESTIÓN DEL MURO Y BÚSQUEDA ---
 
@@ -84,33 +85,35 @@ def eliminar_habilidad(request, habilidad_id):
 # --- GESTIÓN DE INTERCAMBIOS Y CAPITAL SOCIAL ---
 
 @login_required
+@require_POST
 def solicitar_intercambio(request, habilidad_id):
-    habilidad = Habilidad.objects.get(id=habilidad_id)
+    habilidad = get_object_or_404(Habilidad, id=habilidad_id)
     
-    if habilidad.ofertante != request.user:
-        ya_existe = Intercambio.objects.filter(solicitante=request.user, habilidad=habilidad).exists()
-        
-        if not ya_existe:
-            Intercambio.objects.create(solicitante=request.user, habilidad=habilidad)
-            messages.success(request, f'Has solicitado con éxito "{habilidad.titulo}"')
-        else:
-            messages.info(request, "Ya has solicitado esto.")
-    else:
+    if habilidad.ofertante == request.user:
         messages.warning(request, "No puedes solicitar tu propio oficio.")
-        
+        return redirect('muro')
+    
+    ya_existe = Intercambio.objects.filter(solicitante=request.user, habilidad=habilidad).exists()
+    
+    if not ya_existe:
+        Intercambio.objects.create(solicitante=request.user, habilidad=habilidad)
+        messages.success(request, f'Has solicitado con éxito "{habilidad.titulo}"')
+    else:
+        messages.info(request, "Ya has solicitado esto.")
+    
     return redirect('muro')
 
 @login_required
+@require_POST
 def completar_intercambio(request, intercambio_id):
-    intercambio = Intercambio.objects.get(id=intercambio_id)
+    intercambio = get_object_or_404(Intercambio, id=intercambio_id)
     
     if intercambio.habilidad.ofertante == request.user and not intercambio.completado:
         intercambio.completado = True
         intercambio.save()
         
         perfil_solicitante, created = Perfil.objects.get_or_create(usuario=intercambio.solicitante)
-        perfil_solicitante.puntos_confianza += 1
-        perfil_solicitante.save()
+        Perfil.objects.filter(pk=perfil_solicitante.pk).update(puntos_confianza=F('puntos_confianza') + 1)
         
         messages.success(request, f"¡Favor completado! Has fortalecido el vínculo con {intercambio.solicitante.username}.")
     else:
@@ -119,16 +122,16 @@ def completar_intercambio(request, intercambio_id):
     return redirect('perfil')
 
 @login_required
+@require_POST
 def dejar_agradecimiento(request, intercambio_id):
-    intercambio = Intercambio.objects.get(id=intercambio_id)
+    intercambio = get_object_or_404(Intercambio, id=intercambio_id)
     
     if intercambio.solicitante == request.user and intercambio.completado:
-        if request.method == 'POST':
-            comentario = request.POST.get('comentario')
-            if comentario:
-                intercambio.comentario_gratitud = comentario
-                intercambio.save()
-                messages.success(request, "¡Agradecimiento enviado! Tu testimonio fortalece la confianza.")
+        comentario = request.POST.get('comentario', '').strip()
+        if comentario:
+            intercambio.comentario_gratitud = comentario
+            intercambio.save()
+            messages.success(request, "¡Agradecimiento enviado! Tu testimonio fortalece la confianza.")
     
     return redirect('perfil')
 

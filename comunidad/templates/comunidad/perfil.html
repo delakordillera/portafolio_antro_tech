@@ -264,9 +264,12 @@
                         <div class="pedido-meta">
                             <span><i class="bi bi-calendar-event"></i> {{ pedido.fecha_creacion|date:"d/m/Y" }}</span>
                             {% if not pedido.completado %}
-                                <a href="{% url 'completar_intercambio' pedido.id %}" class="btn-realizado">
-                                    <i class="bi bi-check-circle me-1"></i> Realizado
-                                </a>
+                                <form action="{% url 'completar_intercambio' pedido.id %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-realizado">
+                                        <i class="bi bi-check-circle me-1"></i> Realizado
+                                    </button>
+                                </form>
                             {% else %}
                                 <span class="badge-completado"><i class="bi bi-patch-check"></i> Completado</span>
                             {% endif %}

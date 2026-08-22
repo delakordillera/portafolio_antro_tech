@@ -1,6 +1,7 @@
 # Entorno virtual
 env/
 venv/
+.venv/
 
 # Base de datos local
 db.sqlite3
@@ -8,10 +9,15 @@ db.sqlite3
 # Archivos compilados de Python
 __pycache__/
 *.pyc
+*.pyo
 
 # Archivos multimedia subidos por usuarios locales
 media/
 
 # Archivos de seguridad
-.env_secret_key
-core/settings.py
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.json

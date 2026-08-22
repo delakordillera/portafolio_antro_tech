@@ -52,15 +52,14 @@ Arreglé esto:
 - `SECRET_KEY` ahora se lee de la variable de entorno `DJANGO_SECRET_KEY`
   (con un fallback obviamente marcado como "solo local" para que puedas
   correr el proyecto sin configurar nada en tu máquina)
-- **Tienes que rotar la clave en producción.** En PythonAnywhere: pestaña
-  **Web** → busca la sección de tu archivo WSGI → agrega antes del import de
-  la app:
+- **Tienes que rotar la clave en producción.** Genera una nueva con:
+  `python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"`
+  En PythonAnywhere: pestaña **Web** → agrega antes del import de la app:
   ```python
   import os
   os.environ['DJANGO_SECRET_KEY'] = 'PEGA_AQUÍ_LA_CLAVE_NUEVA'
   ```
-  Clave nueva generada (guárdala en un gestor de contraseñas, no en el
-  código): `__1*8ch5+p7-^jhbkk96g=dd8v3cy3l_3z@@v=_zk$@ao^a##7`
+  **Guárdala en un gestor de contraseñas. NUNCA la subas al código.**
 - `DEBUG` también se lee de `DJANGO_DEBUG` (por defecto `False`, igual que
   ahora)
 - Agregué cabeceras de seguridad estándar para producción (activadas solo

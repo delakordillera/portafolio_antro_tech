@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.views.decorators.http import require_POST
 from .models import Producto
 
 # ==========================================
@@ -130,6 +131,7 @@ def login_ecommerce(request):
         form = AuthenticationForm()
     return render(request, 'ecommerce/login.html', {'form': form})
 
+@require_POST
 def logout_ecommerce(request):
     logout(request)
     return redirect('lista_productos')

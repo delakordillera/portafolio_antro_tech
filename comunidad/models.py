@@ -52,6 +52,11 @@ class Intercambio(models.Model):
     comentario_gratitud = models.TextField(blank=True)
     completado = models.BooleanField(default=False)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['solicitante', 'habilidad'], name='uniq_solicitante_habilidad')
+        ]
+
     def __str__(self):
         return f"{self.solicitante.username} solicitó {self.habilidad.titulo}"
 

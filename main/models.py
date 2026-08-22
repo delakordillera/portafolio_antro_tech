@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 # 1. TUS HABILIDADES
 class Skill(models.Model):
@@ -9,7 +10,10 @@ class Skill(models.Model):
     ]
     nombre = models.CharField(max_length=100)
     categoria = models.CharField(max_length=4, choices=CATEGORIAS)
-    nivel = models.IntegerField(help_text="Del 1 al 100")
+    nivel = models.IntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(100)],
+        help_text="Del 1 al 100"
+    )
 
     def __str__(self):
         return f"{self.nombre} ({self.get_categoria_display()})"

@@ -204,9 +204,12 @@
                 <div class="habilidad-actions">
                     {% if user.is_authenticated %}
                         {% if user != habilidad.ofertante %}
-                            <a href="{% url 'solicitar_intercambio' habilidad.id %}" class="btn-solicitar">
-                                <i class="bi bi-hand-index-thumb me-1"></i> Solicitar Ayuda
-                            </a>
+                            <form action="{% url 'solicitar_intercambio' habilidad.id %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-solicitar">
+                                    <i class="bi bi-hand-index-thumb me-1"></i> Solicitar Ayuda
+                                </button>
+                            </form>
                         {% else %}
                             <div class="habilidad-own"><i class="bi bi-person-check"></i> Es tu publicación</div>
                         {% endif %}
