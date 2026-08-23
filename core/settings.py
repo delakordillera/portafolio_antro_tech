@@ -204,6 +204,7 @@ AXES_RESET_ON_SUCCESS = True
 AXES_ENABLE_ADMIN = True
 AXES_VERBOSE = True
 AXES_LOCKOUT_TEMPLATE = 'locked_out.html'
+AXES_ENABLED = not (os.environ.get('DJANGO_DEBUG', 'False') == 'True')
 
 # --- Security logging ---
 LOGS_DIR = os.path.join(BASE_DIR, 'logs')
