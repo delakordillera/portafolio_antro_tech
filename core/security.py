@@ -185,14 +185,15 @@ class Admin2FAMiddleware:
             and request.user.is_staff
             and request.path not in ('/admin/login/', '/admin/logout/')
         ):
-            from django_otp import user_is_verified
             from django_otp.plugins.otp_totp.models import TOTPDevice
 
             has_totp = TOTPDevice.objects.filter(
                 user=request.user, confirmed=True
             ).exists()
 
-            if has_totp and not user_is_verified(request.user):
+            is_verified = getattr(request.user, 'is_verified', lambda: False)()
+
+            if has_totp and not is_verified:
                 if request.path != '/admin/2fa-verify/':
                     security_logger.warning(
                         'Admin 2FA required: %s from IP %s',
@@ -249,7 +250,7 @@ def admin_2fa_verify(request):
 
     if request.method == 'POST':
         code = request.POST.get('code', '').strip()
-        from django_otp import login as otp_login
+        from django_otp import DEVICE_ID_SESSION_KEY
         from django_otp.plugins.otp_totp.models import TOTPDevice
 
         device = TOTPDevice.objects.filter(
@@ -257,7 +258,10 @@ def admin_2fa_verify(request):
         ).first()
 
         if device and device.verify_token(code):
-            otp_login(request, device)
+            from django.contrib.auth import login as auth_login
+            from django_otp.plugins.otp_totp.models import TOTPDevice
+            auth_login(request, request.user)
+            request.session[DEVICE_ID_SESSION_KEY] = device.persistent_id
             security_logger.info(
                 'Admin 2FA verified: %s from IP %s',
                 request.user.username, get_client_ip(request)
