@@ -533,6 +533,50 @@
             background: linear-gradient(135deg, rgba(15,14,11,0.1), rgba(15,14,11,0.3));
             pointer-events: none;
         }
+
+        /* Browser frame para proyectos web en vivo */
+        .project-frame {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .project-browser {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.6rem 0.85rem;
+            background: rgba(23, 21, 17, 0.96);
+            border-bottom: 1px solid var(--border);
+            z-index: 2;
+        }
+        .project-browser .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(240, 232, 216, 0.12);
+            flex-shrink: 0;
+        }
+        .project-browser .dot:nth-child(1) { background: rgba(217, 119, 63, 0.85); }
+        .project-browser .dot:nth-child(2) { background: rgba(138, 168, 136, 0.85); }
+        .project-browser .dot:nth-child(3) { background: rgba(240, 232, 216, 0.28); }
+        .project-browser .url-bar {
+            margin-left: 0.4rem;
+            flex: 1;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            padding: 0 0.8rem;
+            background: rgba(240, 232, 216, 0.05);
+            border-radius: 7px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem;
+            color: var(--muted);
+            letter-spacing: 0.2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .project-frame .project-img-wrap { flex: 1; }
         .project-img-placeholder {
             min-height: 260px;
             display: flex;
@@ -1250,6 +1294,44 @@
                                 <p><strong>Demo técnica — no es un producto en producción.</strong> Proyecto construido para demostrar un stack full end-to-end: catálogo dinámico, carrito de compras con sesiones, autenticación de usuarios (<code>Django auth</code>), panel de administración (<code>/admin/</code>) con CRUD sobre modelos, integración de API REST externa (<code>mindicador.cl</code>) para datos financieros en tiempo real, y backend relational con <code>SQLite</code>. Aplicación desplegada en PythonAnywhere con <code>Gunicorn</code>.</p>
                             </div>
                             <span class="project-link">Ver demo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+                        </div>
+                    </div>
+                    </a>
+                    <a href="https://laotraestacionrestaurant.cl/" class="project-link-wrap anim" target="_blank" rel="noopener">
+                    <div class="project-card">
+                        <div class="project-frame">
+                            <div class="project-browser" aria-hidden="true">
+                                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                                <span class="url-bar">laotraestacionrestaurant.cl</span>
+                            </div>
+                            <div class="project-img-wrap"><img src="/media/laotraestacion.jpg" alt="La Otra Estación — sitio web del restaurante" loading="lazy"></div>
+                        </div>
+                        <div class="project-body">
+                            <p class="project-tag">Producto real</p>
+                            <h3>La Otra Estación</h3>
+                            <p>Sitio web en producción para un restaurante familiar de comida casera chilena en Peñalolén: carta a un clic, reservas y pedidos por WhatsApp, y ficha local real en Google.</p>
+                            <div class="project-meta">
+                                <div class="project-meta-row">
+                                    <span class="project-meta-label">Observación</span>
+                                    <span class="project-meta-value">La carta vivía como PDF suelto por WhatsApp y cada reserva era un hilo de mensajes sin orden.</span>
+                                </div>
+                                <div class="project-meta-row">
+                                    <span class="project-meta-label">Hallazgo</span>
+                                    <span class="project-meta-value">El menú del día es un objeto social del barrio: el negocio vive del boca a boca y de la confianza vecinal.</span>
+                                </div>
+                                <div class="project-meta-row">
+                                    <span class="project-meta-label">Traducción</span>
+                                    <span class="project-meta-value">Un solo sitio con botones de WhatsApp pre-armados y datos estructurados para aparecer en Google y Maps.</span>
+                                </div>
+                            </div>
+                            <div class="project-tech">
+                                <span class="tech-pill">HTML</span>
+                                <span class="tech-pill">CSS</span>
+                                <span class="tech-pill">JavaScript</span>
+                                <span class="tech-pill">SEO local</span>
+                                <span class="tech-pill">Schema.org</span>
+                            </div>
+                            <span class="project-link">Visitar sitio <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
                         </div>
                     </div>
                     </a>
