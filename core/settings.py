@@ -7,14 +7,52 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECRET_KEY: Se lee de la variable de entorno DJANGO_SECRET_KEY.
-# Configúrala en PythonAnywhere (Web > Environment variables) o en el WSGI.
-# Si no está configurada, el sitio NO arranca (evita usar la clave known en prod).
+
+def _leer_env_file(ruta):
+    """Carga KEY=VALUE desde un .env sin dependencias externas.
+
+    No usamos python-dotenv a propósito: en PythonAnywhere cada paquete extra
+    es un `pip install` que puede fallar en pleno deploy. Con esto, el mismo
+    archivo le sirve a la web y a la consola, que es justo el punto.
+
+    Lo que ya venga en el entorno real gana: setdefault no pisa.
+    """
+    if not ruta.is_file():
+        return {}
+    valores = {}
+    for linea in ruta.read_text(encoding='utf-8').splitlines():
+        linea = linea.strip()
+        if not linea or linea.startswith('#') or '=' not in linea:
+            continue
+        if linea.startswith('export '):
+            linea = linea[len('export '):]
+        clave, _, valor = linea.partition('=')
+        clave = clave.strip()
+        valor = valor.strip()
+        if len(valor) >= 2 and valor[0] == valor[-1] and valor[0] in "\"'":
+            valor = valor[1:-1]
+        if clave:
+            valores[clave] = valor
+    return valores
+
+
+for _clave, _valor in _leer_env_file(BASE_DIR / '.env').items():
+    os.environ.setdefault(_clave, _valor)
+
+# SECRET_KEY: se lee de DJANGO_SECRET_KEY, que puede venir del entorno o del
+# .env de la raíz del repo. Si no está, el sitio NO arranca: preferimos un
+# error ruidoso a levantar en producción con la clave que estuvo publicada.
+#
+# Ojo con PythonAnywhere: las variables de la pestaña Web NO llegan a la
+# consola. Por eso el .env es la vía recomendada: funciona en los dos lados.
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 if not SECRET_KEY:
     raise ValueError(
-        "DJANGO_SECRET_KEY no está configurada. "
-        "Agrécala en PythonAnywhere > Web > Environment variables."
+        "DJANGO_SECRET_KEY no está configurada. Agrégala en una de estas dos:\n"
+        "  1. Crea un archivo .env en la raíz del repo con DJANGO_SECRET_KEY=...\n"
+        "     (funciona en la web y en la consola)\n"
+        "  2. PythonAnywhere > Web > Environment variables\n"
+        "     (OJO: la consola no ve esas variables)"
     )
 
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'

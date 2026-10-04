@@ -67,14 +67,23 @@ Para probar este ecosistema de proyectos en tu propia máquina, clona este repos
 
 git clone https://github.com/delakordillera/portafolio_antro_tech.git
 
-En Settings de Django la clave secreta se lee de la variable de entorno `DJANGO_SECRET_KEY` (no existe fallback: si falta, la aplicación no arranca, a propósito). Con `DJANGO_DEBUG=True` el servidor de desarrollo incluye `localhost` en `ALLOWED_HOSTS`.
+En `core/settings.py` la clave secreta se lee de la variable de entorno `DJANGO_SECRET_KEY` (no existe fallback: si falta, la aplicación no arranca, a propósito). Si no está en el entorno, se busca en un archivo `.env` en la raíz del repo. Con `DJANGO_DEBUG=True` el servidor de desarrollo incluye `localhost` en `ALLOWED_HOSTS`.
+
+Lo más simple es copiar el ejemplo y no exportar nada a mano:
 
     python -m venv venv
     .\venv\Scripts\Activate.ps1
     pip install -r requirements.txt
-    $env:DJANGO_SECRET_KEY="clave-local-de-prueba"
+    copy .env.example .env
+    # edita .env y pega una clave
     python manage.py migrate
     python manage.py runserver
+
+Para generar una clave: `python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"`
+
+`.env` está en `.gitignore`, no se sube nunca.
+
+En PythonAnywhere el `.env` es la vía recomendada, no la pestaña Web: las variables de *Web → Environment variables* no existen en la consola, así que con ellas `python manage.py migrate` falla. Ver la sección **Deploy** de `NOTES_REDISENO.md`.
 
 
 Próximos Pasos y Visión

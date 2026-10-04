@@ -223,21 +223,51 @@ búsqueda*, y actualiza el período en las etiquetas `nota`.
 git add -A && git commit -m "..." && git push
 ```
 
-En PythonAnywhere:
+En PythonAnywhere (pestaña **Files → tu carpeta → Consola**):
 
 ```bash
-source ~/venvs/mi_web/bin/activate
+cd ~/portafolio_antro_tech
+source ~/venvs/mi_web/bin/activate      # la ruta real de tu venv
+git pull origin main
 python manage.py migrate
 python manage.py collectstatic --noinput
 ```
 
 Y después **Web → Reload**.
 
+### La `SECRET_KEY` va en un `.env`, no en la pestaña Web
+
+Esto es lo que más cuesta entender de PythonAnywhere y ya nos costó una vez:
+
+**Las variables de la pestaña Web NO existen en la consola.** Si configurás
+`DJANGO_SECRET_KEY` en *Web → Environment variables*, la web levanta pero
+`python manage.py migrate` en la consola sigue fallando con
+`ValueError: DJANGO_SECRET_KEY no está configurada`.
+
+Por eso `core/settings.py` lee un `.env` de la raíz del repo (parser propio, de
+~20 líneas, sin `python-dotenv` a propósito: en PythonAnywhere cada paquete
+extra es un `pip install` que puede fallar en pleno deploy). El mismo archivo
+lo leen la web y la consola. Lo que venga en el entorno real tiene prioridad
+sobre el archivo (`setdefault`).
+
+En el servidor, **una sola vez**:
+
+```bash
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+nano .env      # DJANGO_DEBUG=False y la clave que recién generaste
+```
+
+`.env` está en `.gitignore`. Si además la clave está en la pestaña Web, déjala:
+es inofensiva, pero `.env` es la que hace que la consola funcione.
+
+Ojo: el traceback del error menciona la pestaña Web primero porque es el
+montaje que ya existía. La ruta que funciona en ambos lados es el `.env`.
+
 Lo que corre en el servidor que no está en el repo:
 
 - `db.sqlite3` (está en `.gitignore`): las migraciones `0006` y `0007` crean los
   campos nuevos y siembran los cuatro proyectos.
-- `DJANGO_SECRET_KEY` en el entorno.
+- `.env` con la `DJANGO_SECRET_KEY` (está en `.gitignore`).
 - `media/`.
 
 ## Seguridad (lo que se hizo en la pasada anterior)
