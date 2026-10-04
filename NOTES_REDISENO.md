@@ -122,3 +122,136 @@ portafolio si lo completas con información real:
 3. `git add -A && git commit -m "..." && git push`.
 4. En PythonAnywhere: configura `DJANGO_SECRET_KEY` en el WSGI (ver arriba),
    pestaña **Web** → **Reload**.
+
+---
+
+## Actualización 2026-10-03 — La Otra Estación como caso insignia
+
+## Lo que cambió en esta última pasada
+
+**La Otra Estación pasó a ser el caso insignia del portafolio.** Antes era una
+tarjeta más, hardcodeada al final de la grilla. Ahora es:
+
+1. Una sección completa (`#caso-destacado`) que aparece **justo debajo del
+   hero**, antes que habilidades y antes que la grilla de proyectos.
+2. La primera tarjeta de la grilla, con el distintivo "Proyecto destacado".
+3. El destino del botón principal del hero y el destino del enlace "Portafolio"
+   en `comunidad/base.html` y `ecommerce/base.html`.
+
+La narrativa sigue la misma voz del resto del portafolio:
+**Observación → Método → Traducción → Resultado**, más un bloque de evidencia
+con las métricas reales del cliente.
+
+## Decisiones que conviene no revertir sin pensar
+
+**El contenido vive en la base de datos, no en el HTML.** `main/models.py`
+extiende `Proyecto` con campos para el caso de estudio (`problema`, `metodo`,
+`traduccion`, `resultado`, `metricas`, `terminos`, `capturas`, `destacado`,
+`cliente`, `rol`, `anio`, `url_produccion`, `link_interno`, `advertencia`,
+`visible`). Todo se edita desde `/admin/` → Proyectos. La migración
+`0007_cargar_portafolio` siembra los cuatro proyectos con su contenido actual y
+es idempotente: si ya existe un proyecto con ese título, no lo pisa.
+
+Antes, la grilla de proyectos tenía dos juegos de markup —el loop sobre la base
+de datos y un bloque `{% else %}` con los cuatro proyectos hardcodeados— y
+ siempre ganaba el segundo, porque la base de datos estaba vacía. Eso se eliminó.
+Ahora el bloque vacío es un mensaje honesto, no 170 líneas de HTML duplicado.
+
+**Las capturas van en `static/`, no en `media/`.** Motivo concreto: `media/`
+está en `.gitignore`, así que cualquier imagen nueva tendría que subirla a mano
+al servidor. `staticfiles/` sí se versiona en git, así que las capturas viajan
+solas con el deploy. Están en `main/static/main/estacion/` (fuente) y se copian
+a `staticfiles/main/estacion/` con `collectstatic`.
+
+**`Proyecto.imagen` es opcional a propósito.** Las tres imágenes viejas
+(`/media/apoyo-mutuo.jpg`, `/media/ecommerce.jpg`, `/media/franco-alvarez.jpg`)
+no existen en el repositorio, solo en el disco del servidor. La tarjeta resuelve
+en este orden: `imagen` si el archivo está realmente en disco
+(`Proyecto.imagen_existe`) → la captura marcada como portada → un placeholder
+con textura. Así nunca sale una imagen rota, ni en local ni en producción.
+
+## Métricas: de dónde salen y cuándo caducan
+
+Son del **Google Business Profile** del restaurante, período **últimos 28 días**:
+
+| Cifra | Qué es |
+| --- | --- |
+| 10.111 | Personas que vieron el Perfil de Negocio |
+| 5.557 | Búsquedas de Google que mostraron el Perfil de Negocio |
+| 382 | Interacciones del Perfil de Negocio |
+| 87% | De las visitas llegaron desde Google Maps en celular (8.763 de 10.111) |
+
+Los cinco términos de búsqueda (`restaurants` 3.679, `comida` 792, `restaurant`
+328, `restaurantes` 281, `restaurante` 156) **suman 5.236, no 5.557**. Google
+solo muestra los principales, así que en la plantilla están rotulados
+"principales 5" y la cifra de 5.557 se muestra aparte como total. No cambiar
+uno sin revisar el otro.
+
+Estas cifras son de una ventana móvil: en unos meses dejórán de ser ciertas.
+Para refrescarlas, edita el proyecto en `/admin/` → *Métricas* y *Términos de
+búsqueda*, y actualiza el período en las etiquetas `nota`.
+
+## Lo que sigue pendiente de contenido
+
+1. **El campo `metodo` del caso destacado está redactado con las decisiones de
+   diseño verificables en el sitio entregable, no con investigación de campo
+   declarada.** Si hubo entrevistas, observación en el local o mapeo del flujo
+   con el dueño, eso va en `metodo` y es exactamente el tipo de detalle que
+   diferencia este portafolio. Reeditado en `/admin/`.
+2. **Métricas del sitio propio** (clics en los botones de WhatsApp, clics en la
+   carta PDF, visitas). Hay números de llamadas y clics del perfil en Google,
+   pero no están desglosados en la web todavía. Si existen, van en
+   `main/views.py` → `_jsonld()` y en el bloque de evidencia.
+3. **Testimonio del cliente.** No hay ninguno de terceros.
+4. Verificar que las imágenes de `media/` que existen solo en el servidor sigan
+   ahí. Si desaparecieron, las tarjetas de Red de Apoyo Mutuo, Dr. Franco Álvarez
+   y Ecommerce muestran el placeholder con textura, no se rompen.
+
+## Pendientes técnicos del rediseño anterior (siguen abiertos)
+
+- Las páginas internas de `comunidad/` y `ecommerce/` (`muro.html`,
+  `perfil.html`, `lista_productos.html`) usan clases utilitarias de Bootstrap
+  (`btn-primary`, `bg-primary`) que heredan la paleta nueva, pero el detalle fino
+  de cada una no está revisado.
+- El admin tiene 2FA obligatorio (`Admin2FAMiddleware`). Si pierdes el dispositivo
+  TOTP, entra por consola con `python manage.py shell` y usa
+  `django_otp.plugins.otp_totp.models.TOTPDevice.objects.all().delete()`.
+
+## Deploy
+
+```bash
+git add -A && git commit -m "..." && git push
+```
+
+En PythonAnywhere:
+
+```bash
+source ~/venvs/mi_web/bin/activate
+python manage.py migrate
+python manage.py collectstatic --noinput
+```
+
+Y después **Web → Reload**.
+
+Lo que corre en el servidor que no está en el repo:
+
+- `db.sqlite3` (está en `.gitignore`): las migraciones `0006` y `0007` crean los
+  campos nuevos y siembran los cuatro proyectos.
+- `DJANGO_SECRET_KEY` en el entorno.
+- `media/`.
+
+## Seguridad (lo que se hizo en la pasada anterior)
+
+- `SECRET_KEY` se lee de `DJANGO_SECRET_KEY`, sin fallback. La clave que estuvo
+  escrita en `core/settings.py` y se publicó en GitHub **está rota**: hay que
+  rotarla en producción si no se ha hecho ya.
+- `DEBUG` se lee de `DJANGO_DEBUG` y por defecto es `False`.
+- CSP con nonce: los `<style>` inline están permitidos
+  (`style-src 'unsafe-inline'`), pero **todo `<script>` inline necesita
+  `nonce="{{ request.nonce }}"`**. Si agregas JavaScript a una plantilla y no
+  le pones el nonce, el navegador lo bloquea sin avisar en la consola.
+- `django-axes` está en `AXES_ENABLED = not DEBUG`, pero el middleware está
+  comentado en `MIDDLEWARE` (línea 61) y el backend no está en
+  `AUTHENTICATION_BACKENDS`. Está así a propósito, por un problema de login del
+  admin. Si lo reactivas, Cambia `AxesStandaloneBackend`, no `AxesModelBackend`
+  (renombrado en django-axes 5.0).

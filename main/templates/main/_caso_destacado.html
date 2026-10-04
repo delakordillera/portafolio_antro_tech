@@ -1,0 +1,129 @@
+{% load static main_extras %}
+{% if destacado %}
+<script type="application/ld+json">{{ jsonld_destacado|safe }}</script>
+<section id="caso-destacado" class="section caso" aria-labelledby="caso-titulo">
+    <div class="container">
+
+        <div class="caso-top">
+            <div class="caso-intro">
+                <p class="section-eyebrow anim">Caso de estudio · cliente real</p>
+                <h2 class="caso-title anim anim-d1" id="caso-titulo">{{ destacado.titulo }}</h2>
+                {% if destacado.anio or destacado.cliente %}
+                <p class="caso-sello anim anim-d1">
+                    {% if destacado.anio %}<span>{{ destacado.anio }}</span>{% endif %}
+                    {% if destacado.cliente %}<span>{{ destacado.cliente }}</span>{% endif %}
+                </p>
+                {% endif %}
+                <p class="caso-sub anim anim-d2">{{ destacado.descripcion_corta }}</p>
+
+                <dl class="caso-ficha anim anim-d2">
+                    {% if destacado.rol %}
+                    <div class="caso-ficha-item">
+                        <dt>Rol</dt>
+                        <dd>{{ destacado.rol }}</dd>
+                    </div>
+                    {% endif %}
+                    {% if destacado.tecnologias %}
+                    <div class="caso-ficha-item">
+                        <dt>Construido con</dt>
+                        <dd>{{ destacado.tecnologias }}</dd>
+                    </div>
+                    {% endif %}
+                    {% if destacado.url_produccion %}
+                    <div class="caso-ficha-item">
+                        <dt>En producción</dt>
+                        <dd>{{ destacado.url_produccion }}</dd>
+                    </div>
+                    {% endif %}
+                </dl>
+
+                <div class="caso-acciones anim anim-d3">
+                    {% if destacado.url_produccion %}
+                    <a class="btn-primary" href="{{ destacado.url_produccion }}" target="_blank" rel="noopener">
+                        Ver el sitio
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                    {% endif %}
+                    <a class="btn-secondary" href="#proyectos">Ver los demás proyectos</a>
+                </div>
+            </div>
+
+            {% with portada=destacado.captura_portada %}
+            {% if portada %}
+            <figure class="caso-shot anim anim-d2">
+                <div class="project-browser caso-browser" aria-hidden="true">
+                    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                    <span class="url-bar">{{ destacado.url_produccion|default:'' }}</span>
+                </div>
+                <img src="{% static portada.src %}" alt="{{ portada.alt|default:destacado.titulo }}" width="1400" height="875" decoding="async">
+            </figure>
+            {% endif %}
+            {% endwith %}
+        </div>
+
+        {% if destacado.etapas_narradas %}
+        <ol class="caso-etapas">
+            {% for etapa in destacado.etapas_narradas %}
+            <li class="caso-etapa anim">
+                <span class="caso-etapa-num" aria-hidden="true">{{ forloop.counter|stringformat:"02d" }}</span>
+                <div class="caso-etapa-body">
+                    <h3>{{ etapa.etiqueta }}</h3>
+                    <p>{{ etapa.texto }}</p>
+                </div>
+            </li>
+            {% endfor %}
+        </ol>
+        {% endif %}
+
+        {% if destacado.metricas_validas or destacado.terminos_validos %}
+        <div class="caso-evidencia anim">
+            <h3 class="caso-evidencia-titulo">Lo que pasó después</h3>
+
+            {% if destacado.metricas_validas %}
+            <dl class="caso-metricas">
+                {% for metrica in destacado.metricas_validas %}
+                <div class="metrica">
+                    <dt>{{ metrica.etiqueta }}</dt>
+                    <dd class="metrica-valor">{{ metrica.valor }}</dd>
+                    {% if metrica.nota %}<p class="metrica-nota">{{ metrica.nota }}</p>{% endif %}
+                </div>
+                {% endfor %}
+            </dl>
+            {% endif %}
+
+            {% if destacado.terminos_validos %}
+            <div class="caso-terminos">
+                <p class="terminos-titulo">
+                    Las búsquedas de Google que muestran el restaurante
+                    <span class="terminos-periodo">principales 5</span>
+                </p>
+                <ul class="terminos-list">
+                    {% for termino in destacado.terminos_validos %}
+                    <li class="termino">
+                        <span class="termino-nombre">{{ termino.termino }}</span>
+                        <span class="termino-barra">
+                            <span class="termino-fill" style="width:{% widthratio termino.busquedas destacado.terminos_validos.0.busquedas 100 %}%"></span>
+                        </span>
+                        <span class="termino-valor">{{ termino.busquedas|miles }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if destacado.captura_portada and destacado.capturas|length > 1 %}
+        <div class="caso-galeria">
+            {% for captura in destacado.capturas %}
+            <figure class="galeria-item anim {% if forloop.first %}galeria-item-lg{% endif %}">
+                <img src="{% static captura.src %}" alt="{{ captura.alt|default:destacado.titulo }}" loading="lazy" decoding="async">
+                {% if captura.pie %}<figcaption>{{ captura.pie }}</figcaption>{% endif %}
+            </figure>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    </div>
+</section>
+{% endif %}

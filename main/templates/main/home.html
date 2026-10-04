@@ -363,6 +363,18 @@
             .modal-box { padding: 1.75rem; border-radius: 16px; }
         }
 
+        .hero-proof {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.66rem;
+            letter-spacing: 1px;
+            color: var(--muted);
+            margin-top: 1.35rem;
+            padding-left: 0.9rem;
+            border-left: 2px solid var(--border-accent);
+            line-height: 1.5;
+            max-width: 42ch;
+        }
+
         /* ===== SECTIONS — editorial ===== */
         .section { padding: clamp(4rem, 8vw, 7rem) 0; }
         .section-eyebrow {
@@ -535,10 +547,11 @@
         }
 
         /* Browser frame para proyectos web en vivo */
-        .project-frame {
+        .project-frame-wrap {
             position: relative;
             display: flex;
             flex-direction: column;
+            min-height: 260px;
         }
         .project-browser {
             display: flex;
@@ -576,16 +589,65 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .project-frame .project-img-wrap { flex: 1; }
+        .project-frame-wrap .project-img-wrap,
+        .project-frame-wrap .project-img-placeholder { flex: 1; }
         .project-img-placeholder {
             min-height: 260px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--bg-raised);
-            color: var(--muted);
+            padding: 2rem;
+            text-align: center;
+            background:
+                repeating-linear-gradient(
+                    -45deg,
+                    transparent 0 9px,
+                    rgba(240, 232, 216, 0.035) 9px 10px
+                ),
+                var(--bg-raised);
+            border-right: 1px solid var(--border);
+        }
+        .project-img-placeholder span {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
+            font-size: 0.72rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        /* Distintivo del proyecto destacado */
+        .project-destacado {
+            display: inline-flex;
+            align-items: center;
+            align-self: flex-start;
+            gap: 0.4rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            font-weight: 500;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: var(--accent-dim);
+            border: 1px solid var(--border-accent);
+            border-radius: 20px;
+            padding: 0.25rem 0.7rem;
+            margin-bottom: 0.85rem;
+        }
+        .project-cliente {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.66rem;
+            letter-spacing: 0.8px;
+            color: var(--muted);
+            margin: -0.35rem 0 0.9rem;
+        }
+        .projects-empty {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--muted);
+            border: 1px dashed var(--border);
+            border-radius: 16px;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
         }
 
         .project-body {
@@ -1008,6 +1070,307 @@
             border-radius: 16px;
         }
 
+        /* ===== CASO DE ESTUDIO DESTACADO ===== */
+        .caso {
+            position: relative;
+            background:
+                radial-gradient(900px 400px at 15% -10%, rgba(217, 119, 63, 0.09), transparent 70%),
+                var(--bg-raised);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .caso-top {
+            display: grid;
+            grid-template-columns: 1fr 1.08fr;
+            gap: clamp(2rem, 4vw, 3.5rem);
+            align-items: center;
+            margin-bottom: clamp(3.5rem, 7vw, 5.5rem);
+        }
+        .caso-title {
+            font-size: clamp(2.1rem, 5vw, 3.4rem);
+            font-weight: 700;
+            letter-spacing: -1.6px;
+            line-height: 1.02;
+            color: var(--paper);
+            margin-bottom: 0.9rem;
+        }
+        .caso-sello {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 1.25rem;
+        }
+        .caso-sello span { position: relative; }
+        .caso-sello span + span::before {
+            content: '·';
+            position: absolute;
+            left: -0.5rem;
+            color: var(--accent);
+        }
+        .caso-sub {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--ink);
+            max-width: 46ch;
+            margin-bottom: 1.75rem;
+        }
+        .caso-ficha {
+            display: flex;
+            flex-direction: column;
+            border-top: 1px solid var(--border);
+            margin-bottom: 1.9rem;
+        }
+        .caso-ficha-item {
+            display: grid;
+            grid-template-columns: 108px 1fr;
+            gap: 1rem;
+            padding: 0.7rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .caso-ficha dt {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem;
+            font-weight: 500;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding-top: 0.2rem;
+        }
+        .caso-ficha dd {
+            font-size: 0.85rem;
+            line-height: 1.55;
+            color: var(--paper);
+            word-break: break-word;
+        }
+        .caso-acciones { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+
+        /* captura con marco de navegador */
+        .caso-shot {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-accent);
+            border-radius: 18px;
+            overflow: hidden;
+            background: var(--bg-card);
+            box-shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.9);
+        }
+        .caso-shot img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-bottom: 1px solid transparent;
+        }
+        .caso-browser { border-bottom: 1px solid var(--border); }
+
+        /* narrativa Observación → Método → Traducción → Resultado */
+        .caso-etapas {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: clamp(3rem, 6vw, 4.5rem);
+        }
+        .caso-etapa {
+            background: var(--bg-card);
+            padding: 1.9rem 1.9rem 2rem;
+            display: flex;
+            gap: 1.15rem;
+            transition: background 0.35s;
+        }
+        .caso-etapa:hover { background: var(--bg-card-hover); }
+        .caso-etapa-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--accent);
+            letter-spacing: 1px;
+            padding-top: 0.3rem;
+            flex-shrink: 0;
+        }
+        .caso-etapa-body h3 {
+            font-size: 0.7rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--paper);
+            margin-bottom: 0.7rem;
+        }
+        .caso-etapa-body p {
+            font-size: 0.9rem;
+            line-height: 1.72;
+            color: var(--ink);
+        }
+
+        /* evidencia: métricas del cliente */
+        .caso-evidencia {
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: var(--bg-card);
+            padding: clamp(1.5rem, 3vw, 2.25rem);
+            margin-bottom: clamp(3rem, 6vw, 4.5rem);
+        }
+        .caso-evidencia-titulo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+        .caso-metricas {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 1.75rem;
+        }
+        .metrica {
+            background: var(--bg-raised);
+            padding: 1.4rem 1.3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+        .metrica dt {
+            order: 2;
+            font-size: 0.78rem;
+            line-height: 1.5;
+            color: var(--ink);
+        }
+        .metrica-valor {
+            order: 1;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.7rem, 3.4vw, 2.5rem);
+            font-weight: 700;
+            letter-spacing: -1.2px;
+            line-height: 1;
+            color: var(--paper);
+        }
+        .metrica-nota {
+            order: 3;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.58rem;
+            letter-spacing: 0.6px;
+            color: var(--muted);
+            line-height: 1.45;
+            margin-top: 0.25rem;
+        }
+        .terminos-titulo {
+            font-size: 0.78rem;
+            color: var(--ink);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: baseline;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .terminos-periodo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.58rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--moss);
+            border: 1px solid rgba(138, 168, 136, 0.3);
+            border-radius: 20px;
+            padding: 0.15rem 0.6rem;
+        }
+        .terminos-list { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+        .termino {
+            display: grid;
+            grid-template-columns: 116px 1fr 58px;
+            align-items: center;
+            gap: 0.9rem;
+        }
+        .termino-nombre {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--paper);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .termino-barra {
+            height: 7px;
+            border-radius: 20px;
+            background: rgba(240, 232, 216, 0.07);
+            overflow: hidden;
+        }
+        .termino-fill {
+            display: block;
+            height: 100%;
+            border-radius: 20px;
+            background: linear-gradient(90deg, var(--accent), #e0a06a);
+        }
+        .termino-valor {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--muted);
+            text-align: right;
+        }
+
+        /* galería del sitio */
+        .caso-galeria {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+        }
+        .galeria-item {
+            margin: 0;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            background: var(--bg-card);
+            transition: border-color 0.35s, transform 0.35s;
+        }
+        .galeria-item:hover { border-color: var(--border-accent); transform: translateY(-3px); }
+        .galeria-item-lg { grid-column: 1 / -1; }
+        .galeria-item img {
+            width: 100%;
+            height: 100%;
+            max-height: 340px;
+            object-fit: cover;
+            object-position: top center;
+            display: block;
+        }
+        .galeria-item-lg img { max-height: 520px; }
+        .galeria-item figcaption {
+            padding: 0.85rem 1.1rem;
+            font-size: 0.78rem;
+            line-height: 1.6;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+        }
+
+        @media (max-width: 980px) {
+            .caso-top { grid-template-columns: 1fr; }
+            .caso-metricas { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 700px) {
+            .caso-etapas { grid-template-columns: 1fr; }
+            .caso-galeria { grid-template-columns: 1fr; }
+            .termino { grid-template-columns: 92px 1fr 52px; gap: 0.6rem; }
+            .caso-ficha-item { grid-template-columns: 1fr; gap: 0.2rem; }
+        }
+        @media (max-width: 460px) {
+            .caso-metricas { grid-template-columns: 1fr; }
+        }
+
         /* ===== SKIP LINK ===== */
         .skip-link {
             position: fixed;
@@ -1065,6 +1428,7 @@
             </button>
             <ul class="nav-links">
                 <li><a href="#" data-action="open-modal">Sobre mí</a></li>
+                <li><a href="#caso-destacado" data-action="close-nav">Caso de estudio</a></li>
                 <li><a href="#habilidades" data-action="close-nav">Habilidades</a></li>
                 <li><a href="#proyectos" data-action="close-nav">Proyectos</a></li>
                 <li><a href="#formacion" data-action="close-nav">Formación</a></li>
@@ -1083,9 +1447,10 @@
                     <h1 class="hero-title anim anim-d1"><span class="reveal-word">Investigo</span> <span class="reveal-word">personas.</span><br><span class="reveal-word">Construyo</span> <span class="reveal-word"><em>productos</em>.</span></h1>
                     <p class="hero-subtitle anim anim-d2">Transformo hallazgos etnográficos en requerimientos técnicos accionables. Investigación de usuarios con implementación real de código.</p>
                     <div class="hero-actions anim anim-d3">
-                        <a href="#proyectos" class="btn-primary">Ver proyectos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-                        <a href="#contacto" class="btn-secondary">Contacto</a>
+                        <a href="#caso-destacado" class="btn-primary">Ver mi caso en producción <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                        <a href="#proyectos" class="btn-secondary">Todos los proyectos</a>
                     </div>
+                    <p class="hero-proof anim anim-d3">La Otra Estación · Peñalolén — sitio en producción que fundé desde cero</p>
                 </div>
                 <div class="hero-visual anim anim-d2">
                     <div class="hero-orb">
@@ -1103,6 +1468,9 @@
             </div>
         </div>
     </section>
+
+    <!-- CASO DE ESTUDIO DESTACADO -->
+    {% include 'main/_caso_destacado.html' %}
 
     <!-- HABILIDADES -->
     <section id="habilidades" class="section">
@@ -1169,18 +1537,32 @@
             <p class="section-eyebrow anim">Trabajo reciente</p>
             <h2 class="section-heading anim anim-d1">Proyectos</h2>
             <div class="projects-list">
-                {% if proyectos|length > 0 %}
+                {% if proyectos %}
                     {% for proyecto in proyectos %}
-                    <a href="{% if proyecto.link_github %}{{ proyecto.link_github }}{% else %}#{% endif %}" class="project-link-wrap anim" {% if proyecto.link_github %}target="_blank" rel="noopener"{% endif %}>
+                    <a href="{{ proyecto.url_destino }}" class="project-link-wrap anim"{% if proyecto.es_externo %} target="_blank" rel="noopener"{% endif %}>
                     <div class="project-card">
-                        {% if proyecto.imagen %}
-                        <div class="project-img-wrap"><img src="{{ proyecto.imagen.url }}" alt="{{ proyecto.titulo }}" loading="lazy"></div>
-                        {% else %}
-                        <div class="project-img-placeholder">sin imagen</div>
-                        {% endif %}
+                        <div class="project-frame-wrap">
+                            {% if proyecto.url_produccion %}
+                            <div class="project-browser" aria-hidden="true">
+                                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                                <span class="url-bar">{{ proyecto.url_produccion }}</span>
+                            </div>
+                            {% endif %}
+                            {% if proyecto.cover_url %}
+                            <div class="project-img-wrap"><img src="{{ proyecto.cover_url }}" alt="{{ proyecto.titulo }}" loading="lazy"></div>
+                            {% elif proyecto.captura_portada %}
+                            <div class="project-img-wrap"><img src="{% static proyecto.captura_portada.src %}" alt="{{ proyecto.captura_portada.alt|default:proyecto.titulo }}" loading="lazy"></div>
+                            {% else %}
+                            <div class="project-img-placeholder" aria-hidden="true">
+                                <span>{{ proyecto.titulo }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
                         <div class="project-body">
                             <p class="project-tag">{{ proyecto.get_categoria_display|default:'Caso de estudio' }}</p>
+                            {% if proyecto.destacado %}<span class="project-destacado">Proyecto destacado</span>{% endif %}
                             <h3>{{ proyecto.titulo }}</h3>
+                            {% if proyecto.cliente %}<p class="project-cliente">{{ proyecto.cliente }}{% if proyecto.anio %} · {{ proyecto.anio }}{% endif %}</p>{% endif %}
                             <p>{{ proyecto.descripcion_corta }}</p>
                             {% if proyecto.contexto_social %}
                             <div class="project-meta">
@@ -1190,151 +1572,24 @@
                                 </div>
                             </div>
                             {% endif %}
+                            {% if proyecto.advertencia %}
+                            <div class="demo-notice">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+                                <p>{{ proyecto.advertencia }}</p>
+                            </div>
+                            {% endif %}
                             {% if proyecto.tech_list %}
                             <div class="project-tech">{% for tech in proyecto.tech_list %}<span class="tech-pill">{{ tech }}</span>{% endfor %}</div>
                             {% endif %}
-                            {% if proyecto.link_github %}
-                            <span class="project-link">Ver proyecto <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+                            {% if proyecto.url_destino != '#' %}
+                            <span class="project-link">{% if proyecto.es_externo %}Ver sitio{% elif proyecto.link_interno %}Abrir app{% else %}Ver proyecto{% endif %} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
                             {% endif %}
                         </div>
                     </div>
                     </a>
                     {% endfor %}
                 {% else %}
-                    <a href="/apoyo-mutuo/" class="project-link-wrap anim">
-                    <div class="project-card">
-                        <div class="project-img-wrap"><img src="/media/apoyo-mutuo.jpg" alt="Red de Apoyo Mutuo" loading="lazy"></div>
-                        <div class="project-body">
-                            <p class="project-tag">Investigación + código</p>
-                            <h3>Red de Apoyo Mutuo</h3>
-                            <p>Digitalización de reciprocidad barrial en Peñalolén.</p>
-                            <div class="project-meta">
-                                <div class="project-meta-row">
-                                    <span class="project-meta-label">Método</span>
-                                    <span class="project-meta-value">Entrevistas en terreno con libreta de campo a vecinos de Peñalolén.</span>
-                                </div>
-                                <div class="project-meta-row">
-                                    <span class="project-meta-label">Hallazgo</span>
-                                    <span class="project-meta-value">El prestigio comunitario, no el dinero, mueve la reciprocidad barrial.</span>
-                                </div>
-                                <div class="project-meta-row">
-                                    <span class="project-meta-label">Traducción</span>
-                                    <span class="project-meta-value">Sistema de Puntos de Confianza + Círculo de la Gratitud.</span>
-                                </div>
-                            </div>
-                            <div class="project-tech">
-                                <span class="tech-pill">Etnografía</span>
-                                <span class="tech-pill">Entrevistas</span>
-                                <span class="tech-pill">Python</span>
-                                <span class="tech-pill">Django</span>
-                            </div>
-                            <span class="project-link">Ver app <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-                        </div>
-                    </div>
-                    </a>
-                    <a href="https://pagina-web-franco-alvarez.vercel.app/" class="project-link-wrap anim" target="_blank" rel="noopener">
-                    <div class="project-card">
-                        <div class="project-body">
-                            <p class="project-tag">Producto real</p>
-                            <h3>Dr. Franco Álvarez</h3>
-                            <p>Sitio web para psicólogo clínico con testing de usabilidad.</p>
-                            <div class="project-meta">
-                                <div class="project-meta-row">
-                                    <span class="project-meta-label">Método</span>
-                                    <span class="project-meta-value">Mapeo del flujo de atención junto al psicólogo, con lápiz y papel.</span>
-                                </div>
-                                <div class="project-meta-row">
-                                    <span class="project-meta-label">Hallazgo</span>
-                                    <span class="project-meta-value">Fricción real en agendas manuales y WhatsApp desordenado.</span>
-                                </div>
-                                <div class="project-meta-row">
-                                    <span class="project-meta-label">Traducción</span>
-                                    <span class="project-meta-value">Base de datos Django autoadministrable, notificaciones automáticas y guía descargable.</span>
-                                </div>
-                            </div>
-                            <div class="project-tech">
-                                <span class="tech-pill">Testing UX</span>
-                                <span class="tech-pill">Django</span>
-                                <span class="tech-pill">Hardening</span>
-                            </div>
-                            <span class="project-link">Visitar sitio <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-                        </div>
-                        <div class="project-img-wrap"><img src="/media/franco-alvarez.jpg" alt="Dr. Franco Álvarez" loading="lazy"></div>
-                    </div>
-                    </a>
-                    <a href="/ecommerce/" class="project-link-wrap anim">
-                    <div class="project-card">
-                        <div class="project-img-wrap"><img src="/media/ecommerce.jpg" alt="Plataforma Ecommerce" loading="lazy"></div>
-                        <div class="project-body">
-                            <p class="project-tag">Demo técnica</p>
-                            <h3>Plataforma Ecommerce</h3>
-                            <p>Ventas con integración de indicadores financieros reales (API mindicador.cl).</p>
-                            <div class="project-meta">
-                                <div class="project-meta-row">
-                                    <span class="project-meta-label">Objetivo</span>
-                                    <span class="project-meta-value">Mostrar stack completo: catálogo, carrito, autenticación y datos en vivo.</span>
-                                </div>
-                                <div class="project-meta-row">
-                                    <span class="project-meta-label">Dato en vivo</span>
-                                    <span class="project-meta-value">Precios indexados a la API pública mindicador.cl (UF, USD).</span>
-                                </div>
-                                <div class="project-meta-row">
-                                    <span class="project-meta-label">Alcance</span>
-                                    <span class="project-meta-value">SQLite gestiona usuarios, sesiones de carrito, stock y órdenes.</span>
-                                </div>
-                            </div>
-                            <div class="project-tech">
-                                <span class="tech-pill">Python</span>
-                                <span class="tech-pill">Django</span>
-                                <span class="tech-pill">API</span>
-                                <span class="tech-pill">SQLite</span>
-                            </div>
-                            <div class="demo-notice">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-                                <p><strong>Demo técnica — no es un producto en producción.</strong> Proyecto construido para demostrar un stack full end-to-end: catálogo dinámico, carrito de compras con sesiones, autenticación de usuarios (<code>Django auth</code>), panel de administración (<code>/admin/</code>) con CRUD sobre modelos, integración de API REST externa (<code>mindicador.cl</code>) para datos financieros en tiempo real, y backend relational con <code>SQLite</code>. Aplicación desplegada en PythonAnywhere con <code>Gunicorn</code>.</p>
-                            </div>
-                            <span class="project-link">Ver demo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-                        </div>
-                    </div>
-                    </a>
-                    <a href="https://laotraestacionrestaurant.cl/" class="project-link-wrap anim" target="_blank" rel="noopener">
-                    <div class="project-card">
-                        <div class="project-frame">
-                            <div class="project-browser" aria-hidden="true">
-                                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-                                <span class="url-bar">laotraestacionrestaurant.cl</span>
-                            </div>
-                            <div class="project-img-wrap"><img src="/media/laotraestacion.jpg" alt="La Otra Estación — sitio web del restaurante" loading="lazy"></div>
-                        </div>
-                        <div class="project-body">
-                            <p class="project-tag">Producto real</p>
-                            <h3>La Otra Estación</h3>
-                            <p>Sitio web en producción para un restaurante familiar de comida casera chilena en Peñalolén: carta a un clic, reservas y pedidos por WhatsApp, y ficha local real en Google.</p>
-                            <div class="project-meta">
-                                <div class="project-meta-row">
-                                    <span class="project-meta-label">Observación</span>
-                                    <span class="project-meta-value">La carta vivía como PDF suelto por WhatsApp y cada reserva era un hilo de mensajes sin orden.</span>
-                                </div>
-                                <div class="project-meta-row">
-                                    <span class="project-meta-label">Hallazgo</span>
-                                    <span class="project-meta-value">El menú del día es un objeto social del barrio: el negocio vive del boca a boca y de la confianza vecinal.</span>
-                                </div>
-                                <div class="project-meta-row">
-                                    <span class="project-meta-label">Traducción</span>
-                                    <span class="project-meta-value">Un solo sitio con botones de WhatsApp pre-armados y datos estructurados para aparecer en Google y Maps.</span>
-                                </div>
-                            </div>
-                            <div class="project-tech">
-                                <span class="tech-pill">HTML</span>
-                                <span class="tech-pill">CSS</span>
-                                <span class="tech-pill">JavaScript</span>
-                                <span class="tech-pill">SEO local</span>
-                                <span class="tech-pill">Schema.org</span>
-                            </div>
-                            <span class="project-link">Visitar sitio <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-                        </div>
-                    </div>
-                    </a>
+                <p class="projects-empty anim">Los casos de estudio se están publicando. Escríbeme y te los envío.</p>
                 {% endif %}
             </div>
         </div>

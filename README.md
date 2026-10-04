@@ -15,7 +15,17 @@ Stack Tecnológico Dominado
 
 Proyectos Destacados en Producción
 
-1. Red de Apoyo Mutuo (Enfoque Social y Comunitario)
+1. LA OTRA ESTACIÓN (Cliente real · Freelance · 2026)
+Sitio en producción para un restaurante de comida casera chilena en Peñalolén, construido desde cero: https://laotraestacionrestaurant.cl/
+
+Es el caso que abre el portafolio, y el que mejor resume el perfil: un encargo real de un cliente real, resuelto de punta a punta (relevamiento, diseño, desarrollo, despliegue) y con resultado medible.
+
+- El problema: un negocio con más de veinte años de trayectoria y ninguna presencia digital propia. La carta circulaba como PDF por WhatsApp y cada reserva era un hilo de mensajes sin orden.
+- La traducción: portada que resuelve qué se come, dónde queda, a qué hora abre y cómo pedir; sección de empresas y eventos; botones de WhatsApp con el mensaje ya redactado; páginas legales; datos estructurados Schema.org para aparecer en Google y Maps.
+- La construcción: HTML, CSS y JavaScript planos. Sin dependencias, sin build, sin mantenimiento.
+- El resultado (Google Business Profile, últimos 28 días): 10.111 personas vieron el Perfil de Negocio, 5.557 búsquedas de Google mostraron el restaurante, 382 interacciones. El 87% de las visitas llegó desde Google Maps en celular, que es exactamente el dispositivo para el que se diseñó la portada.
+
+2. Red de Apoyo Mutuo (Enfoque Social y Comunitario)
 Plataforma web orientada a fortalecer el tejido social barrial mediante una economía comunitaria de reciprocidad y el intercambio solidario de oficios. Este sistema nace de la intersección entre la Antropología Digital y el desarrollo Full Stack, digitalizando las lógicas tradicionales de ayuda comunitaria para trascender las lógicas monetarias convencionales.
 
 - Stack Específico: Frontend sin JavaScript para máxima compatibilidad en conexiones inestables, apoyado puramente en CSS3 y Bootstrap 5.
@@ -26,7 +36,7 @@ Plataforma web orientada a fortalecer el tejido social barrial mediante una econ
   - Accesibilidad: Diseño mobile-first.
 
 
-2. ANTRO-TECH CORE (Enfoque Comercial y Lógica de Negocios)
+3. ANTRO-TECH CORE (Enfoque Comercial y Lógica de Negocios)
 Plataforma eCommerce de alto rendimiento orientada a la venta de componentes de hardware (GPUs, CPUs, almacenamiento). Construida para demostrar el dominio de la lógica transaccional y el manejo de flujos de usuario.
 
 - El Enfoque UX/UI: Diseño inmersivo Dark Mode estructurado para retener al usuario, con blindaje estricto de contenedores (overflow: hidden) para mantener la simetría perfecta del catálogo sin importar las dimensiones de las imágenes subidas a la base de datos.
@@ -36,11 +46,35 @@ Plataforma eCommerce de alto rendimiento orientada a la venta de componentes de 
   - Cálculo dinámico: Renderizado de subtotales y totales matemáticos en tiempo real desde el backend hacia el frontend.
 
 
+Cómo se edita el portafolio
+
+Todo el contenido de la portada vive en el admin de Django (`/admin/` → Proyectos), no en el HTML:
+
+- `destacado`: sube el proyecto a la sección de caso de estudio que aparece justo bajo el hero. Solo uno a la vez.
+- `problema` / `metodo` / `traduccion` / `resultado`: son los cuatro bloques de la narrativa (Observación → Método → Traducción → Resultado). Si los dejas vacíos, el bloque simplemente no aparece.
+- `metricas`: lista JSON con cifras reales y su fuente, ej. `[{"valor": "10.111", "etiqueta": "personas vieron el Perfil de Negocio", "nota": "Google · últimos 28 días"}]`.
+- `terminos`: términos de búsqueda, ej. `[{"termino": "restaurants", "busquedas": 3679}]`.
+- `capturas`: rutas dentro de `static/` con su pie de foto, ej. `[{"src": "main/estacion/portada-desktop.webp", "alt": "...", "pie": "...", "portada": true}]`.
+- `url_produccion` para sitios en vivo, `link_interno` para rutas de este mismo proyecto (ej. `/ecommerce/`), `link_github` para repositorios.
+- `visible`: desmarca para ocultar un proyecto sin borrarlo.
+
+Las capturas de pantalla viven en `main/static/main/estacion/` (y se publican con `collectstatic`). Se generaron con Playwright contra el sitio en producción; para actualizarlas hay que repetir el proceso. El campo `imagen` es opcional: la tarjeta usa la captura marcada como portada, y solo recurre a `imagen` si el archivo existe en el servidor.
+
+
 Instalación y Ejecución Local
 
 Para probar este ecosistema de proyectos en tu propia máquina, clona este repositorio ejecutando el siguiente comando en tu terminal:
 
 git clone https://github.com/delakordillera/portafolio_antro_tech.git
+
+En Settings de Django la clave secreta se lee de la variable de entorno `DJANGO_SECRET_KEY` (no existe fallback: si falta, la aplicación no arranca, a propósito). Con `DJANGO_DEBUG=True` el servidor de desarrollo incluye `localhost` en `ALLOWED_HOSTS`.
+
+    python -m venv venv
+    .\venv\Scripts\Activate.ps1
+    pip install -r requirements.txt
+    $env:DJANGO_SECRET_KEY="clave-local-de-prueba"
+    python manage.py migrate
+    python manage.py runserver
 
 
 Próximos Pasos y Visión
