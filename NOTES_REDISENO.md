@@ -217,6 +217,42 @@ búsqueda*, y actualiza el período en las etiquetas `nota`.
   TOTP, entra por consola con `python manage.py shell` y usa
   `django_otp.plugins.otp_totp.models.TOTPDevice.objects.all().delete()`.
 
+## La galería del caso destacado: dos vistas, no cuatro
+
+La primera versión era una grilla uniforme de 4 cuadros con pie de foto. Se veía
+como un contact sheet volcado, y el pantallazo de página completa (1040x2475)
+recortado a 340px quedaba largo y vacío.
+
+Ahora es una composición asimétrica: la vista de escritorio ocupa 1.75fr con
+barra de navegador, y la del celular 1fr al lado, recortada por arriba a 430px
+para que quede a la misma altura. Se eliminó el pantallazo de página completa.
+
+La lógica de por qué: el 87% del tráfico del cliente llega del celular, así que
+la captura del teléfono es **evidencia de una decisión de diseño**, no
+decoración. Va al lado de la de escritorio para que se lea como argumento.
+
+Cada captura tiene un `rol` en el admin (`escritorio`, `movil`, `empresas`,
+`paginas`). La galería pide `proyecto.dispositivos.escritorio` y `.movil`: el
+template no conoce nombres de archivo. Migración `0008`.
+
+Las capturas `empresas` y `paginas` siguen en la base, disponibles por si
+algún día se quieren mostrar.
+
+### Verificación de "no se ve vacío"
+
+Como las capturas WebP dan 404 si el archivo no llegó al servidor, la galería
+puede quedar con las cajas vacías sin que nadie entienda por qué. El chequeo en
+Playwright recorta cada caja y mide desviación de píxeles y colores únicos: una
+imagen real da >12 de desviación y miles de colores; una caja vacía da ~0.
+
+### Contenido invisible sin JavaScript
+
+`.anim` arranca en `opacity: 0` y el scroll reveal le agrega `.in`. Sin
+JavaScript, **toda la portada queda en blanco**. Hay dos guardas:
+
+- `<noscript><style>.anim{opacity:1}</style></noscript>`
+- si no existe `IntersectionObserver`, se marca todo visible al tiro
+
 ## Deploy
 
 ```bash

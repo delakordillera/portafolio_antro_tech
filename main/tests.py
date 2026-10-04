@@ -80,6 +80,31 @@ class ProyectoModelTests(TestCase):
         )
         self.assertEqual(proyecto.captura_portada["src"], "portada.webp")
 
+    def test_captura_por_rol_devuelve_none_si_no_existe(self):
+        proyecto = Proyecto.objects.create(
+            titulo="Sin roles",
+            descripcion_corta="x",
+            capturas=[{"src": "a.webp"}],
+        )
+        self.assertIsNone(proyecto.captura_por_rol("movil"))
+        self.assertIsNone(proyecto.dispositivos["escritorio"])
+
+    def test_dispositivos_toma_escritorio_y_movil_por_rol(self):
+        proyecto = Proyecto.objects.create(
+            titulo="Con roles",
+            descripcion_corta="x",
+            capturas=[
+                {"src": "pag.webp", "rol": "paginas"},
+                {"src": "movil.webp", "rol": "movil"},
+                {"src": "desk.webp", "rol": "escritorio"},
+            ],
+        )
+        dispositivos = proyecto.dispositivos
+        self.assertEqual(dispositivos["escritorio"]["src"], "desk.webp")
+        self.assertEqual(dispositivos["movil"]["src"], "movil.webp")
+        # El pantallazo de pagina completa no se muestra en la galeria.
+        self.assertNotIn("pag.webp", [c["src"] for c in dispositivos.values()])
+
     def test_url_destino_prioriza_produccion_sobre_github(self):
         proyecto = Proyecto.objects.create(
             titulo="Enlaces",
@@ -188,4 +213,24 @@ class PortadaTests(TestCase):
         self.assertIn('id="caso-destacado"', html)
         self.assertNotIn('<ol class="caso-etapas">', html)
         self.assertNotIn('<dl class="caso-metricas">', html)
-        self.assertNotIn('class="caso-galeria"', html)
+        self.assertNotIn('class="caso-dispositivos"', html)
+
+    def test_la_galeria_muestra_escritorio_y_movil(self):
+        html = self.client.get(reverse("home")).content.decode()
+        self.assertIn('class="caso-dispositivos"', html)
+        self.assertIn("portada-desktop.webp", html)
+        self.assertIn("portada-movil.webp", html)
+        # La captura de pagina completa queda fuera: recortada a 430px se ve
+        # larga y vacia.
+        self.assertNotIn("portada-completa.webp", html)
+
+    def test_la_galeria_apunta_al_sitio_real(self):
+        html = self.client.get(reverse("home")).content.decode()
+        self.assertIn("Ver el sitio en producci", html)
+
+    def test_sin_js_el_contenido_no_queda_invisible(self):
+        """Sin IntersectionObserver el sitio entero quedaria en opacity 0."""
+        html = self.client.get(reverse("home")).content.decode()
+        self.assertIn("<noscript>", html)
+        self.assertIn(".anim{opacity:1}", html)
+        self.assertIn("'IntersectionObserver' in window", html)

@@ -1325,37 +1325,99 @@
         }
 
         /* galería del sitio */
-        .caso-galeria {
+        /* Galería: composición asimétrica. Escritorio manda, el celular acompaña.
+           Una grilla uniforme de 4 cuadros se lee como contact sheet volcado y
+           el pantallazo de página completa (1040x2475) recortado se ve largo y
+           vacío. Con dos vistas y una relación de tamaño clara se lee como una
+           decisión de diseño, que es lo que pasó: el 87% llega del celular. */
+        .caso-dispositivos {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.25rem;
+            grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr);
+            gap: 1.5rem;
+            align-items: start;
         }
-        .galeria-item {
+        .dispositivo {
             margin: 0;
             border: 1px solid var(--border);
-            border-radius: 14px;
+            border-radius: 16px;
             overflow: hidden;
             background: var(--bg-card);
             transition: border-color 0.35s, transform 0.35s;
         }
-        .galeria-item:hover { border-color: var(--border-accent); transform: translateY(-3px); }
-        .galeria-item-lg { grid-column: 1 / -1; }
-        .galeria-item img {
+        .dispositivo:hover { border-color: var(--border-accent); transform: translateY(-3px); }
+        .dispositivo img {
+            display: block;
             width: 100%;
+            height: auto;
+            background: var(--bg-raised);
+        }
+        .dispositivo-barra {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.6rem 0.85rem;
+            background: rgba(23, 21, 17, 0.96);
+            border-bottom: 1px solid var(--border);
+        }
+        .dispositivo-barra .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(240, 232, 216, 0.12);
+            flex-shrink: 0;
+        }
+        .dispositivo-barra .dot:nth-child(1) { background: rgba(217, 119, 63, 0.85); }
+        .dispositivo-barra .dot:nth-child(2) { background: rgba(138, 168, 136, 0.85); }
+        .dispositivo-barra .dot:nth-child(3) { background: rgba(240, 232, 216, 0.28); }
+        .dispositivo-barra .url-bar {
+            margin-left: 0.4rem;
+            flex: 1;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            padding: 0 0.8rem;
+            background: rgba(240, 232, 216, 0.05);
+            border-radius: 7px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem;
+            color: var(--muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        /* El celular se recorta por arriba: lo que importa se ve sin desplazar,
+           y así queda a la altura de la vista de escritorio en vez de medir
+           780px de alto contra 450. */
+        .dispositivo-movil img {
             height: 100%;
-            max-height: 340px;
+            max-height: 430px;
             object-fit: cover;
             object-position: top center;
-            display: block;
         }
-        .galeria-item-lg img { max-height: 520px; }
-        .galeria-item figcaption {
-            padding: 0.85rem 1.1rem;
+        .dispositivo figcaption {
+            padding: 0.9rem 1.15rem;
             font-size: 0.78rem;
             line-height: 1.6;
             color: var(--muted);
             border-top: 1px solid var(--border);
         }
+        .dispositivo-movil figcaption { border-top: 0; }
+        .caso-ver-sitio { margin: 0; }
+        .caso-ver-sitio a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--accent);
+            text-decoration: none;
+            transition: gap 0.25s;
+        }
+        .caso-ver-sitio a:hover { gap: 0.85rem; }
+        .caso-ver-sitio svg { width: 16px; height: 16px; }
 
         @media (max-width: 980px) {
             .caso-top { grid-template-columns: 1fr; }
@@ -1363,7 +1425,8 @@
         }
         @media (max-width: 700px) {
             .caso-etapas { grid-template-columns: 1fr; }
-            .caso-galeria { grid-template-columns: 1fr; }
+            .caso-dispositivos { grid-template-columns: 1fr; gap: 1.25rem; }
+            .dispositivo-movil { max-width: 320px; margin-inline: auto; }
             .termino { grid-template-columns: 92px 1fr 52px; gap: 0.6rem; }
             .caso-ficha-item { grid-template-columns: 1fr; gap: 0.2rem; }
         }
@@ -1388,6 +1451,10 @@
         }
         .skip-link:focus { top: 0; }
     </style>
+    {# .anim arranca en opacity:0 y el scroll reveal le pone .in con JS.
+       Sin este override, sin JavaScript toda la pagina se ve vacia: contenido
+       invisible, no contenido sin animacion. #}
+    <noscript><style>.anim{opacity:1}.reveal-word{opacity:1;transform:none;filter:none}</style></noscript>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -1743,15 +1810,23 @@
         });
 
         /* --- Scroll reveal --- */
-        var observer = new IntersectionObserver(function(entries){
-            entries.forEach(function(e){
-                if(e.isIntersecting){
-                    e.target.classList.add('in');
-                    observer.unobserve(e.target);
-                }
-            });
-        },{threshold:0.12});
-        document.querySelectorAll('.anim').forEach(function(el){observer.observe(el);});
+        /* Sin IntersectionObserver no hay reveal, pero el contenido tiene que
+           verse igual: se marca todo como visible en vez de dejar la pagina
+           en opacity 0. */
+        if ('IntersectionObserver' in window) {
+            var observer = new IntersectionObserver(function(entries){
+                entries.forEach(function(e){
+                    if(e.isIntersecting){
+                        e.target.classList.add('in');
+                        observer.unobserve(e.target);
+                    }
+                });
+            },{threshold:0.12});
+            document.querySelectorAll('.anim').forEach(function(el){observer.observe(el);});
+        } else {
+            document.querySelectorAll('.anim').forEach(function(el){el.classList.add('in');});
+            document.querySelectorAll('.reveal-word').forEach(function(w){w.classList.add('visible');});
+        }
 
         /* --- Text reveal — hero title --- */
         setTimeout(function(){

@@ -123,6 +123,32 @@ class Proyecto(models.Model):
                 return captura
         return capturas[0] if capturas else None
 
+    def captura_por_rol(self, rol):
+        """Captura con el rol pedido, o None.
+
+        El rol vive en el admin, no en el template: la galería no debe saber
+        nombres de archivo. "portada" cae a la portada si nadie asignó el rol.
+        """
+        if rol == 'portada':
+            return self.captura_portada
+        for captura in self.capturas or []:
+            if captura.get('src') and captura.get('rol') == rol:
+                return captura
+        return None
+
+    @property
+    def dispositivos(self):
+        """Las dos capturas que se muestran como evidencia: escritorio y celular.
+
+        Escritorio a la izquierda porque es la vista de referencia; el celular
+        al lado, recortado a la misma altura, porque el 87% del tráfico del
+        cliente llega desde ahí.
+        """
+        return {
+            'escritorio': self.captura_por_rol('escritorio'),
+            'movil': self.captura_por_rol('movil'),
+        }
+
     @property
     def imagen_existe(self):
         """True solo si el archivo de imagen está realmente en el disco."""

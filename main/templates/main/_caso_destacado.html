@@ -113,15 +113,37 @@
         </div>
         {% endif %}
 
-        {% if destacado.captura_portada and destacado.capturas|length > 1 %}
-        <div class="caso-galeria">
-            {% for captura in destacado.capturas %}
-            <figure class="galeria-item anim {% if forloop.first %}galeria-item-lg{% endif %}">
-                <img src="{% static captura.src %}" alt="{{ captura.alt|default:destacado.titulo }}" loading="lazy" decoding="async">
-                {% if captura.pie %}<figcaption>{{ captura.pie }}</figcaption>{% endif %}
+        {% with g_escritorio=destacado.dispositivos.escritorio g_movil=destacado.dispositivos.movil %}
+        {% if g_escritorio or g_movil %}
+        <div class="caso-dispositivos">
+            {% if g_escritorio %}
+            <figure class="dispositivo anim">
+                <div class="dispositivo-barra" aria-hidden="true">
+                    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                    <span class="url-bar">{{ destacado.url_produccion }}</span>
+                </div>
+                <img src="{% static g_escritorio.src %}" alt="{{ g_escritorio.alt|default:destacado.titulo }}" width="1400" height="875" decoding="async">
+                {% if g_escritorio.pie %}<figcaption>{{ g_escritorio.pie }}</figcaption>{% endif %}
             </figure>
-            {% endfor %}
+            {% endif %}
+
+            {% if g_movil %}
+            <figure class="dispositivo dispositivo-movil anim">
+                <img src="{% static g_movil.src %}" alt="{{ g_movil.alt|default:destacado.titulo }}" width="780" height="1688" loading="lazy" decoding="async">
+                {% if g_movil.pie %}<figcaption>{{ g_movil.pie }}</figcaption>{% endif %}
+            </figure>
+            {% endif %}
         </div>
+        {% endif %}
+        {% endwith %}
+
+        {% if destacado.url_produccion %}
+        <p class="caso-ver-sitio anim">
+            <a href="{{ destacado.url_produccion }}" target="_blank" rel="noopener">
+                Ver el sitio en producción
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+        </p>
         {% endif %}
 
     </div>
