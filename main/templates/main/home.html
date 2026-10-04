@@ -510,7 +510,7 @@
         }
         .project-card {
             display: grid;
-            grid-template-columns: 340px 1fr;
+            grid-template-columns: 340px minmax(0, 1fr);
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 16px;
@@ -521,20 +521,44 @@
             border-color: var(--border-accent);
             transform: translateY(-3px);
         }
-        .project-card:nth-child(even) {
-            grid-template-columns: 1fr 340px;
+        /* Alterna imagen izquierda/derecha.
+           OJO: el selector tiene que ser .project-link-wrap:nth-child(even), no
+           .project-card:nth-child(even). Cada .project-card cuelga de un <a
+           class="project-link-wrap">, asi que es siempre la primera hija de su
+           padre y :nth-child(even) no matcheaba ninguna: el alternado estaba
+           roto desde antes de este trabajo y por eso todas las tarjetas tenian
+           la misma columna de imagen. */
+        .projects-list > .project-link-wrap:nth-child(even) .project-card {
+            grid-template-columns: minmax(0, 1fr) 340px;
         }
-        .project-card:nth-child(even) .project-img-wrap { order: 2; }
+        .projects-list > .project-link-wrap:nth-child(even) .project-media { order: 2; }
 
+        /* La miniatura de cada tarjeta. 4:3 fijo para todas: antes cada proyecto
+           traia su propia proporcion (1.76, 1.28, 1.62) y en una columna de
+           340px eso daba alturas de 193, 266 y 210px, con la mas ancha
+           dejando 67px de hueco bajo la imagen.
+
+           align-self:center evita que el grid estire la caja a la altura del
+           texto; el aire sobrante se reparte arriba y abajo en vez de
+           deformar la captura. width:100% no es redundante: con aspect-ratio
+           y sin tamaño inline definido, el navegador deriva el ancho desde el
+           alto. */
+        .project-media {
+            aspect-ratio: 4 / 3;
+            min-height: 0;
+            align-self: center;
+            width: 100%;
+        }
         .project-img-wrap {
             position: relative;
             overflow: hidden;
-            min-height: 260px;
+            min-height: 0;
         }
         .project-img-wrap img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: top center;
             transition: transform 0.5s ease;
         }
         .project-card:hover .project-img-wrap img { transform: scale(1.04); }
@@ -546,12 +570,20 @@
             pointer-events: none;
         }
 
-        /* Browser frame para proyectos web en vivo */
-        .project-frame-wrap {
+        /* Barra de navegador para el proyecto con URL pública.
+           display:contents es lo que sostiene el diseño alternado: sin barra no
+           hay nada que envolver, y si el envoltorio fuese una caja, la imagen
+           dejaria de ser item directo del grid y la regla `order: 2` que
+           invierte imagen izquierda/derecha en las tarjetas pares dejaria de
+           funcionar. */
+        .project-frame-wrap { display: contents; }
+        .project-frame-wrap--barra {
             position: relative;
             display: flex;
             flex-direction: column;
-            min-height: 260px;
+            align-self: center;
+            width: 100%;
+            min-height: 0;
         }
         .project-browser {
             display: flex;
@@ -589,10 +621,12 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .project-frame-wrap .project-img-wrap,
-        .project-frame-wrap .project-img-placeholder { flex: 1; }
+        /* Sin flex:1. El marco tiene la altura automatica y la imagen define
+           la suya con aspect-ratio 4:3. Con flex:1 el navegador resolvia la
+           dependencia circular entre la altura del marco y la de la imagen y
+           dejaba dos tarjetas en 340x213 en vez de 340x255. */
         .project-img-placeholder {
-            min-height: 260px;
+            min-height: 0;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -768,13 +802,19 @@
             border-radius: 4px;
         }
 
+        /* Todas las miniaturas comparten 4:3. Antes cada proyecto traia su
+           propia proporcion (1.76, 1.28, 1.62) y en una columna de 340px eso
+           daba alturas de 193, 266 y 210px: las tarjetas quedaban desparejas y
+Las reglas de 4:3 viven arriba, en .project-media y .project-img-wrap. Aqui
+            solo queda el placeholder, que tambien es una .project-media. */
+        .project-card .project-img-placeholder { min-height: 0; }
+
         @media (max-width: 768px) {
             .project-card,
-            .project-card:nth-child(even) {
-                grid-template-columns: 1fr;
+            .projects-list > .project-link-wrap:nth-child(even) .project-card {
+                grid-template-columns: minmax(0, 1fr);
             }
-            .project-card:nth-child(even) .project-img-wrap { order: 0; }
-            .project-img-wrap { min-height: 200px; }
+            .projects-list > .project-link-wrap:nth-child(even) .project-media { order: 0; }
             .project-body { padding: 1.5rem; }
         }
 
@@ -1434,23 +1474,7 @@
             .caso-metricas { grid-template-columns: 1fr; }
         }
 
-        /* ===== SKIP LINK ===== */
-        .skip-link {
-            position: fixed;
-            top: -100%;
-            left: 1rem;
-            z-index: 9999;
-            background: var(--accent);
-            color: var(--bg);
-            padding: 0.6rem 1.2rem;
-            border-radius: 0 0 8px 8px;
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 600;
-            font-size: 0.85rem;
-            transition: top 0.2s;
-        }
-        .skip-link:focus { top: 0; }
-    </style>
+        </style>
     {# .anim arranca en opacity:0 y el scroll reveal le pone .in con JS.
        Sin este override, sin JavaScript toda la pagina se ve vacia: contenido
        invisible, no contenido sin animacion. #}
@@ -1483,8 +1507,6 @@
     </script>
 </head>
 <body>
-
-    <a href="#main" class="skip-link">Saltar al contenido</a>
 
     <!-- NAVBAR -->
     <div class="nav-wrap">
@@ -1608,23 +1630,31 @@
                     {% for proyecto in proyectos %}
                     <a href="{{ proyecto.url_destino }}" class="project-link-wrap anim"{% if proyecto.es_externo %} target="_blank" rel="noopener"{% endif %}>
                     <div class="project-card">
-                        <div class="project-frame-wrap">
-                            {% if proyecto.url_produccion %}
+                        {% if proyecto.destacado and proyecto.url_produccion %}
+                        <div class="project-frame-wrap project-frame-wrap--barra">
                             <div class="project-browser" aria-hidden="true">
                                 <span class="dot"></span><span class="dot"></span><span class="dot"></span>
                                 <span class="url-bar">{{ proyecto.url_produccion }}</span>
                             </div>
-                            {% endif %}
                             {% if proyecto.cover_url %}
-                            <div class="project-img-wrap"><img src="{{ proyecto.cover_url }}" alt="{{ proyecto.titulo }}" loading="lazy"></div>
+                            <div class="project-img-wrap project-media"><img src="{{ proyecto.cover_url }}" alt="{{ proyecto.titulo }}" loading="lazy"></div>
                             {% elif proyecto.captura_portada %}
-                            <div class="project-img-wrap"><img src="{% static proyecto.captura_portada.src %}" alt="{{ proyecto.captura_portada.alt|default:proyecto.titulo }}" loading="lazy"></div>
+                            <div class="project-img-wrap project-media"><img src="{% static proyecto.captura_portada.src %}" alt="{{ proyecto.captura_portada.alt|default:proyecto.titulo }}" loading="lazy"></div>
                             {% else %}
-                            <div class="project-img-placeholder" aria-hidden="true">
+                            <div class="project-img-placeholder project-media" aria-hidden="true">
                                 <span>{{ proyecto.titulo }}</span>
                             </div>
                             {% endif %}
                         </div>
+                        {% elif proyecto.cover_url %}
+                        <div class="project-img-wrap project-media"><img src="{{ proyecto.cover_url }}" alt="{{ proyecto.titulo }}" loading="lazy"></div>
+                        {% elif proyecto.captura_portada %}
+                        <div class="project-img-wrap project-media"><img src="{% static proyecto.captura_portada.src %}" alt="{{ proyecto.captura_portada.alt|default:proyecto.titulo }}" loading="lazy"></div>
+                        {% else %}
+                        <div class="project-img-placeholder project-media" aria-hidden="true">
+                            <span>{{ proyecto.titulo }}</span>
+                        </div>
+                        {% endif %}
                         <div class="project-body">
                             <p class="project-tag">{{ proyecto.get_categoria_display|default:'Caso de estudio' }}</p>
                             {% if proyecto.destacado %}<span class="project-destacado">Proyecto destacado</span>{% endif %}

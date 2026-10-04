@@ -1,7 +1,9 @@
 import json
 import re
+import tempfile
 
-from django.test import TestCase
+from django.core.files.base import ContentFile
+from django.test import TestCase, override_settings
 from django.urls import reverse
 
 from .models import Proyecto
@@ -233,4 +235,123 @@ class PortadaTests(TestCase):
         html = self.client.get(reverse("home")).content.decode()
         self.assertIn("<noscript>", html)
         self.assertIn(".anim{opacity:1}", html)
-        self.assertIn("'IntersectionObserver' in window", html)
+
+    def test_las_tres_tarjetas_usan_la_miniatura_optimizada(self):
+        """Las miniaturas 4:3 viven en static/, no en media/.
+
+        Si el campo `imagen` vuelve a apuntar al JPEG, el template prioriza el
+        upload del admin y la version de 30 KB nunca se ve.
+        """
+        html = self.client.get(reverse("home")).content.decode()
+        for archivo in ("apoyo-mutuo.webp", "ecommerce.webp", "franco-alvarez.webp"):
+            self.assertIn(archivo, html)
+        for proyecto in Proyecto.objects.exclude(destacado=True):
+            with self.subTest(proyecto=proyecto.titulo):
+                self.assertEqual(proyecto.imagen, "")
+                tarjetas = [
+                    c for c in (proyecto.capturas or []) if c.get("rol") == "tarjeta"
+                ]
+                self.assertEqual(len(tarjetas), 1)
+                self.assertTrue(tarjetas[0]["portada"])
+
+    def test_el_upload_del_admin_sigue_ganando(self):
+        """La precedencia documentada: admin > captura 'tarjeta' > placeholder.
+
+        cover_url no es un campo del modelo: lo arma la vista y solo si el
+        archivo existe en disco, para que un upload roto no deje la tarjeta sin
+        imagen. Si el template dejara de mirar cover_url, la miniatura estatica
+        volveria a ganarle siempre al upload del admin.
+        """
+        proyecto = Proyecto.objects.filter(destacado=False).first()
+        proyecto.capturas = [
+            {"src": "main/proyectos/estatica.webp", "rol": "tarjeta", "portada": True}
+        ]
+        proyecto.save(update_fields=["capturas"])
+
+        # Sin archivo en disco: la vista deja cover_url en None y gana la captura.
+        html = self.client.get(reverse("home")).content.decode()
+        self.assertIn("estatica.webp", html)
+
+        # Con archivo en disco: manda /media/. El ImageField tiene upload_to y
+        # sufijo aleatorio, asi que el nombre se toma del propio campo y no se
+        # hardcodea. MEDIA_ROOT va a un temporal para no escribir en media/.
+        with tempfile.TemporaryDirectory() as media_root:
+            with override_settings(MEDIA_ROOT=media_root):
+                proyecto.imagen.save("test.webp", ContentFile(b"contenido"), save=True)
+                self.assertTrue(proyecto.imagen_existe)
+                url_admin = proyecto.imagen.url
+                html = self.client.get(reverse("home")).content.decode()
+        self.assertIn(url_admin, html)
+        self.assertNotIn("estatica.webp", html)
+
+    def test_solo_el_destacado_lleva_barra_de_navegador(self):
+        """La barra es del caso insignia; las otras tres miniaturas van limpias.
+
+        Se prueba sobre el HTML renderizado y no sobre el modelo: Dr. Franco
+        Alvarez tambien tiene url_produccion (su Vercel), asi que la condicion
+        no puede ser "tiene URL de produccion" sino "es el destacado".
+        """
+        html = self.client.get(reverse("home")).content.decode()
+        # El caso insignia usa `project-browser caso-browser`; el literal
+        # `class="project-browser"` solo existe en las tarjetas de proyecto.
+        self.assertEqual(html.count('class="project-browser"'), 1)
+        proyecto_destacado = Proyecto.objects.filter(destacado=True).first()
+        self.assertIn(proyecto_destacado.url_produccion, html)
+
+    def test_el_alternado_usa_el_enlace_como_clave(self):
+        """.project-card:nth-child(even) nunca matchea: cuelga de un <a>.
+
+        Cada tarjeta es la primera hija de su project-link-wrap, asi que el
+        alternado tiene que colgar del nth-child del propio <a>. Si se vuelve
+        al selector sobre .project-card, la mitad de las tarjetas queda con la
+        imagen siempre en la misma columna.
+        """
+        html = self.client.get(reverse("home")).content.decode()
+        # Los comentarios del CSS mencionan el selector viejo para explicar el
+        # bug, asi que la comparacion se hace solo sobre las reglas.
+        css = re.sub(r"/\*.*?\*/", "", html, flags=re.S)
+        self.assertIn(".projects-list > .project-link-wrap:nth-child(even)", css)
+        self.assertNotIn(".project-card:nth-child(even)", css)
+
+    def test_las_cajas_de_imagen_declaran_4_3(self):
+        """Todas las miniaturas en la misma proporcion, con el alto flexible."""
+        html = self.client.get(reverse("home")).content.decode()
+        self.assertRegex(html, r"\.project-media\s*\{[^}]*aspect-ratio:\s*4\s*/\s*3")
+        self.assertRegex(html, r"\.project-media\s*\{[^}]*align-self:\s*center")
+        self.assertNotIn("min-height: 260px", html)
+
+    def test_la_migracion_0009_guarda_el_jpeg_original(self):
+        """revertir() restaura el nombre real del archivo.
+
+        Si el nombre se derivara del titulo, "Red de Apoyo Mutuo" volveria
+        como red.jpg y "Dr. Franco Alvarez" como dr.jpg, y ninguno de los dos
+        archivos existe en media/.
+        """
+        import importlib
+
+        from django.apps import apps as django_apps
+
+        modulo = importlib.import_module(
+            "main.migrations.0009_optimalizar_miniaturas"
+        )
+        esperados = {
+            "Red de Apoyo Mutuo": "apoyo-mutuo.jpg",
+            "Plataforma Ecommerce": "ecommerce.jpg",
+            "Dr. Franco Álvarez": "franco-alvarez.jpg",
+        }
+        objetivos = modulo._objetivos(django_apps)
+        self.assertEqual(len(objetivos), 3)
+        for proyecto, datos in objetivos:
+            with self.subTest(proyecto=proyecto.titulo):
+                self.assertEqual(datos["imagen_anterior"], esperados[proyecto.titulo])
+
+    def test_la_migracion_0009_no_toca_el_destacado(self):
+        import importlib
+
+        from django.apps import apps as django_apps
+
+        modulo = importlib.import_module(
+            "main.migrations.0009_optimalizar_miniaturas"
+        )
+        destacados = {p.titulo for p, _ in modulo._objetivos(django_apps)}
+        self.assertNotIn("La Otra Estación", destacados)

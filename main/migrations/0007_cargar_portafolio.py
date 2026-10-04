@@ -19,7 +19,7 @@ METRICAS_ESTACION = [
     },
     {
         "valor": "5.557",
-        "etiqueta": "búsquedas de Googleunjukkan el restaurante",
+        "etiqueta": "búsquedas de Google que mostraron el restaurante",
         "nota": "Google · últimos 28 días",
     },
     {
