@@ -215,16 +215,26 @@ class PortadaTests(TestCase):
         self.assertIn('id="caso-destacado"', html)
         self.assertNotIn('<ol class="caso-etapas">', html)
         self.assertNotIn('<dl class="caso-metricas">', html)
-        self.assertNotIn('class="caso-dispositivos"', html)
+        self.assertNotIn('class="caso-evidencia"', html)
 
-    def test_la_galeria_muestra_escritorio_y_movil(self):
+    def test_la_evidencia_movil_acompana_las_metricas(self):
+        """El celular vive junto a las metricas, no en una galeria aparte.
+
+        La portada de escritorio ya aparece arriba como imagen principal; el
+        celular es el que sostiene el hallazgo del 87% movil.
+        """
         html = self.client.get(reverse("home")).content.decode()
-        self.assertIn('class="caso-dispositivos"', html)
-        self.assertIn("portada-desktop.webp", html)
+        self.assertIn("caso-evidencia-grid--con-movil", html)
+        self.assertIn('class="caso-movil"', html)
         self.assertIn("portada-movil.webp", html)
-        # La captura de pagina completa queda fuera: recortada a 430px se ve
-        # larga y vacia.
+        # Una sola aparicion del escritorio dentro del caso (la del hero).
+        self.assertEqual(html.count("portada-desktop.webp"), 2)
+        self.assertNotIn('class="caso-dispositivos"', html)
+        self.assertNotIn('class="dispositivo"', html)
+        # La captura de pagina completa queda fuera: recortada se ve larga y
+        # vacia, y no aporta a la evidencia.
         self.assertNotIn("portada-completa.webp", html)
+        self.assertNotIn("empresas.webp", html)
 
     def test_la_galeria_apunta_al_sitio_real(self):
         html = self.client.get(reverse("home")).content.decode()

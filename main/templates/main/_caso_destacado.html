@@ -75,64 +75,54 @@
         </ol>
         {% endif %}
 
+        {% with g_movil=destacado.dispositivos.movil %}
         {% if destacado.metricas_validas or destacado.terminos_validos %}
         <div class="caso-evidencia anim">
             <h3 class="caso-evidencia-titulo">Lo que pasó después</h3>
+            <div class="caso-evidencia-grid{% if g_movil %} caso-evidencia-grid--con-movil{% endif %}">
+                <div class="caso-evidencia-datos">
 
-            {% if destacado.metricas_validas %}
-            <dl class="caso-metricas">
-                {% for metrica in destacado.metricas_validas %}
-                <div class="metrica">
-                    <dt>{{ metrica.etiqueta }}</dt>
-                    <dd class="metrica-valor">{{ metrica.valor }}</dd>
-                    {% if metrica.nota %}<p class="metrica-nota">{{ metrica.nota }}</p>{% endif %}
+                    {% if destacado.metricas_validas %}
+                    <dl class="caso-metricas">
+                        {% for metrica in destacado.metricas_validas %}
+                        <div class="metrica">
+                            <dt>{{ metrica.etiqueta }}</dt>
+                            <dd class="metrica-valor">{{ metrica.valor }}</dd>
+                            {% if metrica.nota %}<p class="metrica-nota">{{ metrica.nota }}</p>{% endif %}
+                        </div>
+                        {% endfor %}
+                    </dl>
+                    {% endif %}
+
+                    {% if destacado.terminos_validos %}
+                    <div class="caso-terminos">
+                        <p class="terminos-titulo">
+                            Las búsquedas de Google que muestran el restaurante
+                            <span class="terminos-periodo">principales 5</span>
+                        </p>
+                        <ul class="terminos-list">
+                            {% for termino in destacado.terminos_validos %}
+                            <li class="termino">
+                                <span class="termino-nombre">{{ termino.termino }}</span>
+                                <span class="termino-barra">
+                                    <span class="termino-fill" style="width:{% widthratio termino.busquedas destacado.terminos_validos.0.busquedas 100 %}%"></span>
+                                </span>
+                                <span class="termino-valor">{{ termino.busquedas|miles }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
                 </div>
-                {% endfor %}
-            </dl>
-            {% endif %}
 
-            {% if destacado.terminos_validos %}
-            <div class="caso-terminos">
-                <p class="terminos-titulo">
-                    Las búsquedas de Google que muestran el restaurante
-                    <span class="terminos-periodo">principales 5</span>
-                </p>
-                <ul class="terminos-list">
-                    {% for termino in destacado.terminos_validos %}
-                    <li class="termino">
-                        <span class="termino-nombre">{{ termino.termino }}</span>
-                        <span class="termino-barra">
-                            <span class="termino-fill" style="width:{% widthratio termino.busquedas destacado.terminos_validos.0.busquedas 100 %}%"></span>
-                        </span>
-                        <span class="termino-valor">{{ termino.busquedas|miles }}</span>
-                    </li>
-                    {% endfor %}
-                </ul>
+                {% if g_movil %}
+                <figure class="caso-movil">
+                    <img src="{% static g_movil.src %}" alt="{{ g_movil.alt|default:destacado.titulo }}" width="780" height="1688" loading="lazy" decoding="async">
+                    {% if g_movil.pie %}<figcaption>{{ g_movil.pie }}</figcaption>{% endif %}
+                </figure>
+                {% endif %}
             </div>
-            {% endif %}
-        </div>
-        {% endif %}
-
-        {% with g_escritorio=destacado.dispositivos.escritorio g_movil=destacado.dispositivos.movil %}
-        {% if g_escritorio or g_movil %}
-        <div class="caso-dispositivos">
-            {% if g_escritorio %}
-            <figure class="dispositivo anim">
-                <div class="dispositivo-barra" aria-hidden="true">
-                    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-                    <span class="url-bar">{{ destacado.url_produccion }}</span>
-                </div>
-                <img src="{% static g_escritorio.src %}" alt="{{ g_escritorio.alt|default:destacado.titulo }}" width="1400" height="875" decoding="async">
-                {% if g_escritorio.pie %}<figcaption>{{ g_escritorio.pie }}</figcaption>{% endif %}
-            </figure>
-            {% endif %}
-
-            {% if g_movil %}
-            <figure class="dispositivo dispositivo-movil anim">
-                <img src="{% static g_movil.src %}" alt="{{ g_movil.alt|default:destacado.titulo }}" width="780" height="1688" loading="lazy" decoding="async">
-                {% if g_movil.pie %}<figcaption>{{ g_movil.pie }}</figcaption>{% endif %}
-            </figure>
-            {% endif %}
         </div>
         {% endif %}
         {% endwith %}

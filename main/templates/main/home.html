@@ -1270,6 +1270,20 @@ Las reglas de 4:3 viven arriba, en .project-media y .project-img-wrap. Aqui
             color: var(--accent);
             margin-bottom: 1.5rem;
         }
+        .caso-evidencia-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
+            gap: clamp(1.5rem, 3vw, 2.25rem);
+            align-items: start;
+        }
+        .caso-evidencia-grid--con-movil {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 240px);
+        }
+        .caso-evidencia-datos { min-width: 0; }
+        /* Junto al teléfono las cifras van 2x2; a todo lo ancho, en cuatro. */
+        .caso-evidencia-grid--con-movil .caso-metricas {
+            grid-template-columns: repeat(2, 1fr);
+        }
         .caso-metricas {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -1364,84 +1378,35 @@ Las reglas de 4:3 viven arriba, en .project-media y .project-img-wrap. Aqui
             text-align: right;
         }
 
-        /* galería del sitio */
-        /* Galería: composición asimétrica. Escritorio manda, el celular acompaña.
-           Una grilla uniforme de 4 cuadros se lee como contact sheet volcado y
-           el pantallazo de página completa (1040x2475) recortado se ve largo y
-           vacío. Con dos vistas y una relación de tamaño clara se lee como una
-           decisión de diseño, que es lo que pasó: el 87% llega del celular. */
-        .caso-dispositivos {
-            display: grid;
-            grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr);
-            gap: 1.5rem;
-            align-items: start;
-        }
-        .dispositivo {
+        /* Evidencia visual: el celular acompaña a las métricas.
+           La portada de escritorio ya está arriba como imagen principal del
+           caso; repetirla aquí con la misma barra de navegador no agregaba
+           información y obligaba a recortarla para igualar la altura del
+           teléfono. El celular sostiene el hallazgo: el 87% llega del móvil. */
+        .caso-movil {
             margin: 0;
+            display: flex;
+            flex-direction: column;
             border: 1px solid var(--border);
             border-radius: 16px;
             overflow: hidden;
             background: var(--bg-card);
-            transition: border-color 0.35s, transform 0.35s;
         }
-        .dispositivo:hover { border-color: var(--border-accent); transform: translateY(-3px); }
-        .dispositivo img {
+        .caso-movil img {
             display: block;
             width: 100%;
             height: auto;
             background: var(--bg-raised);
         }
-        .dispositivo-barra {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 0.6rem 0.85rem;
-            background: rgba(23, 21, 17, 0.96);
-            border-bottom: 1px solid var(--border);
-        }
-        .dispositivo-barra .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(240, 232, 216, 0.12);
-            flex-shrink: 0;
-        }
-        .dispositivo-barra .dot:nth-child(1) { background: rgba(217, 119, 63, 0.85); }
-        .dispositivo-barra .dot:nth-child(2) { background: rgba(138, 168, 136, 0.85); }
-        .dispositivo-barra .dot:nth-child(3) { background: rgba(240, 232, 216, 0.28); }
-        .dispositivo-barra .url-bar {
-            margin-left: 0.4rem;
-            flex: 1;
-            height: 22px;
-            display: flex;
-            align-items: center;
-            padding: 0 0.8rem;
-            background: rgba(240, 232, 216, 0.05);
-            border-radius: 7px;
+        .caso-movil figcaption {
+            padding: 0.9rem 1rem;
+            border-top: 1px solid var(--border);
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.62rem;
+            letter-spacing: 0.4px;
+            line-height: 1.55;
             color: var(--muted);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
-        /* El celular se recorta por arriba: lo que importa se ve sin desplazar,
-           y así queda a la altura de la vista de escritorio en vez de medir
-           780px de alto contra 450. */
-        .dispositivo-movil img {
-            height: 100%;
-            max-height: 430px;
-            object-fit: cover;
-            object-position: top center;
-        }
-        .dispositivo figcaption {
-            padding: 0.9rem 1.15rem;
-            font-size: 0.78rem;
-            line-height: 1.6;
-            color: var(--muted);
-            border-top: 1px solid var(--border);
-        }
-        .dispositivo-movil figcaption { border-top: 0; }
         .caso-ver-sitio { margin: 0; }
         .caso-ver-sitio a {
             display: inline-flex;
@@ -1463,15 +1428,18 @@ Las reglas de 4:3 viven arriba, en .project-media y .project-img-wrap. Aqui
             .caso-top { grid-template-columns: 1fr; }
             .caso-metricas { grid-template-columns: repeat(2, 1fr); }
         }
+        @media (max-width: 820px) {
+            .caso-evidencia-grid--con-movil { grid-template-columns: minmax(0, 1fr); }
+            .caso-movil { max-width: 260px; margin-inline: auto; }
+        }
         @media (max-width: 700px) {
             .caso-etapas { grid-template-columns: 1fr; }
-            .caso-dispositivos { grid-template-columns: 1fr; gap: 1.25rem; }
-            .dispositivo-movil { max-width: 320px; margin-inline: auto; }
             .termino { grid-template-columns: 92px 1fr 52px; gap: 0.6rem; }
             .caso-ficha-item { grid-template-columns: 1fr; gap: 0.2rem; }
         }
         @media (max-width: 460px) {
-            .caso-metricas { grid-template-columns: 1fr; }
+            .caso-metricas,
+            .caso-evidencia-grid--con-movil .caso-metricas { grid-template-columns: 1fr; }
         }
 
         </style>
