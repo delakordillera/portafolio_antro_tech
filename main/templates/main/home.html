@@ -1466,7 +1466,7 @@ Las reglas de 4:3 viven arriba, en .project-media y .project-img-wrap. Aqui
           "name": "Universidad Academia de Humanismo Cristiano"
         }
       ],
-      "knowsAbout": ["UX Research", "Etnografía Digital", "Python", "Django", "RStudio"],
+      "knowsAbout": ["UX Research", "Etnografía Digital", "Entrevistas en profundidad", "Testing de usabilidad", "Análisis de datos", "RStudio", "Python", "Django", "HTML", "CSS", "JavaScript", "SEO local", "Schema.org", "Git"],
       "sameAs": [
         "https://www.linkedin.com/in/alexis-lara-viveros/",
         "https://github.com/delakordillera"
@@ -1507,7 +1507,6 @@ Las reglas de 4:3 viven arriba, en .project-media y .project-img-wrap. Aqui
                         <a href="#caso-destacado" class="btn-primary">Ver mi caso en producción <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
                         <a href="#proyectos" class="btn-secondary">Todos los proyectos</a>
                     </div>
-                    <p class="hero-proof anim anim-d3">La Otra Estación · Peñalolén — sitio en producción que fundé desde cero</p>
                 </div>
                 <div class="hero-visual anim anim-d2">
                     <div class="hero-orb">
@@ -1539,16 +1538,17 @@ Las reglas de 4:3 viven arriba, en .project-media y .project-img-wrap. Aqui
                     <div class="skill-icon">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
                     </div>
-                    <h3>UX Research</h3>
+                    <h3>UX Research &amp; Etnografía</h3>
                     <ul>
                         {% for skill in skills_ux %}
                         <li>{{ skill.nombre }}</li>
                         {% empty %}
-                        <li>Etnografía digital y observación participante</li>
+                        <li>Etnografía digital, presencial y observación participante</li>
                         <li>Entrevistas en profundidad y testing de usabilidad</li>
-                        <li>Análisis cualitativo con RStudio</li>
-                        <li>Síntesis de hallazgos en requerimientos técnicos</li>
+                        <li>Métodos mixtos: análisis cualitativo y estadístico con RStudio</li>
+                        <li>Síntesis de hallazgos en requerimientos técnicos accionables</li>
                         <li>Arquitectura de información localizada</li>
+                        <li>Diseño de investigación centrado en contexto</li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -1556,15 +1556,18 @@ Las reglas de 4:3 viven arriba, en .project-media y .project-img-wrap. Aqui
                     <div class="skill-icon">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
                     </div>
-                    <h3>Backend &amp; Data</h3>
+                    <h3>Backend, Datos &amp; Web</h3>
                     <ul>
                         {% for skill in skills_tech %}
                         <li>{{ skill.nombre }}</li>
                         {% empty %}
-                        <li>Python (automatización y procesamiento de datos)</li>
-                        <li>Django (backend y bases de datos)</li>
-                        <li>RStudio (análisis estadístico)</li>
-                        <li>Git / GitHub</li>
+                        <li>Python: automatización y procesamiento de datos</li>
+                        <li>Django: backend, ORM y bases de datos relacionales</li>
+                        <li>RStudio: análisis estadístico y visualización de datos</li>
+                        <li>APIs REST e integración de servicios externos</li>
+                        <li>HTML, CSS y JavaScript</li>
+                        <li>SEO local y Schema.org (datos estructurados)</li>
+                        <li>Git / GitHub y despliegue en producción</li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -1581,6 +1584,7 @@ Las reglas de 4:3 viven arriba, en .project-media y .project-img-wrap. Aqui
                         <li>Pensamiento crítico orientado a patrones sociales</li>
                         <li>Comunicación transversal humano-técnica</li>
                         <li>Resolución de conflictos bajo presión</li>
+                        <li>Aprendizaje autónomo y adaptabilidad</li>
                         {% endfor %}
                     </ul>
                 </div>
