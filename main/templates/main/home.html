@@ -1475,9 +1475,9 @@ Las reglas de 4:3 viven arriba, en .project-media y .project-img-wrap. Aqui
         }
 
         </style>
-    {# .anim arranca en opacity:0 y el scroll reveal le pone .in con JS.
+    {% comment %} .anim arranca en opacity:0 y el scroll reveal le pone .in con JS.
        Sin este override, sin JavaScript toda la pagina se ve vacia: contenido
-       invisible, no contenido sin animacion. #}
+       invisible, no contenido sin animacion. {% endcomment %}
     <noscript><style>.anim{opacity:1}.reveal-word{opacity:1;transform:none;filter:none}</style></noscript>
     <script type="application/ld+json">
     {
