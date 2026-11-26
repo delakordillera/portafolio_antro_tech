@@ -55,8 +55,9 @@
             line-height: 1.6;
             color: var(--texto);
             background: var(--nieve);
-            font-variant-numeric: tabular-nums;
         }
+        /* Cifras alineadas solo donde hay datos: en el cuerpo, tnum separa puntos y comas */
+        .metrica dd, .termino-valor, td { font-variant-numeric: tabular-nums; }
         ::selection { background: var(--arrebol); color: var(--blanco); }
         img { max-width: 100%; height: auto; display: block; }
         a { color: var(--arrebol); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
