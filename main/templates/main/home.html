@@ -4,1579 +4,356 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alexis Lara Viveros | Antropólogo & Full Stack Developer</title>
-    <meta name="description" content="Portafolio de Alexis Lara Viveros, Antropólogo y Desarrollador Full Stack Python especializado en UX Research, etnografía digital y análisis de datos con RStudio.">
-    <meta property="og:title" content="Alexis Lara Viveros | Antropólogo & Full Stack Developer">
-    <meta property="og:description" content="Investigación de usuarios + desarrollo. Etnografía digital aplicada a productos digitales.">
+    <title>Alexis Lara Viveros | Soporte técnico, seguridad y desarrollo web</title>
+    <meta name="description" content="Portafolio de Alexis Lara Viveros, desarrollador web en Santiago de Chile que se está formando en ciberseguridad defensiva. Sitios en producción para clientes reales y seguridad aplicada en Django.">
+    <meta property="og:title" content="Alexis Lara Viveros | Soporte técnico, seguridad y desarrollo web">
+    <meta property="og:description" content="Sitios en producción para clientes reales y seguridad aplicada en Django. Santiago de Chile.">
     <meta property="og:url" content="https://delakordillera.pythonanywhere.com">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="es_CL">
     <meta property="og:image" content="https://delakordillera.pythonanywhere.com/static/main/og-preview.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Alexis Lara Viveros — Antropólogo & Full Stack Developer">
+    <meta property="og:image:alt" content="Alexis Lara Viveros, soporte técnico, seguridad y desarrollo web">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Alexis Lara Viveros | Antropólogo & Full Stack Developer">
-    <meta name="twitter:description" content="Investigación de usuarios + desarrollo. Etnografía digital aplicada a productos digitales.">
+    <meta name="twitter:title" content="Alexis Lara Viveros | Soporte técnico, seguridad y desarrollo web">
+    <meta name="twitter:description" content="Sitios en producción para clientes reales y seguridad aplicada en Django. Santiago de Chile.">
     <meta name="twitter:image" content="https://delakordillera.pythonanywhere.com/static/main/og-preview.png">
-    <meta name="theme-color" content="#110f0c">
+    <meta name="theme-color" content="#F6F7F9">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://delakordillera.pythonanywhere.com/">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23110f0c'/><text x='16' y='22' font-family='serif' font-size='16' fill='%23d9773f' text-anchor='middle'>A</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231C2433'/><path d='M3 24 L11 13 L15 18 L20 9 L29 24 Z' fill='%23E8A3B6'/></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
+        /* Paleta: la precordillera de Peñalolén al atardecer (el "arrebol").
+           Nieve = fondo, Pizarra = texto, Arrebol = acento único. */
         :root {
-            --bg: #0f0e0b;
-            --bg-raised: #171511;
-            --bg-card: #1c1a15;
-            --bg-card-hover: #221f18;
-            --paper: #f0e8d8;
-            --ink: #bfb5a3;
-            --muted: #7a7164;
-            --accent: #d9773f;
-            --accent-dim: rgba(217, 119, 63, 0.12);
-            --moss: #8aa888;
-            --moss-dim: rgba(138, 168, 136, 0.10);
-            --border: rgba(240, 232, 216, 0.06);
-            --border-accent: rgba(217, 119, 63, 0.2);
+            --nieve: #F6F7F9;
+            --blanco: #FFFFFF;
+            --pizarra: #1C2433;
+            --texto: #3B4557;
+            --tenue: #566175;
+            --linea: #DCE0E7;
+            --arrebol: #A8325A;
+            --arrebol-osc: #7E2242;
+            --arrebol-claro: #F4DDE4;
+            --cerro-1: #E8A3B6;
+            --cerro-2: #9A6E92;
+            --cerro-3: #4A4F72;
+            --ancho: 1080px;
+            --texto-max: 68ch;
         }
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        * { scrollbar-width: thin; scrollbar-color: var(--accent) transparent; }
-        html { scroll-behavior: smooth; }
-
+        *, *::before, *::after { box-sizing: border-box; }
+        html { -webkit-text-size-adjust: 100%; }
         body {
-            font-family: 'Inter', system-ui, sans-serif;
-            background: var(--bg);
-            color: var(--ink);
+            margin: 0;
+            font-family: 'Schibsted Grotesk', system-ui, sans-serif;
+            font-size: 1.0625rem;
             line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
+            color: var(--texto);
+            background: var(--nieve);
+            font-variant-numeric: tabular-nums;
         }
+        ::selection { background: var(--arrebol); color: var(--blanco); }
+        img { max-width: 100%; height: auto; display: block; }
+        a { color: var(--arrebol); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+        a:hover { color: var(--arrebol-osc); text-decoration-thickness: 2px; }
+        :focus-visible { outline: 3px solid var(--arrebol); outline-offset: 3px; border-radius: 2px; }
+        h1, h2, h3 { color: var(--pizarra); line-height: 1.15; text-wrap: balance; }
+        h2 { font-size: clamp(1.75rem, 3.2vw, 2.4rem); font-weight: 800; letter-spacing: -0.025em; margin: 0 0 1rem; }
+        h3 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 0.5rem; }
+        p { margin: 0 0 1rem; max-width: var(--texto-max); }
 
-        /* Noise overlay */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            z-index: 50;
-            pointer-events: none;
-            opacity: 0.025;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-            background-repeat: repeat;
-            background-size: 200px;
+        .saltar { position: absolute; left: -9999px; }
+        .saltar:focus { left: 1rem; top: 1rem; background: var(--blanco); padding: 0.75rem 1rem; z-index: 10; }
+        .contenedor { max-width: var(--ancho); margin: 0 auto; padding: 0 1.5rem; }
+
+        /* Navegación */
+        .nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem 2rem; padding: 1.25rem 0; }
+        .nav-marca { font-weight: 800; color: var(--pizarra); text-decoration: none; font-size: 1.05rem; letter-spacing: -0.01em; }
+        .nav-marca:hover { color: var(--pizarra); }
+        .nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0 1.5rem; margin: 0; padding: 0; }
+        .nav ul a { display: inline-block; padding: 0.6rem 0; color: var(--pizarra); text-decoration: none; font-weight: 500; }
+        .nav ul a:hover { color: var(--arrebol); text-decoration: underline; }
+
+        /* Portada: el único gesto fuerte de la página es el cerro */
+        .portada { padding: 4.5rem 0 0; }
+        .portada h1 { font-size: clamp(2.75rem, 8.5vw, 6rem); font-weight: 800; letter-spacing: -0.04em; line-height: 0.98; margin: 0 0 1.5rem; max-width: 12ch; }
+        .portada-lead { font-size: clamp(1.2rem, 2.2vw, 1.5rem); line-height: 1.45; color: var(--pizarra); max-width: 34ch; }
+        .portada-sub { color: var(--texto); max-width: 52ch; }
+        .acciones { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+        .boton { display: inline-flex; align-items: center; min-height: 48px; padding: 0 1.4rem; border-radius: 6px; font-weight: 700; text-decoration: none; border: 2px solid var(--pizarra); transition: background-color .15s ease, color .15s ease; }
+        .boton-lleno { background: var(--pizarra); color: var(--blanco); }
+        .boton-lleno:hover { background: var(--arrebol); border-color: var(--arrebol); color: var(--blanco); }
+        .boton-borde { color: var(--pizarra); background: transparent; }
+        .boton-borde:hover { background: var(--pizarra); color: var(--blanco); }
+        .cordillera { display: block; width: 100%; height: clamp(110px, 18vw, 230px); margin-top: 3.5rem; }
+
+        /* Secciones */
+        .seccion { padding: 5rem 0; }
+        .seccion-blanca { background: var(--blanco); }
+        .intro-seccion { color: var(--texto); margin-bottom: 2.25rem; }
+
+        /* Sobre mí */
+        .sobre { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 2rem 4rem; align-items: start; }
+        .sobre-texto p:last-child { margin-bottom: 0; }
+
+        /* Tabla de seguridad */
+        .tabla-caja { overflow-x: auto; border: 1px solid var(--linea); border-radius: 8px; background: var(--blanco); }
+        table { border-collapse: collapse; width: 100%; min-width: 640px; }
+        caption { text-align: left; padding: 1rem 1.25rem; color: var(--tenue); font-size: 0.95rem; }
+        th, td { text-align: left; vertical-align: top; padding: 1rem 1.25rem; }
+        thead th { color: var(--pizarra); font-weight: 700; background: var(--nieve); border-bottom: 1px solid var(--linea); }
+        tbody tr + tr td { border-top: 1px solid var(--linea); }
+        tbody td:first-child { color: var(--pizarra); font-weight: 500; }
+
+        .labs { margin-top: 3rem; }
+        .labs ul { margin: 0; padding-left: 1.2rem; max-width: var(--texto-max); }
+        .labs li { margin-bottom: 0.5rem; }
+        .labs li::marker { color: var(--arrebol); }
+
+        /* Caso destacado */
+        .caso-cabeza { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); gap: 2.5rem 4rem; align-items: start; }
+        .caso-meta { color: var(--tenue); margin-bottom: 1rem; }
+        .caso-ficha { display: grid; gap: 0.75rem; margin: 1.5rem 0 0; }
+        .caso-ficha div { display: grid; grid-template-columns: 9rem 1fr; gap: 1rem; }
+        .caso-ficha dt { color: var(--tenue); }
+        .caso-ficha dd { margin: 0; color: var(--pizarra); overflow-wrap: anywhere; }
+        .caso-captura { margin: 0; border: 1px solid var(--linea); border-radius: 8px; overflow: hidden; background: var(--blanco); box-shadow: 0 12px 32px -18px rgba(28, 36, 51, 0.35); }
+        .caso-etapas { list-style: none; counter-reset: etapa; margin: 4rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 2rem 2.5rem; }
+        .caso-etapas li { counter-increment: etapa; }
+        .caso-etapas h3::before { content: counter(etapa) ". "; color: var(--arrebol); }
+        .caso-etapas p { margin: 0; }
+        .caso-evidencia { margin-top: 4rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 2.5rem 4rem; align-items: start; }
+        .metricas { margin: 0; display: grid; gap: 1.1rem; }
+        .metrica { display: grid; grid-template-columns: minmax(6.5rem, auto) 1fr; gap: 0 1.25rem; align-items: baseline; }
+        .metrica dd { margin: 0; font-size: 1.6rem; font-weight: 800; color: var(--pizarra); letter-spacing: -0.02em; grid-row: 1; grid-column: 1; }
+        .metrica dt { grid-row: 1; grid-column: 2; }
+        .metrica-nota { grid-column: 2; margin: 0.2rem 0 0; color: var(--tenue); font-size: 0.95rem; }
+        .terminos h3 { font-size: 1.05rem; }
+        .terminos ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
+        .termino { display: grid; grid-template-columns: 7.5rem 1fr 3.5rem; gap: 0.75rem; align-items: center; }
+        .termino-barra { height: 10px; background: var(--arrebol-claro); border-radius: 5px; overflow: hidden; }
+        .termino-fill { display: block; height: 100%; background: var(--arrebol); border-radius: 5px; }
+        .termino-valor { text-align: right; color: var(--pizarra); font-weight: 500; }
+        .caso-movil { margin: 0; max-width: 280px; }
+        .caso-movil img { border: 1px solid var(--linea); border-radius: 18px; }
+        .caso-movil figcaption { color: var(--tenue); font-size: 0.95rem; margin-top: 0.75rem; }
+
+        /* Proyectos: lista, no tarjetas iguales */
+        .proyectos { list-style: none; margin: 0; padding: 0; }
+        .proyecto { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.5rem 3rem; padding: 2.5rem 0; border-top: 1px solid var(--linea); align-items: start; }
+        .proyecto:last-child { border-bottom: 1px solid var(--linea); }
+        .proyecto-img { border-radius: 8px; overflow: hidden; border: 1px solid var(--linea); background: var(--blanco); aspect-ratio: 16 / 10; }
+        .proyecto-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+        .proyecto-tipo { color: var(--tenue); margin-bottom: 0.4rem; }
+        .proyecto-hallazgo { color: var(--pizarra); }
+        .proyecto-tech { color: var(--tenue); font-size: 0.95rem; }
+        .aviso { background: var(--arrebol-claro); color: var(--arrebol-osc); padding: 0.75rem 1rem; border-radius: 6px; font-size: 0.95rem; }
+
+        /* Herramientas */
+        .herramientas { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 2.5rem 3rem; }
+        .herramientas ul { margin: 0; padding-left: 1.1rem; }
+        .herramientas li { margin-bottom: 0.35rem; }
+        .herramientas li::marker { color: var(--cerro-2); }
+
+        /* Formación */
+        .formacion { margin: 0; display: grid; gap: 1.75rem; max-width: 760px; }
+        .formacion div { display: grid; grid-template-columns: 8.5rem 1fr; gap: 0.25rem 1.5rem; }
+        .formacion dt { color: var(--tenue); }
+        .formacion dd { margin: 0; }
+        .formacion strong { color: var(--pizarra); font-weight: 700; display: block; }
+
+        /* Contacto */
+        .contacto { background: var(--pizarra); color: #D7DCE6; padding: 5rem 0 2rem; }
+        .contacto h2 { color: var(--blanco); }
+        .contacto a { color: var(--blanco); }
+        .contacto a:hover { color: var(--cerro-1); }
+        .contacto :focus-visible { outline-color: var(--cerro-1); }
+        .contacto-lista { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 0.25rem; font-size: 1.2rem; }
+        .contacto-lista a { display: inline-block; padding: 0.5rem 0; }
+        .pie { margin-top: 4rem; color: #A9B1C1; font-size: 0.95rem; }
+
+        @media (max-width: 560px) {
+            .caso-ficha div, .formacion div { grid-template-columns: 1fr; gap: 0.1rem; }
+            .termino { grid-template-columns: 6rem 1fr 3rem; }
+            .seccion { padding: 3.5rem 0; }
         }
-
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Space Grotesk', sans-serif;
-            color: var(--paper);
-            line-height: 1.15;
-        }
-
-        a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
-        a:hover { color: #e88a52; }
-        ::selection { background: var(--accent); color: var(--bg); }
-
-        .container { max-width: 1140px; margin: 0 auto; padding: 0 1.5rem; }
-
-        /* Focus */
-        :focus-visible {
-            outline: 2px solid var(--accent);
-            outline-offset: 3px;
-            border-radius: 4px;
-        }
-
         @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.001ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.001ms !important;
-                scroll-behavior: auto !important;
-            }
+            * { transition: none !important; }
         }
-
-        /* ===== NAVBAR — floating pill ===== */
-        .nav-wrap {
-            position: fixed;
-            top: 1rem;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            width: calc(100% - 2rem);
-            max-width: 720px;
-        }
-        .nav-pill {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(15, 14, 11, 0.8);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--border);
-            border-radius: 999px;
-            padding: 0.55rem 1.25rem;
-        }
-        .nav-brand {
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 600;
-            font-size: 0.95rem;
-            color: var(--paper);
-            letter-spacing: -0.3px;
-            white-space: nowrap;
-        }
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            list-style: none;
-        }
-        .nav-links a {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
-            font-weight: 500;
-            color: var(--muted);
-            padding: 0.4rem 0.7rem;
-            border-radius: 999px;
-            transition: color 0.2s, background 0.2s;
-            white-space: nowrap;
-        }
-        .nav-links a:hover {
-            color: var(--paper);
-            background: rgba(240, 232, 216, 0.06);
-        }
-        .nav-cta {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
-            font-weight: 600;
-            color: var(--bg) !important;
-            background: var(--accent);
-            padding: 0.45rem 1rem;
-            border-radius: 999px;
-            transition: background 0.2s;
-        }
-        .nav-cta:hover { background: #c8672f; color: var(--bg) !important; }
-
-        .nav-toggle {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0.4rem;
-        }
-        .nav-toggle span {
-            display: block;
-            width: 20px;
-            height: 2px;
-            background: var(--paper);
-            margin: 4px 0;
-            transition: transform 0.2s, opacity 0.2s;
-        }
-
-        @media (max-width: 640px) {
-            .nav-toggle { display: block; }
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: calc(100% + 0.5rem);
-                left: 0;
-                right: 0;
-                flex-direction: column;
-                background: rgba(15, 14, 11, 0.95);
-                backdrop-filter: blur(16px);
-                border: 1px solid var(--border);
-                border-radius: 16px;
-                padding: 1rem;
-                gap: 0.25rem;
-            }
-            .nav-links.open { display: flex; }
-            .nav-links a { text-align: center; width: 100%; padding: 0.6rem; }
-        }
-
-        /* ===== HERO — asymmetric ===== */
-        .hero {
-            min-height: 100vh;
-            min-height: 100dvh;
-            display: flex;
-            align-items: center;
-            padding: 8rem 0 5rem;
-            position: relative;
-        }
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1fr 0.45fr;
-            gap: 4rem;
-            align-items: center;
-        }
-        .hero-label {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: var(--accent);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 1.25rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        .hero-label::before {
-            content: '';
-            width: 32px;
-            height: 1px;
-            background: var(--accent);
-        }
-        .hero-title {
-            font-size: clamp(2.5rem, 5.5vw, 4.5rem);
-            font-weight: 700;
-            letter-spacing: -2px;
-            line-height: 1.05;
-            margin-bottom: 1.5rem;
-        }
-        .hero-title em {
-            font-style: normal;
-            color: var(--accent);
-        }
-        .hero-subtitle {
-            font-size: clamp(1rem, 1.2vw, 1.15rem);
-            color: var(--ink);
-            max-width: 480px;
-            line-height: 1.75;
-            margin-bottom: 2.5rem;
-        }
-        .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
-        .btn-primary {
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 600;
-            font-size: 0.9rem;
-            background: var(--accent);
-            color: var(--bg);
-            padding: 0.85rem 2rem;
-            border-radius: 999px;
-            border: none;
-            cursor: pointer;
-            transition: background 0.2s, transform 0.15s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-primary::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 60%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            animation: shimmer 3s ease-in-out infinite;
-        }
-        @keyframes shimmer {
-            0%, 100% { left: -100%; }
-            50% { left: 150%; }
-        }
-        .btn-primary:hover { background: #c8672f; color: var(--bg); transform: translateY(-1px); }
-        .btn-secondary {
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 600;
-            font-size: 0.9rem;
-            background: transparent;
-            color: var(--paper);
-            padding: 0.85rem 2rem;
-            border-radius: 999px;
-            border: 1px solid var(--border);
-            cursor: pointer;
-            transition: border-color 0.2s, color 0.2s;
-            display: inline-flex;
-            align-items: center;
-        }
-        .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
-
-        .hero-visual {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .hero-orb {
-            width: 280px;
-            height: 280px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 35% 35%, var(--accent-dim), transparent 70%),
-                        radial-gradient(circle at 65% 65%, var(--moss-dim), transparent 70%);
-            border: 1px solid var(--border);
-            position: relative;
-            animation: orb-float 8s ease-in-out infinite;
-            perspective: 600px;
-        }
-        .orb-nucleus {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--accent);
-            letter-spacing: 0.5px;
-            z-index: 10;
-            text-shadow: 0 0 20px rgba(217, 119, 63, 0.3);
-            pointer-events: none;
-        }
-        .orb-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 280px;
-            height: 280px;
-            pointer-events: none;
-        }
-        .orb-icon {
-            position: absolute;
-            width: 26px;
-            height: 26px;
-        }
-        .orb-icon svg {
-            width: 100%;
-            height: 100%;
-            opacity: 0.75;
-            transition: opacity 0.3s;
-        }
-        .hero-orb:hover .orb-icon svg { opacity: 1; }
-        @keyframes orb-float {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-12px) scale(1.02); }
-        }
-
-        @media (max-width: 768px) {
-            .hero-grid {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-                text-align: center;
-            }
-            .hero-subtitle { margin-left: auto; margin-right: auto; }
-            .hero-actions { justify-content: center; }
-            .hero-visual { display: none; }
-            .hero-label { justify-content: center; }
-            .modal-box { padding: 1.75rem; border-radius: 16px; }
-        }
-
-        /* ===== SECTIONS — editorial ===== */
-        .section { padding: clamp(4rem, 8vw, 7rem) 0; }
-        .section-eyebrow {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.68rem;
-            font-weight: 500;
-            color: var(--accent);
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
-            margin-bottom: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-        .section-eyebrow::before {
-            content: '';
-            width: 24px;
-            height: 1px;
-            background: var(--accent);
-        }
-        .section-heading {
-            font-size: clamp(1.6rem, 3vw, 2.4rem);
-            font-weight: 700;
-            letter-spacing: -0.8px;
-            margin-bottom: 3rem;
-            max-width: 520px;
-        }
-
-        /* ===== SKILL CARDS — varied ===== */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-        .skill-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2rem 1.75rem;
-            position: relative;
-            overflow: hidden;
-            transition: border-color 0.4s, transform 0.3s, background 0.3s, box-shadow 0.4s;
-        }
-        .skill-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--accent), var(--moss), var(--accent));
-            background-size: 200% 100%;
-            opacity: 0;
-            transition: opacity 0.3s;
-            animation: beam-slide 3s linear infinite;
-        }
-        .skill-card:hover::after { opacity: 1; }
-        .skill-card:hover {
-            border-color: rgba(217, 119, 63, 0.15);
-            transform: translateY(-4px);
-            background: var(--bg-card-hover);
-            box-shadow: 0 8px 32px rgba(217, 119, 63, 0.06);
-        }
-        @keyframes beam-slide {
-            from { background-position: 200% 0; }
-            to { background-position: -200% 0; }
-        }
-        .skill-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-        }
-        .skill-card:nth-child(1)::before { background: var(--accent); }
-        .skill-card:nth-child(2)::before { background: var(--moss); }
-        .skill-card:nth-child(3)::before {
-            background: linear-gradient(90deg, var(--accent), var(--moss));
-        }
-
-        .skill-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.25rem;
-            font-size: 1.1rem;
-        }
-        .skill-card:nth-child(1) .skill-icon { background: var(--accent-dim); color: var(--accent); }
-        .skill-card:nth-child(2) .skill-icon { background: var(--moss-dim); color: var(--moss); }
-        .skill-card:nth-child(3) .skill-icon { background: rgba(240, 232, 216, 0.06); color: var(--paper); }
-
-        .skill-card h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-        .skill-card ul { list-style: none; }
-        .skill-card li {
-            font-size: 0.88rem;
-            color: var(--ink);
-            padding: 0.4rem 0;
-            padding-left: 1rem;
-            position: relative;
-            line-height: 1.5;
-        }
-        .skill-card li::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            transform: translateY(-50%);
-        }
-        .skill-card:nth-child(1) li::before { background: var(--accent); }
-        .skill-card:nth-child(2) li::before { background: var(--moss); }
-        .skill-card:nth-child(3) li::before { background: var(--paper); opacity: 0.4; }
-
-        @media (max-width: 768px) {
-            .skills-grid { grid-template-columns: 1fr; }
-        }
-
-        /* ===== PROJECT CARDS — editorial, varied ===== */
-        .projects-list {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-        .project-card {
-            display: grid;
-            grid-template-columns: 340px minmax(0, 1fr);
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: border-color 0.3s, transform 0.3s;
-        }
-        .project-card:hover {
-            border-color: var(--border-accent);
-            transform: translateY(-3px);
-        }
-        /* Alterna imagen izquierda/derecha.
-           OJO: el selector tiene que ser .project-link-wrap:nth-child(even), no
-           .project-card:nth-child(even). Cada .project-card cuelga de un <a
-           class="project-link-wrap">, asi que es siempre la primera hija de su
-           padre y :nth-child(even) no matcheaba ninguna: el alternado estaba
-           roto desde antes de este trabajo y por eso todas las tarjetas tenian
-           la misma columna de imagen. */
-        .projects-list > .project-link-wrap:nth-child(even) .project-card {
-            grid-template-columns: minmax(0, 1fr) 340px;
-        }
-        .projects-list > .project-link-wrap:nth-child(even) .project-media { order: 2; }
-
-        /* La miniatura de cada tarjeta. 4:3 fijo para todas: antes cada proyecto
-           traia su propia proporcion (1.76, 1.28, 1.62) y en una columna de
-           340px eso daba alturas de 193, 266 y 210px, con la mas ancha
-           dejando 67px de hueco bajo la imagen.
-
-           align-self:center evita que el grid estire la caja a la altura del
-           texto; el aire sobrante se reparte arriba y abajo en vez de
-           deformar la captura. width:100% no es redundante: con aspect-ratio
-           y sin tamaño inline definido, el navegador deriva el ancho desde el
-           alto. */
-        .project-media {
-            aspect-ratio: 4 / 3;
-            min-height: 0;
-            align-self: center;
-            width: 100%;
-        }
-        .project-img-wrap {
-            position: relative;
-            overflow: hidden;
-            min-height: 0;
-        }
-        .project-img-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: top center;
-            transition: transform 0.5s ease;
-        }
-        .project-card:hover .project-img-wrap img { transform: scale(1.04); }
-        .project-img-wrap::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(15,14,11,0.1), rgba(15,14,11,0.3));
-            pointer-events: none;
-        }
-
-        /* Barra de navegador para el proyecto con URL pública.
-           display:contents es lo que sostiene el diseño alternado: sin barra no
-           hay nada que envolver, y si el envoltorio fuese una caja, la imagen
-           dejaria de ser item directo del grid y la regla `order: 2` que
-           invierte imagen izquierda/derecha en las tarjetas pares dejaria de
-           funcionar. */
-        .project-frame-wrap { display: contents; }
-        .project-frame-wrap--barra {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-self: center;
-            width: 100%;
-            min-height: 0;
-        }
-        .project-browser {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 0.6rem 0.85rem;
-            background: rgba(23, 21, 17, 0.96);
-            border-bottom: 1px solid var(--border);
-            z-index: 2;
-        }
-        .project-browser .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(240, 232, 216, 0.12);
-            flex-shrink: 0;
-        }
-        .project-browser .dot:nth-child(1) { background: rgba(217, 119, 63, 0.85); }
-        .project-browser .dot:nth-child(2) { background: rgba(138, 168, 136, 0.85); }
-        .project-browser .dot:nth-child(3) { background: rgba(240, 232, 216, 0.28); }
-        .project-browser .url-bar {
-            margin-left: 0.4rem;
-            flex: 1;
-            height: 22px;
-            display: flex;
-            align-items: center;
-            padding: 0 0.8rem;
-            background: rgba(240, 232, 216, 0.05);
-            border-radius: 7px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.62rem;
-            color: var(--muted);
-            letter-spacing: 0.2px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        /* Sin flex:1. El marco tiene la altura automatica y la imagen define
-           la suya con aspect-ratio 4:3. Con flex:1 el navegador resolvia la
-           dependencia circular entre la altura del marco y la de la imagen y
-           dejaba dos tarjetas en 340x213 en vez de 340x255. */
-        .project-img-placeholder {
-            min-height: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            text-align: center;
-            background:
-                repeating-linear-gradient(
-                    -45deg,
-                    transparent 0 9px,
-                    rgba(240, 232, 216, 0.035) 9px 10px
-                ),
-                var(--bg-raised);
-            border-right: 1px solid var(--border);
-        }
-        .project-img-placeholder span {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: var(--muted);
-        }
-
-        /* Distintivo del proyecto destacado */
-        .project-destacado {
-            display: inline-flex;
-            align-items: center;
-            align-self: flex-start;
-            gap: 0.4rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.6rem;
-            font-weight: 500;
-            letter-spacing: 1.4px;
-            text-transform: uppercase;
-            color: var(--accent);
-            background: var(--accent-dim);
-            border: 1px solid var(--border-accent);
-            border-radius: 20px;
-            padding: 0.25rem 0.7rem;
-            margin-bottom: 0.85rem;
-        }
-        .project-cliente {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.66rem;
-            letter-spacing: 0.8px;
-            color: var(--muted);
-            margin: -0.35rem 0 0.9rem;
-        }
-        .projects-empty {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            color: var(--muted);
-            border: 1px dashed var(--border);
-            border-radius: 16px;
-            padding: 2.5rem 1.5rem;
-            text-align: center;
-        }
-
-        .project-body {
-            padding: 2rem 2.25rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .project-tag {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem;
-            font-weight: 500;
-            color: var(--accent);
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            margin-bottom: 0.75rem;
-        }
-        .project-body h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 0.6rem;
-            letter-spacing: -0.3px;
-        }
-        .project-body > p {
-            font-size: 0.9rem;
-            color: var(--ink);
-            line-height: 1.65;
-            margin-bottom: 1.25rem;
-        }
-        .project-meta {
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
-            margin-bottom: 1.25rem;
-        }
-        .project-meta-row {
-            display: flex;
-            gap: 0.75rem;
-            align-items: baseline;
-        }
-        .project-meta-label {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.6rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--moss);
-            flex: 0 0 5.5rem;
-        }
-        .project-meta-value {
-            font-size: 0.82rem;
-            color: var(--ink);
-            line-height: 1.5;
-        }
-        .project-tech {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.4rem;
-            margin-bottom: 1.25rem;
-        }
-        .tech-pill {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem;
-            color: var(--muted);
-            background: rgba(240, 232, 216, 0.04);
-            border: 1px solid var(--border);
-            padding: 0.25rem 0.65rem;
-            border-radius: 999px;
-        }
-        .project-link {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--paper);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            transition: color 0.2s, gap 0.2s;
-        }
-        .project-link:hover { color: var(--accent); gap: 0.65rem; }
-        .project-link svg {
-            width: 16px;
-            height: 16px;
-            transition: transform 0.2s;
-        }
-        .project-link:hover svg { transform: translateX(2px); }
-
-        .demo-notice {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.6rem;
-            margin-top: 0.5rem;
-            padding: 0.85rem 1rem;
-            background: rgba(217, 119, 63, 0.06);
-            border-left: 2px solid var(--accent);
-            border-radius: 0 8px 8px 0;
-        }
-        .demo-notice svg {
-            flex-shrink: 0;
-            color: var(--accent);
-            margin-top: 2px;
-        }
-        .demo-notice p {
-            font-size: 0.75rem;
-            color: var(--muted);
-            line-height: 1.6;
-        }
-        .demo-notice strong {
-            color: var(--accent);
-            font-weight: 600;
-        }
-        .demo-notice code {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--paper);
-            background: rgba(240, 232, 216, 0.06);
-            padding: 0.1rem 0.35rem;
-            border-radius: 4px;
-        }
-
-        /* Todas las miniaturas comparten 4:3. Antes cada proyecto traia su
-           propia proporcion (1.76, 1.28, 1.62) y en una columna de 340px eso
-           daba alturas de 193, 266 y 210px: las tarjetas quedaban desparejas y
-Las reglas de 4:3 viven arriba, en .project-media y .project-img-wrap. Aqui
-            solo queda el placeholder, que tambien es una .project-media. */
-        .project-card .project-img-placeholder { min-height: 0; }
-
-        @media (max-width: 768px) {
-            .project-card,
-            .projects-list > .project-link-wrap:nth-child(even) .project-card {
-                grid-template-columns: minmax(0, 1fr);
-            }
-            .projects-list > .project-link-wrap:nth-child(even) .project-media { order: 0; }
-            .project-body { padding: 1.5rem; }
-        }
-
-        /* ===== CREDENTIALS ===== */
-        .cred-list { max-width: 680px; }
-        .cred-row {
-            display: flex;
-            gap: 2rem;
-            padding: 1.5rem 0;
-            border-bottom: 1px solid var(--border);
-            transition: padding-left 0.25s ease;
-        }
-        .cred-row:last-child { border-bottom: none; }
-        .cred-row:hover { padding-left: 0.5rem; }
-        .cred-year {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.78rem;
-            font-weight: 500;
-            color: var(--accent);
-            flex: 0 0 5rem;
-            padding-top: 0.15rem;
-        }
-        .cred-body h4 {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-        .cred-body p { font-size: 0.88rem; color: var(--muted); }
-
-        /* ===== CONTACT ===== */
-        .contact {
-            padding: clamp(5rem, 10vw, 8rem) 0;
-            text-align: center;
-            position: relative;
-        }
-        .contact::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 10%;
-            right: 10%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent), var(--moss), transparent);
-        }
-        .contact-eyebrow {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.68rem;
-            color: var(--moss);
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-        }
-        .contact h2 {
-            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-            font-weight: 700;
-            letter-spacing: -1px;
-            margin-bottom: 1rem;
-        }
-        .contact > .container > p {
-            font-size: 1.05rem;
-            color: var(--ink);
-            max-width: 480px;
-            margin: 0 auto 3rem;
-            line-height: 1.7;
-        }
-        .contact-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.25rem;
-            flex-wrap: wrap;
-        }
-        .contact-link {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.6rem;
-            text-decoration: none;
-            padding: 1.25rem 1.5rem;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            background: var(--bg-card);
-            transition: border-color 0.25s, transform 0.25s, background 0.25s;
-            min-width: 100px;
-        }
-        .contact-link:hover {
-            border-color: var(--border-accent);
-            transform: translateY(-4px);
-            background: var(--bg-card-hover);
-        }
-        .contact-link svg {
-            width: 24px;
-            height: 24px;
-            color: var(--paper);
-            transition: color 0.2s;
-        }
-        .contact-link:hover svg { color: var(--accent); }
-        .contact-link span {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.68rem;
-            font-weight: 500;
-            color: var(--muted);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-        .footer-copy {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--muted);
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
-        }
-
-        @media (max-width: 480px) {
-            .contact-links { gap: 0.75rem; }
-            .contact-link { min-width: 80px; padding: 1rem; }
-        }
-
-        /* ===== MODAL — vanilla ===== */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 2000;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-            justify-content: center;
-            align-items: center;
-            padding: 1.5rem;
-        }
-        .modal-overlay.open { display: flex; }
-        .modal-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            max-width: 640px;
-            width: 100%;
-            max-height: 85vh;
-            overflow-y: auto;
-            padding: 2.5rem;
-            position: relative;
-            animation: modal-in 0.3s cubic-bezier(0.32, 0.72, 0, 1) both;
-        }
-        .modal-box::-webkit-scrollbar { width: 4px; }
-        .modal-box::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
-        .modal-close {
-            position: absolute;
-            top: 1.25rem;
-            right: 1.25rem;
-            background: none;
-            border: none;
-            color: var(--muted);
-            cursor: pointer;
-            padding: 0.4rem;
-            line-height: 1;
-            font-size: 1.25rem;
-            transition: color 0.2s;
-        }
-        .modal-close:hover { color: var(--paper); }
-        .modal-eyebrow {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem;
-            color: var(--accent);
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-        }
-        .modal-name {
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 700;
-            font-size: clamp(1.4rem, 2vw, 1.75rem);
-            color: var(--paper);
-            letter-spacing: -0.5px;
-        }
-        .modal-rule {
-            width: 40px;
-            height: 2px;
-            background: var(--accent);
-            border: none;
-            margin: 1.25rem 0;
-        }
-        .modal-prose {
-            font-size: 0.95rem;
-            line-height: 1.8;
-            color: var(--ink);
-        }
-        .modal-prose p { margin-bottom: 1.1rem; }
-        .modal-prose p:last-child { margin-bottom: 0; }
-        .modal-prose strong { color: var(--paper); font-weight: 600; }
-        .approach-box {
-            background: var(--bg-raised);
-            border-left: 3px solid var(--accent);
-            border-radius: 0 12px 12px 0;
-            padding: 1.5rem 1.75rem;
-            margin: 1.5rem 0;
-        }
-        .approach-box h6 {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.68rem;
-            letter-spacing: 2px;
-            color: var(--accent);
-            margin-bottom: 1rem;
-        }
-        .approach-box ul { list-style: none; }
-        .approach-box li {
-            font-size: 0.88rem;
-            line-height: 1.65;
-            padding: 0.35rem 0 0.35rem 1rem;
-            position: relative;
-            color: var(--ink);
-        }
-        .approach-box li::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            background: var(--accent);
-            transform: translateY(-50%);
-        }
-        .approach-box strong { color: var(--paper); }
-        .modal-objective {
-            font-size: 0.88rem;
-            line-height: 1.75;
-            color: var(--muted);
-            border-top: 1px solid var(--border);
-            padding-top: 1.25rem;
-            margin-top: 1.5rem;
-        }
-        .modal-footer-btn {
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 600;
-            font-size: 0.85rem;
-            background: transparent;
-            color: var(--paper);
-            padding: 0.6rem 1.5rem;
-            border-radius: 999px;
-            border: 1px solid var(--border);
-            cursor: pointer;
-            margin-top: 1.5rem;
-            transition: border-color 0.2s, color 0.2s;
-        }
-        .modal-footer-btn:hover { border-color: var(--accent); color: var(--accent); }
-        @keyframes modal-in {
-            from { opacity: 0; transform: translateY(10px) scale(0.98); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        /* ===== SCROLL ANIMATIONS ===== */
-        @keyframes reveal-up {
-            from { opacity: 0; transform: translateY(32px); filter: blur(6px); }
-            to { opacity: 1; transform: translateY(0); filter: blur(0); }
-        }
-        @keyframes reveal-left {
-            from { opacity: 0; transform: translateX(-24px); filter: blur(4px); }
-            to { opacity: 1; transform: translateX(0); filter: blur(0); }
-        }
-        .anim { opacity: 0; }
-        .anim.in { animation: reveal-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
-        .anim-left.in { animation-name: reveal-left; }
-        .anim-d1 { animation-delay: 0.08s; }
-        .anim-d2 { animation-delay: 0.16s; }
-        .anim-d3 { animation-delay: 0.24s; }
-
-        /* ===== TEXT REVEAL ===== */
-        .reveal-word {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(20px);
-            filter: blur(4px);
-            transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-                        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-                        filter 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-        .reveal-word.visible {
-            opacity: 1;
-            transform: translateY(0);
-            filter: blur(0);
-        }
-
-        /* ===== PROJECT CARD LINKS ===== */
-        .project-link-wrap {
-            display: block;
-            text-decoration: none;
-            color: inherit;
-        }
-        .project-link-wrap:focus-visible {
-            outline: 2px solid var(--accent);
-            outline-offset: 4px;
-            border-radius: 16px;
-        }
-
-        /* ===== CASO DE ESTUDIO DESTACADO ===== */
-        .caso {
-            position: relative;
-            background:
-                radial-gradient(900px 400px at 15% -10%, rgba(217, 119, 63, 0.09), transparent 70%),
-                var(--bg-raised);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-        .caso-top {
-            display: grid;
-            grid-template-columns: 1fr 1.08fr;
-            gap: clamp(2rem, 4vw, 3.5rem);
-            align-items: center;
-            margin-bottom: clamp(3.5rem, 7vw, 5.5rem);
-        }
-        .caso-title {
-            font-size: clamp(2.1rem, 5vw, 3.4rem);
-            font-weight: 700;
-            letter-spacing: -1.6px;
-            line-height: 1.02;
-            color: var(--paper);
-            margin-bottom: 0.9rem;
-        }
-        .caso-sello {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 0.5rem 0.75rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.68rem;
-            letter-spacing: 1.2px;
-            text-transform: uppercase;
-            color: var(--muted);
-            margin-bottom: 1.25rem;
-        }
-        .caso-sello span { position: relative; }
-        .caso-sello span + span::before {
-            content: '·';
-            position: absolute;
-            left: -0.5rem;
-            color: var(--accent);
-        }
-        .caso-sub {
-            font-size: 1rem;
-            line-height: 1.7;
-            color: var(--ink);
-            max-width: 46ch;
-            margin-bottom: 1.75rem;
-        }
-        .caso-ficha {
-            display: flex;
-            flex-direction: column;
-            border-top: 1px solid var(--border);
-            margin-bottom: 1.9rem;
-        }
-        .caso-ficha-item {
-            display: grid;
-            grid-template-columns: 108px 1fr;
-            gap: 1rem;
-            padding: 0.7rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-        .caso-ficha dt {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.62rem;
-            font-weight: 500;
-            letter-spacing: 1.4px;
-            text-transform: uppercase;
-            color: var(--muted);
-            padding-top: 0.2rem;
-        }
-        .caso-ficha dd {
-            font-size: 0.85rem;
-            line-height: 1.55;
-            color: var(--paper);
-            word-break: break-word;
-        }
-        .caso-acciones { display: flex; gap: 0.8rem; flex-wrap: wrap; }
-
-        /* captura con marco de navegador */
-        .caso-shot {
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            border: 1px solid var(--border-accent);
-            border-radius: 18px;
-            overflow: hidden;
-            background: var(--bg-card);
-            box-shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.9);
-        }
-        .caso-shot img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-bottom: 1px solid transparent;
-        }
-        .caso-browser { border-bottom: 1px solid var(--border); }
-
-        /* narrativa Observación → Método → Traducción → Resultado */
-        .caso-etapas {
-            list-style: none;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1px;
-            background: var(--border);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-            margin-bottom: clamp(3rem, 6vw, 4.5rem);
-        }
-        .caso-etapa {
-            background: var(--bg-card);
-            padding: 1.9rem 1.9rem 2rem;
-            display: flex;
-            gap: 1.15rem;
-            transition: background 0.35s;
-        }
-        .caso-etapa:hover { background: var(--bg-card-hover); }
-        .caso-etapa-num {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: var(--accent);
-            letter-spacing: 1px;
-            padding-top: 0.3rem;
-            flex-shrink: 0;
-        }
-        .caso-etapa-body h3 {
-            font-size: 0.7rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 500;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--paper);
-            margin-bottom: 0.7rem;
-        }
-        .caso-etapa-body p {
-            font-size: 0.9rem;
-            line-height: 1.72;
-            color: var(--ink);
-        }
-
-        /* evidencia: métricas del cliente */
-        .caso-evidencia {
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            background: var(--bg-card);
-            padding: clamp(1.5rem, 3vw, 2.25rem);
-            margin-bottom: clamp(3rem, 6vw, 4.5rem);
-        }
-        .caso-evidencia-titulo {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            font-weight: 500;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 1.5rem;
-        }
-        .caso-evidencia-grid {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr);
-            gap: clamp(1.5rem, 3vw, 2.25rem);
-            align-items: start;
-        }
-        .caso-evidencia-grid--con-movil {
-            grid-template-columns: minmax(0, 1fr) minmax(0, 240px);
-        }
-        .caso-evidencia-datos { min-width: 0; }
-        /* Junto al teléfono las cifras van 2x2; a todo lo ancho, en cuatro. */
-        .caso-evidencia-grid--con-movil .caso-metricas {
-            grid-template-columns: repeat(2, 1fr);
-        }
-        .caso-metricas {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1px;
-            background: var(--border);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 1.75rem;
-        }
-        .metrica {
-            background: var(--bg-raised);
-            padding: 1.4rem 1.3rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.35rem;
-        }
-        .metrica dt {
-            order: 2;
-            font-size: 0.78rem;
-            line-height: 1.5;
-            color: var(--ink);
-        }
-        .metrica-valor {
-            order: 1;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(1.7rem, 3.4vw, 2.5rem);
-            font-weight: 700;
-            letter-spacing: -1.2px;
-            line-height: 1;
-            color: var(--paper);
-        }
-        .metrica-nota {
-            order: 3;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.58rem;
-            letter-spacing: 0.6px;
-            color: var(--muted);
-            line-height: 1.45;
-            margin-top: 0.25rem;
-        }
-        .terminos-titulo {
-            font-size: 0.78rem;
-            color: var(--ink);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: baseline;
-            gap: 0.6rem;
-            flex-wrap: wrap;
-        }
-        .terminos-periodo {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.58rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--moss);
-            border: 1px solid rgba(138, 168, 136, 0.3);
-            border-radius: 20px;
-            padding: 0.15rem 0.6rem;
-        }
-        .terminos-list { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
-        .termino {
-            display: grid;
-            grid-template-columns: 116px 1fr 58px;
-            align-items: center;
-            gap: 0.9rem;
-        }
-        .termino-nombre {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
-            color: var(--paper);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .termino-barra {
-            height: 7px;
-            border-radius: 20px;
-            background: rgba(240, 232, 216, 0.07);
-            overflow: hidden;
-        }
-        .termino-fill {
-            display: block;
-            height: 100%;
-            border-radius: 20px;
-            background: linear-gradient(90deg, var(--accent), #e0a06a);
-        }
-        .termino-valor {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
-            color: var(--muted);
-            text-align: right;
-        }
-
-        /* Evidencia visual: el celular acompaña a las métricas.
-           La portada de escritorio ya está arriba como imagen principal del
-           caso; repetirla aquí con la misma barra de navegador no agregaba
-           información y obligaba a recortarla para igualar la altura del
-           teléfono. El celular sostiene el hallazgo: el 87% llega del móvil. */
-        .caso-movil {
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-            background: var(--bg-card);
-        }
-        .caso-movil img {
-            display: block;
-            width: 100%;
-            height: auto;
-            background: var(--bg-raised);
-        }
-        .caso-movil figcaption {
-            padding: 0.9rem 1rem;
-            border-top: 1px solid var(--border);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.62rem;
-            letter-spacing: 0.4px;
-            line-height: 1.55;
-            color: var(--muted);
-        }
-        .caso-ver-sitio { margin: 0; }
-        .caso-ver-sitio a {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.82rem;
-            font-weight: 600;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-            color: var(--accent);
-            text-decoration: none;
-            transition: gap 0.25s;
-        }
-        .caso-ver-sitio a:hover { gap: 0.85rem; }
-        .caso-ver-sitio svg { width: 16px; height: 16px; }
-
-        @media (max-width: 980px) {
-            .caso-top { grid-template-columns: 1fr; }
-            .caso-metricas { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 820px) {
-            .caso-evidencia-grid--con-movil { grid-template-columns: minmax(0, 1fr); }
-            .caso-movil { max-width: 260px; margin-inline: auto; }
-        }
-        @media (max-width: 700px) {
-            .caso-etapas { grid-template-columns: 1fr; }
-            .termino { grid-template-columns: 92px 1fr 52px; gap: 0.6rem; }
-            .caso-ficha-item { grid-template-columns: 1fr; gap: 0.2rem; }
-        }
-        @media (max-width: 460px) {
-            .caso-metricas,
-            .caso-evidencia-grid--con-movil .caso-metricas { grid-template-columns: 1fr; }
-        }
-
-        </style>
-    {% comment %} .anim arranca en opacity:0 y el scroll reveal le pone .in con JS.
-       Sin este override, sin JavaScript toda la pagina se ve vacia: contenido
-       invisible, no contenido sin animacion. {% endcomment %}
-    <noscript><style>.anim{opacity:1}.reveal-word{opacity:1;transform:none;filter:none}</style></noscript>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Alexis Lara Viveros",
-      "jobTitle": "Antropólogo & Full Stack Developer",
-      "url": "https://delakordillera.pythonanywhere.com",
-      "email": "delakordillera@proton.me",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Santiago",
-        "addressCountry": "CL"
-      },
-      "alumniOf": [
-        {
-          "@type": "CollegeOrUniversity",
-          "name": "Universidad Academia de Humanismo Cristiano"
-        }
-      ],
-      "knowsAbout": ["UX Research", "Etnografía Digital", "Entrevistas en profundidad", "Testing de usabilidad", "Análisis de datos", "RStudio", "Python", "Django", "Node.js", "TypeScript", "NestJS", "Angular", "API REST", "MySQL", "SQL Server", "Scrum", "HTML", "CSS", "JavaScript", "SEO local", "Schema.org", "Git"],
-      "sameAs": [
-        "https://www.linkedin.com/in/alexis-lara-viveros/",
-        "https://github.com/delakordillera"
-      ]
-    }
-    </script>
+    </style>
 </head>
 <body>
+    <a class="saltar" href="#main">Saltar al contenido</a>
 
-    <!-- NAVBAR -->
-    <div class="nav-wrap">
-        <nav class="nav-pill" aria-label="Navegación principal">
-            <a class="nav-brand" href="/">delakordillera</a>
-             <button class="nav-toggle" aria-label="Menú">
-                <span></span><span></span><span></span>
-            </button>
-            <ul class="nav-links">
-                <li><a href="#" data-action="open-modal">Sobre mí</a></li>
-                <li><a href="#caso-destacado" data-action="close-nav">Caso de estudio</a></li>
-                <li><a href="#habilidades" data-action="close-nav">Habilidades</a></li>
-                <li><a href="#proyectos" data-action="close-nav">Proyectos</a></li>
-                <li><a href="#formacion" data-action="close-nav">Formación</a></li>
-                <li><a class="nav-cta" href="#contacto" data-action="close-nav">Contacto</a></li>
+    <header class="contenedor">
+        <nav class="nav" aria-label="Navegación principal">
+            <a class="nav-marca" href="/">delakordillera</a>
+            <ul>
+                <li><a href="#sobre-mi">Sobre mí</a></li>
+                <li><a href="#seguridad">Seguridad</a></li>
+                <li><a href="{% if destacado %}#caso-destacado{% else %}#proyectos{% endif %}">Proyectos</a></li>
+                <li><a href="#formacion">Formación</a></li>
+                <li><a href="#contacto">Contacto</a></li>
             </ul>
         </nav>
-    </div>
+    </header>
 
-    <!-- HERO -->
     <main id="main">
-    <section class="hero">
-        <div class="container">
-            <div class="hero-grid">
-                <div>
-                    <p class="hero-label anim">Antropología + Tecnología</p>
-                    <h1 class="hero-title anim anim-d1"><span class="reveal-word">Investigo</span> <span class="reveal-word">personas.</span><br><span class="reveal-word">Construyo</span> <span class="reveal-word"><em>productos</em>.</span></h1>
-                    <p class="hero-subtitle anim anim-d2">Transformo hallazgos etnográficos en requerimientos técnicos accionables. Investigación de usuarios con implementación real de código.</p>
-                    <div class="hero-actions anim anim-d3">
-                        <a href="#caso-destacado" class="btn-primary">Ver mi caso en producción <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-                        <a href="#proyectos" class="btn-secondary">Todos los proyectos</a>
-                    </div>
-                </div>
-                <div class="hero-visual anim anim-d2">
-                    <div class="hero-orb">
-                        <canvas class="orb-canvas" width="280" height="280"></canvas>
-                        <span class="orb-nucleus">alv.dev</span>
-                        <div class="orb-icon" data-ring="0" data-i="0"><svg viewBox="0 0 24 24" fill="none" stroke="#d9773f" stroke-width="1.5"><path d="M12 2C8.5 2 7 4 7 6v2.5h5v1H5.5C3 9.5 1 11.5 1 15s2 5.5 4.5 5.5h2V18c0-2.2 1.8-4 4-4h5c1.7 0 3-1.3 3-3V7C19.5 4 17 2 14 2h-2z"/><circle cx="9" cy="5.5" r="1" fill="#d9773f" stroke="none"/></svg></div>
-                        <div class="orb-icon" data-ring="0" data-i="1"><svg viewBox="0 0 24 24" fill="none" stroke="#8aa888" stroke-width="1.5"><path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z"/><path d="M9 10h2a2 2 0 010 4H9v-4zm0 6v2m6-8h2m-2 4h2"/></svg></div>
-                        <div class="orb-icon" data-ring="0" data-i="2"><svg viewBox="0 0 24 24" fill="none" stroke="#e8dcc8" stroke-width="1.5"><circle cx="11" cy="11" r="6.5"/><path d="M15.5 15.5L20 20"/></svg></div>
-                        <div class="orb-icon" data-ring="1" data-i="0"><svg viewBox="0 0 24 24" fill="none" stroke="#d9773f" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
-                        <div class="orb-icon" data-ring="1" data-i="1"><svg viewBox="0 0 24 24" fill="none" stroke="#8aa888" stroke-width="1.5"><circle cx="12" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><circle cx="18" cy="12" r="2"/><path d="M12 8v4m6-2h-4"/></svg></div>
-                        <div class="orb-icon" data-ring="2" data-i="0"><svg viewBox="0 0 24 24" fill="none" stroke="#e8dcc8" stroke-width="1.5"><path d="M4 4h7l-3 8h6l-7 10 2-7H5l4-11z"/></svg></div>
-                        <div class="orb-icon" data-ring="2" data-i="1"><svg viewBox="0 0 24 24" fill="none" stroke="#d9773f" stroke-width="1.5"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/><path d="M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3"/></svg></div>
-                    </div>
-                </div>
+    <section class="portada" aria-labelledby="titulo">
+        <div class="contenedor">
+            <h1 id="titulo">{{ perfil.nombre|default:'Alexis Lara Viveros' }}</h1>
+            <p class="portada-lead">Desarrollo y mantengo sitios web en producción. Me estoy formando en ciberseguridad defensiva.</p>
+            <p class="portada-sub">Busco mi primer puesto en soporte técnico, con el objetivo de llegar a analista SOC. Vivo en Peñalolén, Santiago.</p>
+            <div class="acciones">
+                <a href="#contacto" class="boton boton-lleno">Escribirme</a>
+                {% if perfil.cv_pdf %}
+                <a href="{{ perfil.cv_pdf.url }}" class="boton boton-borde" target="_blank" rel="noopener">Descargar CV (PDF)</a>
+                {% else %}
+                <a href="#proyectos" class="boton boton-borde">Ver proyectos</a>
+                {% endif %}
+            </div>
+        </div>
+        <svg class="cordillera" viewBox="0 0 1440 230" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <path fill="#E8A3B6" d="M0 150 L70 118 L130 132 L210 84 L265 104 L330 58 L395 92 L450 74 L520 40 L585 78 L640 66 L700 30 L770 70 L835 52 L905 88 L975 46 L1040 80 L1110 62 L1180 96 L1250 70 L1320 104 L1390 90 L1440 108 L1440 230 L0 230 Z"/>
+            <path fill="#9A6E92" d="M0 182 L90 150 L160 166 L240 130 L310 152 L380 118 L455 146 L530 124 L600 150 L680 112 L760 144 L840 126 L920 156 L1000 120 L1080 148 L1160 130 L1240 160 L1320 138 L1440 162 L1440 230 L0 230 Z"/>
+            <path fill="#4A4F72" d="M0 210 L120 190 L240 204 L360 184 L500 202 L640 188 L780 206 L920 190 L1060 204 L1200 192 L1320 206 L1440 196 L1440 230 L0 230 Z"/>
+        </svg>
+    </section>
+
+    <section id="sobre-mi" class="seccion seccion-blanca" aria-labelledby="sobre-titulo">
+        <div class="contenedor sobre">
+            <h2 id="sobre-titulo">Sobre mí</h2>
+            <div class="sobre-texto">
+                {% if perfil and perfil.contar_sobre_mi %}
+                {{ perfil.contar_sobre_mi|linebreaks }}
+                {% else %}
+                <p>Soy desarrollador web con certificación Full Stack Python y estudio Antropología. He construido y publicado sitios para un restaurante y para un psicólogo clínico, y me encargo de que sigan funcionando.</p>
+                <p>Auditando mi propio portafolio encontré una clave secreta de Django publicada en GitHub. Corregirla me llevó a la seguridad, y ahí quiero trabajar: primero en soporte técnico y después en un SOC.</p>
+                <p>De la antropología traigo algo útil para soporte: escuchar bien a la persona, entender qué pasó realmente y dejarlo documentado.</p>
+                {% endif %}
             </div>
         </div>
     </section>
 
-    <!-- CASO DE ESTUDIO DESTACADO -->
+    <section id="seguridad" class="seccion" aria-labelledby="seguridad-titulo">
+        <div class="contenedor">
+            <h2 id="seguridad-titulo">Seguridad aplicada en este sitio</h2>
+            <p class="intro-seccion">Lo que encontré revisando mi propio portafolio y cómo lo corregí.</p>
+            <div class="tabla-caja">
+                <table>
+                    <caption>Hallazgos en este portafolio (Django, alojado en PythonAnywhere)</caption>
+                    <thead>
+                        <tr><th scope="col">Hallazgo</th><th scope="col">Riesgo</th><th scope="col">Corrección</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>SECRET_KEY de Django publicada en el repositorio público</td><td>Falsificación de sesiones, CSRF y enlaces de recuperación de contraseña</td><td>Clave rotada, leída desde fuera del directorio web y configuración sacada de Git</td></tr>
+                        <tr><td>Sitio sin cabeceras de seguridad</td><td>Degradación a HTTP y cookies expuestas</td><td>HSTS con subdominios, cookies seguras y redirección a HTTPS detrás del proxy</td></tr>
+                        <tr><td>Panel de administración protegido solo con contraseña</td><td>Acceso con credenciales filtradas o por fuerza bruta</td><td>Segundo factor (TOTP) y política CSP con nonce y reporte de violaciones</td></tr>
+                        <tr><td>Foto de 6,7 MB en una página pública</td><td>Carga lenta y gasto de datos en celular</td><td>Optimizada a 197 KB</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="labs">
+                <h3>Laboratorios en curso</h3>
+                <ul>
+                    <li>Kali Linux en VirtualBox como entorno de práctica.</li>
+                    <li>Plataformas de práctica guiada como TryHackMe y Hack The Box.</li>
+                    <li>Pruebas sobre mi propia red WiFi con un adaptador USB.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
     {% include 'main/_caso_destacado.html' %}
 
-    <!-- HABILIDADES -->
-    <section id="habilidades" class="section">
-        <div class="container">
-            <p class="section-eyebrow anim">Capacidades</p>
-            <h2 class="section-heading anim anim-d1">Lo que sé hacer</h2>
-            <div class="skills-grid">
-                <div class="skill-card anim">
-                    <div class="skill-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    <section id="proyectos" class="seccion" aria-labelledby="proyectos-titulo">
+        <div class="contenedor">
+            <h2 id="proyectos-titulo">Otros proyectos</h2>
+            {% if proyectos %}
+            <ul class="proyectos">
+                {% for proyecto in proyectos %}
+                {% if not proyecto.destacado or not destacado %}
+                <li class="proyecto">
+                    <div class="proyecto-img">
+                        {% if proyecto.cover_url %}
+                        <img src="{{ proyecto.cover_url }}" alt="Captura de {{ proyecto.titulo }}" loading="lazy" decoding="async">
+                        {% elif proyecto.captura_portada %}
+                        <img src="{% static proyecto.captura_portada.src %}" alt="{{ proyecto.captura_portada.alt|default:proyecto.titulo }}" loading="lazy" decoding="async">
+                        {% endif %}
                     </div>
-                    <h3>UX Research &amp; Etnografía</h3>
-                    <ul>
-                        {% for skill in skills_ux %}
-                        <li>{{ skill.nombre }}</li>
-                        {% empty %}
-                        <li>Etnografía digital, presencial y observación participante</li>
-                        <li>Entrevistas en profundidad y testing de usabilidad</li>
-                        <li>Métodos mixtos: análisis cualitativo y estadístico con RStudio</li>
-                        <li>Síntesis de hallazgos en requerimientos técnicos accionables</li>
-                        <li>Arquitectura de información localizada</li>
-                        <li>Diseño de investigación centrado en contexto</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="skill-card anim anim-d1">
-                    <div class="skill-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    <div>
+                        <p class="proyecto-tipo">{{ proyecto.get_categoria_display|default:'Proyecto' }}{% if proyecto.anio %}, {{ proyecto.anio }}{% endif %}</p>
+                        <h3>{{ proyecto.titulo }}</h3>
+                        {% if proyecto.cliente %}<p class="proyecto-tipo">{{ proyecto.cliente }}</p>{% endif %}
+                        <p>{{ proyecto.descripcion_corta }}</p>
+                        {% if proyecto.contexto_social %}<p class="proyecto-hallazgo"><strong>Lo que aprendí del usuario:</strong> {{ proyecto.contexto_social }}</p>{% endif %}
+                        {% if proyecto.advertencia %}<p class="aviso">{{ proyecto.advertencia }}</p>{% endif %}
+                        {% if proyecto.tech_list %}<p class="proyecto-tech">Hecho con {{ proyecto.tech_list|join:", " }}</p>{% endif %}
+                        {% if proyecto.url_destino != '#' %}
+                        <p><a href="{{ proyecto.url_destino }}"{% if proyecto.es_externo %} target="_blank" rel="noopener"{% endif %}>Ver el sitio de {{ proyecto.titulo }}</a></p>
+                        {% endif %}
                     </div>
-                    <h3>Backend, Datos &amp; Web</h3>
+                </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>Estoy publicando los casos. Si quieres verlos antes, escríbeme.</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <section id="herramientas" class="seccion seccion-blanca" aria-labelledby="herramientas-titulo">
+        <div class="contenedor">
+            <h2 id="herramientas-titulo">Herramientas</h2>
+            <div class="herramientas">
+                <div>
+                    <h3>Desarrollo y datos</h3>
                     <ul>
                         {% for skill in skills_tech %}
                         <li>{{ skill.nombre }}</li>
                         {% empty %}
-                        <li>Python: automatización y procesamiento de datos</li>
-                        <li>Django: backend, ORM y bases de datos relacionales</li>
-                        <li>Node.js y NestJS: backend y APIs REST</li>
-                        <li>TypeScript y Angular: frontend tipado</li>
-                        <li>Bases de datos: SQLite, MySQL y SQL Server</li>
-                        <li>RStudio: análisis estadístico y visualización de datos</li>
-                        <li>Integración de servicios y APIs REST de terceros</li>
+                        <li>Python y Django: backend, ORM y bases de datos</li>
                         <li>HTML, CSS y JavaScript</li>
-                        <li>SEO local y Schema.org (datos estructurados)</li>
-                        <li>Git / GitHub y despliegue en producción</li>
+                        <li>Git y GitHub</li>
+                        <li>Despliegue en PythonAnywhere y Vercel</li>
+                        <li>SQLite; también MySQL y SQL Server en cursos</li>
+                        <li>Node.js, NestJS, TypeScript y Angular en cursos</li>
+                        <li>SEO local y datos estructurados (Schema.org)</li>
                         {% endfor %}
                     </ul>
                 </div>
-                <div class="skill-card anim anim-d2">
-                    <div class="skill-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    </div>
-                    <h3>Habilidades clave</h3>
+                <div>
+                    <h3>Seguridad y sistemas</h3>
                     <ul>
+                        <li>Configuración segura de Django en producción</li>
+                        <li>Cabeceras HTTP de seguridad: HSTS y CSP</li>
+                        <li>Autenticación con segundo factor</li>
+                        <li>Linux (Kali) en máquina virtual</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Trabajo con personas</h3>
+                    <ul>
+                        {% for skill in skills_ux %}
+                        <li>{{ skill.nombre }}</li>
+                        {% empty %}
+                        <li>Entrevistas y observación en terreno</li>
+                        <li>Pruebas de uso con personas reales</li>
+                        <li>Documentar problemas de forma clara</li>
+                        {% endfor %}
                         {% for skill in skills_soft %}
                         <li>{{ skill.nombre }}</li>
                         {% empty %}
-                        <li>Empatía estratégica y escucha activa</li>
-                        <li>Pensamiento crítico orientado a patrones sociales</li>
-                        <li>Comunicación transversal humano-técnica</li>
-                        <li>Resolución de conflictos bajo presión</li>
-                        <li>Aprendizaje autónomo y adaptabilidad</li>
-                        <li>Metodología Scrum: sprints, dailies y backlog</li>
+                        <li>Escucha y paciencia con quien tiene el problema</li>
+                        <li>Aprendizaje autónomo</li>
+                        <li>Trabajo por sprints con Scrum</li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -1584,356 +361,42 @@ Las reglas de 4:3 viven arriba, en .project-media y .project-img-wrap. Aqui
         </div>
     </section>
 
-    <!-- PROYECTOS -->
-    <section id="proyectos" class="section" style="background: var(--bg-raised);">
-        <div class="container">
-            <p class="section-eyebrow anim">Trabajo reciente</p>
-            <h2 class="section-heading anim anim-d1">Proyectos</h2>
-            <div class="projects-list">
-                {% if proyectos %}
-                    {% for proyecto in proyectos %}
-                    <a href="{{ proyecto.url_destino }}" class="project-link-wrap anim"{% if proyecto.es_externo %} target="_blank" rel="noopener"{% endif %}>
-                    <div class="project-card">
-                        {% if proyecto.destacado and proyecto.url_produccion %}
-                        <div class="project-frame-wrap project-frame-wrap--barra">
-                            <div class="project-browser" aria-hidden="true">
-                                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-                                <span class="url-bar">{{ proyecto.url_produccion }}</span>
-                            </div>
-                            {% if proyecto.cover_url %}
-                            <div class="project-img-wrap project-media"><img src="{{ proyecto.cover_url }}" alt="{{ proyecto.titulo }}" loading="lazy"></div>
-                            {% elif proyecto.captura_portada %}
-                            <div class="project-img-wrap project-media"><img src="{% static proyecto.captura_portada.src %}" alt="{{ proyecto.captura_portada.alt|default:proyecto.titulo }}" loading="lazy"></div>
-                            {% else %}
-                            <div class="project-img-placeholder project-media" aria-hidden="true">
-                                <span>{{ proyecto.titulo }}</span>
-                            </div>
-                            {% endif %}
-                        </div>
-                        {% elif proyecto.cover_url %}
-                        <div class="project-img-wrap project-media"><img src="{{ proyecto.cover_url }}" alt="{{ proyecto.titulo }}" loading="lazy"></div>
-                        {% elif proyecto.captura_portada %}
-                        <div class="project-img-wrap project-media"><img src="{% static proyecto.captura_portada.src %}" alt="{{ proyecto.captura_portada.alt|default:proyecto.titulo }}" loading="lazy"></div>
-                        {% else %}
-                        <div class="project-img-placeholder project-media" aria-hidden="true">
-                            <span>{{ proyecto.titulo }}</span>
-                        </div>
-                        {% endif %}
-                        <div class="project-body">
-                            <p class="project-tag">{{ proyecto.get_categoria_display|default:'Caso de estudio' }}</p>
-                            {% if proyecto.destacado %}<span class="project-destacado">Proyecto destacado</span>{% endif %}
-                            <h3>{{ proyecto.titulo }}</h3>
-                            {% if proyecto.cliente %}<p class="project-cliente">{{ proyecto.cliente }}{% if proyecto.anio %} · {{ proyecto.anio }}{% endif %}</p>{% endif %}
-                            <p>{{ proyecto.descripcion_corta }}</p>
-                            {% if proyecto.contexto_social %}
-                            <div class="project-meta">
-                                <div class="project-meta-row">
-                                    <span class="project-meta-label">Hallazgo</span>
-                                    <span class="project-meta-value">{{ proyecto.contexto_social }}</span>
-                                </div>
-                            </div>
-                            {% endif %}
-                            {% if proyecto.advertencia %}
-                            <div class="demo-notice">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-                                <p>{{ proyecto.advertencia }}</p>
-                            </div>
-                            {% endif %}
-                            {% if proyecto.tech_list %}
-                            <div class="project-tech">{% for tech in proyecto.tech_list %}<span class="tech-pill">{{ tech }}</span>{% endfor %}</div>
-                            {% endif %}
-                            {% if proyecto.url_destino != '#' %}
-                            <span class="project-link">{% if proyecto.es_externo %}Ver sitio{% elif proyecto.link_interno %}Abrir app{% else %}Ver proyecto{% endif %} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-                            {% endif %}
-                        </div>
-                    </div>
-                    </a>
-                    {% endfor %}
-                {% else %}
-                <p class="projects-empty anim">Los casos de estudio se están publicando. Escríbeme y te los envío.</p>
-                {% endif %}
-            </div>
-        </div>
-    </section>
-
-    <!-- FORMACIÓN -->
-    <section id="formacion" class="section">
-        <div class="container">
-            <p class="section-eyebrow anim">Formación</p>
-            <h2 class="section-heading anim anim-d1">Certificaciones &amp; estudios</h2>
-            <div class="cred-list">
+    <section id="formacion" class="seccion" aria-labelledby="formacion-titulo">
+        <div class="contenedor">
+            <h2 id="formacion-titulo">Formación</h2>
+            <dl class="formacion">
                 {% for cred in credenciales %}
-                <div class="cred-row anim">
-                    <span class="cred-year">{{ cred.periodo }}</span>
-                    <div class="cred-body">
-                        <h4>{{ cred.titulo }}</h4>
-                        <p>{{ cred.institucion }}</p>
-                    </div>
+                <div>
+                    <dt>{{ cred.periodo }}</dt>
+                    <dd><strong>{{ cred.titulo }}</strong>{{ cred.institucion }}</dd>
                 </div>
                 {% empty %}
-                <div class="cred-row anim">
-                    <span class="cred-year">2025—</span>
-                    <div class="cred-body">
-                        <h4>Full Stack Python Web Developer</h4>
-                        <p>Talento Digital / SENCE — certificación verificada en blockchain vía Acreditta.</p>
-                    </div>
+                <div>
+                    <dt>2025</dt>
+                    <dd><strong>Desarrollador Full Stack Python</strong>Talento Digital / SENCE. Certificado verificable en Acreditta.</dd>
                 </div>
-                <div class="cred-row anim anim-d1">
-                    <span class="cred-year">2024—</span>
-                    <div class="cred-body">
-                        <h4>Antropología</h4>
-                        <p>Universidad Academia de Humanismo Cristiano, Santiago de Chile — en curso.</p>
-                    </div>
+                <div>
+                    <dt>2024 a la fecha</dt>
+                    <dd><strong>Antropología, en curso</strong>Universidad Academia de Humanismo Cristiano, Santiago.</dd>
                 </div>
                 {% endfor %}
-            </div>
+            </dl>
         </div>
     </section>
     </main>
 
-    <!-- CONTACTO -->
-    <footer id="contacto" class="contact">
-        <div class="container">
-            <p class="contact-eyebrow anim">Contacto</p>
-            <h2 class="anim anim-d1">Iniciemos el<br>siguiente paso</h2>
-            <p class="anim anim-d2">¿Tienes un proyecto donde la investigación de usuarios y el código se encuentren?</p>
-            <div class="contact-links anim anim-d3">
-                <a href="mailto:{{ perfil.correo|default:'delakordillera@proton.me' }}" class="contact-link">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
-                    <span>Correo</span>
-                </a>
-                {% if perfil.cv_pdf %}
-                <a href="{{ perfil.cv_pdf.url }}" class="contact-link" target="_blank" rel="noopener">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
-                    <span>CV</span>
-                </a>
-                {% endif %}
-                <a href="{{ perfil.link_linkedin|default:'https://linkedin.com/in/alexis-lara-viveros' }}" class="contact-link" target="_blank" rel="noopener">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/><path d="M10 9v12M10 13c0-2.2 1.8-4 4-4s4 1.8 4 4v8"/></svg>
-                    <span>LinkedIn</span>
-                </a>
-                <a href="{{ perfil.link_github|default:'https://github.com/delakordillera' }}" class="contact-link" target="_blank" rel="noopener">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
-                    <span>GitHub</span>
-                </a>
-            </div>
-            <p class="footer-copy">© 2026 Alexis Lara Viveros</p>
+    <footer id="contacto" class="contacto" aria-labelledby="contacto-titulo">
+        <div class="contenedor">
+            <h2 id="contacto-titulo">Contacto</h2>
+            <p>Si tienes un puesto de soporte técnico o de seguridad, o un sitio que necesita arreglo, escríbeme.</p>
+            <ul class="contacto-lista">
+                <li><a href="mailto:{{ perfil.correo|default:'delakordillera@proton.me' }}">{{ perfil.correo|default:'delakordillera@proton.me' }}</a></li>
+                <li><a href="{{ perfil.link_linkedin|default:'https://linkedin.com/in/alexis-lara-viveros' }}" target="_blank" rel="noopener">LinkedIn</a></li>
+                <li><a href="{{ perfil.link_github|default:'https://github.com/delakordillera' }}" target="_blank" rel="noopener">GitHub</a></li>
+                {% if perfil.cv_pdf %}<li><a href="{{ perfil.cv_pdf.url }}" target="_blank" rel="noopener">CV en PDF</a></li>{% endif %}
+            </ul>
+            <p class="pie">© 2026 Alexis Lara Viveros</p>
         </div>
     </footer>
-
-    <!-- MODAL SOBRE MÍ -->
-    <div class="modal-overlay" id="modalSobreMi" role="dialog" aria-modal="true" aria-label="Sobre mí">
-        <div class="modal-box">
-            <button class="modal-close" aria-label="Cerrar">&times;</button>
-            <p class="modal-eyebrow">Expediente personal</p>
-            <h3 class="modal-name">{{ perfil.nombre|default:'Alexis Lara Viveros' }}</h3>
-            <hr class="modal-rule">
-            {% if perfil and perfil.contar_sobre_mi %}
-            <div class="modal-prose">{{ perfil.contar_sobre_mi|linebreaks }}</div>
-            {% else %}
-            <div class="modal-prose">
-                <p>Soy Antropólogo de formación y desarrollador por convicción. Mi carrera se construye en el punto exacto donde la investigación de usuarios se encuentra con la implementación técnica, un perfil que no separa al que observa del que construye.</p>
-
-                <p>En la <strong>Red de Apoyo Mutuo</strong>, llegué con libreta de campo a entrevistar a vecinos. Volví con un hallazgo clave: el prestigio comunitario, no el dinero, mueve la reciprocidad barrial. Ese insight se tradujo directamente en dos funcionalidades del producto: un sistema de Puntos de Confianza y un Círculo de la Gratitud. Sin capas de abstracción. Sin requerimientos que se pierden en la traducción.</p>
-
-                <p>Con la <strong>web de Ps. Franco Álvarez</strong>, psicólogo clínico, el proceso fue similar. Sentarme a su lado, mapear con lápiz y papel su flujo de atención, entender la fricción de las agendas manuales y el WhatsApp desordenado. El resultado: una base de datos real en Django que él mismo administra, notificaciones automáticas por correo y una guía descargable sobre ansiedad. Código que nació de una conversación, no de un spec.</p>
-            </div>
-
-            <div class="approach-box">
-                <h6>Mi enfoque</h6>
-                <ul>
-                    <li><strong>UX Research:</strong> Etnografía digital y presencial, entrevistas en profundidad, testing de usabilidad, análisis cualitativo con RStudio.</li>
-                    <li><strong>Desarrollo:</strong> Python, Django, bases de datos, Git, despliegue full stack.</li>
-                    <li><strong>Valor diferencial:</strong> Traduzco hallazgos etnográficos directamente en requerimientos técnicos accionables. Sin intermediarios. Sin pérdida de sentido.</li>
-                </ul>
-            </div>
-
-            <p class="modal-objective">Mi objetivo profesional es integrar la investigación de usuarios y el desarrollo en un mismo flujo de trabajo, donde los hallazgos cualitativos se traduzcan directamente en decisiones de producto sin pérdida de sentido. Busco roles donde esta doble perspectiva —antropológica y técnica— sea el eje de la construcción de experiencias digitales centradas en las personas.</p>
-            {% endif %}
-            <button class="modal-footer-btn">Cerrar</button>
-        </div>
-    </div>
-
-    <script nonce="{{ request.nonce }}">
-    (function(){
-        /* --- Navigation: toggle + close on link click --- */
-        var navToggle=document.querySelector('.nav-toggle');
-        var navLinks=document.querySelector('.nav-links');
-        if(navToggle){
-            navToggle.addEventListener('click',function(){
-                navLinks.classList.toggle('open');
-            });
-        }
-        document.querySelectorAll('[data-action="close-nav"]').forEach(function(el){
-            el.addEventListener('click',function(){
-                navLinks.classList.remove('open');
-            });
-        });
-        document.querySelectorAll('[data-action="open-modal"]').forEach(function(el){
-            el.addEventListener('click',function(e){
-                e.preventDefault();
-                openModal();
-                navLinks.classList.remove('open');
-            });
-        });
-
-        /* --- Modal open/close --- */
-        window.openModal=function(){
-            var m=document.getElementById('modalSobreMi');
-            m.classList.add('open');
-            document.body.style.overflow='hidden';
-            m.querySelector('.modal-close').focus();
-        };
-        window.closeModal=function(){
-            var m=document.getElementById('modalSobreMi');
-            m.classList.remove('open');
-            document.body.style.overflow='';
-        };
-        var modalCloseBtns=document.querySelectorAll('.modal-close, .modal-footer-btn');
-        modalCloseBtns.forEach(function(btn){
-            btn.addEventListener('click',closeModal);
-        });
-        var modal=document.getElementById('modalSobreMi');
-        if(modal){
-            modal.addEventListener('click',function(e){
-                if(e.target===this) closeModal();
-            });
-        }
-        document.addEventListener('keydown',function(e){
-            if(e.key==='Escape' && document.getElementById('modalSobreMi').classList.contains('open')) closeModal();
-        });
-
-        /* --- Scroll reveal --- */
-        /* Sin IntersectionObserver no hay reveal, pero el contenido tiene que
-           verse igual: se marca todo como visible en vez de dejar la pagina
-           en opacity 0. */
-        if ('IntersectionObserver' in window) {
-            var observer = new IntersectionObserver(function(entries){
-                entries.forEach(function(e){
-                    if(e.isIntersecting){
-                        e.target.classList.add('in');
-                        observer.unobserve(e.target);
-                    }
-                });
-            },{threshold:0.12});
-            document.querySelectorAll('.anim').forEach(function(el){observer.observe(el);});
-        } else {
-            document.querySelectorAll('.anim').forEach(function(el){el.classList.add('in');});
-            document.querySelectorAll('.reveal-word').forEach(function(w){w.classList.add('visible');});
-        }
-
-        /* --- Text reveal — hero title --- */
-        setTimeout(function(){
-            document.querySelectorAll('.reveal-word').forEach(function(w,i){
-                setTimeout(function(){ w.classList.add('visible'); }, 200 + i * 120);
-            });
-        }, 400);
-
-        /* --- Magnetic hover — contact icons --- */
-        document.querySelectorAll('.contact-link').forEach(function(el){
-            el.addEventListener('mousemove',function(e){
-                var r = el.getBoundingClientRect();
-                var x = e.clientX - r.left - r.width/2;
-                var y = e.clientY - r.top - r.height/2;
-                el.style.transform = 'translateY(-4px) translate(' + (x*0.15) + 'px, ' + (y*0.15) + 'px)';
-            });
-            el.addEventListener('mouseleave',function(){
-                el.style.transform = '';
-            });
-        });
-    })();
-
-    (function(){
-        var orb=document.querySelector('.hero-orb');
-        if(!orb) return;
-        var canvas=orb.querySelector('.orb-canvas');
-        var ctx=canvas.getContext('2d');
-        var icons=orb.querySelectorAll('.orb-icon');
-        var W=280,H=280,cx=W/2,cy=H/2;
-        var tilt=65*Math.PI/180;
-        var tiltCos=Math.cos(tilt), tiltSin=Math.sin(tilt);
-        var ringColors=[
-            {r:'#d9773f',g:'rgba(217,119,63,'},
-            {r:'#8aa888',g:'rgba(138,168,136,'},
-            {r:'#e8dcc8',g:'rgba(232,220,200,'}
-        ];
-        var ringDefs=[
-            {r:120,zOff:0,speed:0.014,count:3,ci:0},
-            {r:100,zOff:1.047,speed:0.018,count:2,ci:1},
-            {r:85,zOff:2.094,speed:0.022,count:2,ci:2}
-        ];
-        var allIcons=[];
-        for(var i=0;i<icons.length;i++){
-            var ri=parseInt(icons[i].getAttribute('data-ring'));
-            var ii=parseInt(icons[i].getAttribute('data-i'));
-            var rd=ringDefs[ri];
-            var angle=ii*(2*Math.PI/rd.count)+rd.zOff;
-            allIcons.push({
-                el:icons[i],angle:angle,
-                r:rd.r,speed:rd.speed,ci:rd.ci,
-                trail:[],maxTrail:60
-            });
-        }
-        function drawEllipse(rx,ry,rot,color){
-            ctx.save();
-            ctx.translate(cx,cy);
-            ctx.rotate(rot);
-            ctx.beginPath();
-            ctx.ellipse(0,0,rx,ry,0,0,Math.PI*2);
-            ctx.strokeStyle=color;
-            ctx.lineWidth=1;
-            ctx.stroke();
-            ctx.restore();
-        }
-        function tick(){
-            ctx.clearRect(0,0,W,H);
-            for(var ri=0;ri<ringDefs.length;ri++){
-                var rd=ringDefs[ri];
-                var col=ringColors[ri];
-                var ry=rd.r*tiltCos;
-                var rotAngle=ri*(Math.PI/3);
-                drawEllipse(rd.r,ry,rotAngle,col.g+'0.07)');
-                drawEllipse(rd.r,ry,rotAngle,col.g+'0.03)');
-            }
-            for(var i=0;i<allIcons.length;i++){
-                var ic=allIcons[i];
-                ic.angle+=ic.speed;
-                var x3=ic.r*Math.cos(ic.angle);
-                var y3=ic.r*Math.sin(ic.angle)*tiltCos;
-                var px=cx+x3;
-                var py=cy+y3;
-                ic.trail.push({x:px,y:py});
-                if(ic.trail.length>ic.maxTrail) ic.trail.shift();
-                var col=ringColors[ic.ci];
-                if(ic.trail.length>2){
-                    for(var t=1;t<ic.trail.length;t++){
-                        var alpha=(t/ic.trail.length)*0.55;
-                        ctx.beginPath();
-                        ctx.moveTo(ic.trail[t-1].x,ic.trail[t-1].y);
-                        ctx.lineTo(ic.trail[t].x,ic.trail[t].y);
-                        ctx.strokeStyle=col.g+alpha+')';
-                        ctx.lineWidth=1.5*(t/ic.trail.length);
-                        ctx.stroke();
-                    }
-                    var last=ic.trail[ic.trail.length-1];
-                    ctx.beginPath();
-                    ctx.arc(last.x,last.y,3,0,Math.PI*2);
-                    ctx.fillStyle=col.r;
-                    ctx.fill();
-                }
-                var sz=1+0.3*Math.sin(ic.angle)*tiltSin;
-                var iconPx=px-ic.el.offsetWidth/2;
-                var iconPy=py-ic.el.offsetHeight/2;
-                ic.el.style.left=iconPx+'px';
-                ic.el.style.top=iconPy+'px';
-                ic.el.style.zIndex=Math.round(y3+100);
-                ic.el.style.opacity=0.4+0.6*Math.max(0,(y3+ic.r)/(2*ic.r));
-                ic.el.style.transform='scale('+sz+')';
-            }
-            requestAnimationFrame(tick);
-        }
-        tick();
-    })();
-    </script>
 </body>
 </html>
