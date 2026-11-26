@@ -27,7 +27,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Paleta: la precordillera de Peñalolén al atardecer (el "arrebol").
+        /* Paleta: la precordillera al atardecer (el "arrebol").
            Nieve = fondo, Pizarra = texto, Arrebol = acento único. */
         :root {
             --nieve: #F6F7F9;
@@ -109,7 +109,7 @@
         tbody tr + tr td { border-top: 1px solid var(--linea); }
         tbody td:first-child { color: var(--pizarra); font-weight: 500; }
 
-        .labs { margin-top: 3rem; }
+        .labs { margin-top: 1rem; }
         .labs ul { margin: 0; padding-left: 1.2rem; max-width: var(--texto-max); }
         .labs li { margin-bottom: 0.5rem; }
         .labs li::marker { color: var(--arrebol); }
@@ -207,7 +207,7 @@
         <div class="contenedor">
             <h1 id="titulo">{{ perfil.nombre|default:'Alexis Lara Viveros' }}</h1>
             <p class="portada-lead">Desarrollo y mantengo sitios web en producción. Me estoy formando en ciberseguridad defensiva.</p>
-            <p class="portada-sub">Busco mi primer puesto en soporte técnico, con el objetivo de llegar a analista SOC. Vivo en Peñalolén, Santiago.</p>
+            <p class="portada-sub">Busco mi primer puesto en soporte técnico, con el objetivo de llegar a analista SOC. Vivo en Santiago.</p>
             <div class="acciones">
                 <a href="#contacto" class="boton boton-lleno">Escribirme</a>
                 {% if perfil.cv_pdf %}
@@ -232,7 +232,7 @@
                 {{ perfil.contar_sobre_mi|linebreaks }}
                 {% else %}
                 <p>Soy desarrollador web con certificación Full Stack Python y estudio Antropología. He construido y publicado sitios para un restaurante y para un psicólogo clínico, y me encargo de que sigan funcionando.</p>
-                <p>Auditando mi propio portafolio encontré una clave secreta de Django publicada en GitHub. Corregirla me llevó a la seguridad, y ahí quiero trabajar: primero en soporte técnico y después en un SOC.</p>
+                <p>Mantener sitios en producción me llevó a la seguridad, y ahí quiero trabajar: primero en soporte técnico y después en un SOC.</p>
                 <p>De la antropología traigo algo útil para soporte: escuchar bien a la persona, entender qué pasó realmente y dejarlo documentado.</p>
                 {% endif %}
             </div>
@@ -241,22 +241,8 @@
 
     <section id="seguridad" class="seccion" aria-labelledby="seguridad-titulo">
         <div class="contenedor">
-            <h2 id="seguridad-titulo">Seguridad aplicada en este sitio</h2>
-            <p class="intro-seccion">Lo que encontré revisando mi propio portafolio y cómo lo corregí.</p>
-            <div class="tabla-caja">
-                <table>
-                    <caption>Hallazgos en este portafolio (Django, alojado en PythonAnywhere)</caption>
-                    <thead>
-                        <tr><th scope="col">Hallazgo</th><th scope="col">Riesgo</th><th scope="col">Corrección</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>SECRET_KEY de Django publicada en el repositorio público</td><td>Falsificación de sesiones, CSRF y enlaces de recuperación de contraseña</td><td>Clave rotada, leída desde fuera del directorio web y configuración sacada de Git</td></tr>
-                        <tr><td>Sitio sin cabeceras de seguridad</td><td>Degradación a HTTP y cookies expuestas</td><td>HSTS con subdominios, cookies seguras y redirección a HTTPS detrás del proxy</td></tr>
-                        <tr><td>Panel de administración protegido solo con contraseña</td><td>Acceso con credenciales filtradas o por fuerza bruta</td><td>Segundo factor (TOTP) y política CSP con nonce y reporte de violaciones</td></tr>
-                        <tr><td>Foto de 6,7 MB en una página pública</td><td>Carga lenta y gasto de datos en celular</td><td>Optimizada a 197 KB</td></tr>
-                    </tbody>
-                </table>
-            </div>
+            <h2 id="seguridad-titulo">Ciberseguridad</h2>
+            <p class="intro-seccion">Me estoy formando en seguridad defensiva con práctica guiada.</p>
 
             <div class="labs">
                 <h3>Laboratorios en curso</h3>
