@@ -17,6 +17,7 @@ MARCAS = {
     'la-otra-estacion': '#B3121D',
     'ps-franco-alvarez': '#24453A',
     'red-de-apoyo-mutuo': '#0D5FD8',
+    'plataforma-ecommerce': '#0B3A4A',
 }
 MARCA_POR_DEFECTO = '#3C4658'
 
@@ -108,6 +109,18 @@ def home(request):
         }
         for p in proyectos
     ]
+    # La tienda de práctica no está en la galería, pero sí sirve como ejemplo
+    # en el cotizador para "Comercio o tienda".
+    tienda = Proyecto.objects.filter(titulo='Plataforma Ecommerce').first()
+    if tienda:
+        _preparar([tienda])
+        casos_json.append({
+            'slug': tienda.slug,
+            'titulo': 'Tienda en línea',
+            'marca': tienda.marca,
+            'url': tienda.link_interno or '/ecommerce/',
+            'imagen': tienda.shot_900_url or tienda.shot_url or '',
+        })
     return render(request, 'main/home.html', {
         'perfil': Perfil.objects.first(),
         'proyectos': proyectos,

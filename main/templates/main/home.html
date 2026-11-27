@@ -41,7 +41,7 @@
         .collage-nombre { position: absolute; left: 50%; bottom: 0.9rem; translate: -50% 6px; background: #F1EEE4; color: #1A1F17; font-weight: 700; font-size: 0.95rem; padding: 0.35rem 0.8rem; border-radius: 999px; white-space: nowrap; opacity: 0; transition: opacity .2s ease, translate .2s ease; }
         .collage-item:hover .collage-nombre, .collage-item:focus-visible .collage-nombre { opacity: 1; translate: -50% 0; }
 
-        .seccion { padding: clamp(4.5rem, 10vw, 8rem) 0; }
+        .seccion { padding-block: clamp(4.5rem, 10vw, 8rem); }
         .seccion-cabeza { margin-bottom: 3rem; max-width: 44rem; }
         .seccion-cabeza p { margin-top: 1rem; font-size: 1.15rem; }
 
@@ -57,7 +57,6 @@
         .obra h3 a:hover { color: var(--acento); text-decoration: underline; text-decoration-thickness: 2px; }
         .obra-dato { color: var(--tinta); font-weight: 500; }
         .obra-dato strong { font-weight: 800; color: var(--acento); }
-        .obra-ver { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 700; }
 
         /* Servicios: cuadrícula con foco de luz */
         .servicios-oscura { padding: clamp(4.5rem, 10vw, 8rem) 0; margin-top: clamp(4.5rem, 10vw, 8rem); }
@@ -142,12 +141,72 @@
         .boleta-acciones .boton { justify-content: center; }
         .boleta .boton[aria-disabled="true"] { opacity: 0.4; pointer-events: none; }
 
-        /* Proceso */
-        .proceso { list-style: none; margin: 0; padding: 0; counter-reset: paso; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 2rem 2.5rem; }
-        .proceso li { counter-increment: paso; padding-top: 1.25rem; border-top: 2px solid var(--tinta); }
-        .proceso h3::before { content: counter(paso) ". "; color: var(--acento); }
-        .proceso h3 { margin-bottom: 0.5rem; font-size: 1.15rem; }
-        .proceso p { margin: 0; }
+
+        /* Código y personas: dos círculos que se cruzan en tu sitio */
+        .seccion-stack { padding: clamp(4.5rem, 10vw, 8rem) 0; overflow: hidden; }
+        .venn { position: relative; display: grid; grid-template-columns: 1fr 1fr; align-items: center; max-width: 1060px; margin: 0 auto; }
+        .circulo { position: relative; aspect-ratio: 1; border-radius: 50%; border: 1.5px solid rgba(201, 164, 101, 0.42); background: radial-gradient(circle at 50% 40%, rgba(201, 164, 101, 0.07), transparent 65%); display: flex; flex-direction: column; justify-content: center; gap: 1.25rem; transition: border-color .3s ease, background-color .3s ease; }
+        .circulo:hover { border-color: rgba(201, 164, 101, 0.8); }
+        .codigo { margin-right: -14%; padding: 12% 26% 12% 12%; }
+        .personas { margin-left: -14%; padding: 12% 12% 12% 26%; }
+        .circulo h3 { font-size: clamp(1.3rem, 2.2vw, 1.8rem); font-weight: 800; letter-spacing: -0.02em; }
+        .codigo h3 { text-align: left; }
+        .personas h3 { text-align: right; }
+        .circulo::before { content: ""; position: absolute; inset: -14px; border-radius: 50%; border: 1px dashed rgba(201, 164, 101, 0.22); pointer-events: none; }
+        @media (prefers-reduced-motion: no-preference) {
+            .circulo::before { animation: girar 90s linear infinite; }
+            .personas::before { animation-direction: reverse; }
+            @keyframes girar { to { rotate: 360deg; } }
+        }
+        .logos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(0.4rem, 1vw, 0.75rem); }
+        .personas .logos { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .logo { position: relative; aspect-ratio: 1; display: grid; place-items: center; border-radius: 14px; background: rgba(241, 238, 228, 0.05); border: 1px solid rgba(241, 238, 228, 0.1); color: #F1EEE4; cursor: default; transition: background-color .25s ease, color .25s ease, transform .25s cubic-bezier(0.2, 0.8, 0.2, 1), border-color .25s ease; }
+        .logo svg { width: 46%; height: 46%; fill: currentColor; }
+        .logo.metodo svg { fill: none; }
+        .logo:hover, .logo:focus-visible { background: #F1EEE4; color: var(--c, #7A5C2B); border-color: #F1EEE4; transform: translateY(-4px); outline: none; z-index: 3; }
+        .logo::after { content: attr(data-nombre); position: absolute; left: 50%; bottom: calc(100% + 8px); translate: -50% 4px; white-space: nowrap; background: #F1EEE4; color: #1A1F17; font-size: 0.85rem; font-weight: 700; padding: 0.3rem 0.65rem; border-radius: 8px; opacity: 0; pointer-events: none; transition: opacity .2s ease, translate .2s ease; z-index: 4; }
+        .logo:hover::after, .logo:focus-visible::after { opacity: 1; translate: -50% 0; }
+        .interseccion { position: absolute; left: 50%; top: 50%; translate: -50% -50%; z-index: 2; display: grid; justify-items: center; gap: 0.5rem; padding: 1.25rem 1.4rem; border-radius: 20px; background: #1A1F17; border: 1px solid rgba(201, 164, 101, 0.55); box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.9), 0 0 0 8px rgba(201, 164, 101, 0.06); }
+        .interseccion img { width: clamp(44px, 5vw, 64px); height: auto; }
+        .interseccion span { color: #C9A465; font-weight: 800; letter-spacing: -0.01em; white-space: nowrap; }
+        .credenciales { list-style: none; margin: 3.5rem auto 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
+        .credenciales li { display: grid; gap: 0.1rem; padding: 0.85rem 1.25rem; border-radius: 14px; border: 1px solid var(--s-linea); background: var(--s-superficie); }
+        .credenciales strong { color: var(--s-tinta); }
+        .credenciales span { color: var(--s-tenue); font-size: 0.95rem; }
+
+        /* Cómo trabajo: la ruta de subida */
+        .ruta { position: relative; aspect-ratio: 1000 / 300; margin: 1rem clamp(1.4rem, 4vw, 3rem) 2.5rem; }
+        .ruta-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+        .ruta-cerro-lejos { fill: color-mix(in oklab, var(--acento) 10%, var(--fondo)); }
+        .ruta-cerro { fill: color-mix(in oklab, var(--acento) 18%, var(--fondo)); }
+        .ruta-sendero-base { fill: none; stroke: var(--acento); stroke-width: 2; stroke-dasharray: 0.006 0.008; opacity: 0.45; vector-effect: non-scaling-stroke; }
+        .ruta-sendero { fill: none; stroke: var(--acento); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 0; vector-effect: non-scaling-stroke; }
+        @supports (animation-timeline: view()) {
+            @media (prefers-reduced-motion: no-preference) {
+                .ruta-sendero { animation: trazar linear both; animation-timeline: view(); animation-range: entry 20% cover 55%; }
+                @keyframes trazar { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+            }
+        }
+        .hito { position: absolute; left: var(--x); top: var(--y); translate: -50% -50%; display: grid; justify-items: center; gap: 0.5rem; background: none; border: 0; padding: 0; font: inherit; cursor: pointer; color: var(--tinta); z-index: 2; }
+        .hito-punto { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: var(--superficie); border: 2px solid var(--acento); color: var(--acento); box-shadow: var(--sombra); transition: background-color .25s ease, color .25s ease, transform .25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow .25s ease; }
+        .hito-punto svg { width: 24px; height: 24px; }
+        .hito-nombre { font-weight: 700; font-size: 0.95rem; white-space: nowrap; padding: 0.15rem 0.6rem; border-radius: 999px; background: color-mix(in oklab, var(--fondo) 85%, transparent); }
+        .hito:hover .hito-punto { transform: scale(1.08); }
+        .hito[aria-selected="true"] .hito-punto { background: var(--acento); color: var(--superficie); box-shadow: 0 0 0 8px color-mix(in oklab, var(--acento) 18%, transparent), var(--sombra); }
+        .hito[aria-selected="true"] .hito-nombre { background: var(--tinta); color: var(--fondo); }
+        .hito:focus-visible { outline: none; }
+        .hito:focus-visible .hito-punto { outline: 3px solid var(--acento); outline-offset: 4px; }
+        .ruta-panel { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 1.5rem 3rem; align-items: center; background: var(--superficie); border: 1px solid var(--linea); border-radius: 20px; padding: clamp(1.5rem, 3.5vw, 2.5rem); box-shadow: var(--sombra); }
+        .ruta-panel[hidden] { display: none; }
+        .ruta-panel h3 { font-size: clamp(1.5rem, 2.6vw, 2rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.6rem; }
+        .ruta-panel p { margin: 0; font-size: 1.1rem; }
+        .recibes { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .recibes li { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.55rem 0.95rem; border-radius: 999px; background: var(--acento-suave); color: var(--tinta); font-weight: 600; font-size: 0.95rem; }
+        .recibes li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--acento); flex: none; }
+        @media (prefers-reduced-motion: no-preference) {
+            .ruta-panel:not([hidden]) { animation: panel-entra .45s cubic-bezier(0.2, 0.8, 0.2, 1); }
+            @keyframes panel-entra { from { opacity: 0; translate: 0 10px; } }
+        }
 
         /* Preguntas */
         .preguntas { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 2rem 5rem; align-items: start; }
@@ -161,11 +220,6 @@
         .preguntas details::details-content { block-size: 0; overflow: hidden; transition: block-size .3s ease, content-visibility .3s allow-discrete; }
         .preguntas details[open]::details-content { block-size: auto; }
 
-        /* Sobre mí */
-        .sobre { background: var(--superficie); }
-        .sobre-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 2rem 5rem; align-items: start; }
-        .stack { color: var(--tenue); margin-top: 1.5rem; }
-        .stack strong { color: var(--tinta); font-weight: 700; }
 
         @media (max-width: 960px) {
             .portada-grid, .cotizador, .preguntas { grid-template-columns: 1fr; }
@@ -176,10 +230,27 @@
             .foco-grande { grid-column: span 2; grid-row: auto; }
             .foco-ancho { grid-column: span 2; }
         }
+        @media (max-width: 760px) {
+            .venn { grid-template-columns: 1fr; gap: 1rem; }
+            .circulo, .codigo, .personas { aspect-ratio: auto; border-radius: 28px; margin: 0; padding: 1.5rem; }
+            .circulo::before { display: none; }
+            .codigo h3, .personas h3 { text-align: left; }
+            .interseccion { position: static; translate: none; grid-auto-flow: column; align-items: center; justify-self: center; gap: 0.75rem; padding: 0.75rem 1.1rem; order: 2; }
+            .personas { order: 3; }
+            .interseccion img { width: 36px; }
+            .logos, .personas .logos { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+            .ruta { aspect-ratio: 1000 / 420; margin-bottom: 1.5rem; }
+            .hito-punto { width: 44px; height: 44px; }
+            .hito-punto svg { width: 20px; height: 20px; }
+            .hito-nombre { display: none; }
+            .ruta-panel { grid-template-columns: 1fr; }
+        }
         @media (max-width: 600px) {
             .bento { grid-template-columns: 1fr; }
             .foco-grande, .foco-ancho { grid-column: auto; }
-            .collage { display: none; }
+            .collage { aspect-ratio: 5 / 4; margin-top: 0.5rem; }
+            .collage-item { width: 82%; }
+            .prueba { margin-top: 2rem; }
         }
 {% endblock %}
 
@@ -235,7 +306,7 @@
                     <h3 style="view-transition-name: titulo-{{ p.slug }}"><a href="{% url 'proyecto' p.slug %}">{{ p.titulo }}</a></h3>
                     <p>{{ p.descripcion_corta }}</p>
                     {% with m=p.metricas_validas.0 %}{% if m %}<p class="obra-dato"><strong>{{ m.valor }}</strong> {{ m.etiqueta }}{% if '28 días' in m.nota %} en 28 días{% endif %}.</p>{% endif %}{% endwith %}
-                    <p><a class="obra-ver" href="{% url 'proyecto' p.slug %}">Ver el caso completo</a></p>
+                    <p><a class="enlace-boton" href="{% url 'proyecto' p.slug %}">Ver el caso completo<span class="flecha" aria-hidden="true">{% include 'main/_flecha.html' %}</span></a></p>
                 </div>
             </li>
             {% endfor %}
@@ -303,7 +374,7 @@
                         <label class="t-opcion"><input type="radio" name="rubro" value="Salud o servicios profesionales" data-caso="ps-franco-alvarez"><span class="cara">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 4.6a5.4 5.4 0 0 0-7.6 0L12 5.4l-.8-.8a5.4 5.4 0 0 0-7.6 7.6L12 20.6l8.4-8.4a5.4 5.4 0 0 0 0-7.6z"/></svg>
                             <strong>Salud o servicios</strong><small>Agenda de horas y confianza</small></span></label>
-                        <label class="t-opcion"><input type="radio" name="rubro" value="Comercio o tienda" data-caso="la-otra-estacion"><span class="cara">
+                        <label class="t-opcion"><input type="radio" name="rubro" value="Comercio o tienda" data-caso="plataforma-ecommerce"><span class="cara">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11h18V9M9 20v-6h6v6"/></svg>
                             <strong>Comercio o tienda</strong><small>Catálogo y ubicación</small></span></label>
                         <label class="t-opcion"><input type="radio" name="rubro" value="Otro rubro"><span class="cara">
@@ -390,27 +461,94 @@
         {{ casos_json|json_script:"datos-casos" }}
     </section>
 
-    <section class="seccion contenedor" aria-labelledby="proceso-titulo">
-        <h2 id="proceso-titulo" class="seccion-cabeza">Cómo trabajo</h2>
-        <ol class="proceso">
-            <li><h3>Conversamos</h3><p>Entiendo tu negocio, a tus clientes y cómo llegan hoy a ti.</p></li>
-            <li><h3>Diseño</h3><p>Te muestro la propuesta antes de programar y la ajustamos juntos.</p></li>
-            <li><h3>Desarrollo y publicación</h3><p>Programo el sitio, lo pruebo en celular y computador y lo dejo en línea.</p></li>
-            <li><h3>Mantención</h3><p>Actualizo precios, fotos y contenidos cuando lo necesites.</p></li>
-        </ol>
+    <section id="sobre-mi" class="seccion-stack oscura" aria-labelledby="sobre-titulo">
+        {% include 'main/_logos_stack.html' %}
+        <div class="contenedor">
+            <div class="seccion-cabeza">
+                <h2 id="sobre-titulo">Código y personas</h2>
+                <p>Programo como desarrollador y observo como antropólogo. Esa mezcla es la que hace distinto cada sitio.</p>
+            </div>
+            <div class="venn">
+                <div class="circulo codigo">
+                    <h3>Código</h3>
+                    <ul class="logos" aria-label="Herramientas de desarrollo">
+                        <li class="logo" style="--c: #3776AB" tabindex="0" data-nombre="Python" aria-label="Python"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-python"/></svg></li>
+                        <li class="logo" style="--c: #44B78B" tabindex="0" data-nombre="Django" aria-label="Django"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-django"/></svg></li>
+                        <li class="logo" style="--c: #F7DF1E" tabindex="0" data-nombre="JavaScript" aria-label="JavaScript"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-javascript"/></svg></li>
+                        <li class="logo" style="--c: #E34F26" tabindex="0" data-nombre="HTML" aria-label="HTML"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-html5"/></svg></li>
+                        <li class="logo" style="--c: #663399" tabindex="0" data-nombre="CSS" aria-label="CSS"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-css"/></svg></li>
+                        <li class="logo" style="--c: #7952B3" tabindex="0" data-nombre="Bootstrap" aria-label="Bootstrap"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-bootstrap"/></svg></li>
+                        <li class="logo" style="--c: #0F80CC" tabindex="0" data-nombre="SQLite" aria-label="SQLite"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-sqlite"/></svg></li>
+                        <li class="logo" style="--c: #F03C2E" tabindex="0" data-nombre="Git" aria-label="Git"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-git"/></svg></li>
+                        <li class="logo" style="--c: #181717" tabindex="0" data-nombre="GitHub" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-github"/></svg></li>
+                        <li class="logo" style="--c: #0AE448" tabindex="0" data-nombre="GSAP" aria-label="GSAP"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-gsap"/></svg></li>
+                        <li class="logo" style="--c: #990000" tabindex="0" data-nombre="WebGL" aria-label="WebGL"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-webgl"/></svg></li>
+                        <li class="logo" style="--c: #000000" tabindex="0" data-nombre="Vercel" aria-label="Vercel"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-vercel"/></svg></li>
+                        <li class="logo" style="--c: #1D9FD7" tabindex="0" data-nombre="PythonAnywhere" aria-label="PythonAnywhere"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-pythonanywhere"/></svg></li>
+                        <li class="logo" style="--c: #4285F4" tabindex="0" data-nombre="Google Maps" aria-label="Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-googlemaps"/></svg></li>
+                        <li class="logo" style="--c: #25D366" tabindex="0" data-nombre="WhatsApp" aria-label="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-whatsapp"/></svg></li>
+                    </ul>
+                </div>
+                <div class="interseccion">
+                    <img src="{% static 'main/marca/dlk-dorado.svg' %}" alt="" width="1253" height="1305">
+                    <span>Tu sitio</span>
+                </div>
+                <div class="circulo personas">
+                    <h3>Personas</h3>
+                    <ul class="logos" aria-label="Herramientas y métodos de antropología">
+                        <li class="logo" style="--c: #276DC3" tabindex="0" data-nombre="R" aria-label="R"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-r"/></svg></li>
+                        <li class="logo" style="--c: #75AADB" tabindex="0" data-nombre="RStudio" aria-label="RStudio"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-rstudioide"/></svg></li>
+                        <li class="logo" style="--c: #7C3AED" tabindex="0" data-nombre="Obsidian" aria-label="Obsidian"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-obsidian"/></svg></li>
+                        <li class="logo metodo" tabindex="0" data-nombre="Entrevistas en profundidad" aria-label="Entrevistas en profundidad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a7.5 7.5 0 0 1-11 6.6L4 20l1.6-4.8A7.5 7.5 0 1 1 21 11.5z"/><path d="M8.5 11.5h.01M12.5 11.5h.01M16.5 11.5h.01"/></svg></li>
+                        <li class="logo metodo" tabindex="0" data-nombre="Observación participante" aria-label="Observación participante"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></li>
+                        <li class="logo metodo" tabindex="0" data-nombre="Libreta de campo" aria-label="Libreta de campo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h12a2 2 0 0 1 2 2v16H7a2 2 0 0 1-2-2V3z"/><path d="M9 7h6M9 11h6M9 15h3M5 19a2 2 0 0 1 2-2h12"/></svg></li>
+                        <li class="logo metodo" tabindex="0" data-nombre="Mapeo de recorridos" aria-label="Mapeo de recorridos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H14a3.5 3.5 0 0 0 0-7h-4a3.5 3.5 0 0 1 0-7h5.5"/></svg></li>
+                        <li class="logo metodo" tabindex="0" data-nombre="Análisis cualitativo" aria-label="Análisis cualitativo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h7"/><circle cx="18" cy="16" r="3"/><path d="M20.2 18.2L22 20"/></svg></li>
+                    </ul>
+                </div>
+            </div>
+            <ul class="credenciales">
+                <li><strong>Full Stack Python</strong><span>Talento Digital y SENCE</span></li>
+                <li><strong>Antropología</strong><span>Universidad Academia de Humanismo Cristiano, en curso</span></li>
+            </ul>
+        </div>
     </section>
 
-    <section id="sobre-mi" class="seccion sobre" aria-labelledby="sobre-titulo">
-        <div class="contenedor sobre-grid">
-            <h2 id="sobre-titulo">Sobre mí</h2>
-            <div>
-                {% if perfil and perfil.contar_sobre_mi %}
-                {{ perfil.contar_sobre_mi|linebreaks }}
-                {% else %}
-                <p>Soy desarrollador Full Stack Python, certificado por Talento Digital y SENCE, y estudio Antropología. Esa mezcla es mi forma de trabajar: antes de diseñar, observo cómo tus clientes buscan, preguntan y deciden.</p>
-                <p>Trabajo directo contigo, sin intermediarios, y me quedo después del lanzamiento para que el sitio siga funcionando.</p>
-                {% endif %}
-                <p class="stack"><strong>Con qué trabajo:</strong> Python, Django, HTML, CSS, JavaScript, GSAP, WebGL, Git, PythonAnywhere, Vercel, Google Business Profile y Schema.org.</p>
+    <section id="ruta" class="seccion contenedor" aria-labelledby="ruta-titulo">
+        <div class="seccion-cabeza">
+            <h2 id="ruta-titulo">Cómo trabajo</h2>
+            <p>Del primer mensaje a tu sitio en línea, como una subida a la cordillera. Toca cada parada.</p>
+        </div>
+        <div class="ruta" data-ruta>
+            <svg class="ruta-svg" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                <path class="ruta-cerro-lejos" d="M0 300 L0 210 L90 170 L170 196 L260 120 L340 150 L430 92 L520 124 L610 60 L700 98 L790 34 L880 70 L1000 20 L1000 300 Z"/>
+                <path class="ruta-cerro" d="M0 300 L0 262 L60 248 L150 236 L230 214 L330 194 L420 178 L520 158 L640 132 L730 112 L820 92 L900 70 L960 46 L1000 40 L1000 300 Z"/>
+                <path class="ruta-sendero-base" d="M40 270 C120 262 170 240 230 226 S300 196 330 190 S460 170 520 156 S600 138 640 128 S760 108 820 90 S910 60 950 40" pathLength="1"/>
+                <path class="ruta-sendero" d="M40 270 C120 262 170 240 230 226 S300 196 330 190 S460 170 520 156 S600 138 640 128 S760 108 820 90 S910 60 950 40" pathLength="1"/>
+            </svg>
+            <div class="hitos" role="tablist" aria-label="Etapas">
+                <button class="hito" role="tab" id="hito-1" aria-controls="etapa-1" aria-selected="true" style="--x: 4%; --y: 90%"><span class="hito-punto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a7.5 7.5 0 0 1-11 6.6L4 20l1.6-4.8A7.5 7.5 0 1 1 21 11.5z"/></svg></span><span class="hito-nombre">Conversamos</span></button>
+                <button class="hito" role="tab" id="hito-2" aria-controls="etapa-2" aria-selected="false" tabindex="-1" style="--x: 33%; --y: 63.3%"><span class="hito-punto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><circle cx="11" cy="11" r="2"/></svg></span><span class="hito-nombre">Diseño</span></button>
+                <button class="hito" role="tab" id="hito-3" aria-controls="etapa-3" aria-selected="false" tabindex="-1" style="--x: 64%; --y: 42.7%"><span class="hito-punto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg></span><span class="hito-nombre">Desarrollo</span></button>
+                <button class="hito" role="tab" id="hito-4" aria-controls="etapa-4" aria-selected="false" tabindex="-1" style="--x: 95%; --y: 13.3%"><span class="hito-punto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg></span><span class="hito-nombre">En línea</span></button>
+            </div>
+        </div>
+        <div class="ruta-paneles">
+            <div class="ruta-panel" role="tabpanel" id="etapa-1" aria-labelledby="hito-1">
+                <div><h3>Conversamos</h3><p>Una conversación para entender tu negocio, a tus clientes y cómo llegan hoy a ti.</p></div>
+                <ul class="recibes"><li>Revisión de cómo te encuentran hoy</li><li>Propuesta y cotización</li></ul>
+            </div>
+            <div class="ruta-panel" role="tabpanel" id="etapa-2" aria-labelledby="hito-2" hidden>
+                <div><h3>Diseño</h3><p>Te muestro cómo se verá tu sitio antes de programarlo, y lo ajustamos juntos.</p></div>
+                <ul class="recibes"><li>Diseño para celular y computador</li><li>Estructura y textos</li></ul>
+            </div>
+            <div class="ruta-panel" role="tabpanel" id="etapa-3" aria-labelledby="hito-3" hidden>
+                <div><h3>Desarrollo</h3><p>Programo el sitio, lo conecto con WhatsApp y Google, y lo pruebo en distintos teléfonos y computadores.</p></div>
+                <ul class="recibes"><li>Sitio funcionando para revisar</li><li>Ajustes antes de publicar</li></ul>
+            </div>
+            <div class="ruta-panel" role="tabpanel" id="etapa-4" aria-labelledby="hito-4" hidden>
+                <div><h3>En línea</h3><p>Lo publico en tu dominio y me quedo para mantenerlo cuando lo necesites.</p></div>
+                <ul class="recibes"><li>Sitio publicado</li><li>Ficha de Google ordenada</li><li>Cambios y mantención</li></ul>
             </div>
         </div>
     </section>

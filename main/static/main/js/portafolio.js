@@ -195,3 +195,31 @@
         }
     }
 })();
+
+/* Cómo trabajo: paradas de la ruta como pestañas accesibles */
+(function () {
+    var ruta = document.querySelector('[data-ruta]');
+    if (!ruta) return;
+    var hitos = Array.prototype.slice.call(ruta.querySelectorAll('.hito'));
+    function elegir(h, foco) {
+        hitos.forEach(function (x) {
+            var activo = x === h;
+            x.setAttribute('aria-selected', String(activo));
+            x.tabIndex = activo ? 0 : -1;
+            var panel = document.getElementById(x.getAttribute('aria-controls'));
+            if (panel) panel.hidden = !activo;
+        });
+        if (foco) h.focus();
+    }
+    hitos.forEach(function (h, i) {
+        h.addEventListener('click', function () { elegir(h, false); });
+        h.addEventListener('keydown', function (e) {
+            var n = null;
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') n = hitos[(i + 1) % hitos.length];
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') n = hitos[(i - 1 + hitos.length) % hitos.length];
+            if (e.key === 'Home') n = hitos[0];
+            if (e.key === 'End') n = hitos[hitos.length - 1];
+            if (n) { e.preventDefault(); elegir(n, true); }
+        });
+    });
+})();

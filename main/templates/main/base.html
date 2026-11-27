@@ -122,6 +122,43 @@
             :root:not([data-tema="claro"]) .boton-tema .icono-luna { display: none; }
         }
 
+
+        /* Menú hamburguesa (celular y tablet) con el Popover API */
+        .boton-menu { display: none; width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--linea); background: var(--superficie); color: var(--tinta); cursor: pointer; place-items: center; }
+        .boton-menu span { display: block; width: 18px; height: 2px; background: currentColor; border-radius: 2px; transition: transform .3s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .boton-menu span + span { margin-top: 5px; }
+        .boton-menu .lineas { display: grid; }
+        .menu-movil { position: fixed; inset: 0; width: 100%; height: 100dvh; max-width: none; max-height: none; margin: 0; border: 0; padding: 0; background: #1A1F17; color: #F1EEE4; z-index: 100; overflow: auto; opacity: 0; transition: opacity .35s ease, display .35s allow-discrete, overlay .35s allow-discrete; }
+        .menu-movil:popover-open { opacity: 1; }
+        @starting-style { .menu-movil:popover-open { opacity: 0; } }
+        .menu-movil::backdrop { background: transparent; }
+        .menu-cuerpo { min-height: 100%; display: flex; flex-direction: column; padding: 1rem 1.5rem 2rem; position: relative; isolation: isolate; }
+        .menu-cuerpo::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(80% 60% at 100% 0%, #2B3326 0%, transparent 70%); }
+        .menu-sello { position: absolute; right: -18%; bottom: -6%; width: 85%; opacity: 0.06; z-index: -1; pointer-events: none; }
+        .menu-arriba { display: flex; justify-content: space-between; align-items: center; min-height: 60px; }
+        .menu-arriba .marca-logo { color: #C9A465; }
+        .menu-cerrar { width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(241, 238, 228, 0.28); background: transparent; color: #F1EEE4; cursor: pointer; display: grid; place-items: center; }
+        .menu-cerrar svg { width: 20px; height: 20px; }
+        .menu-lista { list-style: none; margin: auto 0; padding: 2rem 0; display: grid; gap: 0.25rem; }
+        .menu-lista a { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding: 0.55rem 0; color: #F1EEE4; text-decoration: none; font-size: clamp(2.4rem, 11vw, 3.6rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; border-bottom: 1px solid rgba(241, 238, 228, 0.12); }
+        .menu-lista a small { font-size: 0.95rem; font-weight: 500; letter-spacing: 0; color: #A3A895; }
+        .menu-lista a:hover, .menu-lista a:focus-visible { color: #C9A465; }
+        .menu-pie { display: grid; gap: 0.75rem; color: #A3A895; }
+        .menu-pie a { color: #F1EEE4; font-weight: 700; font-size: 1.15rem; }
+        @media (prefers-reduced-motion: no-preference) {
+            .menu-lista li { opacity: 0; translate: 0 18px; transition: opacity .5s ease, translate .6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+            .menu-movil:popover-open .menu-lista li { opacity: 1; translate: 0 0; }
+            .menu-movil:popover-open .menu-lista li:nth-child(2) { transition-delay: .06s; }
+            .menu-movil:popover-open .menu-lista li:nth-child(3) { transition-delay: .12s; }
+            .menu-movil:popover-open .menu-lista li:nth-child(4) { transition-delay: .18s; }
+            @starting-style { .menu-movil:popover-open .menu-lista li { opacity: 0; translate: 0 18px; } }
+        }
+        @media (max-width: 860px) {
+            .nav ul { display: none; }
+            .boton-menu { display: grid; }
+            .nav { padding-block: 0.5rem; }
+        }
+
         .boton { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 48px; padding: 0 1.4rem; border-radius: 8px; font: inherit; font-weight: 700; text-decoration: none; border: 2px solid var(--tinta); cursor: pointer; transition: background-color .15s ease, color .15s ease, border-color .15s ease, transform .15s ease; }
         .boton:active { transform: translateY(1px); }
         .boton-lleno { background: var(--tinta); color: var(--fondo); }
@@ -129,6 +166,23 @@
         .boton-borde { color: var(--tinta); background: transparent; }
         .boton-borde:hover { background: var(--tinta); color: var(--fondo); text-decoration: none; }
         .acciones { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+        /* Enlaces premium: cápsula con flecha que se llena de dorado */
+        .enlace-boton { display: inline-flex; align-items: center; gap: 0.85rem; min-height: 48px; padding: 0.35rem 0.4rem 0.35rem 1.2rem; border-radius: 999px; border: 1px solid var(--linea); background: var(--superficie); color: var(--tinta); font-weight: 700; text-decoration: none; transition: border-color .25s ease, box-shadow .25s ease, color .25s ease; }
+        .enlace-boton .flecha { display: grid; place-items: center; width: 38px; height: 38px; flex: none; border-radius: 50%; background: var(--tinta); color: var(--fondo); overflow: hidden; transition: background-color .25s ease, color .25s ease; }
+        .enlace-boton .flecha svg { width: 16px; height: 16px; transition: transform .4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .enlace-boton:hover { border-color: var(--acento); color: var(--tinta); box-shadow: 0 14px 30px -20px var(--acento); text-decoration: none; }
+        .enlace-boton:hover .flecha { background: var(--acento); color: var(--superficie); }
+        .enlace-boton:hover .flecha svg { transform: translate(2px, -2px); }
+        .enlace-boton.atras { padding: 0.35rem 1.2rem 0.35rem 0.4rem; }
+        .enlace-boton.atras:hover .flecha svg { transform: translateX(-3px); }
+        .enlace-boton.claro { background: transparent; border-color: rgba(241, 238, 228, 0.28); color: #F1EEE4; }
+        .enlace-boton.claro .flecha { background: #F1EEE4; color: #1A1F17; }
+        .enlace-boton.claro:hover { border-color: #C9A465; color: #F1EEE4; box-shadow: 0 14px 30px -20px #C9A465; }
+        .enlace-boton.claro:hover .flecha { background: #C9A465; color: #1A1F17; }
+        /* Enlace en texto: línea tenue que se completa en dorado al pasar */
+        .enlace-linea { text-decoration: none; background-image: linear-gradient(var(--acento), var(--acento)), linear-gradient(color-mix(in oklab, currentColor 30%, transparent), color-mix(in oklab, currentColor 30%, transparent)); background-size: 0% 2px, 100% 1px; background-position: 0 100%, 0 100%; background-repeat: no-repeat; padding-bottom: 2px; transition: background-size .4s cubic-bezier(0.2, 0.8, 0.2, 1), color .2s ease; }
+        .enlace-linea:hover { background-size: 100% 2px, 100% 1px; text-decoration: none; }
 
         /* Captura sobre el color de marca del cliente */
         .lamina { background: var(--marca); border-radius: var(--radio); padding: clamp(1rem, 4vw, 3rem); position: relative; }
@@ -148,7 +202,7 @@
             }
         }
         .contacto { background: #292F25; color: #DAD6C8; position: relative; overflow: hidden; }
-        .contacto-cuerpo { padding: 4rem 0 2.5rem; position: relative; z-index: 1; }
+        .contacto-cuerpo { padding-top: 4rem; padding-bottom: 2.5rem; position: relative; z-index: 1; }
         .contacto-sello { position: absolute; right: -4%; top: 50%; translate: 0 -50%; width: clamp(240px, 38vw, 520px); height: auto; opacity: 0.09; pointer-events: none; }
         .contacto h2 { color: #FFFFFF; }
         .contacto p { color: #DAD6C8; }
@@ -160,8 +214,9 @@
         .boton-copiar { font: inherit; font-weight: 600; color: #FFFFFF; background: transparent; border: 1px solid #5C6552; border-radius: 8px; min-height: 44px; padding: 0 1rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; }
         .boton-copiar:hover { border-color: #FFFFFF; }
         .boton-copiar svg { width: 18px; height: 18px; }
-        .contacto-redes { list-style: none; display: flex; flex-wrap: wrap; gap: 0.25rem 1.75rem; margin: 1.5rem 0 0; padding: 0; font-weight: 700; font-size: 1.1rem; }
-        .contacto-redes a { display: inline-block; padding: 0.5rem 0; }
+        .contacto-redes { list-style: none; display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 1.75rem 0 0; padding: 0; }
+        .contacto .correo-grande:hover { color: #FFFFFF; }
+        .contacto .correo-grande { --acento: #C9A465; }
         .pie { margin-top: 3.5rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; color: #A9AD9C; font-size: 0.95rem; }
         .pie p { margin: 0; color: #A9AD9C; }
 
@@ -192,6 +247,9 @@
                     <li><a href="/#preguntas">Preguntas</a></li>
                     <li><a href="#contacto">Contacto</a></li>
                 </ul>
+                <button class="boton-menu" type="button" popovertarget="menu-movil" aria-label="Abrir menú" aria-controls="menu-movil">
+                    <span class="lineas" aria-hidden="true"><span></span><span></span></span>
+                </button>
                 <button class="boton-tema" type="button" aria-label="Cambiar entre tema claro y oscuro">
                     <svg class="icono-luna" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
                     <svg class="icono-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
@@ -213,7 +271,7 @@
                 <p>Cuéntame qué vendes y cómo te contactan hoy tus clientes. Te respondo con una propuesta.</p>
                 {% with correo=perfil.correo|default:'delakordillera@proton.me' %}
                 <div class="correo-fila">
-                    <a class="correo-grande" href="mailto:{{ correo }}">{{ correo }}</a>
+                    <a class="correo-grande enlace-linea" href="mailto:{{ correo }}">{{ correo }}</a>
                     <button class="boton-copiar" type="button" data-copiar="{{ correo }}">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
                         Copiar correo
@@ -221,16 +279,38 @@
                 </div>
                 {% endwith %}
                 <ul class="contacto-redes">
-                    <li><a href="{{ perfil.link_linkedin|default:'https://linkedin.com/in/alexis-lara-viveros' }}" target="_blank" rel="noopener">LinkedIn</a></li>
-                    <li><a href="{{ perfil.link_github|default:'https://github.com/delakordillera' }}" target="_blank" rel="noopener">GitHub</a></li>
+                    <li><a class="enlace-boton claro" href="{{ perfil.link_linkedin|default:'https://linkedin.com/in/alexis-lara-viveros' }}" target="_blank" rel="noopener">LinkedIn<span class="flecha" aria-hidden="true">{% include 'main/_flecha.html' %}</span></a></li>
+                    <li><a class="enlace-boton claro" href="{{ perfil.link_github|default:'https://github.com/delakordillera' }}" target="_blank" rel="noopener">GitHub<span class="flecha" aria-hidden="true">{% include 'main/_flecha.html' %}</span></a></li>
                 </ul>
                 <div class="pie">
                     <p>© 2026 delakordillera, desarrollo web en Santiago de Chile.</p>
-                    <p><a href="/">Volver al inicio</a></p>
+                    <p><a class="enlace-linea" href="/">Volver al inicio</a></p>
                 </div>
             </div>
         </div>
     </footer>
+
+    <div id="menu-movil" class="menu-movil" popover aria-label="Menú">
+        <div class="menu-cuerpo">
+            <img class="menu-sello" src="{% static 'main/marca/dlk-dorado.svg' %}" alt="" width="1253" height="1305" loading="lazy">
+            <div class="menu-arriba">
+                <a class="marca" href="/" aria-label="Ir al inicio"><img class="marca-logo" src="{% static 'main/marca/dlk-dorado.svg' %}" alt="" width="38" height="40"></a>
+                <button class="menu-cerrar" type="button" popovertarget="menu-movil" popovertargetaction="hide" aria-label="Cerrar menú">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+                </button>
+            </div>
+            <ul class="menu-lista">
+                <li><a href="/#proyectos">Proyectos <small>Trabajos reales</small></a></li>
+                <li><a href="/#servicios">Servicios <small>Lo que hago</small></a></li>
+                <li><a href="/#cotizar">Cotizar <small>Arma tu proyecto</small></a></li>
+                <li><a href="/#preguntas">Preguntas <small>Dudas comunes</small></a></li>
+            </ul>
+            <div class="menu-pie">
+                <span>Escríbeme</span>
+                <a class="enlace-linea" href="mailto:{{ perfil.correo|default:'delakordillera@proton.me' }}">{{ perfil.correo|default:'delakordillera@proton.me' }}</a>
+            </div>
+        </div>
+    </div>
     <div class="aviso-flotante" id="aviso" popover="manual" role="status"></div>
 
     <script nonce="{{ request.nonce }}">
@@ -274,6 +354,16 @@
             clearTimeout(temporizador);
             temporizador = setTimeout(function () { try { aviso.hidePopover(); } catch (err) {} }, 2200);
         };
+
+        /* Menú móvil: cerrar al elegir un enlace */
+        var menu = document.getElementById('menu-movil');
+        if (menu) {
+            menu.querySelectorAll('.menu-lista a').forEach(function (a) {
+                a.addEventListener('click', function () { try { menu.hidePopover(); } catch (err) {} });
+            });
+            var botonMenu = document.querySelector('.boton-menu');
+            menu.addEventListener('toggle', function (e) { if (botonMenu) botonMenu.setAttribute('aria-expanded', String(e.newState === 'open')); });
+        }
 
         /* Copiar correo */
         document.querySelectorAll('[data-copiar]').forEach(function (b) {
