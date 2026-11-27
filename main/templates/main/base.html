@@ -1,0 +1,170 @@
+{% load static %}<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}Alexis Lara Viveros | Desarrollo web freelance{% endblock %}</title>
+    <meta name="description" content="{% block descripcion %}Sitios web para negocios locales en Santiago: diseño, desarrollo, reservas por WhatsApp y presencia en Google. Desarrollador web freelance.{% endblock %}">
+    <meta property="og:title" content="{% block og_titulo %}Alexis Lara Viveros | Desarrollo web freelance{% endblock %}">
+    <meta property="og:description" content="{% block og_descripcion %}Sitios web para negocios locales: que los encuentren en Google y les escriban por WhatsApp.{% endblock %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_CL">
+    <meta property="og:image" content="https://delakordillera.pythonanywhere.com/static/main/og-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#F5F6F8" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#141923" media="(prefers-color-scheme: dark)">
+    <meta name="color-scheme" content="light dark">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://delakordillera.pythonanywhere.com{{ request.path }}">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231A2130'/><path d='M3 24 L11 13 L15 18 L20 9 L29 24 Z' fill='%23E8A3B6'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script nonce="{{ request.nonce }}">document.documentElement.classList.add('js');</script>
+    {% block precarga %}{% endblock %}
+    <style>
+        /* Tokens. Claro por defecto; oscuro según el dispositivo de la visita. */
+        :root {
+            --fondo: #F5F6F8;
+            --superficie: #FFFFFF;
+            --tinta: #1A2130;
+            --texto: #3C4658;
+            --tenue: #566175;
+            --linea: #DCE0E7;
+            --acento: #A8325A;
+            --acento-hover: #7E2242;
+            --acento-suave: #F4DDE4;
+            --cerro-1: #E8A3B6;
+            --cerro-2: #9A6E92;
+            --cerro-3: #4A4F72;
+            --sombra: 0 24px 48px -28px rgba(26, 33, 48, 0.45);
+            --ancho: 1180px;
+            --radio: 10px;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --fondo: #141923;
+                --superficie: #1B2130;
+                --tinta: #EEF1F6;
+                --texto: #C6CDD9;
+                --tenue: #9AA3B5;
+                --linea: #2C3445;
+                --acento: #F08AAA;
+                --acento-hover: #F7B3C7;
+                --acento-suave: #3A2230;
+                --cerro-1: #8E4E68;
+                --cerro-2: #5E4470;
+                --cerro-3: #2B3050;
+                --sombra: 0 24px 48px -28px rgba(0, 0, 0, 0.8);
+            }
+        }
+
+        /* Navegación entre páginas con transición (Chrome, Edge, Safari 18.2+). */
+        @media (prefers-reduced-motion: no-preference) {
+            @view-transition { navigation: auto; }
+            ::view-transition-group(*) { animation-duration: 0.42s; animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1); }
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        html { -webkit-text-size-adjust: 100%; scroll-padding-top: 1rem; }
+        body {
+            margin: 0;
+            font-family: 'Schibsted Grotesk', system-ui, sans-serif;
+            font-size: 1.0625rem;
+            line-height: 1.6;
+            color: var(--texto);
+            background: var(--fondo);
+        }
+        ::selection { background: var(--acento); color: var(--fondo); }
+        img { max-width: 100%; height: auto; display: block; }
+        a { color: var(--acento); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+        a:hover { color: var(--acento-hover); text-decoration-thickness: 2px; }
+        :focus-visible { outline: 3px solid var(--acento); outline-offset: 3px; border-radius: 3px; }
+        h1, h2, h3 { color: var(--tinta); line-height: 1.12; text-wrap: balance; margin: 0; }
+        h2 { font-size: clamp(1.9rem, 3.6vw, 2.75rem); font-weight: 800; letter-spacing: -0.03em; }
+        h3 { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.01em; }
+        p { margin: 0 0 1rem; max-width: 66ch; }
+
+        .saltar { position: absolute; left: -9999px; }
+        .saltar:focus { left: 1rem; top: 1rem; background: var(--superficie); color: var(--tinta); padding: 0.75rem 1rem; z-index: 10; }
+        .contenedor { max-width: var(--ancho); margin: 0 auto; padding: 0 1.5rem; }
+
+        .nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.25rem 2rem; padding: 1.25rem 0; }
+        .nav-marca { font-weight: 800; color: var(--tinta); text-decoration: none; font-size: 1.05rem; letter-spacing: -0.01em; padding: 0.6rem 0; }
+        .nav-marca:hover { color: var(--tinta); }
+        .nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0 1.5rem; margin: 0; padding: 0; }
+        .nav ul a { display: inline-block; padding: 0.6rem 0; color: var(--tinta); text-decoration: none; font-weight: 500; }
+        .nav ul a:hover { color: var(--acento); text-decoration: underline; }
+
+        .boton { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 48px; padding: 0 1.4rem; border-radius: 8px; font-weight: 700; text-decoration: none; border: 2px solid var(--tinta); transition: background-color .15s ease, color .15s ease, border-color .15s ease; }
+        .boton-lleno { background: var(--tinta); color: var(--fondo); }
+        .boton-lleno:hover { background: var(--acento); border-color: var(--acento); color: var(--fondo); text-decoration: none; }
+        .boton-borde { color: var(--tinta); }
+        .boton-borde:hover { background: var(--tinta); color: var(--fondo); text-decoration: none; }
+        .acciones { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+        /* Captura sobre el color de marca del cliente */
+        .lamina { background: var(--marca); border-radius: var(--radio); padding: clamp(1rem, 4vw, 3rem); position: relative; }
+        .lamina-escritorio { border-radius: 6px; overflow: hidden; box-shadow: var(--sombra); background: #fff; }
+        .lamina-escritorio img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
+        .lamina-movil { position: absolute; right: clamp(0.75rem, 3vw, 2.25rem); bottom: clamp(-1.5rem, -2vw, -0.5rem); width: clamp(84px, 17%, 170px); border-radius: 14px; overflow: hidden; border: 3px solid var(--superficie); box-shadow: var(--sombra); background: #fff; }
+        .lamina-movil img { width: 100%; aspect-ratio: 390 / 844; object-fit: cover; object-position: top; }
+
+        .contacto { background: #1A2130; color: #D2D8E3; }
+        .contacto-cuerpo { padding: 4.5rem 0 2.5rem; }
+        .contacto h2 { color: #FFFFFF; }
+        .contacto p { color: #D2D8E3; }
+        .contacto a { color: #FFFFFF; }
+        .contacto a:hover { color: #F4B9CA; }
+        .contacto :focus-visible { outline-color: #F4B9CA; }
+        .contacto-lista { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 0.25rem; font-size: clamp(1.15rem, 2.4vw, 1.5rem); font-weight: 700; }
+        .contacto-lista a { display: inline-block; padding: 0.4rem 0; }
+        .pie { margin-top: 3.5rem; color: #A9B1C1; font-size: 0.95rem; }
+        .cordillera { display: block; width: 100%; height: clamp(80px, 13vw, 170px); --cerro-1: #8E4E68; --cerro-2: #5E4470; --cerro-3: #1A2130; background: var(--fondo); }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { transition: none !important; animation: none !important; }
+        }
+        {% block estilos %}{% endblock %}
+    </style>
+    {% block cabecera_extra %}{% endblock %}
+</head>
+<body>
+    <a class="saltar" href="#main">Saltar al contenido</a>
+    <header class="contenedor">
+        <nav class="nav" aria-label="Navegación principal">
+            <a class="nav-marca" href="/">Alexis Lara</a>
+            <ul>
+                <li><a href="/#proyectos">Proyectos</a></li>
+                <li><a href="/#servicios">Servicios</a></li>
+                <li><a href="/#sobre-mi">Sobre mí</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main">
+    {% block contenido %}{% endblock %}
+    </main>
+
+    <footer id="contacto" aria-labelledby="contacto-titulo">
+        {% include 'main/_cordillera.html' %}
+        <div class="contacto">
+            <div class="contenedor contacto-cuerpo">
+                <h2 id="contacto-titulo">¿Tu negocio necesita un sitio?</h2>
+                <p>Cuéntame qué vendes y cómo te contactan hoy tus clientes. Te respondo con una propuesta.</p>
+                <ul class="contacto-lista">
+                    <li><a href="mailto:{{ perfil.correo|default:'delakordillera@proton.me' }}">{{ perfil.correo|default:'delakordillera@proton.me' }}</a></li>
+                    <li><a href="{{ perfil.link_linkedin|default:'https://linkedin.com/in/alexis-lara-viveros' }}" target="_blank" rel="noopener">LinkedIn</a></li>
+                    <li><a href="{{ perfil.link_github|default:'https://github.com/delakordillera' }}" target="_blank" rel="noopener">GitHub</a></li>
+                </ul>
+                <p class="pie">© 2026 Alexis Lara Viveros, desarrollo web en Santiago de Chile.</p>
+            </div>
+        </div>
+    </footer>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

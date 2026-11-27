@@ -1,0 +1,230 @@
+{% extends 'main/base.html' %}
+{% load static main_extras %}
+
+{% block titulo %}{{ proyecto.titulo }} | Caso de Alexis Lara Viveros{% endblock %}
+{% block descripcion %}{{ proyecto.descripcion_corta|truncatechars:155 }}{% endblock %}
+{% block og_titulo %}{{ proyecto.titulo }} | Caso de Alexis Lara Viveros{% endblock %}
+{% block og_descripcion %}{{ proyecto.descripcion_corta|truncatechars:155 }}{% endblock %}
+
+{% block precarga %}{% if proyecto.shot %}<link rel="preload" as="image" href="{% static proyecto.shot.src %}" fetchpriority="high">{% endif %}{% endblock %}
+
+{% block cabecera_extra %}<script type="application/ld+json">{{ jsonld|safe }}</script>{% endblock %}
+
+{% block estilos %}
+        .caso-cabeza { padding: clamp(2rem, 5vw, 4rem) 0 2.5rem; }
+        .volver { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 0; margin-bottom: 1.5rem; font-weight: 500; }
+        .caso-cabeza h1 { font-size: clamp(2.4rem, 6vw, 4.6rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+        .caso-sub { font-size: clamp(1.1rem, 1.9vw, 1.35rem); line-height: 1.5; color: var(--texto); max-width: 52ch; margin: 1.25rem 0 0; }
+
+        /* Visor: escritorio / celular */
+        .visor { --marca: {{ proyecto.marca }}; }
+        .visor-barra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+        .selector { display: inline-flex; padding: 4px; border-radius: 10px; background: var(--superficie); border: 1px solid var(--linea); }
+        .selector button { font: inherit; font-weight: 600; color: var(--texto); background: transparent; border: 0; border-radius: 7px; min-height: 44px; padding: 0 1.1rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; }
+        .selector button svg { width: 18px; height: 18px; }
+        .selector button[aria-pressed="true"] { background: var(--tinta); color: var(--fondo); }
+        .selector button:hover:not([aria-pressed="true"]) { color: var(--tinta); background: var(--fondo); }
+        .visor .lamina { display: grid; place-items: center; min-height: clamp(280px, 40vw, 560px); }
+        .visor .lamina-escritorio { width: 100%; max-width: 1080px; }
+        .visor-movil { width: min(300px, 78vw); border-radius: 26px; overflow: hidden; border: 6px solid #10141C; box-shadow: var(--sombra); background: #fff; }
+        .visor-movil img { width: 100%; aspect-ratio: 390 / 844; object-fit: cover; object-position: top; }
+        .js .visor[data-vista="escritorio"] .visor-movil,
+        .js .visor[data-vista="movil"] .lamina-escritorio { display: none; }
+        .visor-solo-js { display: none; }
+        .js .visor-solo-js { display: inline-flex; }
+        html:not(.js) .visor .lamina { gap: 2rem; }
+
+        /* Ficha */
+        .ficha { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 1.5rem 2.5rem; margin: 3rem 0 0; padding: 1.75rem 0; border-top: 1px solid var(--linea); border-bottom: 1px solid var(--linea); }
+        .ficha dt { color: var(--tenue); font-size: 0.95rem; }
+        .ficha dd { margin: 0.2rem 0 0; color: var(--tinta); font-weight: 500; overflow-wrap: anywhere; }
+
+        /* Relato del caso: cuatro etapas en orden */
+        .relato { display: grid; gap: clamp(2.5rem, 5vw, 4rem); padding: clamp(3.5rem, 8vw, 6rem) 0; }
+        .etapa { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr); gap: 0.75rem 4rem; }
+        .etapa h2 { font-size: clamp(1.5rem, 2.6vw, 2rem); }
+        .etapa p { font-size: 1.125rem; }
+
+        /* Resultados */
+        .resultados { background: var(--superficie); padding: clamp(3.5rem, 8vw, 6rem) 0; }
+        .resultados-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 3rem 5rem; margin-top: 2.5rem; }
+        .metricas { margin: 0; display: grid; gap: 1.6rem; }
+        .metrica .metrica-valor { margin: 0; font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; color: var(--tinta); letter-spacing: -0.03em; line-height: 1; }
+        .metrica dt { margin-top: 0.4rem; color: var(--tinta); }
+        .metrica-nota { margin: 0.2rem 0 0; color: var(--tenue); font-size: 0.95rem; }
+        .metricas div { display: flex; flex-direction: column-reverse; }
+        .terminos h3 { margin-bottom: 1.25rem; }
+        .terminos ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; }
+        .termino { display: grid; grid-template-columns: 7.5rem 1fr 3.75rem; gap: 0.75rem; align-items: center; }
+        .termino-barra { height: 12px; background: var(--acento-suave); border-radius: 6px; overflow: hidden; }
+        .termino-fill { display: block; height: 100%; background: var(--acento); border-radius: 6px; }
+        .termino-valor { text-align: right; color: var(--tinta); font-weight: 600; }
+
+        /* Más capturas */
+        .extras { padding: clamp(3.5rem, 8vw, 6rem) 0 0; }
+        .extras-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 2.5rem; margin-top: 2rem; align-items: start; }
+        .extras figure { margin: 0; }
+        .extras .marco { border-radius: var(--radio); overflow: hidden; border: 1px solid var(--linea); max-height: 640px; }
+        .extras .marco img { width: 100%; }
+        .extras figcaption { margin-top: 0.75rem; color: var(--tenue); }
+
+        /* Siguiente caso */
+        .siguiente { padding: clamp(3.5rem, 8vw, 6rem) 0; }
+        .siguiente a { display: block; text-decoration: none; color: var(--tinta); }
+        .siguiente span { color: var(--tenue); display: block; margin-bottom: 0.4rem; }
+        .siguiente strong { font-size: clamp(2rem, 5vw, 3.6rem); font-weight: 800; letter-spacing: -0.035em; line-height: 1.05; }
+        .siguiente a:hover strong { color: var(--acento); text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 0.12em; }
+
+        @media (max-width: 760px) {
+            .etapa { grid-template-columns: 1fr; }
+            .termino { grid-template-columns: 6rem 1fr 3.25rem; }
+        }
+{% endblock %}
+
+{% block contenido %}
+    <article>
+        <div class="contenedor caso-cabeza">
+            <a class="volver" href="/#proyectos">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+                Todos los proyectos
+            </a>
+            <h1 style="view-transition-name: titulo-{{ proyecto.slug }}">{{ proyecto.titulo }}</h1>
+            <p class="caso-sub">{{ proyecto.descripcion_corta }}</p>
+        </div>
+
+        <div class="contenedor">
+            <section class="visor" data-vista="escritorio" aria-label="Capturas del sitio">
+                {% if proyecto.shot_movil %}
+                <div class="visor-barra">
+                    <div class="selector visor-solo-js" role="group" aria-label="Ver el sitio en">
+                        <button type="button" aria-pressed="true" data-vista="escritorio">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
+                            Escritorio
+                        </button>
+                        <button type="button" aria-pressed="false" data-vista="movil">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M11 18.5h2"/></svg>
+                            Celular
+                        </button>
+                    </div>
+                    {% if proyecto.url_produccion %}<a href="{{ proyecto.url_produccion }}" target="_blank" rel="noopener">Abrir {{ proyecto.titulo }} en una pestaña nueva</a>{% endif %}
+                </div>
+                {% endif %}
+                <div class="lamina" style="--marca: {{ proyecto.marca }}">
+                    {% if proyecto.shot %}
+                    <div class="lamina-escritorio" style="view-transition-name: captura-{{ proyecto.slug }}">
+                        <img src="{% static proyecto.shot.src %}" alt="{{ proyecto.shot.alt|default:proyecto.titulo }}" width="1400" height="875" fetchpriority="high" decoding="async">
+                    </div>
+                    {% endif %}
+                    {% if proyecto.shot_movil %}
+                    <div class="visor-movil">
+                        <img src="{% static proyecto.shot_movil.src %}" alt="{{ proyecto.shot_movil.alt|default:'Vista en celular' }}" width="390" height="844" loading="lazy" decoding="async">
+                    </div>
+                    {% endif %}
+                </div>
+            </section>
+
+            <dl class="ficha">
+                {% if proyecto.cliente %}<div><dt>Cliente</dt><dd>{{ proyecto.cliente }}</dd></div>{% endif %}
+                {% if proyecto.rol %}<div><dt>Mi rol</dt><dd>{{ proyecto.rol }}</dd></div>{% endif %}
+                {% if proyecto.tech_list %}<div><dt>Hecho con</dt><dd>{{ proyecto.tech_list|join:", " }}</dd></div>{% endif %}
+                {% if proyecto.anio %}<div><dt>Año</dt><dd>{{ proyecto.anio }}</dd></div>{% endif %}
+                {% if proyecto.url_produccion %}<div><dt>Sitio</dt><dd><a href="{{ proyecto.url_produccion }}" target="_blank" rel="noopener">{{ proyecto.url_produccion|cut:"https://"|cut:"/" }}</a></dd></div>
+                {% elif proyecto.link_interno %}<div><dt>Plataforma</dt><dd><a href="{{ proyecto.link_interno }}">Abrir {{ proyecto.titulo }}</a></dd></div>{% endif %}
+            </dl>
+
+            {% if proyecto.etapas_narradas %}
+            <div class="relato">
+                {% for etapa in proyecto.etapas_narradas %}
+                <section class="etapa">
+                    <h2>{% if etapa.etiqueta == 'Observación' %}El punto de partida{% elif etapa.etiqueta == 'Método' %}Cómo lo investigué{% elif etapa.etiqueta == 'Traducción' %}Qué construí{% elif etapa.etiqueta == 'Resultado' %}El resultado{% else %}{{ etapa.etiqueta }}{% endif %}</h2>
+                    <p>{{ etapa.texto }}</p>
+                </section>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        {% if proyecto.metricas_validas or proyecto.terminos_validos %}
+        <section class="resultados" aria-labelledby="resultados-titulo">
+            <div class="contenedor">
+                <h2 id="resultados-titulo">Lo que muestran los datos de Google</h2>
+                <div class="resultados-grid">
+                    {% if proyecto.metricas_validas %}
+                    <dl class="metricas">
+                        {% for m in proyecto.metricas_validas %}
+                        <div class="metrica">
+                            {% if m.nota %}<dd class="metrica-nota">{{ m.nota }}</dd>{% endif %}
+                            <dt>{{ m.etiqueta }}</dt>
+                            <dd class="metrica-valor">{{ m.valor }}</dd>
+                        </div>
+                        {% endfor %}
+                    </dl>
+                    {% endif %}
+                    {% if proyecto.terminos_validos %}
+                    <div class="terminos">
+                        <h3>Las {{ proyecto.terminos_validos|length }} búsquedas que más lo mostraron</h3>
+                        <ol>
+                            {% for t in proyecto.terminos_validos %}
+                            <li class="termino">
+                                <span>{{ t.termino }}</span>
+                                <span class="termino-barra" aria-hidden="true"><span class="termino-fill" style="width:{% widthratio t.busquedas proyecto.terminos_validos.0.busquedas 100 %}%"></span></span>
+                                <span class="termino-valor">{{ t.busquedas|miles }}</span>
+                            </li>
+                            {% endfor %}
+                        </ol>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        {% if proyecto.extras %}
+        <section class="contenedor extras" aria-labelledby="extras-titulo">
+            <h2 id="extras-titulo">Más del sitio</h2>
+            <div class="extras-grid">
+                {% for c in proyecto.extras %}
+                <figure>
+                    <div class="marco"><img src="{% static c.src %}" alt="{{ c.alt|default:proyecto.titulo }}" loading="lazy" decoding="async"></div>
+                    <figcaption>{{ c.pie }}</figcaption>
+                </figure>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+        {% if siguiente %}
+        <nav class="contenedor siguiente" aria-label="Siguiente caso">
+            <a href="{% url 'proyecto' siguiente.slug %}">
+                <span>Siguiente caso</span>
+                <strong>{{ siguiente.titulo }}</strong>
+            </a>
+        </nav>
+        {% endif %}
+    </article>
+{% endblock %}
+
+{% block scripts %}
+    <script nonce="{{ request.nonce }}">
+    (function () {
+        var visor = document.querySelector('.visor');
+        if (!visor) return;
+        var botones = visor.querySelectorAll('.selector button');
+        botones.forEach(function (boton) {
+            boton.addEventListener('click', function () {
+                var vista = boton.getAttribute('data-vista');
+                var cambiar = function () {
+                    visor.setAttribute('data-vista', vista);
+                    botones.forEach(function (b) { b.setAttribute('aria-pressed', String(b === boton)); });
+                };
+                var sinMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                if (document.startViewTransition && !sinMovimiento) {
+                    document.startViewTransition(cambiar);
+                } else {
+                    cambiar();
+                }
+            });
+        });
+    })();
+    </script>
+{% endblock %}
