@@ -32,11 +32,11 @@
             '  float d = distance(uv, mm);',
             '  alt += mFuerza * 0.32 * exp(-d * d * 9.0);',
             '  float n = alt * 16.0;',
-            conDerivadas ? '  float w = fwidth(n) * 1.2;' : '  float w = 0.06;',
+            conDerivadas ? '  float w = fwidth(n) * 1.6;' : '  float w = 0.08;',
             '  float dist = 0.5 - abs(fract(n) - 0.5);',
             '  float linea = 1.0 - smoothstep(0.0, w, dist);',
             '  float mayor = step(0.75, fract(n / 4.0 + 0.125));',
-            '  float brillo = 0.16 + 0.22 * mayor + 0.35 * mFuerza * exp(-d * d * 6.0);',
+            '  float brillo = 0.30 + 0.30 * mayor + 0.45 * mFuerza * exp(-d * d * 6.0);',
             '  gl_FragColor = vec4(vec3(0.79, 0.64, 0.40), linea * brillo);',
             '}'
         ].join('\n');
@@ -94,18 +94,20 @@
             gl.clear(gl.COLOR_BUFFER_BIT);
             gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
         }
+        function asentado() { return Math.abs(mouse.tx - mouse.x) < 0.5 && Math.abs(mouse.ty - mouse.y) < 0.5 && Math.abs(mouse.tf - mouse.f) < 0.01; }
         function bucle(ahora) {
             dibujar(ahora);
-            if (visible && !sinMovimiento && !document.hidden) raf = requestAnimationFrame(bucle);
-            else raf = 0;
+            // Sin "reducir movimiento" la topografía deriva sola; con él, solo responde al cursor.
+            var seguir = visible && !document.hidden && (!sinMovimiento || !asentado());
+            raf = seguir ? requestAnimationFrame(bucle) : 0;
         }
-        function arrancar() { if (!raf && !sinMovimiento) raf = requestAnimationFrame(bucle); }
+        function arrancar() { if (!raf) raf = requestAnimationFrame(bucle); }
 
         medir();
         dibujar(performance.now());
         window.addEventListener('resize', function () { medir(); dibujar(performance.now()); }, { passive: true });
 
-        if (!sinMovimiento) {
+        {
             new IntersectionObserver(function (e) { visible = e[0].isIntersecting; if (visible) arrancar(); }).observe(canvas);
             document.addEventListener('visibilitychange', arrancar);
             var zona = canvas.parentElement;
@@ -115,8 +117,9 @@
                 mouse.ty = (r.bottom - e.clientY) * dpr;
                 if (mouse.x < -1000) { mouse.x = mouse.tx; mouse.y = mouse.ty; }
                 mouse.tf = 1;
+                arrancar();
             }, { passive: true });
-            zona.addEventListener('pointerleave', function () { mouse.tf = 0; });
+            zona.addEventListener('pointerleave', function () { mouse.tf = 0; arrancar(); });
             arrancar();
         }
     }
@@ -126,14 +129,15 @@
     /* ------------------------------------------------------------------
        2. Inclinación 3D de las capturas al pasar el mouse.
     ------------------------------------------------------------------ */
-    if (punteroFino && !sinMovimiento) {
+    if (punteroFino) {
+        var grados = sinMovimiento ? 3 : 7;
         document.querySelectorAll('[data-inclinar]').forEach(function (el) {
             var objetivo = el.querySelector('.lamina-escritorio') || el;
             el.addEventListener('pointermove', function (e) {
                 var r = el.getBoundingClientRect();
                 var x = (e.clientX - r.left) / r.width - 0.5;
                 var y = (e.clientY - r.top) / r.height - 0.5;
-                objetivo.style.transform = 'perspective(1100px) rotateY(' + (x * 7).toFixed(2) + 'deg) rotateX(' + (-y * 6).toFixed(2) + 'deg)';
+                objetivo.style.transform = 'perspective(1100px) rotateY(' + (x * grados).toFixed(2) + 'deg) rotateX(' + (-y * grados * 0.85).toFixed(2) + 'deg)';
             });
             el.addEventListener('pointerleave', function () { objetivo.style.transform = ''; });
         });
