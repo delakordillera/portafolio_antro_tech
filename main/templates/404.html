@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block titulo %}Página no encontrada | delakordillera{% endblock %}
+{% block contenido %}
+    <style>
+        .perdido { min-height: 70vh; display: grid; place-items: center; text-align: center; padding: clamp(4rem, 10vw, 7rem) 0; position: relative; overflow: hidden; }
+        .perdido-sello { position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: min(520px, 80vw); opacity: 0.06; pointer-events: none; }
+        .perdido-codigo { display: block; font-size: clamp(5rem, 18vw, 11rem); font-weight: 800; letter-spacing: -0.06em; line-height: 0.9; color: var(--acento); }
+        .perdido h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; letter-spacing: -0.03em; margin-top: 1rem; }
+        .perdido p { margin: 1rem auto 2rem; color: var(--tenue); }
+        .perdido .acciones { justify-content: center; }
+    </style>
+    <section class="perdido contenedor" aria-labelledby="perdido-titulo">
+        <img class="perdido-sello" src="{% static 'main/marca/dlk-dorado.svg' %}" alt="" width="1253" height="1305">
+        <div>
+            <span class="perdido-codigo" aria-hidden="true">404</span>
+            <h1 id="perdido-titulo">Esta página no existe</h1>
+            <p>Puede que el enlace esté mal escrito o que la página ya no esté.</p>
+            <div class="acciones">
+                <a class="enlace-boton" href="/">Ir al inicio<span class="flecha" aria-hidden="true">{% include 'main/_flecha.html' %}</span></a>
+                <a class="enlace-boton" href="/#proyectos">Ver proyectos<span class="flecha" aria-hidden="true">{% include 'main/_flecha.html' %}</span></a>
+            </div>
+        </div>
+    </section>
+{% endblock %}

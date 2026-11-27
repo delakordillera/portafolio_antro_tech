@@ -272,3 +272,29 @@ class PortadaTests(TestCase):
         self.assertIn(url_admin, html)
         self.assertNotIn("estatica.webp", html)
 
+
+
+class PieYErroresTests(TestCase):
+    def setUp(self):
+        Proyecto.objects.create(titulo='La Otra Estación', descripcion_corta='Restobar', tecnologias='HTML',
+                                visible=True, url_produccion='https://example.com')
+        Proyecto.objects.create(titulo='Proyecto oculto', descripcion_corta='x', tecnologias='HTML',
+                                visible=False, url_produccion='https://example.org')
+
+    def test_pie_lista_solo_trabajos_visibles(self):
+        html = self.client.get('/').content.decode()
+        pie = html[html.index('<footer'):]
+        self.assertIn('/proyectos/la-otra-estacion/', pie)
+        self.assertNotIn('Proyecto oculto', pie)
+        self.assertNotIn('sin plantillas', pie)
+
+    def test_sin_selector_de_tema(self):
+        html = self.client.get('/').content.decode()
+        self.assertNotIn('boton-tema', html)
+        self.assertNotIn('data-elegir-tema', html)
+
+    @override_settings(DEBUG=False)
+    def test_404_con_diseno_propio(self):
+        r = self.client.get('/no-existe/')
+        self.assertEqual(r.status_code, 404)
+        self.assertContains(r, 'Esta página no existe', status_code=404)

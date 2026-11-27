@@ -1,4 +1,4 @@
-{% load static %}<!DOCTYPE html>
+{% load static main_extras %}<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -15,22 +15,17 @@
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="theme-color" content="#F4F5F2" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#161A15" media="(prefers-color-scheme: dark)">
     <meta name="color-scheme" content="light dark">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://delakordillera.pythonanywhere.com{{ request.path }}">
     {% include 'main/_favicon.html' %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <meta name="theme-color" content="#0B0C0A">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
     <script nonce="{{ request.nonce }}">
-        /* Antes de pintar: marca JS y aplica el tema guardado para no parpadear. */
-        (function () {
-            var d = document.documentElement;
-            d.classList.add('js');
-            try { var t = localStorage.getItem('tema'); if (t === 'claro' || t === 'oscuro') d.dataset.tema = t; } catch (e) {}
-        })();
+        /* Antes de pintar: marca que hay JS. */
+        document.documentElement.classList.add('js');
     </script>
     {# Navegación instantánea: el navegador precarga el caso al pasar el mouse por encima. #}
     <script type="speculationrules" nonce="{{ request.nonce }}">
@@ -38,36 +33,19 @@
     </script>
     {% block precarga %}{% endblock %}
     <style>
-        /* Tokens. Por defecto siguen al dispositivo; el botón de tema los fija. */
+        /* Tokens: sitio en negro cálido con acento dorado */
         :root {
-            --fondo: #F4F5F2; --superficie: #FFFFFF; --tinta: #1C211B; --texto: #3E443A; --tenue: #5A6054;
-            --linea: #DCDFD6; --acento: #7A5C2B; --acento-hover: #5C4420; --acento-suave: #EFE7D7; --oro: #A27D41;
-            --sombra: 0 24px 48px -28px rgba(28, 33, 27, 0.45);
+            --fondo: #0B0C0A; --superficie: #141612; --superficie-2: #1A1C17; --tinta: #F1EEE4; --texto: #C4C7BA; --tenue: #969A8B;
+            --linea: #262922; --acento: #C9A465; --acento-hover: #DDBE85; --acento-suave: #241F15; --oro: #C9A465;
+            --sombra: 0 24px 48px -28px rgba(0, 0, 0, 0.9);
             --ancho: 1180px; --radio: 10px;
-            color-scheme: light;
-        }
-        :root[data-tema="oscuro"] {
-            --fondo: #161A15; --superficie: #1E231D; --tinta: #EEF0EA; --texto: #C9CDC2; --tenue: #A6AC9D;
-            --linea: #30362C; --acento: #C9A465; --acento-hover: #DDBE85; --acento-suave: #3A3322; --oro: #A27D41;
-            --sombra: 0 24px 48px -28px rgba(0, 0, 0, 0.8);
             color-scheme: dark;
         }
-        @media (prefers-color-scheme: dark) {
-            :root:not([data-tema="claro"]) {
-                --fondo: #161A15; --superficie: #1E231D; --tinta: #EEF0EA; --texto: #C9CDC2; --tenue: #A6AC9D;
-                --linea: #30362C; --acento: #C9A465; --acento-hover: #DDBE85; --acento-suave: #3A3322; --oro: #A27D41;
-                --sombra: 0 24px 48px -28px rgba(0, 0, 0, 0.8);
-                color-scheme: dark;
-            }
-        }
 
-        /* Transiciones entre páginas y al cambiar de tema */
+        /* Transiciones entre páginas */
         @media (prefers-reduced-motion: no-preference) {
             @view-transition { navigation: auto; }
             ::view-transition-group(*) { animation-duration: 0.42s; animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1); }
-            :root.cambiando-tema::view-transition-old(root) { animation: none; }
-            :root.cambiando-tema::view-transition-new(root) { animation: revelar-tema 0.55s cubic-bezier(0.2, 0.8, 0.2, 1); }
-            @keyframes revelar-tema { from { clip-path: circle(0 at var(--tema-x, 100%) var(--tema-y, 0%)); } to { clip-path: circle(150% at var(--tema-x, 100%) var(--tema-y, 0%)); } }
         }
 
         *, *::before, *::after { box-sizing: border-box; }
@@ -84,10 +62,8 @@
         p { margin: 0 0 1rem; max-width: 66ch; text-wrap: pretty; }
 
         /* Grano de papel en toda la página (como la textura del logo) */
-        body::after { content: ""; position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: 0.07; mix-blend-mode: multiply;
+        body::after { content: ""; position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: 0.045; mix-blend-mode: screen;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"); }
-        :root[data-tema="oscuro"] body::after { mix-blend-mode: screen; opacity: 0.05; }
-        @media (prefers-color-scheme: dark) { :root:not([data-tema="claro"]) body::after { mix-blend-mode: screen; opacity: 0.05; } }
         /* Línea dorada de progreso de lectura (animación ligada al scroll) */
         @supports (animation-timeline: scroll()) {
             .progreso { position: fixed; inset: 0 0 auto 0; height: 2px; z-index: 40; background: var(--oro); transform-origin: 0 50%; transform: scaleX(0); animation: progreso linear both; animation-timeline: scroll(root); pointer-events: none; }
@@ -111,16 +87,6 @@
         .nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0 1.25rem; margin: 0; padding: 0; }
         .nav ul a { display: inline-block; padding: 0.6rem 0; color: var(--tinta); text-decoration: none; font-weight: 500; }
         .nav ul a:hover { color: var(--acento); text-decoration: underline; }
-        .boton-tema { width: 44px; height: 44px; display: inline-grid; place-items: center; border-radius: 50%; border: 1px solid var(--linea); background: var(--superficie); color: var(--tinta); cursor: pointer; }
-        .boton-tema:hover { border-color: var(--tinta); }
-        .boton-tema svg { width: 20px; height: 20px; }
-        .boton-tema .icono-sol { display: none; }
-        :root[data-tema="oscuro"] .boton-tema .icono-sol { display: block; }
-        :root[data-tema="oscuro"] .boton-tema .icono-luna { display: none; }
-        @media (prefers-color-scheme: dark) {
-            :root:not([data-tema="claro"]) .boton-tema .icono-sol { display: block; }
-            :root:not([data-tema="claro"]) .boton-tema .icono-luna { display: none; }
-        }
 
 
         /* Menú hamburguesa (celular y tablet) con el Popover API */
@@ -128,21 +94,14 @@
         .boton-menu span { display: block; width: 18px; height: 2px; background: currentColor; border-radius: 2px; transition: transform .3s cubic-bezier(0.2, 0.8, 0.2, 1); }
         .boton-menu span + span { margin-top: 5px; }
         .boton-menu .lineas { display: grid; }
-        .menu-movil { position: fixed; inset: 0.6rem; width: auto; height: auto; max-width: none; max-height: none; margin: 0; padding: 0; border: 1px solid rgba(201, 164, 101, 0.28); border-radius: 28px; background: #1A1F17; color: #F1EEE4; z-index: 100; overflow: auto; overscroll-behavior: contain; box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.7); opacity: 0; transform: translateY(-14px) scale(0.97); transform-origin: top right; transition: opacity .45s cubic-bezier(0.22, 1, 0.36, 1), transform .55s cubic-bezier(0.22, 1, 0.36, 1), display .55s allow-discrete, overlay .55s allow-discrete; }
+        .menu-movil { position: fixed; inset: 0.6rem; width: auto; height: auto; max-width: none; max-height: none; margin: 0; padding: 0; border: 1px solid rgba(201, 164, 101, 0.28); border-radius: 28px; background: #0B0C0A; color: #F1EEE4; z-index: 100; overflow: auto; overscroll-behavior: contain; box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.7); opacity: 0; transform: translateY(-14px) scale(0.97); transform-origin: top right; transition: opacity .45s cubic-bezier(0.22, 1, 0.36, 1), transform .55s cubic-bezier(0.22, 1, 0.36, 1), display .55s allow-discrete, overlay .55s allow-discrete; }
         .menu-movil:popover-open { opacity: 1; transform: none; }
         @starting-style { .menu-movil:popover-open { opacity: 0; transform: translateY(-14px) scale(0.97); } }
-        .menu-movil::backdrop { background: rgba(12, 14, 11, 0); backdrop-filter: blur(0); -webkit-backdrop-filter: blur(0); transition: background-color .45s ease, backdrop-filter .45s ease, display .45s allow-discrete, overlay .45s allow-discrete; }
-        .menu-movil:popover-open::backdrop { background: rgba(12, 14, 11, 0.45); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-        @starting-style { .menu-movil:popover-open::backdrop { background: rgba(12, 14, 11, 0); backdrop-filter: blur(0); -webkit-backdrop-filter: blur(0); } }
-        .selector-tema { position: relative; display: grid; grid-template-columns: 1fr 1fr; padding: 5px; margin-bottom: 1.25rem; border-radius: 999px; background: rgba(241, 238, 228, 0.06); border: 1px solid rgba(241, 238, 228, 0.12); }
-        .selector-tema button { position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; min-height: 46px; border: 0; border-radius: 999px; background: none; color: #A9AD9C; font: inherit; font-weight: 700; cursor: pointer; transition: color .35s ease; }
-        .selector-tema button svg { width: 18px; height: 18px; }
-        .selector-tema button[aria-pressed="true"] { color: #1A1F17; }
-        .selector-pastilla { position: absolute; top: 5px; bottom: 5px; left: 5px; width: calc(50% - 5px); border-radius: 999px; background: #C9A465; box-shadow: 0 8px 20px -10px rgba(201, 164, 101, 0.9); transition: translate .5s cubic-bezier(0.22, 1, 0.36, 1); }
-        .selector-tema[data-activo="oscuro"] .selector-pastilla { translate: 100% 0; }
-        .selector-tema button:focus-visible { outline: 2px solid #C9A465; outline-offset: 2px; }
+        .menu-movil::backdrop { background: rgba(0, 0, 0, 0); backdrop-filter: blur(0); -webkit-backdrop-filter: blur(0); transition: background-color .45s ease, backdrop-filter .45s ease, display .45s allow-discrete, overlay .45s allow-discrete; }
+        .menu-movil:popover-open::backdrop { background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+        @starting-style { .menu-movil:popover-open::backdrop { background: rgba(0, 0, 0, 0); backdrop-filter: blur(0); -webkit-backdrop-filter: blur(0); } }
         .menu-cuerpo { min-height: 100%; border-radius: inherit; overflow: hidden; display: flex; flex-direction: column; padding: 1rem 1.5rem 2rem; position: relative; isolation: isolate; }
-        .menu-cuerpo::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(80% 60% at 100% 0%, #2B3326 0%, transparent 70%); }
+        .menu-cuerpo::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(80% 60% at 100% 0%, #17180F 0%, transparent 70%); }
         .menu-sello { position: absolute; right: -18%; bottom: -6%; width: 85%; opacity: 0.06; z-index: -1; pointer-events: none; }
         .menu-arriba { display: flex; justify-content: space-between; align-items: center; min-height: 60px; }
         .menu-arriba .marca-logo { color: #C9A465; }
@@ -165,7 +124,6 @@
         @media (max-width: 860px) {
             .nav ul { display: none; }
             .boton-menu { display: grid; }
-            .nav .boton-tema { display: none; }
             .nav { padding-block: 0.5rem; }
         }
 
@@ -188,9 +146,9 @@
         .enlace-boton.atras { padding: 0.35rem 1.2rem 0.35rem 0.4rem; }
         .enlace-boton.atras:hover .flecha svg { transform: translateX(-3px); }
         .enlace-boton.claro { background: transparent; border-color: rgba(241, 238, 228, 0.28); color: #F1EEE4; }
-        .enlace-boton.claro .flecha { background: #F1EEE4; color: #1A1F17; }
+        .enlace-boton.claro .flecha { background: #F1EEE4; color: #0B0C0A; }
         .enlace-boton.claro:hover { border-color: #C9A465; color: #F1EEE4; box-shadow: 0 14px 30px -20px #C9A465; }
-        .enlace-boton.claro:hover .flecha { background: #C9A465; color: #1A1F17; }
+        .enlace-boton.claro:hover .flecha { background: #C9A465; color: #0B0C0A; }
         /* Enlace en texto: línea tenue que se completa en dorado al pasar */
         .enlace-linea { text-decoration: none; background-image: linear-gradient(var(--acento), var(--acento)), linear-gradient(color-mix(in oklab, currentColor 30%, transparent), color-mix(in oklab, currentColor 30%, transparent)); background-size: 0% 2px, 100% 1px; background-position: 0 100%, 0 100%; background-repeat: no-repeat; padding-bottom: 2px; transition: background-size .4s cubic-bezier(0.2, 0.8, 0.2, 1), color .2s ease; }
         .enlace-linea:hover { background-size: 100% 2px, 100% 1px; text-decoration: none; }
@@ -203,7 +161,7 @@
         .lamina-movil img { width: 100%; aspect-ratio: 390 / 844; object-fit: cover; object-position: top; }
 
         /* Pie: la cordillera sube por capas al llegar (animación ligada al scroll) */
-        .cordillera { display: block; width: 100%; height: clamp(80px, 13vw, 170px); background: var(--fondo); --cerro-1: #7C866A; --cerro-2: #4D5843; --cerro-3: #292F25; }
+        .cordillera { display: block; width: 100%; height: clamp(80px, 13vw, 170px); background: var(--fondo); --cerro-1: #2A2A20; --cerro-2: #1A1A14; --cerro-3: #0E0F0C; }
         @supports (animation-timeline: view()) {
             @media (prefers-reduced-motion: no-preference) {
                 .cordillera path:nth-child(1) { animation: cerro-lejos linear both; animation-timeline: view(); animation-range: entry 0% cover 55%; }
@@ -212,7 +170,7 @@
                 @keyframes cerro-medio { from { transform: translateY(35px); } to { transform: translateY(0); } }
             }
         }
-        .contacto { background: #292F25; color: #DAD6C8; position: relative; overflow: hidden; }
+        .contacto { background: #0E0F0C; color: #DAD6C8; position: relative; overflow: hidden; }
         .contacto-cuerpo { padding-top: clamp(4rem, 8vw, 6rem); padding-bottom: 1.5rem; position: relative; z-index: 1; }
         .contacto-sello { position: absolute; right: -7%; bottom: -12%; width: clamp(300px, 46vw, 680px); height: auto; opacity: 0.15; pointer-events: none; z-index: 0; rotate: -8deg; -webkit-mask-image: linear-gradient(200deg, #000 25%, transparent 85%); mask-image: linear-gradient(200deg, #000 25%, transparent 85%); filter: drop-shadow(0 0 40px rgba(201, 164, 101, 0.35)); transform: translate(calc(var(--sx, 0) * 14px), calc(var(--sy, 0) * 10px)); transition: transform .8s cubic-bezier(0.2, 0.8, 0.2, 1); }
         @media (max-width: 760px) { .contacto-sello { width: 78vw; right: -26%; bottom: -4%; opacity: 0.08; } }
@@ -223,15 +181,15 @@
         .contacto-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
         .contacto-lead { font-size: clamp(1.1rem, 1.6vw, 1.3rem); max-width: 34rem; margin-top: 1.25rem; }
         .contacto-acciones { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
-        .boton-correo { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 52px; padding: 0 1.5rem; border-radius: 999px; background: #C9A465; color: #1A1F17 !important; font-weight: 800; text-decoration: none; box-shadow: 0 18px 40px -18px rgba(201, 164, 101, 0.9); transition: transform .25s cubic-bezier(0.2, 0.8, 0.2, 1), background-color .25s ease, box-shadow .25s ease; }
+        .boton-correo { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 52px; padding: 0 1.5rem; border-radius: 999px; background: #C9A465; color: #0B0C0A !important; font-weight: 800; text-decoration: none; box-shadow: 0 18px 40px -18px rgba(201, 164, 101, 0.9); transition: transform .25s cubic-bezier(0.2, 0.8, 0.2, 1), background-color .25s ease, box-shadow .25s ease; }
         .boton-correo svg { width: 20px; height: 20px; }
         .boton-correo:hover { background: #D8B877; transform: translateY(-2px); box-shadow: 0 22px 46px -18px rgba(201, 164, 101, 1); text-decoration: none; }
         .correo-fila { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1rem; margin-top: 2rem; }
         .correo-grande { font-size: clamp(1.15rem, 2.2vw, 1.5rem); font-weight: 700; letter-spacing: -0.01em; overflow-wrap: anywhere; --acento: #C9A465; }
-        .boton-copiar { font: inherit; font-size: 0.95rem; font-weight: 600; color: #FFFFFF; background: transparent; border: 1px solid #5C6552; border-radius: 999px; min-height: 44px; padding: 0 1rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.45rem; }
+        .boton-copiar { font: inherit; font-size: 0.95rem; font-weight: 600; color: #FFFFFF; background: transparent; border: 1px solid #3A3D33; border-radius: 999px; min-height: 44px; padding: 0 1rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.45rem; }
         .boton-copiar:hover { border-color: #C9A465; }
         .boton-copiar svg { width: 17px; height: 17px; }
-        .contacto-tarjeta { background: rgba(26, 31, 23, 0.55); border: 1px solid rgba(201, 164, 101, 0.3); border-radius: 24px; padding: clamp(1.5rem, 3vw, 2.25rem); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+        .contacto-tarjeta { background: rgba(20, 22, 18, 0.7); border: 1px solid rgba(201, 164, 101, 0.3); border-radius: 24px; padding: clamp(1.5rem, 3vw, 2.25rem); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
         .contacto-tarjeta h3 { color: #C9A465; font-size: 1.3rem; font-weight: 800; letter-spacing: -0.01em; }
         .contacto-lista { list-style: none; margin: 1.25rem 0 0; padding: 0; display: grid; gap: 0.85rem; }
         .contacto-lista li { display: flex; align-items: center; gap: 0.8rem; color: #F1EEE4; font-weight: 600; font-size: 1.05rem; }
@@ -239,34 +197,40 @@
         .check svg { width: 15px; height: 15px; }
         .contacto-nota { margin: 1.25rem 0 0; font-size: 0.95rem; color: #A9AD9C !important; }
         .contacto-redes { list-style: none; display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1.5rem 0 0; padding: 1.5rem 0 0; border-top: 1px solid rgba(241, 238, 228, 0.12); }
-        .pie { margin-top: clamp(4rem, 8vw, 6rem); display: grid; gap: 2rem; }
-        .pie-arriba { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.75rem 2rem; padding: clamp(1.5rem, 3vw, 2.25rem); border-radius: 28px; border: 1px solid rgba(201, 164, 101, 0.28); background: linear-gradient(135deg, rgba(201, 164, 101, 0.1), rgba(26, 31, 23, 0.4) 60%); }
-        .pie-intro { display: flex; align-items: center; gap: 1.25rem; }
-        .pie-intro p { margin: 0 0 0.6rem; font-size: clamp(1.1rem, 1.8vw, 1.35rem); font-weight: 700; color: #F1EEE4 !important; letter-spacing: -0.01em; }
-        .pie-marca { display: grid; place-items: center; width: 68px; height: 68px; flex: none; border-radius: 20px; background: #1A1F17; border: 1px solid rgba(201, 164, 101, 0.35); }
-        .pie-marca img { width: 36px; height: auto; transition: transform .4s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .pie-marca:hover img { transform: rotate(-6deg) scale(1.08); }
-        .disponible { display: inline-flex; align-items: center; gap: 0.55rem; color: #A9AD9C; font-size: 0.9rem; font-weight: 600; }
-        .punto { position: relative; width: 8px; height: 8px; border-radius: 50%; background: #7FD08A; }
+        .pie { margin-top: clamp(4rem, 8vw, 6rem); padding-top: clamp(2.5rem, 5vw, 3.5rem); border-top: 1px solid rgba(241, 238, 228, 0.1); }
+        .pie-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr)); gap: 2.5rem 2rem; }
+        .pie-marca { display: inline-flex; align-items: center; gap: 0.7rem; color: #F1EEE4 !important; text-decoration: none; font-weight: 800; font-size: 1.2rem; letter-spacing: -0.02em; }
+        .pie-marca img { width: 34px; height: auto; transition: transform .4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .pie-marca:hover { text-decoration: none; }
+        .pie-marca:hover img { transform: rotate(-8deg); }
+        .pie-marca-col p { margin: 1rem 0 1.25rem; max-width: 30ch; color: #969A8B !important; font-size: 0.98rem; }
+        .estado { display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.45rem 0.9rem 0.45rem 0.75rem; border-radius: 999px; background: rgba(127, 208, 138, 0.08); border: 1px solid rgba(127, 208, 138, 0.25); color: #BFE6C5 !important; font-size: 0.88rem; font-weight: 600; text-decoration: none; transition: background-color .25s ease, border-color .25s ease; }
+        .estado:hover { background: rgba(127, 208, 138, 0.14); border-color: rgba(127, 208, 138, 0.45); text-decoration: none; }
+        .punto { position: relative; width: 8px; height: 8px; border-radius: 50%; background: #7FD08A; flex: none; }
         @media (prefers-reduced-motion: no-preference) {
             .punto::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: #7FD08A; animation: latido 2.4s ease-out infinite; }
         }
-        .pie-ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-        .pie-abajo { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; }
-        .pie-nav, .pie-redes { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
-        .pie-nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 1.1rem; border-radius: 999px; border: 1px solid rgba(241, 238, 228, 0.14); color: #F1EEE4; font-weight: 600; text-decoration: none; transition: background-color .25s ease, color .25s ease, border-color .25s ease; }
-        .pie-nav a:hover { background: #F1EEE4; color: #1A1F17; border-color: #F1EEE4; text-decoration: none; }
-        .pie-redes a { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(241, 238, 228, 0.18); color: #F1EEE4; transition: background-color .25s ease, color .25s ease, border-color .25s ease, transform .25s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .pie-redes a:hover { background: #C9A465; border-color: #C9A465; color: #1A1F17; transform: translateY(-3px); }
-        .pie-redes .red-logo { width: 20px; height: 20px; }
-        .pie-final { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(241, 238, 228, 0.12); color: #8F947F; font-size: 0.9rem; }
-        .pie-final p { margin: 0; color: #8F947F !important; }
+        .pie-col h3 { color: #F1EEE4; font-size: 0.95rem; font-weight: 700; letter-spacing: 0; margin-bottom: 1rem; }
+        .pie-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.2rem; }
+        .pie-col a { position: relative; display: inline-flex; align-items: center; gap: 0.3rem; min-height: 36px; color: #969A8B !important; font-weight: 500; text-decoration: none; transition: color .2s ease, translate .3s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .pie-col a:hover { color: #F1EEE4 !important; translate: 3px 0; text-decoration: none; }
+        .pie-col .externo { width: 14px; height: 14px; opacity: 0.6; }
+        .pie-final { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; margin-top: clamp(2.5rem, 5vw, 3.5rem); padding: 1.25rem 0 0.5rem; border-top: 1px solid rgba(241, 238, 228, 0.1); }
+        .pie-final p { margin: 0; color: #7E8275 !important; font-size: 0.88rem; }
+        .pie-redes { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.5rem; }
+        .pie-redes a { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; border: 1px solid rgba(241, 238, 228, 0.12); color: #969A8B !important; transition: color .25s ease, border-color .25s ease, background-color .25s ease; }
+        .pie-redes a:hover { color: #0B0C0A !important; background: #C9A465; border-color: #C9A465; }
+        .pie-redes .red-logo { width: 18px; height: 18px; }
+        @media (max-width: 860px) {
+            .pie-grid { grid-template-columns: 1fr 1fr; }
+            .pie-marca-col { grid-column: 1 / -1; }
+        }
 
         /* Burbuja flotante de contacto */
-        .cta-flotante { position: fixed; right: clamp(1rem, 2.5vw, 2rem); bottom: clamp(1rem, 2.5vw, 2rem); z-index: 60; display: inline-flex; align-items: center; gap: 0.7rem; padding: 0.45rem 1.2rem 0.45rem 0.45rem; border-radius: 999px; background: #1A1F17; color: #F1EEE4; font-weight: 800; text-decoration: none; border: 1px solid rgba(201, 164, 101, 0.55); box-shadow: 0 20px 44px -16px rgba(0, 0, 0, 0.55), 0 0 0 6px rgba(201, 164, 101, 0.08); opacity: 0; translate: 0 16px; scale: 0.96; pointer-events: none; transition: opacity .35s ease, translate .45s cubic-bezier(0.2, 0.8, 0.2, 1), scale .45s cubic-bezier(0.2, 0.8, 0.2, 1), background-color .25s ease; }
+        .cta-flotante { position: fixed; right: clamp(1rem, 2.5vw, 2rem); bottom: clamp(1rem, 2.5vw, 2rem); z-index: 60; display: inline-flex; align-items: center; gap: 0.7rem; padding: 0.45rem 1.2rem 0.45rem 0.45rem; border-radius: 999px; background: #0B0C0A; color: #F1EEE4; font-weight: 800; text-decoration: none; border: 1px solid rgba(201, 164, 101, 0.55); box-shadow: 0 20px 44px -16px rgba(0, 0, 0, 0.55), 0 0 0 6px rgba(201, 164, 101, 0.08); opacity: 0; translate: 0 16px; scale: 0.96; pointer-events: none; transition: opacity .35s ease, translate .45s cubic-bezier(0.2, 0.8, 0.2, 1), scale .45s cubic-bezier(0.2, 0.8, 0.2, 1), background-color .25s ease; }
         .cta-flotante.ver { opacity: 1; translate: 0 0; scale: 1; pointer-events: auto; }
-        .cta-flotante:hover { background: #222920; color: #FFFFFF; text-decoration: none; }
-        .cta-icono { position: relative; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: #C9A465; color: #1A1F17; flex: none; }
+        .cta-flotante:hover { background: #141612; color: #FFFFFF; text-decoration: none; }
+        .cta-icono { position: relative; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: #C9A465; color: #0B0C0A; flex: none; }
         .cta-icono svg { width: 20px; height: 20px; }
         @media (prefers-reduced-motion: no-preference) {
             .cta-flotante.ver .cta-icono::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid #C9A465; animation: latido 2.4s ease-out 3; }
@@ -305,10 +269,6 @@
                 </ul>
                 <button class="boton-menu" type="button" popovertarget="menu-movil" aria-label="Abrir menú" aria-controls="menu-movil">
                     <span class="lineas" aria-hidden="true"><span></span><span></span></span>
-                </button>
-                <button class="boton-tema" type="button" aria-label="Cambiar entre tema claro y oscuro">
-                    <svg class="icono-luna" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
-                    <svg class="icono-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
                 </button>
             </div>
         </nav>
@@ -359,46 +319,61 @@
                 </div>
                 {% endwith %}
                 <div class="pie">
-                    <div class="pie-arriba">
-                        <div class="pie-intro">
-                            <a class="pie-marca" href="/" aria-label="Ir al inicio"><img src="{% static 'main/marca/dlk-dorado.svg' %}" alt="" width="44" height="46"></a>
-                            <div>
-                                <p>Sitios web que traen clientes a negocios locales.</p>
-                                <span class="disponible"><span class="punto" aria-hidden="true"></span>Tomando proyectos nuevos</span>
-                            </div>
+                    <div class="pie-grid">
+                        <div class="pie-marca-col">
+                            <a class="pie-marca" href="/">
+                                <img src="{% static 'main/marca/dlk-dorado.svg' %}" alt="" width="34" height="36">
+                                <span>delakordillera</span>
+                            </a>
+                            <p>Sitios web que traen clientes a negocios locales, pensados desde cómo compran tus clientes.</p>
+                            <a class="estado" href="/#cotizar"><span class="punto" aria-hidden="true"></span>Disponible para proyectos nuevos</a>
                         </div>
-                        <div class="pie-ctas">
-                            <a class="boton-correo" href="/#cotizar">Cotizar mi sitio</a>
-                            <a class="enlace-boton claro" href="mailto:{{ perfil.correo|default:'delakordillera@proton.me' }}">Escríbeme<span class="flecha" aria-hidden="true">{% include 'main/_flecha.html' %}</span></a>
-                        </div>
-                    </div>
-                    <div class="pie-abajo">
-                        <nav aria-label="Secciones">
-                            <ul class="pie-nav">
+                        <nav class="pie-col" aria-labelledby="pie-nav">
+                            <h3 id="pie-nav">Navegación</h3>
+                            <ul>
                                 <li><a href="/#proyectos">Proyectos</a></li>
                                 <li><a href="/#servicios">Servicios</a></li>
                                 <li><a href="/#ruta">Cómo trabajo</a></li>
+                                <li><a href="/#cotizar">Cotizar</a></li>
                                 <li><a href="/#preguntas">Preguntas</a></li>
                             </ul>
                         </nav>
+                        {% trabajos_pie as trabajos %}{% if trabajos %}
+                        <nav class="pie-col" aria-labelledby="pie-trabajos">
+                            <h3 id="pie-trabajos">Trabajos</h3>
+                            <ul>
+                                {% for t in trabajos %}<li><a href="{{ t.url }}">{{ t.titulo }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </nav>
+                        {% endif %}
+                        <div class="pie-col">
+                            <h3>Contacto</h3>
+                            <ul>
+                                <li><a href="mailto:{{ perfil.correo|default:'delakordillera@proton.me' }}">Correo</a></li>
+                                <li><a href="{{ perfil.link_linkedin|default:'https://linkedin.com/in/alexis-lara-viveros' }}" target="_blank" rel="noopener">LinkedIn <svg class="externo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a></li>
+                                <li><a href="{{ perfil.link_github|default:'https://github.com/delakordillera' }}" target="_blank" rel="noopener">GitHub <svg class="externo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="pie-final">
+                        <p>© 2026 delakordillera. Todos los derechos reservados.</p>
                         <ul class="pie-redes">
                             <li><a href="{{ perfil.link_linkedin|default:'https://linkedin.com/in/alexis-lara-viveros' }}" target="_blank" rel="noopener" aria-label="LinkedIn">{% include 'main/_red_linkedin.html' %}</a></li>
                             <li><a href="{{ perfil.link_github|default:'https://github.com/delakordillera' }}" target="_blank" rel="noopener" aria-label="GitHub">{% include 'main/_red_github.html' %}</a></li>
                         </ul>
-                    </div>
-                    <div class="pie-final">
-                        <p>© 2026 delakordillera</p>
-                        <p>Diseñado y programado a mano, sin plantillas.</p>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
 
+    <aside aria-label="Contacto rápido">
     <a class="cta-flotante" href="/#contacto" data-cta>
         <span class="cta-icono" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a7.5 7.5 0 0 1-11 6.6L4 20l1.6-4.8A7.5 7.5 0 1 1 21 11.5z"/></svg></span>
         Hablemos de tu sitio
     </a>
+    </aside>
 
     <div id="menu-movil" class="menu-movil" popover aria-label="Menú">
         <div class="menu-cuerpo">
@@ -416,11 +391,6 @@
                 <li><a href="/#preguntas">Preguntas</a></li>
             </ul>
             <div class="menu-pie">
-                <div class="selector-tema" role="group" aria-label="Tema">
-                    <span class="selector-pastilla" aria-hidden="true"></span>
-                    <button type="button" data-elegir-tema="claro" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Claro</button>
-                    <button type="button" data-elegir-tema="oscuro" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>Oscuro</button>
-                </div>
                 <span>Escríbeme</span>
                 <a class="enlace-linea" href="mailto:{{ perfil.correo|default:'delakordillera@proton.me' }}">{{ perfil.correo|default:'delakordillera@proton.me' }}</a>
             </div>
@@ -432,34 +402,6 @@
     (function () {
         var raiz = document.documentElement;
         var sinMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-        /* Tema claro / oscuro, con revelado circular desde el botón que se toca */
-        var temaActual = function () { return raiz.dataset.tema ? raiz.dataset.tema : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'oscuro' : 'claro'); };
-        var elegidos = document.querySelectorAll('[data-elegir-tema]');
-        var marcarTema = function () {
-            var t = temaActual();
-            elegidos.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.elegirTema === t)); });
-            var sel = document.querySelector('.selector-tema');
-            if (sel) sel.dataset.activo = t;
-        };
-        var fijarTema = function (nuevo, desde) {
-            if (nuevo === temaActual()) return;
-            var aplicar = function () {
-                raiz.dataset.tema = nuevo;
-                try { localStorage.setItem('tema', nuevo); } catch (err) {}
-                marcarTema();
-            };
-            if (!document.startViewTransition || sinMovimiento) { aplicar(); return; }
-            var r = desde.getBoundingClientRect();
-            raiz.style.setProperty('--tema-x', (r.left + r.width / 2) + 'px');
-            raiz.style.setProperty('--tema-y', (r.top + r.height / 2) + 'px');
-            raiz.classList.add('cambiando-tema');
-            document.startViewTransition(aplicar).finished.finally(function () { raiz.classList.remove('cambiando-tema'); });
-        };
-        var botonTema = document.querySelector('.boton-tema');
-        if (botonTema) botonTema.addEventListener('click', function () { fijarTema(temaActual() === 'oscuro' ? 'claro' : 'oscuro', botonTema); });
-        elegidos.forEach(function (b) { b.addEventListener('click', function () { fijarTema(b.dataset.elegirTema, b); }); });
-        marcarTema();
 
         /* Borde de la barra solo cuando ya bajaste */
         var barra = document.querySelector('.barra');
