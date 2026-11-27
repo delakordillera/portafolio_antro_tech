@@ -160,18 +160,16 @@
         .lamina-movil { position: absolute; right: clamp(0.75rem, 3vw, 2.25rem); bottom: clamp(-1.5rem, -2vw, -0.5rem); width: clamp(84px, 17%, 170px); border-radius: 14px; overflow: hidden; border: 3px solid var(--superficie); box-shadow: var(--sombra); background: #fff; }
         .lamina-movil img { width: 100%; aspect-ratio: 390 / 844; object-fit: cover; object-position: top; }
 
-        /* Pie: la cordillera sube por capas al llegar (animación ligada al scroll) */
-        .cordillera { display: block; width: 100%; height: clamp(80px, 13vw, 170px); background: var(--fondo); --cerro-1: #2A2A20; --cerro-2: #1A1A14; --cerro-3: #0E0F0C; }
+        .contacto { background: #0B0C0A; color: #DAD6C8; position: relative; overflow: hidden; }
+        .contacto-cuerpo { padding-top: clamp(9rem, 18vw, 15rem); padding-bottom: 1.5rem; position: relative; z-index: 1; }
+        .contacto-paisaje { position: absolute; left: 0; right: 0; top: 0; height: clamp(260px, 27vw, 400px); z-index: 0; pointer-events: none; background: url("{% static 'main/contacto-volcan.webp' %}") center bottom / cover no-repeat; opacity: 0.7; -webkit-mask-image: linear-gradient(transparent, #000 25%, #000 75%, transparent); mask-image: linear-gradient(transparent, #000 25%, #000 75%, transparent); }
         @supports (animation-timeline: view()) {
             @media (prefers-reduced-motion: no-preference) {
-                .cordillera path:nth-child(1) { animation: cerro-lejos linear both; animation-timeline: view(); animation-range: entry 0% cover 55%; }
-                .cordillera path:nth-child(2) { animation: cerro-medio linear both; animation-timeline: view(); animation-range: entry 0% cover 55%; }
-                @keyframes cerro-lejos { from { transform: translateY(70px); } to { transform: translateY(0); } }
-                @keyframes cerro-medio { from { transform: translateY(35px); } to { transform: translateY(0); } }
+                .contacto-paisaje { animation: volcan-sube linear both; animation-timeline: view(); animation-range: entry 0% cover 40%; }
+                @keyframes volcan-sube { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); } }
             }
         }
-        .contacto { background: #0E0F0C; color: #DAD6C8; position: relative; overflow: hidden; }
-        .contacto-cuerpo { padding-top: clamp(4rem, 8vw, 6rem); padding-bottom: 1.5rem; position: relative; z-index: 1; }
+        @media (max-width: 760px) { .contacto-paisaje { background-image: url("{% static 'main/contacto-volcan-960.webp' %}"); background-size: 240% auto; background-position: 50% 100%; height: 230px; opacity: 0.6; } }
         .contacto-sello { position: absolute; right: -7%; bottom: -12%; width: clamp(300px, 46vw, 680px); height: auto; opacity: 0.15; pointer-events: none; z-index: 0; rotate: -8deg; -webkit-mask-image: linear-gradient(200deg, #000 25%, transparent 85%); mask-image: linear-gradient(200deg, #000 25%, transparent 85%); filter: drop-shadow(0 0 40px rgba(201, 164, 101, 0.35)); transform: translate(calc(var(--sx, 0) * 14px), calc(var(--sy, 0) * 10px)); transition: transform .8s cubic-bezier(0.2, 0.8, 0.2, 1); }
         @media (max-width: 760px) { .contacto-sello { width: 78vw; right: -26%; bottom: -4%; opacity: 0.08; } }
         .contacto h2 { color: #FFFFFF; font-size: clamp(2.3rem, 5.5vw, 4.2rem); letter-spacing: -0.04em; line-height: 1.02; text-wrap: balance; }
@@ -279,8 +277,8 @@
     </main>
 
     <footer id="contacto" aria-labelledby="contacto-titulo">
-        {% include 'main/_cordillera.html' %}
         <div class="contacto">
+            <div class="contacto-paisaje" aria-hidden="true"></div>
             <img class="contacto-sello" src="{% static 'main/marca/dlk-dorado.svg' %}" alt="" width="1253" height="1305" loading="lazy" decoding="async">
             <div class="contenedor contacto-cuerpo">
                 {% with correo=perfil.correo|default:'delakordillera@proton.me' %}
