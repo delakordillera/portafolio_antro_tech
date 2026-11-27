@@ -228,8 +228,37 @@
         .check svg { width: 15px; height: 15px; }
         .contacto-nota { margin: 1.25rem 0 0; font-size: 0.95rem; color: #A9AD9C !important; }
         .contacto-redes { list-style: none; display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1.5rem 0 0; padding: 1.5rem 0 0; border-top: 1px solid rgba(241, 238, 228, 0.12); }
-        .pie { margin-top: clamp(3rem, 6vw, 4.5rem); padding-top: 1.5rem; border-top: 1px solid rgba(241, 238, 228, 0.12); display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; color: #A9AD9C; font-size: 0.95rem; }
-        .pie-marca img { display: block; width: 30px; height: auto; }
+        .pie { margin-top: clamp(4rem, 8vw, 6rem); padding-top: clamp(2.5rem, 5vw, 3.5rem); border-top: 1px solid rgba(241, 238, 228, 0.12); display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1fr); gap: 2.5rem; }
+        .pie-intro { display: grid; justify-items: start; gap: 1rem; align-content: start; }
+        .pie-intro p { margin: 0; font-size: 1.15rem; font-weight: 600; color: #F1EEE4 !important; max-width: 20rem; line-height: 1.35; }
+        .pie-marca img { display: block; width: 44px; height: auto; transition: transform .4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .pie-marca:hover img { transform: rotate(-6deg) scale(1.06); }
+        .disponible { display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.4rem 0.85rem; border-radius: 999px; border: 1px solid rgba(241, 238, 228, 0.16); color: #DAD6C8; font-size: 0.9rem; font-weight: 600; }
+        .punto { position: relative; width: 8px; height: 8px; border-radius: 50%; background: #7FD08A; }
+        @media (prefers-reduced-motion: no-preference) {
+            .punto::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: #7FD08A; animation: latido 2.4s ease-out infinite; }
+        }
+        .pie-col h3 { color: #A9AD9C; font-size: 0.95rem; font-weight: 600; margin-bottom: 1rem; }
+        .pie-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.15rem; }
+        .pie-col a { display: inline-block; padding: 0.3rem 0; font-weight: 600; color: #F1EEE4; --acento: #C9A465; }
+        .pie-col a.enlace-linea { background-size: 0% 2px, 0% 1px; }
+        .pie-col a.enlace-linea:hover { background-size: 100% 2px, 0% 1px; color: #FFFFFF; }
+        /* Firma gigante: contorno que se enciende en dorado bajo el cursor */
+        .firma { position: relative; container-type: inline-size; margin-top: clamp(3rem, 6vw, 4.5rem); user-select: none; line-height: 0.8; --x: 50%; --y: 50%; --r: 0px; }
+        .firma span { display: block; font-size: 15.6cqi; font-weight: 800; letter-spacing: -0.055em; white-space: nowrap; padding-bottom: 0.08em; }
+        .firma-base { color: transparent; -webkit-text-stroke: 1px rgba(201, 164, 101, 0.4); }
+        .firma-luz { position: absolute; inset: 0; color: #C9A465; -webkit-mask-image: radial-gradient(circle var(--r) at var(--x) var(--y), #000 0%, rgba(0, 0, 0, 0.35) 55%, transparent 100%); mask-image: radial-gradient(circle var(--r) at var(--x) var(--y), #000 0%, rgba(0, 0, 0, 0.35) 55%, transparent 100%); transition: --r .4s ease; }
+        .firma.activa { --r: 260px; }
+        @property --r { syntax: "<length>"; inherits: true; initial-value: 0px; }
+        @media (hover: none) {
+            .firma-luz { -webkit-mask-image: linear-gradient(90deg, #000, rgba(0, 0, 0, 0.25)); mask-image: linear-gradient(90deg, #000, rgba(0, 0, 0, 0.25)); opacity: 0.55; }
+        }
+        .pie-final { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(241, 238, 228, 0.12); color: #A9AD9C; font-size: 0.9rem; }
+        .pie-final p { margin: 0; color: #A9AD9C !important; }
+        @media (max-width: 760px) {
+            .pie { grid-template-columns: 1fr 1fr; }
+            .pie-intro { grid-column: 1 / -1; }
+        }
 
         /* Burbuja flotante de contacto */
         .cta-flotante { position: fixed; right: clamp(1rem, 2.5vw, 2rem); bottom: clamp(1rem, 2.5vw, 2rem); z-index: 60; display: inline-flex; align-items: center; gap: 0.7rem; padding: 0.45rem 1.2rem 0.45rem 0.45rem; border-radius: 999px; background: #1A1F17; color: #F1EEE4; font-weight: 800; text-decoration: none; border: 1px solid rgba(201, 164, 101, 0.55); box-shadow: 0 20px 44px -16px rgba(0, 0, 0, 0.55), 0 0 0 6px rgba(201, 164, 101, 0.08); opacity: 0; translate: 0 16px; scale: 0.96; pointer-events: none; transition: opacity .35s ease, translate .45s cubic-bezier(0.2, 0.8, 0.2, 1), scale .45s cubic-bezier(0.2, 0.8, 0.2, 1), background-color .25s ease; }
@@ -244,7 +273,6 @@
         @media (max-width: 860px) {
             .contacto-grid { grid-template-columns: 1fr; }
         }
-        .pie p { margin: 0; color: #A9AD9C; }
 
         /* Aviso breve ("correo copiado"), con el Popover API */
         .aviso-flotante { position: fixed; inset: auto auto 1.5rem 50%; translate: -50% 0; margin: 0; border: 0; border-radius: 999px; padding: 0.75rem 1.25rem; background: var(--tinta); color: var(--fondo); font: inherit; font-weight: 600; box-shadow: var(--sombra); opacity: 1; transition: opacity .2s ease, translate .2s ease, display .2s allow-discrete, overlay .2s allow-discrete; }
@@ -329,8 +357,37 @@
                 </div>
                 {% endwith %}
                 <div class="pie">
-                    <a class="pie-marca" href="/" aria-label="Ir al inicio"><img src="{% static 'main/marca/dlk-dorado.svg' %}" alt="" width="30" height="31"></a>
-                    <p>© 2026 delakordillera, desarrollo web en Santiago de Chile.</p>
+                    <div class="pie-intro">
+                        <a class="pie-marca" href="/" aria-label="Ir al inicio"><img src="{% static 'main/marca/dlk-dorado.svg' %}" alt="" width="44" height="46"></a>
+                        <p>Sitios web que traen clientes a negocios locales.</p>
+                        <span class="disponible"><span class="punto" aria-hidden="true"></span>Tomando proyectos nuevos</span>
+                    </div>
+                    <nav class="pie-col" aria-label="Secciones">
+                        <h3>Sitio</h3>
+                        <ul>
+                            <li><a class="enlace-linea" href="/#proyectos">Proyectos</a></li>
+                            <li><a class="enlace-linea" href="/#servicios">Servicios</a></li>
+                            <li><a class="enlace-linea" href="/#ruta">Cómo trabajo</a></li>
+                            <li><a class="enlace-linea" href="/#preguntas">Preguntas</a></li>
+                        </ul>
+                    </nav>
+                    <div class="pie-col">
+                        <h3>Empieza aquí</h3>
+                        <ul>
+                            <li><a class="enlace-linea" href="/#cotizar">Arma tu proyecto</a></li>
+                            <li><a class="enlace-linea" href="mailto:{{ perfil.correo|default:'delakordillera@proton.me' }}">Escríbeme</a></li>
+                            <li><a class="enlace-linea" href="{{ perfil.link_linkedin|default:'https://linkedin.com/in/alexis-lara-viveros' }}" target="_blank" rel="noopener">LinkedIn</a></li>
+                            <li><a class="enlace-linea" href="{{ perfil.link_github|default:'https://github.com/delakordillera' }}" target="_blank" rel="noopener">GitHub</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="firma" data-firma aria-hidden="true">
+                    <span class="firma-base">delakordillera</span>
+                    <span class="firma-luz">delakordillera</span>
+                </div>
+                <div class="pie-final">
+                    <p>© 2026 delakordillera</p>
+                    <p>Diseñado y programado a mano, sin plantillas.</p>
                 </div>
             </div>
         </div>
@@ -415,6 +472,18 @@
             new IntersectionObserver(function (e) { pieVisible = e[0].isIntersecting; revisar(); }, { rootMargin: '0px 0px -10% 0px' }).observe(pie);
             window.addEventListener('scroll', revisar, { passive: true });
             revisar();
+        }
+
+        /* Firma del pie: la luz sigue al cursor */
+        var firma = document.querySelector('[data-firma]');
+        if (firma && window.matchMedia('(hover: hover)').matches) {
+            firma.addEventListener('pointermove', function (e) {
+                var r = firma.getBoundingClientRect();
+                firma.style.setProperty('--x', (e.clientX - r.left) + 'px');
+                firma.style.setProperty('--y', (e.clientY - r.top) + 'px');
+                firma.classList.add('activa');
+            });
+            firma.addEventListener('pointerleave', function () { firma.classList.remove('activa'); });
         }
 
         /* Menú móvil: cerrar al elegir un enlace */
