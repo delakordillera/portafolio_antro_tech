@@ -200,3 +200,31 @@ class Interes(models.Model):
 
     def __str__(self):
         return self.titulo
+
+class Evento(models.Model):
+    """Medición propia y anónima: visitas y clics clave. Sin cookies ni IP."""
+
+    TIPOS = [
+        ('visita', 'Visita'),
+        ('cotizar', 'Clic en Cotizar'),
+        ('consulta', 'Envió la consulta del cotizador'),
+        ('correo', 'Clic en el correo'),
+        ('copiar', 'Copió el correo'),
+        ('burbuja', 'Clic en la burbuja flotante'),
+        ('caso', 'Abrió un caso'),
+        ('red', 'Clic en LinkedIn o GitHub'),
+        ('sitio', 'Abrió el sitio de un cliente'),
+    ]
+    tipo = models.CharField(max_length=20, choices=TIPOS, db_index=True)
+    ruta = models.CharField(max_length=200, blank=True)
+    origen = models.CharField('viene de', max_length=120, blank=True, help_text='Dominio desde el que llegó (Google, Instagram...)')
+    dispositivo = models.CharField(max_length=10, blank=True)
+    fecha = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    class Meta:
+        ordering = ['-fecha']
+        verbose_name = 'evento de medición'
+        verbose_name_plural = 'medición de visitas y clics'
+
+    def __str__(self):
+        return f'{self.get_tipo_display()} {self.ruta}'

@@ -1,0 +1,46 @@
+{% extends 'main/base.html' %}
+{% block titulo %}Métricas | delakordillera{% endblock %}
+{% block contenido %}
+    <style>
+        .metricas { padding: clamp(3rem, 7vw, 5rem) 0; }
+        .metricas h1 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.03em; }
+        .metricas-nota { color: var(--tenue); margin: 0.75rem 0 2.5rem; }
+        .periodos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .periodo { background: var(--superficie); border: 1px solid var(--linea); border-radius: 20px; padding: 1.75rem; }
+        .periodo h2 { font-size: 1.3rem; margin-bottom: 1.25rem; }
+        .claves { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
+        .clave { border: 1px solid var(--linea); border-radius: 14px; padding: 0.9rem; }
+        .clave strong { display: block; font-size: 1.8rem; color: var(--acento); line-height: 1.1; }
+        .clave span { font-size: 0.85rem; color: var(--tenue); }
+        .periodo table { width: 100%; border-collapse: collapse; font-size: 0.95rem; margin-bottom: 1.25rem; }
+        .periodo th, .periodo td { text-align: left; padding: 0.45rem 0; border-bottom: 1px solid var(--linea); }
+        .periodo td:last-child, .periodo th:last-child { text-align: right; font-variant-numeric: tabular-nums; color: var(--tinta); }
+        .periodo h3 { font-size: 1rem; margin: 1rem 0 0.5rem; color: var(--tinta); }
+    </style>
+    <section class="metricas contenedor">
+        <h1>Métricas del sitio</h1>
+        <p class="metricas-nota">Solo tú ves esta página. Se cuentan visitas y clics sin cookies ni direcciones IP. El detalle completo está en el administrador, en "Medición de visitas y clics".</p>
+        <div class="periodos">
+            {% for nombre, d in periodos %}
+            <article class="periodo">
+                <h2>{{ nombre }}</h2>
+                <div class="claves">
+                    <div class="clave"><strong>{{ d.visitas }}</strong><span>visitas</span></div>
+                    <div class="clave"><strong>{{ d.interes }}%</strong><span>tocaron Cotizar</span></div>
+                    <div class="clave"><strong>{{ d.tasa }}%</strong><span>enviaron la consulta</span></div>
+                </div>
+                <table>
+                    <thead><tr><th>Acción</th><th>Veces</th></tr></thead>
+                    <tbody>{% for etiqueta, n in d.filas %}<tr><td>{{ etiqueta }}</td><td>{{ n }}</td></tr>{% endfor %}</tbody>
+                </table>
+                <h3>De dónde llegan</h3>
+                <table><tbody>{% for o in d.origenes %}<tr><td>{{ o.origen }}</td><td>{{ o.n }}</td></tr>{% empty %}<tr><td>Directo o sin dato</td><td></td></tr>{% endfor %}</tbody></table>
+                <h3>Páginas más vistas</h3>
+                <table><tbody>{% for pg in d.paginas %}<tr><td>{{ pg.ruta }}</td><td>{{ pg.n }}</td></tr>{% empty %}<tr><td>Sin visitas aún</td><td></td></tr>{% endfor %}</tbody></table>
+                <h3>Dispositivo</h3>
+                <table><tbody>{% for dv in d.dispositivos %}<tr><td>{{ dv.dispositivo|capfirst }}</td><td>{{ dv.n }}</td></tr>{% empty %}<tr><td>Sin datos</td><td></td></tr>{% endfor %}</tbody></table>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

@@ -298,3 +298,49 @@ class PieYErroresTests(TestCase):
         r = self.client.get('/no-existe/')
         self.assertEqual(r.status_code, 404)
         self.assertContains(r, 'Esta página no existe', status_code=404)
+
+
+class MedicionTests(TestCase):
+    UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) Mobile'
+
+    def setUp(self):
+        from django.core.cache import cache
+        cache.clear()
+
+    def enviar(self, datos, ua=None):
+        return self.client.post('/m/', data=json.dumps(datos), content_type='application/json',
+                                HTTP_USER_AGENT=ua or self.UA)
+
+    def test_guarda_visita_sin_ip_y_con_origen(self):
+        from .models import Evento
+        r = self.enviar({'t': 'visita', 'p': '/', 'r': 'https://www.google.com/search?q=x'})
+        self.assertEqual(r.status_code, 204)
+        e = Evento.objects.get()
+        self.assertEqual((e.tipo, e.ruta, e.origen, e.dispositivo), ('visita', '/', 'google.com', 'celular'))
+        self.assertFalse(any('127.0.0.1' in str(getattr(e, f.name)) for f in Evento._meta.fields))
+
+    def test_ignora_tipos_desconocidos_y_bots(self):
+        from .models import Evento
+        self.enviar({'t': 'hackeo', 'p': '/'})
+        self.enviar({'t': 'visita', 'p': '/'}, ua='Googlebot/2.1')
+        self.assertEqual(Evento.objects.count(), 0)
+
+    def test_limite_por_visitante(self):
+        from .models import Evento
+        for _ in range(125):
+            self.enviar({'t': 'cotizar', 'p': '/'})
+        self.assertEqual(Evento.objects.count(), 120)
+
+    def test_solo_post(self):
+        self.assertEqual(self.client.get('/m/').status_code, 405)
+
+    def test_panel_privado(self):
+        from django.contrib.auth.models import User
+        self.assertEqual(self.client.get('/panel/metricas/').status_code, 302)
+        User.objects.create_user('admin', password='clave-larga-123', is_staff=True)
+        self.client.login(username='admin', password='clave-larga-123')
+        self.enviar({'t': 'visita', 'p': '/'})
+        self.enviar({'t': 'cotizar', 'p': '/'})
+        r = self.client.get('/panel/metricas/')
+        self.assertContains(r, 'Métricas del sitio')
+        self.assertEqual(r['X-Robots-Tag'], 'noindex')

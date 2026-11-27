@@ -140,3 +140,81 @@ def proyecto(request, slug):
                 'jsonld': _jsonld(proy, request),
             })
     raise Http404("Proyecto no encontrado")
+
+
+# --- Medición propia: sin cookies, sin IP, sin terceros -------------------
+import hashlib
+from datetime import timedelta
+from urllib.parse import urlparse
+
+from django.contrib.admin.views.decorators import staff_member_required
+from django.core.cache import cache
+from django.db.models import Count
+from django.http import HttpResponse
+from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+
+from .models import Evento
+
+_TIPOS_VALIDOS = {t for t, _ in Evento.TIPOS}
+_BOTS = ('bot', 'crawl', 'spider', 'slurp', 'preview', 'headless', 'lighthouse')
+
+
+@csrf_exempt
+@require_POST
+def medir(request):
+    """Recibe un evento por sendBeacon. Siempre responde 204 para no filtrar nada."""
+    agente = request.META.get('HTTP_USER_AGENT', '').lower()
+    if not agente or any(b in agente for b in _BOTS) or request.META.get('HTTP_SEC_PURPOSE', '').startswith('prefetch'):
+        return HttpResponse(status=204)
+    # Tope de 120 eventos por hora por visitante, sin guardar la IP (solo un hash temporal en caché).
+    huella = hashlib.sha256((request.META.get('REMOTE_ADDR', '') + agente).encode()).hexdigest()[:24]
+    clave = f'medir:{huella}'
+    usados = cache.get(clave, 0)
+    if usados >= 120:
+        return HttpResponse(status=204)
+    cache.set(clave, usados + 1, 3600)
+    try:
+        datos = json.loads(request.body[:2000] or b'{}')
+    except ValueError:
+        return HttpResponse(status=204)
+    tipo = str(datos.get('t', ''))[:20]
+    if tipo not in _TIPOS_VALIDOS:
+        return HttpResponse(status=204)
+    origen = urlparse(str(datos.get('r', ''))[:300]).netloc.lower().removeprefix('www.')
+    if origen == request.get_host().lower():
+        origen = ''
+    Evento.objects.create(
+        tipo=tipo,
+        ruta=str(datos.get('p', ''))[:200],
+        origen=origen[:120],
+        dispositivo='celular' if any(m in agente for m in ('mobile', 'android', 'iphone')) else 'computador',
+    )
+    return HttpResponse(status=204)
+
+
+@staff_member_required
+def metricas(request):
+    """Resumen privado de los últimos 7 y 30 días."""
+    ahora = timezone.now()
+    nombres = dict(Evento.TIPOS)
+
+    def periodo(dias):
+        qs = Evento.objects.filter(fecha__gte=ahora - timedelta(days=dias))
+        conteo = {f['tipo']: f['n'] for f in qs.values('tipo').annotate(n=Count('id'))}
+        visitas = conteo.get('visita', 0)
+        cotizar = conteo.get('cotizar', 0) + conteo.get('burbuja', 0)
+        return {
+            'filas': [(nombres[t], conteo.get(t, 0)) for t, _ in Evento.TIPOS],
+            'visitas': visitas,
+            'tasa': round(100 * conteo.get('consulta', 0) / visitas, 1) if visitas else 0,
+            'interes': round(100 * cotizar / visitas, 1) if visitas else 0,
+            'origenes': list(qs.filter(tipo='visita').exclude(origen='').values('origen').annotate(n=Count('id')).order_by('-n')[:8]),
+            'paginas': list(qs.filter(tipo='visita').values('ruta').annotate(n=Count('id')).order_by('-n')[:8]),
+            'dispositivos': list(qs.filter(tipo='visita').values('dispositivo').annotate(n=Count('id')).order_by('-n')),
+        }
+
+    respuesta = render(request, 'main/metricas.html', {'periodos': [('Últimos 7 días', periodo(7)), ('Últimos 30 días', periodo(30))]})
+    respuesta['X-Robots-Tag'] = 'noindex'
+    return respuesta

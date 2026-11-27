@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django.templatetags.static import static
 
-from .models import Interes, Perfil, Proyecto, Skill
+from .models import Evento, Interes, Perfil, Proyecto, Skill
 
 
 @admin.register(Proyecto)
@@ -72,3 +72,17 @@ class ProyectoAdmin(admin.ModelAdmin):
 admin.site.register(Perfil)
 admin.site.register(Skill)
 admin.site.register(Interes)
+
+
+@admin.register(Evento)
+class EventoAdmin(admin.ModelAdmin):
+    list_display = ('fecha', 'tipo', 'ruta', 'origen', 'dispositivo')
+    list_filter = ('tipo', 'dispositivo', 'fecha')
+    date_hierarchy = 'fecha'
+    search_fields = ('ruta', 'origen')
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False

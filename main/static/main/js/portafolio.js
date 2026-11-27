@@ -223,3 +223,30 @@
         });
     });
 })();
+
+/* Medición propia y anónima: visita y clics clave, enviados a /m/ con sendBeacon */
+(function () {
+    if (!navigator.sendBeacon || navigator.doNotTrack === '1' || location.pathname.indexOf('/panel/') === 0) return;
+    if (document.prerendering) { document.addEventListener('prerenderingchange', iniciar, { once: true }); } else { iniciar(); }
+    function enviar(tipo, ruta) {
+        try {
+            navigator.sendBeacon('/m/', new Blob([JSON.stringify({ t: tipo, p: ruta || location.pathname, r: tipo === 'visita' ? document.referrer : '' })], { type: 'application/json' }));
+        } catch (e) {}
+    }
+    function iniciar() {
+        enviar('visita');
+        if (location.pathname.indexOf('/proyectos/') === 0) enviar('caso');
+        document.addEventListener('click', function (e) {
+            var el = e.target.closest('a, button');
+            if (!el) return;
+            var href = el.getAttribute('href') || '';
+            if (el.id === 'b-enviar') enviar('consulta');
+            else if (el.matches('[data-cta]')) enviar('burbuja');
+            else if (href.indexOf('#cotizar') !== -1) enviar('cotizar');
+            else if (href.indexOf('mailto:') === 0) enviar('correo');
+            else if (el.matches('[data-copiar]')) enviar('copiar');
+            else if (/linkedin\.com|github\.com/.test(href)) enviar('red');
+            else if (/^https?:/.test(href) && href.indexOf(location.host) === -1) enviar('sitio', href.slice(0, 200));
+        }, { capture: true, passive: true });
+    }
+})();
