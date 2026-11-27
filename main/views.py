@@ -1,6 +1,8 @@
 import json
 
 from django.contrib.staticfiles import finders
+from django.templatetags.static import static
+from django.urls import reverse
 from django.http import Http404
 from django.shortcuts import render
 from django.utils.text import slugify
@@ -32,8 +34,8 @@ def _jsonld(proyecto, request):
         "url": proyecto.url_produccion or request.build_absolute_uri(),
         "description": proyecto.descripcion_corta,
         "creator": {
-            "@type": "Person",
-            "name": "Alexis Lara Viveros",
+            "@type": "Organization",
+            "name": "delakordillera",
             "url": SITIO,
         },
     }
@@ -89,9 +91,21 @@ def _visibles():
 
 def home(request):
     proyectos = _visibles()
+    # Datos mínimos para el armador de proyecto (se leen con json_script).
+    casos_json = [
+        {
+            'slug': p.slug,
+            'titulo': p.titulo,
+            'marca': p.marca,
+            'url': reverse('proyecto', args=[p.slug]),
+            'imagen': static(p.shot_900 or p.shot['src']) if p.shot else '',
+        }
+        for p in proyectos
+    ]
     return render(request, 'main/home.html', {
         'perfil': Perfil.objects.first(),
         'proyectos': proyectos,
+        'casos_json': casos_json,
     })
 
 

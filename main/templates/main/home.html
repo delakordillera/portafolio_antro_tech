@@ -1,21 +1,32 @@
 {% extends 'main/base.html' %}
 {% load static %}
 
-{% block precarga %}{% with primero=proyectos.0 %}{% if primero.shot %}<link rel="preload" as="image" href="{% static primero.shot.src %}" {% if primero.shot_900 %}imagesrcset="{% static primero.shot_900 %} 900w, {% static primero.shot.src %} 1400w" imagesizes="(max-width: 900px) 92vw, 760px"{% endif %} fetchpriority="high">{% endif %}{% endwith %}{% endblock %}
+{% block precarga %}{% with primero=proyectos.0 %}{% if primero.shot %}<link rel="preload" as="image" href="{% if primero.shot_900 %}{% static primero.shot_900 %}{% else %}{% static primero.shot.src %}{% endif %}" fetchpriority="high">{% endif %}{% endwith %}{% endblock %}
 
 {% block estilos %}
         /* Portada */
         .portada { padding: clamp(2.5rem, 6vw, 5rem) 0 clamp(3.5rem, 7vw, 6rem); }
         .portada-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 3rem 4rem; align-items: center; }
+        .portada h1 { font-size: clamp(2.6rem, 5.6vw, 4.75rem); font-weight: 800; letter-spacing: -0.04em; line-height: 0.98; max-width: 14ch; }
+        .portada-lead { font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.5; color: var(--texto); max-width: 44ch; margin: 1.75rem 0 2.25rem; }
+
+        /* Collage: los tres trabajos; el que apuntas pasa al frente */
         .collage { position: relative; aspect-ratio: 6 / 5; }
-        .collage-item { position: absolute; width: 74%; padding: clamp(8px, 1.2vw, 14px); border-radius: var(--radio); background: var(--marca); box-shadow: var(--sombra); }
+        .collage-item { position: absolute; width: 74%; padding: clamp(8px, 1.2vw, 14px); border-radius: var(--radio); background: var(--marca); box-shadow: var(--sombra); display: block; transition: transform .35s cubic-bezier(0.2, 0.8, 0.2, 1); }
         .collage-item img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; border-radius: 5px; }
         .collage-item:nth-child(1) { top: 0; left: 0; z-index: 1; }
         .collage-item:nth-child(2) { top: 24%; left: 26%; z-index: 2; }
         .collage-item:nth-child(3) { top: 50%; left: 8%; z-index: 3; }
-        .portada h1 { font-size: clamp(2.6rem, 5.6vw, 4.75rem); font-weight: 800; letter-spacing: -0.04em; line-height: 0.98; max-width: 14ch; }
-        .portada-lead { font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.5; color: var(--texto); max-width: 44ch; margin: 1.75rem 0 2.25rem; }
-        .portada-lead strong { color: var(--tinta); font-weight: 700; }
+        .collage-item:hover, .collage-item:focus-visible { z-index: 5; transform: translateY(-8px) scale(1.02); }
+        .collage-nombre { position: absolute; left: 50%; bottom: 0.9rem; translate: -50% 6px; background: var(--fondo); color: var(--tinta); font-weight: 700; font-size: 0.95rem; padding: 0.35rem 0.8rem; border-radius: 999px; white-space: nowrap; opacity: 0; transition: opacity .2s ease, translate .2s ease; box-shadow: var(--sombra); }
+        .collage-item:hover .collage-nombre, .collage-item:focus-visible .collage-nombre { opacity: 1; translate: -50% 0; }
+        @media (prefers-reduced-motion: no-preference) {
+            /* Un solo momento al cargar: las tres capturas entran en orden */
+            .collage-item { transition: transform .35s cubic-bezier(0.2, 0.8, 0.2, 1), opacity .6s ease, translate .7s cubic-bezier(0.2, 0.8, 0.2, 1); }
+            .collage-item:nth-child(2) { transition-delay: 0s, .12s, .12s; }
+            .collage-item:nth-child(3) { transition-delay: 0s, .24s, .24s; }
+            @starting-style { .collage-item { opacity: 0; translate: 0 28px; } }
+        }
 
         /* Galería: cada proyecto ocupa una fila, alternando lados */
         .galeria { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(4rem, 9vw, 7.5rem); }
@@ -31,22 +42,73 @@
         .obra h3 a:hover { color: var(--acento); text-decoration: underline; text-decoration-thickness: 2px; }
         .obra-dato { color: var(--tinta); font-weight: 500; }
         .obra-dato strong { font-weight: 800; }
+        /* El celular sube un poco más rápido que la pantalla al hacer scroll */
+        @supports (animation-timeline: view()) {
+            @media (prefers-reduced-motion: no-preference) {
+                .obra .lamina-movil { animation: celular-sube linear both; animation-timeline: view(); animation-range: entry 10% exit 90%; }
+                @keyframes celular-sube { from { transform: translateY(40px); } to { transform: translateY(-40px); } }
+            }
+        }
 
-        /* Servicios */
         .seccion { padding: clamp(4.5rem, 10vw, 8rem) 0; }
         .seccion-cabeza { margin-bottom: 3rem; }
         .seccion-cabeza p { margin-top: 1rem; font-size: 1.15rem; }
+
+        /* Servicios */
         .servicios { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 2.75rem 3rem; }
         .servicio svg { width: 30px; height: 30px; color: var(--acento); margin-bottom: 1rem; }
         .servicio h3 { margin-bottom: 0.5rem; }
         .servicio p { margin: 0; }
 
-        /* Proceso: es una secuencia real, por eso va numerada */
+        /* Armador de proyecto */
+        .armador { background: var(--superficie); border-radius: 16px; border: 1px solid var(--linea); padding: clamp(1.5rem, 4vw, 3rem); display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 2.5rem 4rem; }
+        .armador fieldset { border: 0; margin: 0 0 2rem; padding: 0; min-width: 0; }
+        .armador legend { color: var(--tinta); font-weight: 700; font-size: 1.15rem; margin-bottom: 0.9rem; padding: 0; }
+        .opciones { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+        .opcion { position: relative; }
+        .opcion input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+        .opcion span { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; padding: 0 1rem; border-radius: 999px; border: 1px solid var(--linea); color: var(--tinta); font-weight: 500; transition: background-color .15s ease, border-color .15s ease, color .15s ease; user-select: none; }
+        .opcion:hover span { border-color: var(--tinta); }
+        .opcion input:checked + span { background: var(--tinta); border-color: var(--tinta); color: var(--fondo); }
+        .opcion input:focus-visible + span { outline: 3px solid var(--acento); outline-offset: 2px; }
+        .opcion input[type="checkbox"]:checked + span::before { content: ""; width: 0.45rem; height: 0.8rem; border: solid currentColor; border-width: 0 2px 2px 0; rotate: 45deg; translate: 0 -2px; }
+        .armador label.campo { display: block; color: var(--tinta); font-weight: 700; margin-bottom: 0.5rem; }
+        .armador input[type="text"] { width: 100%; min-height: 48px; font: inherit; color: var(--tinta); background: var(--fondo); border: 1px solid var(--linea); border-radius: 8px; padding: 0 1rem; }
+        .armador input[type="text"]:focus-visible { outline: 3px solid var(--acento); outline-offset: 1px; }
+        .resumen { position: sticky; top: 6rem; align-self: start; display: grid; gap: 1.25rem; }
+        .resumen h3 { font-size: 1.15rem; }
+        .resumen-caso { display: grid; grid-template-columns: 96px 1fr; gap: 1rem; align-items: center; text-decoration: none; color: var(--tinta); padding: 0.75rem; border-radius: 12px; border: 1px solid var(--linea); background: var(--fondo); }
+        .resumen-caso:hover { border-color: var(--tinta); color: var(--tinta); }
+        .resumen-caso .mini { display: block; background: var(--marca); padding: 6px; border-radius: 8px; }
+        .resumen-caso img { border-radius: 4px; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
+        .resumen-caso small { display: block; color: var(--tenue); font-size: 0.9rem; }
+        .resumen-caso strong { font-weight: 700; }
+        .resumen-lista { margin: 0; padding-left: 1.1rem; color: var(--texto); }
+        .resumen-vacio { color: var(--tenue); margin: 0; }
+        .resumen .boton[aria-disabled="true"] { opacity: 0.45; pointer-events: none; }
+        @media (prefers-reduced-motion: no-preference) {
+            .resumen-caso { transition: opacity .25s ease, translate .25s ease; }
+            @starting-style { .resumen-caso { opacity: 0; translate: 0 6px; } }
+        }
+
+        /* Proceso: secuencia real, por eso va numerada */
         .proceso { list-style: none; margin: 0; padding: 0; counter-reset: paso; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 2rem 2.5rem; }
         .proceso li { counter-increment: paso; padding-top: 1.25rem; border-top: 2px solid var(--tinta); }
         .proceso h3::before { content: counter(paso) ". "; color: var(--acento); }
         .proceso h3 { margin-bottom: 0.5rem; font-size: 1.15rem; }
         .proceso p { margin: 0; }
+
+        /* Preguntas: <details> con apertura animada */
+        .preguntas { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 2rem 5rem; align-items: start; }
+        .preguntas details { border-bottom: 1px solid var(--linea); }
+        .preguntas details:first-of-type { border-top: 1px solid var(--linea); }
+        .preguntas summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; min-height: 64px; padding: 1rem 0; color: var(--tinta); font-weight: 700; font-size: 1.15rem; }
+        .preguntas summary::-webkit-details-marker { display: none; }
+        .preguntas summary::after { content: ""; flex: none; width: 11px; height: 11px; border: solid var(--acento); border-width: 0 2px 2px 0; rotate: 45deg; translate: 0 -3px; transition: rotate .25s ease, translate .25s ease; }
+        .preguntas details[open] summary::after { rotate: 225deg; translate: 0 3px; }
+        .preguntas details p { margin: 0 0 1.25rem; }
+        .preguntas details::details-content { block-size: 0; overflow: hidden; transition: block-size .3s ease, content-visibility .3s allow-discrete; }
+        .preguntas details[open]::details-content { block-size: auto; }
 
         /* Sobre mí */
         .sobre { background: var(--superficie); }
@@ -54,9 +116,10 @@
         .stack { color: var(--tenue); margin-top: 1.5rem; }
         .stack strong { color: var(--tinta); font-weight: 700; }
 
-        @media (max-width: 820px) {
-            .portada-grid { grid-template-columns: 1fr; }
+        @media (max-width: 860px) {
+            .portada-grid, .armador, .preguntas { grid-template-columns: 1fr; }
             .collage { display: none; }
+            .resumen { position: static; }
             .obra, .obra:nth-child(even) { grid-template-columns: 1fr; }
             .obra:nth-child(even) .lamina { order: 0; }
         }
@@ -66,16 +129,19 @@
     <section class="portada" aria-labelledby="titulo">
         <div class="contenedor portada-grid">
             <div>
-            <h1 id="titulo">Sitios web que traen clientes a negocios locales</h1>
-            <p class="portada-lead">Soy <strong>Alexis Lara</strong>, desarrollador web freelance en Santiago. Diseño y programo tu sitio, lo dejo listo para que te encuentren en Google y te escriban por WhatsApp, y después me encargo de mantenerlo.</p>
-            <div class="acciones">
-                <a href="#proyectos" class="boton boton-lleno">Ver proyectos</a>
-                <a href="#contacto" class="boton boton-borde">Escribirme</a>
+                <h1 id="titulo">Sitios web que traen clientes a negocios locales</h1>
+                <p class="portada-lead">Diseño y programo tu sitio, lo dejo listo para que te encuentren en Google y te escriban por WhatsApp, y después me encargo de mantenerlo.</p>
+                <div class="acciones">
+                    <a href="#proyectos" class="boton boton-lleno">Ver proyectos</a>
+                    <a href="#armador" class="boton boton-borde">Cotizar mi sitio</a>
+                </div>
             </div>
-            </div>
-            <div class="collage" aria-hidden="true">
+            <div class="collage">
                 {% for p in proyectos|slice:":3" %}{% if p.shot %}
-                <div class="collage-item" style="--marca: {{ p.marca }}"><img src="{% if p.shot_900 %}{% static p.shot_900 %}{% else %}{% static p.shot.src %}{% endif %}" alt="" width="900" height="562" decoding="async"></div>
+                <a class="collage-item" href="{% url 'proyecto' p.slug %}" style="--marca: {{ p.marca }}" aria-label="Ver el caso {{ p.titulo }}">
+                    <img src="{% if p.shot_900 %}{% static p.shot_900 %}{% else %}{% static p.shot.src %}{% endif %}" alt="" width="900" height="562" decoding="async">
+                    <span class="collage-nombre" aria-hidden="true">{{ p.titulo }}</span>
+                </a>
                 {% endif %}{% endfor %}
             </div>
         </div>
@@ -90,7 +156,7 @@
                 <a class="obra-link lamina" href="{% url 'proyecto' p.slug %}" style="--marca: {{ p.marca }}" aria-label="Ver el caso {{ p.titulo }}">
                     <div class="lamina-escritorio" style="view-transition-name: captura-{{ p.slug }}">
                         {% if p.shot %}
-                        <img src="{% static p.shot.src %}"{% if p.shot_900 %} srcset="{% static p.shot_900 %} 900w, {% static p.shot.src %} 1400w" sizes="(max-width: 820px) 92vw, 680px"{% endif %} alt="{{ p.shot.alt|default:p.titulo }}" width="1400" height="875" decoding="async"{% if forloop.first %} fetchpriority="high"{% else %} loading="lazy"{% endif %}>
+                        <img src="{% static p.shot.src %}"{% if p.shot_900 %} srcset="{% static p.shot_900 %} 900w, {% static p.shot.src %} 1400w" sizes="(max-width: 860px) 92vw, 680px"{% endif %} alt="{{ p.shot.alt|default:p.titulo }}" width="1400" height="875" decoding="async" loading="lazy">
                         {% endif %}
                     </div>
                     {% if p.shot_movil %}
@@ -143,6 +209,47 @@
         </ul>
     </section>
 
+    <section id="armador" class="contenedor" aria-labelledby="armador-titulo">
+        <div class="seccion-cabeza">
+            <h2 id="armador-titulo">Arma tu proyecto</h2>
+            <p>Marca lo que buscas. Te muestro un caso parecido y dejo listo el correo para que me escribas.</p>
+        </div>
+        <form class="armador" id="form-armador">
+            <div>
+                <fieldset>
+                    <legend>¿Qué tipo de negocio tienes?</legend>
+                    <div class="opciones">
+                        <label class="opcion"><input type="radio" name="rubro" value="restaurante" data-caso="la-otra-estacion"><span>Restaurante o comida</span></label>
+                        <label class="opcion"><input type="radio" name="rubro" value="salud" data-caso="ps-franco-alvarez"><span>Salud o servicios profesionales</span></label>
+                        <label class="opcion"><input type="radio" name="rubro" value="comercio" data-caso="la-otra-estacion"><span>Comercio o tienda</span></label>
+                        <label class="opcion"><input type="radio" name="rubro" value="comunidad" data-caso="red-de-apoyo-mutuo"><span>Organización o comunidad</span></label>
+                        <label class="opcion"><input type="radio" name="rubro" value="otro"><span>Otro</span></label>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>¿Qué necesitas?</legend>
+                    <div class="opciones">
+                        <label class="opcion"><input type="checkbox" name="necesidad" value="Un sitio web nuevo"><span>Un sitio web nuevo</span></label>
+                        <label class="opcion"><input type="checkbox" name="necesidad" value="Reservas o pedidos por WhatsApp"><span>Reservas o pedidos por WhatsApp</span></label>
+                        <label class="opcion"><input type="checkbox" name="necesidad" value="Aparecer en Google y Maps"><span>Aparecer en Google y Maps</span></label>
+                        <label class="opcion"><input type="checkbox" name="necesidad" value="Una agenda o sistema a medida"><span>Agenda o sistema a medida</span></label>
+                        <label class="opcion"><input type="checkbox" name="necesidad" value="Mejorar un sitio que ya tengo"><span>Mejorar mi sitio actual</span></label>
+                    </div>
+                </fieldset>
+                <label class="campo" for="nombre-negocio">Nombre de tu negocio (opcional)</label>
+                <input type="text" id="nombre-negocio" name="negocio" autocomplete="organization" maxlength="80">
+            </div>
+            <div class="resumen" aria-live="polite">
+                <h3>Tu consulta</h3>
+                <div id="resumen-caso"></div>
+                <ul class="resumen-lista" id="resumen-lista" hidden></ul>
+                <p class="resumen-vacio" id="resumen-vacio">Elige al menos una opción para armar tu consulta.</p>
+                <a class="boton boton-lleno" id="enviar-consulta" href="mailto:{{ perfil.correo|default:'delakordillera@proton.me' }}" aria-disabled="true">Escribirme con esta consulta</a>
+            </div>
+        </form>
+        {{ casos_json|json_script:"datos-casos" }}
+    </section>
+
     <section class="seccion contenedor" aria-labelledby="proceso-titulo">
         <h2 id="proceso-titulo" class="seccion-cabeza">Cómo trabajo</h2>
         <ol class="proceso">
@@ -167,4 +274,103 @@
             </div>
         </div>
     </section>
+
+    <section id="preguntas" class="seccion contenedor" aria-labelledby="preguntas-titulo">
+        <div class="preguntas">
+            <h2 id="preguntas-titulo">Preguntas frecuentes</h2>
+            <div>
+                <details name="faq">
+                    <summary>¿Cuánto cuesta un sitio?</summary>
+                    <p>Depende de lo que necesites: cuántas páginas, si lleva reservas o un sistema a medida. Escríbeme con lo que tienes en mente y te envío una cotización.</p>
+                </details>
+                <details name="faq">
+                    <summary>¿Cuánto se demora?</summary>
+                    <p>Depende del alcance: un sitio informativo sale más rápido que uno con agenda o panel de administración. Al cotizar te doy una fecha de entrega.</p>
+                </details>
+                <details name="faq">
+                    <summary>¿Necesito tener dominio y hosting?</summary>
+                    <p>No. Si no los tienes, te ayudo a elegirlos y a contratarlos a tu nombre, para que siempre sean tuyos.</p>
+                </details>
+                <details name="faq">
+                    <summary>¿Puedo actualizar el sitio yo mismo?</summary>
+                    <p>Sí, si lo necesitas: puedo incluir un panel para que cambies textos, precios o fotos. Si prefieres, hago los cambios yo como parte de la mantención.</p>
+                </details>
+                <details name="faq">
+                    <summary>¿Qué pasa después de publicar?</summary>
+                    <p>Sigo disponible para cambios y mejoras. Reviso que el sitio cargue bien en celular y que siga apareciendo en Google.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block scripts %}
+    <script nonce="{{ request.nonce }}">
+    (function () {
+        var form = document.getElementById('form-armador');
+        if (!form) return;
+        var casos = {};
+        try { JSON.parse(document.getElementById('datos-casos').textContent).forEach(function (c) { casos[c.slug] = c; }); } catch (e) {}
+        var cajaCaso = document.getElementById('resumen-caso');
+        var lista = document.getElementById('resumen-lista');
+        var vacio = document.getElementById('resumen-vacio');
+        var enviar = document.getElementById('enviar-consulta');
+        var correo = enviar.getAttribute('href').replace('mailto:', '');
+        var ultimoCaso = null;
+
+        function actualizar() {
+            var rubro = form.querySelector('input[name="rubro"]:checked');
+            var necesidades = Array.prototype.map.call(form.querySelectorAll('input[name="necesidad"]:checked'), function (i) { return i.value; });
+            var negocio = form.negocio.value.trim();
+
+            /* Caso parecido según el rubro */
+            var slug = rubro ? rubro.getAttribute('data-caso') : null;
+            var caso = slug ? casos[slug] : null;
+            var idCaso = caso ? caso.slug : null;
+            if (idCaso !== ultimoCaso) {
+                ultimoCaso = idCaso;
+                cajaCaso.replaceChildren();
+                if (caso) {
+                    var a = document.createElement('a');
+                    a.className = 'resumen-caso';
+                    a.href = caso.url;
+                    a.style.setProperty('--marca', caso.marca);
+                    var mini = document.createElement('span'); mini.className = 'mini';
+                    var img = document.createElement('img'); img.src = caso.imagen; img.alt = ''; img.width = 96; img.height = 60;
+                    mini.appendChild(img);
+                    var txt = document.createElement('span');
+                    var sm = document.createElement('small'); sm.textContent = 'Un caso parecido';
+                    var st = document.createElement('strong'); st.textContent = caso.titulo;
+                    txt.appendChild(sm); txt.appendChild(st);
+                    a.appendChild(mini); a.appendChild(txt);
+                    cajaCaso.appendChild(a);
+                }
+            }
+
+            /* Lo elegido */
+            var items = [];
+            if (rubro) items.push('Rubro: ' + rubro.nextElementSibling.textContent);
+            necesidades.forEach(function (n) { items.push(n); });
+            lista.replaceChildren();
+            items.forEach(function (t) { var li = document.createElement('li'); li.textContent = t; lista.appendChild(li); });
+            lista.hidden = items.length === 0;
+            vacio.hidden = items.length > 0;
+
+            /* Correo listo para enviar */
+            if (items.length) {
+                var asunto = 'Consulta por un sitio web' + (negocio ? ' para ' + negocio : '');
+                var cuerpo = 'Hola, me interesa cotizar un sitio.\n\n' + (negocio ? 'Negocio: ' + negocio + '\n' : '') + items.map(function (t) { return '- ' + t; }).join('\n') + '\n\nMi teléfono o forma de contacto: ';
+                enviar.href = 'mailto:' + correo + '?subject=' + encodeURIComponent(asunto) + '&body=' + encodeURIComponent(cuerpo);
+                enviar.removeAttribute('aria-disabled');
+            } else {
+                enviar.href = 'mailto:' + correo;
+                enviar.setAttribute('aria-disabled', 'true');
+            }
+        }
+        form.addEventListener('change', actualizar);
+        form.addEventListener('input', actualizar);
+        form.addEventListener('submit', function (e) { e.preventDefault(); });
+        actualizar();
+    })();
+    </script>
 {% endblock %}

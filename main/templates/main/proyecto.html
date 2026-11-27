@@ -1,9 +1,9 @@
 {% extends 'main/base.html' %}
 {% load static main_extras %}
 
-{% block titulo %}{{ proyecto.titulo }} | Caso de Alexis Lara Viveros{% endblock %}
+{% block titulo %}{{ proyecto.titulo }} | Caso de delakordillera{% endblock %}
 {% block descripcion %}{{ proyecto.descripcion_corta|truncatechars:155 }}{% endblock %}
-{% block og_titulo %}{{ proyecto.titulo }} | Caso de Alexis Lara Viveros{% endblock %}
+{% block og_titulo %}{{ proyecto.titulo }} | Caso de delakordillera{% endblock %}
 {% block og_descripcion %}{{ proyecto.descripcion_corta|truncatechars:155 }}{% endblock %}
 
 {% block precarga %}{% if proyecto.shot %}<link rel="preload" as="image" href="{% static proyecto.shot.src %}" fetchpriority="high">{% endif %}{% endblock %}
