@@ -128,11 +128,20 @@
         .boton-menu span { display: block; width: 18px; height: 2px; background: currentColor; border-radius: 2px; transition: transform .3s cubic-bezier(0.2, 0.8, 0.2, 1); }
         .boton-menu span + span { margin-top: 5px; }
         .boton-menu .lineas { display: grid; }
-        .menu-movil { position: fixed; inset: 0; width: 100%; height: 100dvh; max-width: none; max-height: none; margin: 0; border: 0; padding: 0; background: #1A1F17; color: #F1EEE4; z-index: 100; overflow: auto; opacity: 0; transition: opacity .35s ease, display .35s allow-discrete, overlay .35s allow-discrete; }
-        .menu-movil:popover-open { opacity: 1; }
-        @starting-style { .menu-movil:popover-open { opacity: 0; } }
-        .menu-movil::backdrop { background: transparent; }
-        .menu-cuerpo { min-height: 100%; display: flex; flex-direction: column; padding: 1rem 1.5rem 2rem; position: relative; isolation: isolate; }
+        .menu-movil { position: fixed; inset: 0.6rem; width: auto; height: auto; max-width: none; max-height: none; margin: 0; padding: 0; border: 1px solid rgba(201, 164, 101, 0.28); border-radius: 28px; background: #1A1F17; color: #F1EEE4; z-index: 100; overflow: auto; overscroll-behavior: contain; box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.7); opacity: 0; transform: translateY(-14px) scale(0.97); transform-origin: top right; transition: opacity .45s cubic-bezier(0.22, 1, 0.36, 1), transform .55s cubic-bezier(0.22, 1, 0.36, 1), display .55s allow-discrete, overlay .55s allow-discrete; }
+        .menu-movil:popover-open { opacity: 1; transform: none; }
+        @starting-style { .menu-movil:popover-open { opacity: 0; transform: translateY(-14px) scale(0.97); } }
+        .menu-movil::backdrop { background: rgba(12, 14, 11, 0); backdrop-filter: blur(0); -webkit-backdrop-filter: blur(0); transition: background-color .45s ease, backdrop-filter .45s ease, display .45s allow-discrete, overlay .45s allow-discrete; }
+        .menu-movil:popover-open::backdrop { background: rgba(12, 14, 11, 0.45); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+        @starting-style { .menu-movil:popover-open::backdrop { background: rgba(12, 14, 11, 0); backdrop-filter: blur(0); -webkit-backdrop-filter: blur(0); } }
+        .selector-tema { position: relative; display: grid; grid-template-columns: 1fr 1fr; padding: 5px; margin-bottom: 1.25rem; border-radius: 999px; background: rgba(241, 238, 228, 0.06); border: 1px solid rgba(241, 238, 228, 0.12); }
+        .selector-tema button { position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; min-height: 46px; border: 0; border-radius: 999px; background: none; color: #A9AD9C; font: inherit; font-weight: 700; cursor: pointer; transition: color .35s ease; }
+        .selector-tema button svg { width: 18px; height: 18px; }
+        .selector-tema button[aria-pressed="true"] { color: #1A1F17; }
+        .selector-pastilla { position: absolute; top: 5px; bottom: 5px; left: 5px; width: calc(50% - 5px); border-radius: 999px; background: #C9A465; box-shadow: 0 8px 20px -10px rgba(201, 164, 101, 0.9); transition: translate .5s cubic-bezier(0.22, 1, 0.36, 1); }
+        .selector-tema[data-activo="oscuro"] .selector-pastilla { translate: 100% 0; }
+        .selector-tema button:focus-visible { outline: 2px solid #C9A465; outline-offset: 2px; }
+        .menu-cuerpo { min-height: 100%; border-radius: inherit; overflow: hidden; display: flex; flex-direction: column; padding: 1rem 1.5rem 2rem; position: relative; isolation: isolate; }
         .menu-cuerpo::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(80% 60% at 100% 0%, #2B3326 0%, transparent 70%); }
         .menu-sello { position: absolute; right: -18%; bottom: -6%; width: 85%; opacity: 0.06; z-index: -1; pointer-events: none; }
         .menu-arriba { display: flex; justify-content: space-between; align-items: center; min-height: 60px; }
@@ -140,13 +149,13 @@
         .menu-cerrar { width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(241, 238, 228, 0.28); background: transparent; color: #F1EEE4; cursor: pointer; display: grid; place-items: center; }
         .menu-cerrar svg { width: 20px; height: 20px; }
         .menu-lista { list-style: none; margin: auto 0; padding: 2rem 0; display: grid; gap: 0.25rem; }
-        .menu-lista a { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding: 0.55rem 0; color: #F1EEE4; text-decoration: none; font-size: clamp(2.4rem, 11vw, 3.6rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; border-bottom: 1px solid rgba(241, 238, 228, 0.12); }
+        .menu-lista a { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.55rem 0.25rem; border-radius: 14px; transition: color .3s ease, padding .4s cubic-bezier(0.22, 1, 0.36, 1); color: #F1EEE4; text-decoration: none; font-size: clamp(2.4rem, 11vw, 3.6rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; border-bottom: 1px solid rgba(241, 238, 228, 0.12); }
         .menu-lista a small { font-size: 0.95rem; font-weight: 500; letter-spacing: 0; color: #A3A895; }
-        .menu-lista a:hover, .menu-lista a:focus-visible { color: #C9A465; }
+        .menu-lista a:hover, .menu-lista a:focus-visible { color: #C9A465; padding-left: 0.75rem; }
         .menu-pie { display: grid; gap: 0.75rem; color: #A3A895; }
         .menu-pie a { color: #F1EEE4; font-weight: 700; font-size: 1.15rem; }
         @media (prefers-reduced-motion: no-preference) {
-            .menu-lista li { opacity: 0; translate: 0 18px; transition: opacity .5s ease, translate .6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+            .menu-lista li { opacity: 0; translate: 0 18px; transition: opacity .55s ease, translate .7s cubic-bezier(0.22, 1, 0.36, 1); }
             .menu-movil:popover-open .menu-lista li { opacity: 1; translate: 0 0; }
             .menu-movil:popover-open .menu-lista li:nth-child(2) { transition-delay: .06s; }
             .menu-movil:popover-open .menu-lista li:nth-child(3) { transition-delay: .12s; }
@@ -156,6 +165,7 @@
         @media (max-width: 860px) {
             .nav ul { display: none; }
             .boton-menu { display: grid; }
+            .nav .boton-tema { display: none; }
             .nav { padding-block: 0.5rem; }
         }
 
@@ -203,8 +213,9 @@
             }
         }
         .contacto { background: #292F25; color: #DAD6C8; position: relative; overflow: hidden; }
-        .contacto-cuerpo { padding-top: clamp(4rem, 8vw, 6rem); padding-bottom: 2rem; position: relative; z-index: 1; }
-        .contacto-sello { position: absolute; left: -10%; bottom: -20%; width: clamp(260px, 40vw, 560px); height: auto; opacity: 0.07; pointer-events: none; }
+        .contacto-cuerpo { padding-top: clamp(4rem, 8vw, 6rem); padding-bottom: 1.5rem; position: relative; z-index: 1; }
+        .contacto-sello { position: absolute; right: -7%; bottom: -12%; width: clamp(300px, 46vw, 680px); height: auto; opacity: 0.15; pointer-events: none; z-index: 0; rotate: -8deg; -webkit-mask-image: linear-gradient(200deg, #000 25%, transparent 85%); mask-image: linear-gradient(200deg, #000 25%, transparent 85%); filter: drop-shadow(0 0 40px rgba(201, 164, 101, 0.35)); transform: translate(calc(var(--sx, 0) * 14px), calc(var(--sy, 0) * 10px)); transition: transform .8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        @media (max-width: 760px) { .contacto-sello { width: 78vw; right: -26%; bottom: -4%; opacity: 0.08; } }
         .contacto h2 { color: #FFFFFF; font-size: clamp(2.3rem, 5.5vw, 4.2rem); letter-spacing: -0.04em; line-height: 1.02; text-wrap: balance; }
         .contacto p { color: #DAD6C8; }
         .contacto a { color: #FFFFFF; }
@@ -228,37 +239,28 @@
         .check svg { width: 15px; height: 15px; }
         .contacto-nota { margin: 1.25rem 0 0; font-size: 0.95rem; color: #A9AD9C !important; }
         .contacto-redes { list-style: none; display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1.5rem 0 0; padding: 1.5rem 0 0; border-top: 1px solid rgba(241, 238, 228, 0.12); }
-        .pie { margin-top: clamp(4rem, 8vw, 6rem); padding-top: clamp(2.5rem, 5vw, 3.5rem); border-top: 1px solid rgba(241, 238, 228, 0.12); display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1fr); gap: 2.5rem; }
-        .pie-intro { display: grid; justify-items: start; gap: 1rem; align-content: start; }
-        .pie-intro p { margin: 0; font-size: 1.15rem; font-weight: 600; color: #F1EEE4 !important; max-width: 20rem; line-height: 1.35; }
-        .pie-marca img { display: block; width: 44px; height: auto; transition: transform .4s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .pie-marca:hover img { transform: rotate(-6deg) scale(1.06); }
-        .disponible { display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.4rem 0.85rem; border-radius: 999px; border: 1px solid rgba(241, 238, 228, 0.16); color: #DAD6C8; font-size: 0.9rem; font-weight: 600; }
+        .pie { margin-top: clamp(4rem, 8vw, 6rem); display: grid; gap: 2rem; }
+        .pie-arriba { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.75rem 2rem; padding: clamp(1.5rem, 3vw, 2.25rem); border-radius: 28px; border: 1px solid rgba(201, 164, 101, 0.28); background: linear-gradient(135deg, rgba(201, 164, 101, 0.1), rgba(26, 31, 23, 0.4) 60%); }
+        .pie-intro { display: flex; align-items: center; gap: 1.25rem; }
+        .pie-intro p { margin: 0 0 0.6rem; font-size: clamp(1.1rem, 1.8vw, 1.35rem); font-weight: 700; color: #F1EEE4 !important; letter-spacing: -0.01em; }
+        .pie-marca { display: grid; place-items: center; width: 68px; height: 68px; flex: none; border-radius: 20px; background: #1A1F17; border: 1px solid rgba(201, 164, 101, 0.35); }
+        .pie-marca img { width: 36px; height: auto; transition: transform .4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .pie-marca:hover img { transform: rotate(-6deg) scale(1.08); }
+        .disponible { display: inline-flex; align-items: center; gap: 0.55rem; color: #A9AD9C; font-size: 0.9rem; font-weight: 600; }
         .punto { position: relative; width: 8px; height: 8px; border-radius: 50%; background: #7FD08A; }
         @media (prefers-reduced-motion: no-preference) {
             .punto::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: #7FD08A; animation: latido 2.4s ease-out infinite; }
         }
-        .pie-col h3 { color: #A9AD9C; font-size: 0.95rem; font-weight: 600; margin-bottom: 1rem; }
-        .pie-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.15rem; }
-        .pie-col a { display: inline-block; padding: 0.3rem 0; font-weight: 600; color: #F1EEE4; --acento: #C9A465; }
-        .pie-col a.enlace-linea { background-size: 0% 2px, 0% 1px; }
-        .pie-col a.enlace-linea:hover { background-size: 100% 2px, 0% 1px; color: #FFFFFF; }
-        /* Firma gigante: contorno que se enciende en dorado bajo el cursor */
-        .firma { position: relative; container-type: inline-size; margin-top: clamp(3rem, 6vw, 4.5rem); user-select: none; line-height: 0.8; --x: 50%; --y: 50%; --r: 0px; }
-        .firma span { display: block; font-size: 15.6cqi; font-weight: 800; letter-spacing: -0.055em; white-space: nowrap; padding-bottom: 0.08em; }
-        .firma-base { color: transparent; -webkit-text-stroke: 1px rgba(201, 164, 101, 0.4); }
-        .firma-luz { position: absolute; inset: 0; color: #C9A465; -webkit-mask-image: radial-gradient(circle var(--r) at var(--x) var(--y), #000 0%, rgba(0, 0, 0, 0.35) 55%, transparent 100%); mask-image: radial-gradient(circle var(--r) at var(--x) var(--y), #000 0%, rgba(0, 0, 0, 0.35) 55%, transparent 100%); transition: --r .4s ease; }
-        .firma.activa { --r: 260px; }
-        @property --r { syntax: "<length>"; inherits: true; initial-value: 0px; }
-        @media (hover: none) {
-            .firma-luz { -webkit-mask-image: linear-gradient(90deg, #000, rgba(0, 0, 0, 0.25)); mask-image: linear-gradient(90deg, #000, rgba(0, 0, 0, 0.25)); opacity: 0.55; }
-        }
-        .pie-final { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(241, 238, 228, 0.12); color: #A9AD9C; font-size: 0.9rem; }
-        .pie-final p { margin: 0; color: #A9AD9C !important; }
-        @media (max-width: 760px) {
-            .pie { grid-template-columns: 1fr 1fr; }
-            .pie-intro { grid-column: 1 / -1; }
-        }
+        .pie-ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+        .pie-abajo { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; }
+        .pie-nav, .pie-redes { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .pie-nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 1.1rem; border-radius: 999px; border: 1px solid rgba(241, 238, 228, 0.14); color: #F1EEE4; font-weight: 600; text-decoration: none; transition: background-color .25s ease, color .25s ease, border-color .25s ease; }
+        .pie-nav a:hover { background: #F1EEE4; color: #1A1F17; border-color: #F1EEE4; text-decoration: none; }
+        .pie-redes a { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(241, 238, 228, 0.18); color: #F1EEE4; transition: background-color .25s ease, color .25s ease, border-color .25s ease, transform .25s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .pie-redes a:hover { background: #C9A465; border-color: #C9A465; color: #1A1F17; transform: translateY(-3px); }
+        .pie-redes .red-logo { width: 20px; height: 20px; }
+        .pie-final { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(241, 238, 228, 0.12); color: #8F947F; font-size: 0.9rem; }
+        .pie-final p { margin: 0; color: #8F947F !important; }
 
         /* Burbuja flotante de contacto */
         .cta-flotante { position: fixed; right: clamp(1rem, 2.5vw, 2rem); bottom: clamp(1rem, 2.5vw, 2rem); z-index: 60; display: inline-flex; align-items: center; gap: 0.7rem; padding: 0.45rem 1.2rem 0.45rem 0.45rem; border-radius: 999px; background: #1A1F17; color: #F1EEE4; font-weight: 800; text-decoration: none; border: 1px solid rgba(201, 164, 101, 0.55); box-shadow: 0 20px 44px -16px rgba(0, 0, 0, 0.55), 0 0 0 6px rgba(201, 164, 101, 0.08); opacity: 0; translate: 0 16px; scale: 0.96; pointer-events: none; transition: opacity .35s ease, translate .45s cubic-bezier(0.2, 0.8, 0.2, 1), scale .45s cubic-bezier(0.2, 0.8, 0.2, 1), background-color .25s ease; }
@@ -357,37 +359,37 @@
                 </div>
                 {% endwith %}
                 <div class="pie">
-                    <div class="pie-intro">
-                        <a class="pie-marca" href="/" aria-label="Ir al inicio"><img src="{% static 'main/marca/dlk-dorado.svg' %}" alt="" width="44" height="46"></a>
-                        <p>Sitios web que traen clientes a negocios locales.</p>
-                        <span class="disponible"><span class="punto" aria-hidden="true"></span>Tomando proyectos nuevos</span>
+                    <div class="pie-arriba">
+                        <div class="pie-intro">
+                            <a class="pie-marca" href="/" aria-label="Ir al inicio"><img src="{% static 'main/marca/dlk-dorado.svg' %}" alt="" width="44" height="46"></a>
+                            <div>
+                                <p>Sitios web que traen clientes a negocios locales.</p>
+                                <span class="disponible"><span class="punto" aria-hidden="true"></span>Tomando proyectos nuevos</span>
+                            </div>
+                        </div>
+                        <div class="pie-ctas">
+                            <a class="boton-correo" href="/#cotizar">Cotizar mi sitio</a>
+                            <a class="enlace-boton claro" href="mailto:{{ perfil.correo|default:'delakordillera@proton.me' }}">Escríbeme<span class="flecha" aria-hidden="true">{% include 'main/_flecha.html' %}</span></a>
+                        </div>
                     </div>
-                    <nav class="pie-col" aria-label="Secciones">
-                        <h3>Sitio</h3>
-                        <ul>
-                            <li><a class="enlace-linea" href="/#proyectos">Proyectos</a></li>
-                            <li><a class="enlace-linea" href="/#servicios">Servicios</a></li>
-                            <li><a class="enlace-linea" href="/#ruta">Cómo trabajo</a></li>
-                            <li><a class="enlace-linea" href="/#preguntas">Preguntas</a></li>
-                        </ul>
-                    </nav>
-                    <div class="pie-col">
-                        <h3>Empieza aquí</h3>
-                        <ul>
-                            <li><a class="enlace-linea" href="/#cotizar">Arma tu proyecto</a></li>
-                            <li><a class="enlace-linea" href="mailto:{{ perfil.correo|default:'delakordillera@proton.me' }}">Escríbeme</a></li>
-                            <li><a class="enlace-linea" href="{{ perfil.link_linkedin|default:'https://linkedin.com/in/alexis-lara-viveros' }}" target="_blank" rel="noopener">LinkedIn</a></li>
-                            <li><a class="enlace-linea" href="{{ perfil.link_github|default:'https://github.com/delakordillera' }}" target="_blank" rel="noopener">GitHub</a></li>
+                    <div class="pie-abajo">
+                        <nav aria-label="Secciones">
+                            <ul class="pie-nav">
+                                <li><a href="/#proyectos">Proyectos</a></li>
+                                <li><a href="/#servicios">Servicios</a></li>
+                                <li><a href="/#ruta">Cómo trabajo</a></li>
+                                <li><a href="/#preguntas">Preguntas</a></li>
+                            </ul>
+                        </nav>
+                        <ul class="pie-redes">
+                            <li><a href="{{ perfil.link_linkedin|default:'https://linkedin.com/in/alexis-lara-viveros' }}" target="_blank" rel="noopener" aria-label="LinkedIn">{% include 'main/_red_linkedin.html' %}</a></li>
+                            <li><a href="{{ perfil.link_github|default:'https://github.com/delakordillera' }}" target="_blank" rel="noopener" aria-label="GitHub">{% include 'main/_red_github.html' %}</a></li>
                         </ul>
                     </div>
-                </div>
-                <div class="firma" data-firma aria-hidden="true">
-                    <span class="firma-base">delakordillera</span>
-                    <span class="firma-luz">delakordillera</span>
-                </div>
-                <div class="pie-final">
-                    <p>© 2026 delakordillera</p>
-                    <p>Diseñado y programado a mano, sin plantillas.</p>
+                    <div class="pie-final">
+                        <p>© 2026 delakordillera</p>
+                        <p>Diseñado y programado a mano, sin plantillas.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -414,6 +416,11 @@
                 <li><a href="/#preguntas">Preguntas</a></li>
             </ul>
             <div class="menu-pie">
+                <div class="selector-tema" role="group" aria-label="Tema">
+                    <span class="selector-pastilla" aria-hidden="true"></span>
+                    <button type="button" data-elegir-tema="claro" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Claro</button>
+                    <button type="button" data-elegir-tema="oscuro" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>Oscuro</button>
+                </div>
                 <span>Escríbeme</span>
                 <a class="enlace-linea" href="mailto:{{ perfil.correo|default:'delakordillera@proton.me' }}">{{ perfil.correo|default:'delakordillera@proton.me' }}</a>
             </div>
@@ -426,24 +433,33 @@
         var raiz = document.documentElement;
         var sinMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        /* Tema claro / oscuro, con revelado circular desde el botón */
+        /* Tema claro / oscuro, con revelado circular desde el botón que se toca */
+        var temaActual = function () { return raiz.dataset.tema ? raiz.dataset.tema : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'oscuro' : 'claro'); };
+        var elegidos = document.querySelectorAll('[data-elegir-tema]');
+        var marcarTema = function () {
+            var t = temaActual();
+            elegidos.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.elegirTema === t)); });
+            var sel = document.querySelector('.selector-tema');
+            if (sel) sel.dataset.activo = t;
+        };
+        var fijarTema = function (nuevo, desde) {
+            if (nuevo === temaActual()) return;
+            var aplicar = function () {
+                raiz.dataset.tema = nuevo;
+                try { localStorage.setItem('tema', nuevo); } catch (err) {}
+                marcarTema();
+            };
+            if (!document.startViewTransition || sinMovimiento) { aplicar(); return; }
+            var r = desde.getBoundingClientRect();
+            raiz.style.setProperty('--tema-x', (r.left + r.width / 2) + 'px');
+            raiz.style.setProperty('--tema-y', (r.top + r.height / 2) + 'px');
+            raiz.classList.add('cambiando-tema');
+            document.startViewTransition(aplicar).finished.finally(function () { raiz.classList.remove('cambiando-tema'); });
+        };
         var botonTema = document.querySelector('.boton-tema');
-        if (botonTema) {
-            botonTema.addEventListener('click', function () {
-                var oscuroAhora = raiz.dataset.tema ? raiz.dataset.tema === 'oscuro' : window.matchMedia('(prefers-color-scheme: dark)').matches;
-                var nuevo = oscuroAhora ? 'claro' : 'oscuro';
-                var aplicar = function () {
-                    raiz.dataset.tema = nuevo;
-                    try { localStorage.setItem('tema', nuevo); } catch (err) {}
-                };
-                if (!document.startViewTransition || sinMovimiento) { aplicar(); return; }
-                var r = botonTema.getBoundingClientRect();
-                raiz.style.setProperty('--tema-x', (r.left + r.width / 2) + 'px');
-                raiz.style.setProperty('--tema-y', (r.top + r.height / 2) + 'px');
-                raiz.classList.add('cambiando-tema');
-                document.startViewTransition(aplicar).finished.finally(function () { raiz.classList.remove('cambiando-tema'); });
-            });
-        }
+        if (botonTema) botonTema.addEventListener('click', function () { fijarTema(temaActual() === 'oscuro' ? 'claro' : 'oscuro', botonTema); });
+        elegidos.forEach(function (b) { b.addEventListener('click', function () { fijarTema(b.dataset.elegirTema, b); }); });
+        marcarTema();
 
         /* Borde de la barra solo cuando ya bajaste */
         var barra = document.querySelector('.barra');
@@ -474,16 +490,14 @@
             revisar();
         }
 
-        /* Firma del pie: la luz sigue al cursor */
-        var firma = document.querySelector('[data-firma]');
-        if (firma && window.matchMedia('(hover: hover)').matches) {
-            firma.addEventListener('pointermove', function (e) {
-                var r = firma.getBoundingClientRect();
-                firma.style.setProperty('--x', (e.clientX - r.left) + 'px');
-                firma.style.setProperty('--y', (e.clientY - r.top) + 'px');
-                firma.classList.add('activa');
+        /* Sello del pie: se desplaza suave con el mouse */
+        var contacto = document.querySelector('.contacto'), sello = document.querySelector('.contacto-sello');
+        if (contacto && sello && window.matchMedia('(hover: hover)').matches) {
+            contacto.addEventListener('pointermove', function (e) {
+                var r = contacto.getBoundingClientRect();
+                sello.style.setProperty('--sx', ((e.clientX - r.left) / r.width * 2 - 1).toFixed(3));
+                sello.style.setProperty('--sy', ((e.clientY - r.top) / r.height * 2 - 1).toFixed(3));
             });
-            firma.addEventListener('pointerleave', function () { firma.classList.remove('activa'); });
         }
 
         /* Menú móvil: cerrar al elegir un enlace */

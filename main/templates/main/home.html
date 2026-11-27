@@ -14,10 +14,34 @@
         /* Portada */
         .portada { padding: clamp(3rem, 7vw, 6rem) 0 clamp(4rem, 8vw, 7rem); overflow: hidden; }
         .portada::before { content: ""; position: absolute; inset: 0; z-index: -2; background: radial-gradient(70% 90% at 78% 30%, #2B3326 0%, transparent 70%), radial-gradient(60% 70% at 10% 100%, #232B1F 0%, transparent 70%); }
+        /* Fondo de la portada: cuadrícula fina que se desvanece y luz dorada */
+        .portada-fondo { position: absolute; inset: 0; z-index: -2; pointer-events: none; background-image: linear-gradient(rgba(241, 238, 228, 0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(241, 238, 228, 0.045) 1px, transparent 1px); background-size: 72px 72px; background-position: -1px -1px; -webkit-mask-image: radial-gradient(85% 75% at 70% 35%, #000 20%, transparent 80%); mask-image: radial-gradient(85% 75% at 70% 35%, #000 20%, transparent 80%); }
+        .portada-fondo::after { content: ""; position: absolute; width: 46vw; height: 46vw; right: -8vw; top: -14vw; border-radius: 50%; background: radial-gradient(circle, rgba(201, 164, 101, 0.16), transparent 65%); filter: blur(10px); }
+        /* CTA de la portada */
+        .portada-ctas { display: flex; flex-wrap: wrap; gap: 0.85rem; }
+        .cta-principal, .cta-secundario { position: relative; display: inline-flex; align-items: center; gap: 0.9rem; min-height: 60px; border-radius: 999px; font-weight: 800; font-size: 1.08rem; text-decoration: none; overflow: hidden; isolation: isolate; transition: transform .3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow .3s ease, background-color .3s ease, border-color .3s ease; }
+        .cta-principal { padding: 0.4rem 0.45rem 0.4rem 1.6rem; background: linear-gradient(180deg, #D9BC85, #C9A465); color: #1A1F17; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.45) inset, 0 20px 44px -18px rgba(201, 164, 101, 0.95); }
+        .cta-principal::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.45) 50%, transparent 70%); translate: -120% 0; transition: translate .7s ease; }
+        .cta-principal:hover { transform: translateY(-2px); box-shadow: 0 1px 0 rgba(255, 255, 255, 0.45) inset, 0 26px 52px -18px rgba(201, 164, 101, 1); color: #1A1F17; text-decoration: none; }
+        .cta-principal:hover::before { translate: 120% 0; }
+        .cta-flecha { display: grid; place-items: center; width: 46px; height: 46px; flex: none; border-radius: 50%; }
+        .cta-flecha svg { width: 20px; height: 20px; transition: transform .35s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .cta-principal .cta-flecha { background: #1A1F17; color: #C9A465; }
+        .cta-principal:hover .cta-flecha svg { transform: translateX(3px); }
+        .cta-secundario { padding: 0.4rem 1.5rem 0.4rem 0.45rem; color: #F1EEE4; background: rgba(241, 238, 228, 0.06); border: 1px solid rgba(241, 238, 228, 0.22); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+        .cta-secundario .cta-flecha { background: rgba(241, 238, 228, 0.1); color: #F1EEE4; transition: background-color .3s ease, color .3s ease; }
+        .cta-secundario:hover { border-color: #C9A465; color: #FFFFFF; text-decoration: none; }
+        .cta-secundario:hover .cta-flecha { background: #F1EEE4; color: #1A1F17; }
+        .cta-secundario:hover .cta-flecha svg { transform: translateY(3px); }
+        .cta-principal:focus-visible, .cta-secundario:focus-visible { outline: 3px solid #C9A465; outline-offset: 3px; }
+        .portada a.cta-principal, .portada a.cta-principal:hover { color: #1A1F17; }
+        .portada a.cta-secundario, .portada a.cta-secundario:hover { color: #F1EEE4; }
+        .cta-nota { margin: 0.9rem 0 0; color: var(--s-tenue); font-size: 0.95rem; }
+        @media (max-width: 480px) { .cta-principal, .cta-secundario { width: 100%; justify-content: space-between; } .cta-secundario { justify-content: flex-start; } }
         #topografia { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; display: block; }
         .portada-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 3rem 4rem; align-items: center; }
         .portada h1 { font-size: clamp(2.7rem, 5.8vw, 5rem); font-weight: 800; letter-spacing: -0.04em; line-height: 0.98; max-width: 13ch; }
-        .portada-lead { font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.5; color: var(--s-texto); max-width: 42ch; margin: 1.75rem 0 2.25rem; }
+        .portada-lead { font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.5; color: var(--s-texto); max-width: 42ch; margin: 1.75rem 0 2rem; }
         .boton-oro { background: var(--s-oro); border-color: var(--s-oro); color: #1A1F17; }
         .boton-oro:hover { background: #DDBE85; border-color: #DDBE85; color: #1A1F17; text-decoration: none; }
         .boton-crema { border-color: #F1EEE4; color: #F1EEE4; background: transparent; }
@@ -241,15 +265,23 @@
 
 {% block contenido %}
     <section class="portada oscura" aria-labelledby="titulo">
+        <div class="portada-fondo" aria-hidden="true"></div>
         <canvas id="topografia" aria-hidden="true"></canvas>
         <div class="contenedor portada-grid">
             <div>
                 <h1 id="titulo" data-titulo-portada>Sitios web que traen clientes a negocios locales</h1>
                 <p class="portada-lead" data-entra>Diseño y programo tu sitio, lo dejo listo para que te encuentren en Google y te escriban por WhatsApp, y después me encargo de mantenerlo.</p>
-                <div class="acciones" data-entra>
-                    <a href="#cotizar" class="boton boton-oro">Cotizar mi sitio</a>
-                    <a href="#proyectos" class="boton boton-crema">Ver proyectos</a>
+                <div class="portada-ctas" data-entra>
+                    <a href="#cotizar" class="cta-principal">
+                        <span>Cotizar mi sitio</span>
+                        <span class="cta-flecha" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+                    </a>
+                    <a href="#proyectos" class="cta-secundario">
+                        <span class="cta-flecha" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></span>
+                        <span>Ver proyectos</span>
+                    </a>
                 </div>
+                <p class="cta-nota" data-entra>Tres preguntas, un minuto y sin compromiso.</p>
                 {% with p=proyectos.0 %}{% with m=p.metricas_validas.0 %}{% if m %}
                 <p class="prueba" data-entra><strong>{{ m.valor }}</strong><span>{{ m.etiqueta|capfirst }} de {{ p.titulo }}{% if '28 días' in m.nota %} en 28 días{% endif %}.</span></p>
                 {% endif %}{% endwith %}{% endwith %}
