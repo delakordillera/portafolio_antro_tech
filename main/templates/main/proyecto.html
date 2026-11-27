@@ -6,7 +6,7 @@
 {% block og_titulo %}{{ proyecto.titulo }} | Caso de delakordillera{% endblock %}
 {% block og_descripcion %}{{ proyecto.descripcion_corta|truncatechars:155 }}{% endblock %}
 
-{% block precarga %}{% if proyecto.shot %}<link rel="preload" as="image" href="{% static proyecto.shot.src %}" fetchpriority="high">{% endif %}{% endblock %}
+{% block precarga %}{% if proyecto.shot_url %}<link rel="preload" as="image" href="{{ proyecto.shot_url }}" fetchpriority="high">{% endif %}{% endblock %}
 
 {% block cabecera_extra %}<script type="application/ld+json">{{ jsonld|safe }}</script>{% endblock %}
 
@@ -110,9 +110,9 @@
                 </div>
                 {% endif %}
                 <div class="lamina" style="--marca: {{ proyecto.marca }}">
-                    {% if proyecto.shot %}
+                    {% if proyecto.shot_url %}
                     <div class="lamina-escritorio" style="view-transition-name: captura-{{ proyecto.slug }}">
-                        <img src="{% static proyecto.shot.src %}" alt="{{ proyecto.shot.alt|default:proyecto.titulo }}" width="1400" height="875" fetchpriority="high" decoding="async">
+                        <img src="{{ proyecto.shot_url }}" alt="{{ proyecto.shot.alt|default:proyecto.titulo }}" width="1400" height="875" fetchpriority="high" decoding="async">
                     </div>
                     {% endif %}
                     {% if proyecto.shot_movil %}

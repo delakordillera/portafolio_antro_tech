@@ -70,6 +70,12 @@ def _preparar(proyectos):
         movil = proy.captura_por_rol('movil')
         proy.shot = escritorio
         proy.shot_900 = _variante(escritorio.get('src'), 900) if escritorio else None
+        # Precedencia: imagen subida en el admin > captura estática.
+        if proy.cover_url:
+            proy.shot_url, proy.shot_900_url = proy.cover_url, None
+        else:
+            proy.shot_url = static(escritorio['src']) if escritorio else None
+            proy.shot_900_url = static(proy.shot_900) if proy.shot_900 else None
         proy.shot_movil = movil
         # Capturas extra para la página del caso (ni portada ni celular).
         usadas = {c.get('src') for c in (escritorio, movil) if c}
@@ -98,7 +104,7 @@ def home(request):
             'titulo': p.titulo,
             'marca': p.marca,
             'url': reverse('proyecto', args=[p.slug]),
-            'imagen': static(p.shot_900 or p.shot['src']) if p.shot else '',
+            'imagen': p.shot_900_url or p.shot_url or '',
         }
         for p in proyectos
     ]

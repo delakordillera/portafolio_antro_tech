@@ -83,6 +83,17 @@
         h3 { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.01em; }
         p { margin: 0 0 1rem; max-width: 66ch; text-wrap: pretty; }
 
+        /* Grano de papel en toda la página (como la textura del logo) */
+        body::after { content: ""; position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: 0.07; mix-blend-mode: multiply;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"); }
+        :root[data-tema="oscuro"] body::after { mix-blend-mode: screen; opacity: 0.05; }
+        @media (prefers-color-scheme: dark) { :root:not([data-tema="claro"]) body::after { mix-blend-mode: screen; opacity: 0.05; } }
+        /* Línea dorada de progreso de lectura (animación ligada al scroll) */
+        @supports (animation-timeline: scroll()) {
+            .progreso { position: fixed; inset: 0 0 auto 0; height: 2px; z-index: 40; background: var(--oro); transform-origin: 0 50%; transform: scaleX(0); animation: progreso linear both; animation-timeline: scroll(root); pointer-events: none; }
+            @keyframes progreso { to { transform: scaleX(1); } }
+        }
+
         .saltar { position: absolute; left: -9999px; }
         .saltar:focus { left: 1rem; top: 1rem; background: var(--superficie); color: var(--tinta); padding: 0.75rem 1rem; z-index: 30; }
         .contenedor { max-width: var(--ancho); margin: 0 auto; padding: 0 1.5rem; }
@@ -167,6 +178,7 @@
 </head>
 <body>
     <a class="saltar" href="#main">Saltar al contenido</a>
+    <div class="progreso" aria-hidden="true"></div>
     <header class="barra">
         <nav class="nav contenedor" aria-label="Navegación principal">
             <a class="marca" href="/" aria-label="Ir al inicio">
@@ -276,5 +288,9 @@
     })();
     </script>
     {% block scripts %}{% endblock %}
+    <script src="{% static 'main/vendor/gsap.min.js' %}" defer></script>
+    <script src="{% static 'main/vendor/ScrollTrigger.min.js' %}" defer></script>
+    <script src="{% static 'main/vendor/SplitText.min.js' %}" defer></script>
+    <script src="{% static 'main/js/portafolio.js' %}" defer></script>
 </body>
 </html>

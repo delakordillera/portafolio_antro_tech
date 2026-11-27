@@ -1,104 +1,155 @@
 {% extends 'main/base.html' %}
 {% load static %}
 
-{% block precarga %}{% with primero=proyectos.0 %}{% if primero.shot %}<link rel="preload" as="image" href="{% if primero.shot_900 %}{% static primero.shot_900 %}{% else %}{% static primero.shot.src %}{% endif %}" fetchpriority="high">{% endif %}{% endwith %}{% endblock %}
+{% block precarga %}{% with primero=proyectos.0 %}{% if primero.shot_url %}<link rel="preload" as="image" href="{{ primero.shot_900_url|default:primero.shot_url }}" fetchpriority="high">{% endif %}{% endwith %}{% endblock %}
 
 {% block estilos %}
+        /* Secciones oscuras con el verde del logo: iguales en tema claro y oscuro */
+        .oscura { --s-fondo: #1A1F17; --s-superficie: #222920; --s-linea: #384132; --s-tinta: #F1EEE4; --s-texto: #C9CDBE; --s-tenue: #A3A895; --s-oro: #C9A465;
+            background: var(--s-fondo); color: var(--s-texto); position: relative; isolation: isolate; }
+        .oscura h1, .oscura h2, .oscura h3 { color: var(--s-tinta); }
+        .oscura a { color: var(--s-oro); }
+        .oscura :focus-visible { outline-color: var(--s-oro); }
+
         /* Portada */
-        .portada { padding: clamp(2.5rem, 6vw, 5rem) 0 clamp(3.5rem, 7vw, 6rem); }
+        .portada { padding: clamp(3rem, 7vw, 6rem) 0 clamp(4rem, 8vw, 7rem); overflow: hidden; }
+        .portada::before { content: ""; position: absolute; inset: 0; z-index: -2; background: radial-gradient(70% 90% at 78% 30%, #2B3326 0%, transparent 70%), radial-gradient(60% 70% at 10% 100%, #232B1F 0%, transparent 70%); }
+        #topografia { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; display: block; }
         .portada-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 3rem 4rem; align-items: center; }
-        .portada h1 { font-size: clamp(2.6rem, 5.6vw, 4.75rem); font-weight: 800; letter-spacing: -0.04em; line-height: 0.98; max-width: 14ch; }
-        .portada-lead { font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.5; color: var(--texto); max-width: 44ch; margin: 1.75rem 0 2.25rem; }
+        .portada h1 { font-size: clamp(2.7rem, 5.8vw, 5rem); font-weight: 800; letter-spacing: -0.04em; line-height: 0.98; max-width: 13ch; }
+        .portada-lead { font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.5; color: var(--s-texto); max-width: 42ch; margin: 1.75rem 0 2.25rem; }
+        .boton-oro { background: var(--s-oro); border-color: var(--s-oro); color: #1A1F17; }
+        .boton-oro:hover { background: #DDBE85; border-color: #DDBE85; color: #1A1F17; text-decoration: none; }
+        .boton-crema { border-color: #F1EEE4; color: #F1EEE4; background: transparent; }
+        .boton-crema:hover { background: #F1EEE4; color: #1A1F17; text-decoration: none; }
+        .oscura a.boton-oro, .oscura a.boton-oro:hover { color: #1A1F17; }
+        .oscura a.boton-crema { color: #F1EEE4; }
+        .oscura a.boton-crema:hover { color: #1A1F17; }
+        .prueba { display: flex; align-items: center; gap: 0.9rem; margin-top: 2.5rem; padding: 0.9rem 1.1rem; border: 1px solid var(--s-linea); border-radius: 12px; background: rgba(34, 41, 32, 0.6); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); max-width: 30rem; }
+        .prueba strong { font-size: 1.6rem; font-weight: 800; color: var(--s-oro); letter-spacing: -0.02em; line-height: 1; }
+        .prueba span { font-size: 0.95rem; line-height: 1.4; color: var(--s-texto); }
+        .linea-titulo { padding-bottom: 0.04em; }
 
-        /* Collage: los tres trabajos; el que apuntas pasa al frente */
+        /* Collage: los trabajos; el que apuntas pasa al frente */
         .collage { position: relative; aspect-ratio: 6 / 5; }
-        .collage-item { position: absolute; width: 74%; padding: clamp(8px, 1.2vw, 14px); border-radius: var(--radio); background: var(--marca); box-shadow: var(--sombra); display: block; transition: transform .35s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .collage-item { position: absolute; width: 80%; padding: clamp(8px, 1.2vw, 14px); border-radius: var(--radio); background: var(--marca); box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.9); display: block; transition: transform .35s cubic-bezier(0.2, 0.8, 0.2, 1); }
         .collage-item img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; border-radius: 5px; }
-        .collage-item:nth-child(1) { top: 0; left: 0; z-index: 1; }
-        .collage-item:nth-child(2) { top: 24%; left: 26%; z-index: 2; }
-        .collage-item:nth-child(3) { top: 50%; left: 8%; z-index: 3; }
+        .collage-item:nth-child(1) { top: 2%; left: 0; z-index: 1; }
+        .collage-item:nth-child(2) { top: 36%; left: 20%; z-index: 2; }
+        .collage-item:nth-child(3) { top: 62%; left: 6%; z-index: 3; }
         .collage-item:hover, .collage-item:focus-visible { z-index: 5; transform: translateY(-8px) scale(1.02); }
-        .collage-nombre { position: absolute; left: 50%; bottom: 0.9rem; translate: -50% 6px; background: var(--fondo); color: var(--tinta); font-weight: 700; font-size: 0.95rem; padding: 0.35rem 0.8rem; border-radius: 999px; white-space: nowrap; opacity: 0; transition: opacity .2s ease, translate .2s ease; box-shadow: var(--sombra); }
+        .collage-nombre { position: absolute; left: 50%; bottom: 0.9rem; translate: -50% 6px; background: #F1EEE4; color: #1A1F17; font-weight: 700; font-size: 0.95rem; padding: 0.35rem 0.8rem; border-radius: 999px; white-space: nowrap; opacity: 0; transition: opacity .2s ease, translate .2s ease; }
         .collage-item:hover .collage-nombre, .collage-item:focus-visible .collage-nombre { opacity: 1; translate: -50% 0; }
-        @media (prefers-reduced-motion: no-preference) {
-            /* Un solo momento al cargar: las tres capturas entran en orden */
-            .collage-item { transition: transform .35s cubic-bezier(0.2, 0.8, 0.2, 1), opacity .6s ease, translate .7s cubic-bezier(0.2, 0.8, 0.2, 1); }
-            .collage-item:nth-child(2) { transition-delay: 0s, .12s, .12s; }
-            .collage-item:nth-child(3) { transition-delay: 0s, .24s, .24s; }
-            @starting-style { .collage-item { opacity: 0; translate: 0 28px; } }
-        }
 
-        /* Galería: cada proyecto ocupa una fila, alternando lados */
-        .galeria { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(4rem, 9vw, 7.5rem); }
-        .obra { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: 2.5rem 4rem; align-items: center; }
-        .obra:nth-child(even) { grid-template-columns: minmax(0, 1fr) minmax(0, 1.65fr); }
-        .obra:nth-child(even) .lamina { order: 2; }
+        .seccion { padding: clamp(4.5rem, 10vw, 8rem) 0; }
+        .seccion-cabeza { margin-bottom: 3rem; max-width: 44rem; }
+        .seccion-cabeza p { margin-top: 1rem; font-size: 1.15rem; }
+
+        /* Proyectos: tarjetas que se apilan al bajar */
+        .galeria { list-style: none; margin: 0; padding: 0; display: grid; gap: 2.5rem; }
+        .obra { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 2rem 3.5rem; align-items: center; background: var(--superficie); border: 1px solid var(--linea); border-radius: 20px; padding: clamp(1.25rem, 3vw, 2.5rem); box-shadow: var(--sombra); transform-origin: 50% 0; }
+        @media (min-width: 1024px) { .obra { position: sticky; top: 5.5rem; } }
         .obra-link { display: block; text-decoration: none; border-radius: var(--radio); }
-        .obra-link .lamina-escritorio img { transition: transform .5s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        .obra-link:hover .lamina-escritorio img { transform: scale(1.025); }
+        .obra-link .lamina-escritorio { transition: transform .25s ease-out; will-change: transform; }
         .obra-tipo { color: var(--tenue); margin-bottom: 0.6rem; }
         .obra h3 { font-size: clamp(1.6rem, 2.6vw, 2.2rem); font-weight: 800; letter-spacing: -0.025em; margin-bottom: 0.9rem; }
         .obra h3 a { color: var(--tinta); text-decoration: none; }
         .obra h3 a:hover { color: var(--acento); text-decoration: underline; text-decoration-thickness: 2px; }
         .obra-dato { color: var(--tinta); font-weight: 500; }
-        .obra-dato strong { font-weight: 800; }
-        /* El celular sube un poco más rápido que la pantalla al hacer scroll */
-        @supports (animation-timeline: view()) {
-            @media (prefers-reduced-motion: no-preference) {
-                .obra .lamina-movil { animation: celular-sube linear both; animation-timeline: view(); animation-range: entry 10% exit 90%; }
-                @keyframes celular-sube { from { transform: translateY(40px); } to { transform: translateY(-40px); } }
-            }
-        }
+        .obra-dato strong { font-weight: 800; color: var(--acento); }
+        .obra-ver { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 700; }
 
-        .seccion { padding: clamp(4.5rem, 10vw, 8rem) 0; }
-        .seccion-cabeza { margin-bottom: 3rem; }
-        .seccion-cabeza p { margin-top: 1rem; font-size: 1.15rem; }
+        /* Servicios: cuadrícula con foco de luz */
+        .servicios-oscura { padding: clamp(4.5rem, 10vw, 8rem) 0; margin-top: clamp(4.5rem, 10vw, 8rem); }
+        .bento { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: minmax(210px, auto); gap: 1rem; }
+        .foco { position: relative; overflow: hidden; border-radius: 18px; background: var(--s-superficie); border: 1px solid var(--s-linea); padding: 1.75rem; display: flex; flex-direction: column; justify-content: flex-end; }
+        .foco::before { content: ""; position: absolute; inset: 0; background: radial-gradient(420px circle at var(--x, -999px) var(--y, -999px), rgba(201, 164, 101, 0.16), transparent 45%); pointer-events: none; transition: opacity .3s ease; }
+        .foco::after { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: radial-gradient(300px circle at var(--x, -999px) var(--y, -999px), rgba(201, 164, 101, 0.55), transparent 50%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+        .foco svg { width: 34px; height: 34px; color: var(--s-oro); margin-bottom: auto; }
+        .foco h3 { margin: 2rem 0 0.5rem; font-size: 1.35rem; }
+        .foco p { margin: 0; color: var(--s-texto); }
+        .foco-grande { grid-column: span 2; grid-row: span 2; }
+        .foco-grande h3 { font-size: clamp(1.6rem, 2.6vw, 2.2rem); max-width: 18ch; }
+        .foco-grande p { font-size: 1.1rem; max-width: 46ch; }
+        .foco-grande .dlk-fondo { position: absolute; right: -8%; top: -10%; width: 55%; opacity: 0.06; pointer-events: none; }
+        .foco-ancho { grid-column: span 3; flex-direction: row; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
+        .foco-ancho h3 { margin: 0 0 0.35rem; }
+        .foco-ancho svg { margin: 0; }
 
-        /* Servicios */
-        .servicios { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 2.75rem 3rem; }
-        .servicio svg { width: 30px; height: 30px; color: var(--acento); margin-bottom: 1rem; }
-        .servicio h3 { margin-bottom: 0.5rem; }
-        .servicio p { margin: 0; }
+        /* Arma tu proyecto: asistente en tres pasos */
+        .cotizador { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 1.5rem; align-items: start; }
+        .asistente { background: var(--superficie); border: 1px solid var(--linea); border-radius: 20px; padding: clamp(1.5rem, 3.5vw, 2.75rem); box-shadow: var(--sombra); }
+        .pasos { list-style: none; margin: 0 0 1rem; padding: 0; display: flex; gap: 0.5rem 1.5rem; flex-wrap: wrap; counter-reset: p; }
+        .pasos li { counter-increment: p; display: flex; align-items: center; gap: 0.55rem; color: var(--tenue); font-weight: 600; font-size: 0.95rem; }
+        .pasos li::before { content: counter(p); display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--linea); font-size: 0.85rem; }
+        .pasos li[aria-current="step"] { color: var(--tinta); }
+        .pasos li[aria-current="step"]::before { background: var(--tinta); border-color: var(--tinta); color: var(--fondo); }
+        .pasos li.hecho::before { background: var(--acento); border-color: var(--acento); color: var(--superficie); }
+        .barra-paso { height: 4px; border-radius: 2px; background: var(--linea); overflow: hidden; margin-bottom: 2rem; }
+        .barra-paso span { display: block; height: 100%; width: var(--avance, 33%); background: var(--acento); border-radius: 2px; transition: width .4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .paso { border: 0; margin: 0; padding: 0; min-width: 0; }
+        .paso legend { color: var(--tinta); font-weight: 800; font-size: clamp(1.35rem, 2.4vw, 1.75rem); letter-spacing: -0.02em; margin-bottom: 0.4rem; padding: 0; }
+        .paso-ayuda { color: var(--tenue); margin-bottom: 1.5rem; }
+        .js .asistente .paso:not(.activo) { display: none; }
+        .no-js-solo { display: none; }
+        html:not(.js) .asistente .paso + .paso { margin-top: 2.5rem; }
+        .tarjetas-opcion { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: 0.75rem; }
+        .t-opcion { position: relative; display: block; }
+        .t-opcion input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; z-index: 1; }
+        .t-opcion .cara { display: grid; grid-template-columns: 40px 1fr; gap: 0.25rem 0.9rem; align-items: start; height: 100%; padding: 1rem 1.1rem; border: 1.5px solid var(--linea); border-radius: 14px; background: var(--fondo); transition: border-color .15s ease, background-color .15s ease, transform .15s ease; }
+        .t-opcion .cara svg { grid-row: span 2; width: 40px; height: 40px; padding: 8px; border-radius: 10px; background: var(--acento-suave); color: var(--acento); }
+        .t-opcion .cara strong { color: var(--tinta); font-weight: 700; }
+        .t-opcion .cara small { color: var(--tenue); font-size: 0.92rem; line-height: 1.4; }
+        .t-opcion:hover .cara { border-color: var(--tinta); }
+        .t-opcion input:checked + .cara { border-color: var(--acento); background: var(--acento-suave); }
+        .t-opcion input:checked + .cara svg { background: var(--acento); color: var(--superficie); }
+        .t-opcion input:focus-visible + .cara { outline: 3px solid var(--acento); outline-offset: 2px; }
+        .campo { margin-bottom: 1.5rem; }
+        .campo label, .campo .etiqueta { display: block; color: var(--tinta); font-weight: 700; margin-bottom: 0.6rem; }
+        .campo input[type="text"] { width: 100%; min-height: 50px; font: inherit; color: var(--tinta); background: var(--fondo); border: 1.5px solid var(--linea); border-radius: 10px; padding: 0 1rem; }
+        .campo input[type="text"]:focus-visible { outline: 3px solid var(--acento); outline-offset: 1px; border-color: var(--acento); }
+        .pildoras { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .pildora { position: relative; }
+        .pildora input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+        .pildora span { display: inline-flex; align-items: center; min-height: 44px; padding: 0 1rem; border-radius: 999px; border: 1.5px solid var(--linea); color: var(--tinta); font-weight: 500; }
+        .pildora:hover span { border-color: var(--tinta); }
+        .pildora input:checked + span { background: var(--tinta); border-color: var(--tinta); color: var(--fondo); }
+        .pildora input:focus-visible + span { outline: 3px solid var(--acento); outline-offset: 2px; }
+        .navegacion-pasos { display: flex; justify-content: space-between; gap: 0.75rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--linea); }
+        .boton[disabled] { opacity: 0.4; cursor: not-allowed; }
+        .js-solo { display: none; }
+        .js .js-solo { display: flex; }
+        .js .barra-paso.js-solo { display: block; }
+        .boton-texto { background: none; border: 0; font: inherit; font-weight: 700; color: var(--tinta); cursor: pointer; min-height: 48px; padding: 0 0.5rem; display: inline-flex; align-items: center; gap: 0.4rem; }
+        .boton-texto:hover { color: var(--acento); }
+        .boton-texto[hidden] { display: none; }
 
-        /* Armador de proyecto */
-        .armador { background: var(--superficie); border-radius: 16px; border: 1px solid var(--linea); padding: clamp(1.5rem, 4vw, 3rem); display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 2.5rem 4rem; }
-        .armador fieldset { border: 0; margin: 0 0 2rem; padding: 0; min-width: 0; }
-        .armador legend { color: var(--tinta); font-weight: 700; font-size: 1.15rem; margin-bottom: 0.9rem; padding: 0; }
-        .opciones { display: flex; flex-wrap: wrap; gap: 0.6rem; }
-        .opcion { position: relative; }
-        .opcion input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
-        .opcion span { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; padding: 0 1rem; border-radius: 999px; border: 1px solid var(--linea); color: var(--tinta); font-weight: 500; transition: background-color .15s ease, border-color .15s ease, color .15s ease; user-select: none; }
-        .opcion:hover span { border-color: var(--tinta); }
-        .opcion input:checked + span { background: var(--tinta); border-color: var(--tinta); color: var(--fondo); }
-        .opcion input:focus-visible + span { outline: 3px solid var(--acento); outline-offset: 2px; }
-        .opcion input[type="checkbox"]:checked + span::before { content: ""; width: 0.45rem; height: 0.8rem; border: solid currentColor; border-width: 0 2px 2px 0; rotate: 45deg; translate: 0 -2px; }
-        .armador label.campo { display: block; color: var(--tinta); font-weight: 700; margin-bottom: 0.5rem; }
-        .armador input[type="text"] { width: 100%; min-height: 48px; font: inherit; color: var(--tinta); background: var(--fondo); border: 1px solid var(--linea); border-radius: 8px; padding: 0 1rem; }
-        .armador input[type="text"]:focus-visible { outline: 3px solid var(--acento); outline-offset: 1px; }
-        .resumen { position: sticky; top: 6rem; align-self: start; display: grid; gap: 1.25rem; }
-        .resumen h3 { font-size: 1.15rem; }
-        .resumen-caso { display: grid; grid-template-columns: 96px 1fr; gap: 1rem; align-items: center; text-decoration: none; color: var(--tinta); padding: 0.75rem; border-radius: 12px; border: 1px solid var(--linea); background: var(--fondo); }
-        .resumen-caso:hover { border-color: var(--tinta); color: var(--tinta); }
-        .resumen-caso .mini { display: block; background: var(--marca); padding: 6px; border-radius: 8px; }
-        .resumen-caso img { border-radius: 4px; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
-        .resumen-caso small { display: block; color: var(--tenue); font-size: 0.9rem; }
-        .resumen-caso strong { font-weight: 700; }
-        .resumen-lista { margin: 0; padding-left: 1.1rem; color: var(--texto); }
-        .resumen-vacio { color: var(--tenue); margin: 0; }
-        .resumen .boton[aria-disabled="true"] { opacity: 0.45; pointer-events: none; }
-        @media (prefers-reduced-motion: no-preference) {
-            .resumen-caso { transition: opacity .25s ease, translate .25s ease; }
-            @starting-style { .resumen-caso { opacity: 0; translate: 0 6px; } }
-        }
+        .boleta { position: sticky; top: 6rem; border-radius: 20px; overflow: hidden; border: 1px solid var(--linea); background: var(--superficie); box-shadow: var(--sombra); }
+        .boleta-cabeza { background: #1A1F17; color: #F1EEE4; padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 0.8rem; }
+        .boleta-cabeza img { width: 30px; height: auto; }
+        .boleta-cabeza h3 { color: #F1EEE4; font-size: 1.1rem; }
+        .boleta-cuerpo { padding: 1.5rem; display: grid; gap: 1.25rem; }
+        .boleta dl { margin: 0; display: grid; gap: 0.9rem; }
+        .boleta dt { color: var(--tenue); font-size: 0.9rem; }
+        .boleta dd { margin: 0.15rem 0 0; color: var(--tinta); font-weight: 600; }
+        .boleta dd.vacio { color: var(--tenue); font-weight: 400; font-style: italic; }
+        .boleta-caso { display: grid; grid-template-columns: 92px 1fr; gap: 0.9rem; align-items: center; text-decoration: none; color: var(--tinta); padding: 0.7rem; border-radius: 12px; border: 1px dashed var(--linea); }
+        .boleta-caso:hover { border-color: var(--acento); color: var(--tinta); }
+        .boleta-caso .mini { display: block; background: var(--marca); padding: 5px; border-radius: 7px; }
+        .boleta-caso img { border-radius: 3px; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
+        .boleta-caso small { display: block; color: var(--tenue); font-size: 0.85rem; }
+        .boleta-acciones { display: grid; gap: 0.6rem; }
+        .boleta-acciones .boton { justify-content: center; }
+        .boleta .boton[aria-disabled="true"] { opacity: 0.4; pointer-events: none; }
 
-        /* Proceso: secuencia real, por eso va numerada */
+        /* Proceso */
         .proceso { list-style: none; margin: 0; padding: 0; counter-reset: paso; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 2rem 2.5rem; }
         .proceso li { counter-increment: paso; padding-top: 1.25rem; border-top: 2px solid var(--tinta); }
         .proceso h3::before { content: counter(paso) ". "; color: var(--acento); }
         .proceso h3 { margin-bottom: 0.5rem; font-size: 1.15rem; }
         .proceso p { margin: 0; }
 
-        /* Preguntas: <details> con apertura animada */
+        /* Preguntas */
         .preguntas { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 2rem 5rem; align-items: start; }
         .preguntas details { border-bottom: 1px solid var(--linea); }
         .preguntas details:first-of-type { border-top: 1px solid var(--linea); }
@@ -116,30 +167,41 @@
         .stack { color: var(--tenue); margin-top: 1.5rem; }
         .stack strong { color: var(--tinta); font-weight: 700; }
 
-        @media (max-width: 860px) {
-            .portada-grid, .armador, .preguntas { grid-template-columns: 1fr; }
+        @media (max-width: 960px) {
+            .portada-grid, .cotizador, .preguntas { grid-template-columns: 1fr; }
+            .collage { max-width: 520px; width: 100%; }
+            .boleta { position: static; }
+            .obra { grid-template-columns: 1fr; }
+            .bento { grid-template-columns: 1fr 1fr; }
+            .foco-grande { grid-column: span 2; grid-row: auto; }
+            .foco-ancho { grid-column: span 2; }
+        }
+        @media (max-width: 600px) {
+            .bento { grid-template-columns: 1fr; }
+            .foco-grande, .foco-ancho { grid-column: auto; }
             .collage { display: none; }
-            .resumen { position: static; }
-            .obra, .obra:nth-child(even) { grid-template-columns: 1fr; }
-            .obra:nth-child(even) .lamina { order: 0; }
         }
 {% endblock %}
 
 {% block contenido %}
-    <section class="portada" aria-labelledby="titulo">
+    <section class="portada oscura" aria-labelledby="titulo">
+        <canvas id="topografia" aria-hidden="true"></canvas>
         <div class="contenedor portada-grid">
             <div>
-                <h1 id="titulo">Sitios web que traen clientes a negocios locales</h1>
-                <p class="portada-lead">Diseño y programo tu sitio, lo dejo listo para que te encuentren en Google y te escriban por WhatsApp, y después me encargo de mantenerlo.</p>
-                <div class="acciones">
-                    <a href="#proyectos" class="boton boton-lleno">Ver proyectos</a>
-                    <a href="#armador" class="boton boton-borde">Cotizar mi sitio</a>
+                <h1 id="titulo" data-titulo-portada>Sitios web que traen clientes a negocios locales</h1>
+                <p class="portada-lead" data-entra>Diseño y programo tu sitio, lo dejo listo para que te encuentren en Google y te escriban por WhatsApp, y después me encargo de mantenerlo.</p>
+                <div class="acciones" data-entra>
+                    <a href="#cotizar" class="boton boton-oro">Cotizar mi sitio</a>
+                    <a href="#proyectos" class="boton boton-crema">Ver proyectos</a>
                 </div>
+                {% with p=proyectos.0 %}{% with m=p.metricas_validas.0 %}{% if m %}
+                <p class="prueba" data-entra><strong>{{ m.valor }}</strong><span>{{ m.etiqueta|capfirst }} de {{ p.titulo }}{% if '28 días' in m.nota %} en 28 días{% endif %}.</span></p>
+                {% endif %}{% endwith %}{% endwith %}
             </div>
             <div class="collage">
-                {% for p in proyectos|slice:":3" %}{% if p.shot %}
+                {% for p in proyectos|slice:":3" %}{% if p.shot_url %}
                 <a class="collage-item" href="{% url 'proyecto' p.slug %}" style="--marca: {{ p.marca }}" aria-label="Ver el caso {{ p.titulo }}">
-                    <img src="{% if p.shot_900 %}{% static p.shot_900 %}{% else %}{% static p.shot.src %}{% endif %}" alt="" width="900" height="562" decoding="async">
+                    <img src="{{ p.shot_900_url|default:p.shot_url }}" alt="" width="900" height="562" decoding="async">
                     <span class="collage-nombre" aria-hidden="true">{{ p.titulo }}</span>
                 </a>
                 {% endif %}{% endfor %}
@@ -147,16 +209,19 @@
         </div>
     </section>
 
-    <section id="proyectos" class="contenedor" aria-labelledby="proyectos-titulo">
-        <h2 id="proyectos-titulo" class="seccion-cabeza">Proyectos</h2>
+    <section id="proyectos" class="seccion contenedor" aria-labelledby="proyectos-titulo">
+        <div class="seccion-cabeza">
+            <h2 id="proyectos-titulo">Proyectos</h2>
+            <p>Sitios en producción para clientes reales, con lo que pasó después de publicarlos.</p>
+        </div>
         {% if proyectos %}
         <ol class="galeria" role="list">
             {% for p in proyectos %}
             <li class="obra">
-                <a class="obra-link lamina" href="{% url 'proyecto' p.slug %}" style="--marca: {{ p.marca }}" aria-label="Ver el caso {{ p.titulo }}">
+                <a class="obra-link lamina" href="{% url 'proyecto' p.slug %}" style="--marca: {{ p.marca }}" aria-label="Ver el caso {{ p.titulo }}" data-inclinar>
                     <div class="lamina-escritorio" style="view-transition-name: captura-{{ p.slug }}">
-                        {% if p.shot %}
-                        <img src="{% static p.shot.src %}"{% if p.shot_900 %} srcset="{% static p.shot_900 %} 900w, {% static p.shot.src %} 1400w" sizes="(max-width: 860px) 92vw, 680px"{% endif %} alt="{{ p.shot.alt|default:p.titulo }}" width="1400" height="875" decoding="async" loading="lazy">
+                        {% if p.shot_url %}
+                        <img src="{{ p.shot_url }}"{% if p.shot_900_url %} srcset="{{ p.shot_900_url }} 900w, {{ p.shot_url }} 1400w" sizes="(max-width: 960px) 92vw, 640px"{% endif %} alt="{{ p.shot.alt|default:p.titulo }}" width="1400" height="875" decoding="async" loading="lazy">
                         {% endif %}
                     </div>
                     {% if p.shot_movil %}
@@ -166,11 +231,11 @@
                     {% endif %}
                 </a>
                 <div>
-                    <p class="obra-tipo">{% if p.url_produccion %}Sitio en producción{% else %}Plataforma con investigación{% endif %}{% if p.anio %}, {{ p.anio }}{% endif %}</p>
+                    <p class="obra-tipo">{% if p.url_produccion %}Sitio en producción{% else %}Proyecto{% endif %}{% if p.anio %}, {{ p.anio }}{% endif %}</p>
                     <h3 style="view-transition-name: titulo-{{ p.slug }}"><a href="{% url 'proyecto' p.slug %}">{{ p.titulo }}</a></h3>
                     <p>{{ p.descripcion_corta }}</p>
                     {% with m=p.metricas_validas.0 %}{% if m %}<p class="obra-dato"><strong>{{ m.valor }}</strong> {{ m.etiqueta }}{% if '28 días' in m.nota %} en 28 días{% endif %}.</p>{% endif %}{% endwith %}
-                    <p><a href="{% url 'proyecto' p.slug %}">Ver el caso de {{ p.titulo }}</a></p>
+                    <p><a class="obra-ver" href="{% url 'proyecto' p.slug %}">Ver el caso completo</a></p>
                 </div>
             </li>
             {% endfor %}
@@ -180,73 +245,148 @@
         {% endif %}
     </section>
 
-    <section id="servicios" class="seccion contenedor" aria-labelledby="servicios-titulo">
-        <div class="seccion-cabeza">
-            <h2 id="servicios-titulo">Lo que hago</h2>
-            <p>Cada proyecto se cotiza según lo que tu negocio necesita.</p>
+    <section id="servicios" class="servicios-oscura oscura" aria-labelledby="servicios-titulo">
+        <div class="contenedor">
+            <div class="seccion-cabeza">
+                <h2 id="servicios-titulo">Lo que hago</h2>
+                <p>Cada proyecto se cotiza según lo que tu negocio necesita.</p>
+            </div>
+            <ul class="bento" data-foco>
+                <li class="foco foco-grande">
+                    <img class="dlk-fondo" src="{% static 'main/marca/dlk-dorado.svg' %}" alt="" width="1253" height="1305" loading="lazy">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                    <h3>Sitio web para tu negocio</h3>
+                    <p>Diseño, desarrollo y publicación de un sitio rápido, pensado primero para el celular, con tu carta, tus servicios y tus datos de contacto a un toque.</p>
+                </li>
+                <li class="foco">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12z"/><path d="M9 10h6M9 13.5h4"/></svg>
+                    <h3>Reservas por WhatsApp</h3>
+                    <p>Botones con el mensaje ya escrito: tu cliente solo toca enviar.</p>
+                </li>
+                <li class="foco">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+                    <h3>Aparecer en Google y Maps</h3>
+                    <p>Ficha de Google ordenada, SEO local y datos estructurados.</p>
+                </li>
+                <li class="foco foco-ancho">
+                    <div>
+                        <h3>Sistemas a medida</h3>
+                        <p>Agendas, bases de datos y paneles en Django que tú mismo administras.</p>
+                    </div>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4M7.5 13h3M7.5 16.5h3M13.5 13h3"/></svg>
+                </li>
+            </ul>
         </div>
-        <ul class="servicios">
-            <li class="servicio">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-                <h3>Sitio web para tu negocio</h3>
-                <p>Diseño, desarrollo y publicación de un sitio rápido, pensado primero para el celular.</p>
-            </li>
-            <li class="servicio">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12z"/><path d="M9 10h6M9 13.5h4"/></svg>
-                <h3>Reservas y pedidos por WhatsApp</h3>
-                <p>Botones que abren WhatsApp con el mensaje ya escrito, para que tus clientes solo tengan que enviarlo.</p>
-            </li>
-            <li class="servicio">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
-                <h3>Aparecer en Google y Maps</h3>
-                <p>Ficha de Google ordenada, SEO local y datos estructurados para que te encuentren cerca.</p>
-            </li>
-            <li class="servicio">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4M7.5 13h3M7.5 16.5h3M13.5 13h3"/></svg>
-                <h3>Sistemas a medida</h3>
-                <p>Agendas, bases de datos y paneles en Django que tú mismo administras.</p>
-            </li>
-        </ul>
     </section>
 
-    <section id="armador" class="contenedor" aria-labelledby="armador-titulo">
+    <section id="cotizar" class="seccion contenedor" aria-labelledby="cotizar-titulo">
         <div class="seccion-cabeza">
-            <h2 id="armador-titulo">Arma tu proyecto</h2>
-            <p>Marca lo que buscas. Te muestro un caso parecido y dejo listo el correo para que me escribas.</p>
+            <h2 id="cotizar-titulo">Arma tu proyecto</h2>
+            <p>Tres preguntas cortas. Al final te dejo el correo de consulta listo para enviar.</p>
         </div>
-        <form class="armador" id="form-armador">
-            <div>
-                <fieldset>
+        <div class="cotizador">
+            <form class="asistente" id="asistente" novalidate>
+                <ol class="pasos js-solo" aria-label="Pasos">
+                    <li aria-current="step">Tu negocio</li>
+                    <li>Lo que necesitas</li>
+                    <li>Detalles</li>
+                </ol>
+                <div class="barra-paso js-solo" aria-hidden="true"><span></span></div>
+
+                <fieldset class="paso activo" data-paso="1">
                     <legend>¿Qué tipo de negocio tienes?</legend>
-                    <div class="opciones">
-                        <label class="opcion"><input type="radio" name="rubro" value="restaurante" data-caso="la-otra-estacion"><span>Restaurante o comida</span></label>
-                        <label class="opcion"><input type="radio" name="rubro" value="salud" data-caso="ps-franco-alvarez"><span>Salud o servicios profesionales</span></label>
-                        <label class="opcion"><input type="radio" name="rubro" value="comercio" data-caso="la-otra-estacion"><span>Comercio o tienda</span></label>
-                        <label class="opcion"><input type="radio" name="rubro" value="comunidad" data-caso="red-de-apoyo-mutuo"><span>Organización o comunidad</span></label>
-                        <label class="opcion"><input type="radio" name="rubro" value="otro"><span>Otro</span></label>
+                    <p class="paso-ayuda">Así te muestro un trabajo parecido al tuyo.</p>
+                    <div class="tarjetas-opcion">
+                        <label class="t-opcion"><input type="radio" name="rubro" value="Restaurante o comida" data-caso="la-otra-estacion"><span class="cara">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 2v9M4 2v5a3 3 0 0 0 6 0V2M7 11v11M17 22V2c-2.5 1.5-4 4-4 8h4"/></svg>
+                            <strong>Restaurante o comida</strong><small>Carta, reservas y pedidos</small></span></label>
+                        <label class="t-opcion"><input type="radio" name="rubro" value="Salud o servicios profesionales" data-caso="ps-franco-alvarez"><span class="cara">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 4.6a5.4 5.4 0 0 0-7.6 0L12 5.4l-.8-.8a5.4 5.4 0 0 0-7.6 7.6L12 20.6l8.4-8.4a5.4 5.4 0 0 0 0-7.6z"/></svg>
+                            <strong>Salud o servicios</strong><small>Agenda de horas y confianza</small></span></label>
+                        <label class="t-opcion"><input type="radio" name="rubro" value="Comercio o tienda" data-caso="la-otra-estacion"><span class="cara">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11h18V9M9 20v-6h6v6"/></svg>
+                            <strong>Comercio o tienda</strong><small>Catálogo y ubicación</small></span></label>
+                        <label class="t-opcion"><input type="radio" name="rubro" value="Otro rubro"><span class="cara">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
+                            <strong>Otro rubro</strong><small>Cuéntame en el correo</small></span></label>
                     </div>
                 </fieldset>
-                <fieldset>
+
+                <fieldset class="paso" data-paso="2">
                     <legend>¿Qué necesitas?</legend>
-                    <div class="opciones">
-                        <label class="opcion"><input type="checkbox" name="necesidad" value="Un sitio web nuevo"><span>Un sitio web nuevo</span></label>
-                        <label class="opcion"><input type="checkbox" name="necesidad" value="Reservas o pedidos por WhatsApp"><span>Reservas o pedidos por WhatsApp</span></label>
-                        <label class="opcion"><input type="checkbox" name="necesidad" value="Aparecer en Google y Maps"><span>Aparecer en Google y Maps</span></label>
-                        <label class="opcion"><input type="checkbox" name="necesidad" value="Una agenda o sistema a medida"><span>Agenda o sistema a medida</span></label>
-                        <label class="opcion"><input type="checkbox" name="necesidad" value="Mejorar un sitio que ya tengo"><span>Mejorar mi sitio actual</span></label>
+                    <p class="paso-ayuda">Puedes marcar varias.</p>
+                    <div class="tarjetas-opcion">
+                        <label class="t-opcion"><input type="checkbox" name="necesidad" value="Un sitio web nuevo"><span class="cara">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                            <strong>Un sitio nuevo</strong><small>Desde cero, con tu marca</small></span></label>
+                        <label class="t-opcion"><input type="checkbox" name="necesidad" value="Reservas o pedidos por WhatsApp"><span class="cara">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12z"/></svg>
+                            <strong>Reservas por WhatsApp</strong><small>Mensajes listos para enviar</small></span></label>
+                        <label class="t-opcion"><input type="checkbox" name="necesidad" value="Aparecer en Google y Maps"><span class="cara">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+                            <strong>Google y Maps</strong><small>Que te encuentren cerca</small></span></label>
+                        <label class="t-opcion"><input type="checkbox" name="necesidad" value="Agenda o sistema a medida"><span class="cara">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
+                            <strong>Agenda o sistema</strong><small>Reservas, panel y datos</small></span></label>
+                        <label class="t-opcion"><input type="checkbox" name="necesidad" value="Mejorar el sitio que ya tengo"><span class="cara">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg>
+                            <strong>Mejorar mi sitio</strong><small>Rediseño o arreglos</small></span></label>
                     </div>
                 </fieldset>
-                <label class="campo" for="nombre-negocio">Nombre de tu negocio (opcional)</label>
-                <input type="text" id="nombre-negocio" name="negocio" autocomplete="organization" maxlength="80">
-            </div>
-            <div class="resumen" aria-live="polite">
-                <h3>Tu consulta</h3>
-                <div id="resumen-caso"></div>
-                <ul class="resumen-lista" id="resumen-lista" hidden></ul>
-                <p class="resumen-vacio" id="resumen-vacio">Elige al menos una opción para armar tu consulta.</p>
-                <a class="boton boton-lleno" id="enviar-consulta" href="mailto:{{ perfil.correo|default:'delakordillera@proton.me' }}" aria-disabled="true">Escribirme con esta consulta</a>
-            </div>
-        </form>
+
+                <fieldset class="paso" data-paso="3">
+                    <legend>Últimos detalles</legend>
+                    <p class="paso-ayuda">Todo es opcional.</p>
+                    <div class="campo">
+                        <label for="negocio">Nombre de tu negocio</label>
+                        <input type="text" id="negocio" name="negocio" autocomplete="organization" maxlength="80">
+                    </div>
+                    <div class="campo">
+                        <span class="etiqueta" id="etq-plazo">¿Para cuándo lo necesitas?</span>
+                        <div class="pildoras" role="radiogroup" aria-labelledby="etq-plazo">
+                            <label class="pildora"><input type="radio" name="plazo" value="Lo antes posible"><span>Lo antes posible</span></label>
+                            <label class="pildora"><input type="radio" name="plazo" value="En uno o dos meses"><span>En uno o dos meses</span></label>
+                            <label class="pildora"><input type="radio" name="plazo" value="Sin apuro"><span>Sin apuro</span></label>
+                        </div>
+                    </div>
+                    <div class="campo">
+                        <span class="etiqueta" id="etq-dominio">¿Ya tienes dominio (tunegocio.cl)?</span>
+                        <div class="pildoras" role="radiogroup" aria-labelledby="etq-dominio">
+                            <label class="pildora"><input type="radio" name="dominio" value="Sí"><span>Sí</span></label>
+                            <label class="pildora"><input type="radio" name="dominio" value="No"><span>No</span></label>
+                            <label class="pildora"><input type="radio" name="dominio" value="No sé"><span>No sé</span></label>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="navegacion-pasos js-solo">
+                    <button type="button" class="boton-texto" id="paso-atras" hidden>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+                        Atrás
+                    </button>
+                    <button type="button" class="boton boton-lleno" id="paso-siguiente" style="margin-left:auto" disabled>Siguiente</button>
+                </div>
+            </form>
+
+            <aside class="boleta" aria-labelledby="boleta-titulo">
+                <div class="boleta-cabeza">
+                    <img src="{% static 'main/marca/dlk-dorado.svg' %}" alt="" width="30" height="31">
+                    <h3 id="boleta-titulo">Tu consulta</h3>
+                </div>
+                <div class="boleta-cuerpo" aria-live="polite">
+                    <dl>
+                        <div><dt>Negocio</dt><dd id="b-rubro" class="vacio">Sin elegir</dd></div>
+                        <div><dt>Necesitas</dt><dd id="b-necesidades" class="vacio">Sin elegir</dd></div>
+                        <div><dt>Plazo</dt><dd id="b-plazo" class="vacio">Sin elegir</dd></div>
+                    </dl>
+                    <div id="b-caso"></div>
+                    <div class="boleta-acciones">
+                        <a class="boton boton-lleno" id="b-enviar" href="mailto:{{ perfil.correo|default:'delakordillera@proton.me' }}" aria-disabled="true">Enviar consulta por correo</a>
+                        <button class="boton boton-borde" type="button" id="b-copiar" disabled>Copiar resumen</button>
+                    </div>
+                </div>
+            </aside>
+        </div>
         {{ casos_json|json_script:"datos-casos" }}
     </section>
 
@@ -270,7 +410,7 @@
                 <p>Soy desarrollador Full Stack Python, certificado por Talento Digital y SENCE, y estudio Antropología. Esa mezcla es mi forma de trabajar: antes de diseñar, observo cómo tus clientes buscan, preguntan y deciden.</p>
                 <p>Trabajo directo contigo, sin intermediarios, y me quedo después del lanzamiento para que el sitio siga funcionando.</p>
                 {% endif %}
-                <p class="stack"><strong>Con qué trabajo:</strong> Python, Django, HTML, CSS, JavaScript, Git, PythonAnywhere, Vercel, Google Business Profile y Schema.org.</p>
+                <p class="stack"><strong>Con qué trabajo:</strong> Python, Django, HTML, CSS, JavaScript, GSAP, WebGL, Git, PythonAnywhere, Vercel, Google Business Profile y Schema.org.</p>
             </div>
         </div>
     </section>
@@ -307,70 +447,112 @@
 {% block scripts %}
     <script nonce="{{ request.nonce }}">
     (function () {
-        var form = document.getElementById('form-armador');
+        var form = document.getElementById('asistente');
         if (!form) return;
         var casos = {};
         try { JSON.parse(document.getElementById('datos-casos').textContent).forEach(function (c) { casos[c.slug] = c; }); } catch (e) {}
-        var cajaCaso = document.getElementById('resumen-caso');
-        var lista = document.getElementById('resumen-lista');
-        var vacio = document.getElementById('resumen-vacio');
-        var enviar = document.getElementById('enviar-consulta');
+        var pasos = form.querySelectorAll('.paso');
+        var indicadores = form.querySelectorAll('.pasos li');
+        var barra = form.querySelector('.barra-paso span');
+        var atras = document.getElementById('paso-atras');
+        var siguiente = document.getElementById('paso-siguiente');
+        var enviar = document.getElementById('b-enviar');
+        var copiar = document.getElementById('b-copiar');
         var correo = enviar.getAttribute('href').replace('mailto:', '');
+        var actual = 0;
         var ultimoCaso = null;
 
-        function actualizar() {
-            var rubro = form.querySelector('input[name="rubro"]:checked');
-            var necesidades = Array.prototype.map.call(form.querySelectorAll('input[name="necesidad"]:checked'), function (i) { return i.value; });
-            var negocio = form.negocio.value.trim();
+        function valor(nombre) { var i = form.querySelector('input[name="' + nombre + '"]:checked'); return i ? i.value : ''; }
+        function marcados(nombre) { return Array.prototype.map.call(form.querySelectorAll('input[name="' + nombre + '"]:checked'), function (i) { return i.value; }); }
+        function poner(id, texto) { var el = document.getElementById(id); el.textContent = texto || 'Sin elegir'; el.classList.toggle('vacio', !texto); }
 
-            /* Caso parecido según el rubro */
-            var slug = rubro ? rubro.getAttribute('data-caso') : null;
-            var caso = slug ? casos[slug] : null;
-            var idCaso = caso ? caso.slug : null;
-            if (idCaso !== ultimoCaso) {
-                ultimoCaso = idCaso;
-                cajaCaso.replaceChildren();
+        function puedeAvanzar() {
+            if (actual === 0) return !!valor('rubro');
+            if (actual === 1) return marcados('necesidad').length > 0;
+            return true;
+        }
+
+        function resumenTexto() {
+            var lineas = [];
+            var negocio = form.negocio.value.trim();
+            if (negocio) lineas.push('Negocio: ' + negocio);
+            if (valor('rubro')) lineas.push('Rubro: ' + valor('rubro'));
+            var n = marcados('necesidad');
+            if (n.length) lineas.push('Necesito: ' + n.join(', '));
+            if (valor('plazo')) lineas.push('Plazo: ' + valor('plazo'));
+            if (valor('dominio')) lineas.push('¿Tengo dominio?: ' + valor('dominio'));
+            return lineas;
+        }
+
+        function actualizar() {
+            poner('b-rubro', [form.negocio.value.trim(), valor('rubro')].filter(Boolean).join(', '));
+            poner('b-necesidades', marcados('necesidad').join(', '));
+            poner('b-plazo', valor('plazo'));
+
+            var rubro = form.querySelector('input[name="rubro"]:checked');
+            var caso = rubro && rubro.getAttribute('data-caso') ? casos[rubro.getAttribute('data-caso')] : null;
+            var id = caso ? caso.slug : null;
+            if (id !== ultimoCaso) {
+                ultimoCaso = id;
+                var caja = document.getElementById('b-caso');
+                caja.replaceChildren();
                 if (caso) {
-                    var a = document.createElement('a');
-                    a.className = 'resumen-caso';
-                    a.href = caso.url;
-                    a.style.setProperty('--marca', caso.marca);
+                    var a = document.createElement('a'); a.className = 'boleta-caso'; a.href = caso.url; a.style.setProperty('--marca', caso.marca);
                     var mini = document.createElement('span'); mini.className = 'mini';
-                    var img = document.createElement('img'); img.src = caso.imagen; img.alt = ''; img.width = 96; img.height = 60;
-                    mini.appendChild(img);
+                    var img = document.createElement('img'); img.src = caso.imagen; img.alt = ''; img.width = 92; img.height = 58; mini.appendChild(img);
                     var txt = document.createElement('span');
-                    var sm = document.createElement('small'); sm.textContent = 'Un caso parecido';
+                    var sm = document.createElement('small'); sm.textContent = 'Un trabajo parecido';
                     var st = document.createElement('strong'); st.textContent = caso.titulo;
-                    txt.appendChild(sm); txt.appendChild(st);
-                    a.appendChild(mini); a.appendChild(txt);
-                    cajaCaso.appendChild(a);
+                    txt.appendChild(sm); txt.appendChild(st); a.appendChild(mini); a.appendChild(txt); caja.appendChild(a);
                 }
             }
 
-            /* Lo elegido */
-            var items = [];
-            if (rubro) items.push('Rubro: ' + rubro.nextElementSibling.textContent);
-            necesidades.forEach(function (n) { items.push(n); });
-            lista.replaceChildren();
-            items.forEach(function (t) { var li = document.createElement('li'); li.textContent = t; lista.appendChild(li); });
-            lista.hidden = items.length === 0;
-            vacio.hidden = items.length > 0;
-
-            /* Correo listo para enviar */
-            if (items.length) {
+            var lineas = resumenTexto();
+            var listo = !!valor('rubro') && marcados('necesidad').length > 0;
+            if (listo) {
+                var negocio = form.negocio.value.trim();
                 var asunto = 'Consulta por un sitio web' + (negocio ? ' para ' + negocio : '');
-                var cuerpo = 'Hola, me interesa cotizar un sitio.\n\n' + (negocio ? 'Negocio: ' + negocio + '\n' : '') + items.map(function (t) { return '- ' + t; }).join('\n') + '\n\nMi teléfono o forma de contacto: ';
+                var cuerpo = 'Hola, me interesa cotizar un sitio.\n\n' + lineas.join('\n') + '\n\nMi teléfono o forma de contacto: ';
                 enviar.href = 'mailto:' + correo + '?subject=' + encodeURIComponent(asunto) + '&body=' + encodeURIComponent(cuerpo);
                 enviar.removeAttribute('aria-disabled');
+                copiar.disabled = false;
             } else {
                 enviar.href = 'mailto:' + correo;
                 enviar.setAttribute('aria-disabled', 'true');
+                copiar.disabled = true;
             }
+            siguiente.disabled = !puedeAvanzar();
         }
+
+        function irA(n, inicial) {
+            var cambiar = function () {
+                actual = Math.max(0, Math.min(pasos.length - 1, n));
+                pasos.forEach(function (p, i) { p.classList.toggle('activo', i === actual); });
+                indicadores.forEach(function (li, i) {
+                    if (i === actual) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current');
+                    li.classList.toggle('hecho', i < actual);
+                });
+                barra.style.width = ((actual + 1) / pasos.length * 100) + '%';
+                atras.hidden = actual === 0;
+                siguiente.hidden = actual === pasos.length - 1;
+                actualizar();
+            };
+            if (inicial) { cambiar(); return; }
+            if (document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) document.startViewTransition(cambiar); else cambiar();
+            var leyenda = pasos[Math.max(0, Math.min(pasos.length - 1, n))].querySelector('legend');
+            if (leyenda) { leyenda.setAttribute('tabindex', '-1'); setTimeout(function () { leyenda.focus({ preventScroll: true }); }, 50); }
+        }
+
+        siguiente.addEventListener('click', function () { if (puedeAvanzar()) irA(actual + 1); });
+        atras.addEventListener('click', function () { irA(actual - 1); });
+        copiar.addEventListener('click', function () {
+            var texto = resumenTexto().join('\n');
+            if (navigator.clipboard) navigator.clipboard.writeText(texto).then(function () { if (window.mostrarAviso) window.mostrarAviso('Resumen copiado'); });
+        });
         form.addEventListener('change', actualizar);
         form.addEventListener('input', actualizar);
         form.addEventListener('submit', function (e) { e.preventDefault(); });
-        actualizar();
+        irA(0, true);
     })();
     </script>
 {% endblock %}
