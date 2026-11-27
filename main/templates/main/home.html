@@ -161,10 +161,6 @@
         .aporte-texto { display: grid; gap: 0.2rem; }
         .aporte-texto strong { color: var(--s-tinta); font-size: 1.05rem; line-height: 1.35; }
         .aporte-texto small { color: var(--s-tenue); font-size: 0.9rem; }
-        .credenciales { list-style: none; margin: 3.5rem auto 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
-        .credenciales li { display: grid; gap: 0.1rem; padding: 0.85rem 1.25rem; border-radius: 14px; border: 1px solid var(--s-linea); background: var(--s-superficie); }
-        .credenciales strong { color: var(--s-tinta); }
-        .credenciales span { color: var(--s-tenue); font-size: 0.95rem; }
 
         /* Cómo trabajo: la ruta de subida */
         .ruta { position: relative; aspect-ratio: 1000 / 300; margin: 1rem clamp(1.4rem, 4vw, 3rem) 2.5rem; }
@@ -474,8 +470,8 @@
                         <span class="aporte-texto"><strong>Te encuentran en Google y te escriben directo</strong><small>Google Maps y WhatsApp</small></span>
                     </li>
                     <li class="aporte">
-                        <span class="chips" aria-hidden="true"><span class="chip" style="--c: #181717" title="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-github"/></svg></span><span class="chip" style="--c: #1D9FD7" title="PythonAnywhere"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-pythonanywhere"/></svg></span></span>
-                        <span class="aporte-texto"><strong>Queda publicado, respaldado y con mantención</strong><small>GitHub y PythonAnywhere</small></span>
+                        <span class="chips" aria-hidden="true"><span class="chip" style="--c: #4169E1" title="PostgreSQL"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-postgresql"/></svg></span><span class="chip" style="--c: #3FCF8E" title="Supabase"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-supabase"/></svg></span><span class="chip" style="--c: #F38020" title="Cloudflare"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-cloudflare"/></svg></span></span>
+                        <span class="aporte-texto"><strong>Tus datos en la nube, seguros y respaldados</strong><small>PostgreSQL, Supabase y Cloudflare</small></span>
                     </li>
                     </ul>
                 </div>
@@ -501,17 +497,13 @@
                     </ul>
                 </div>
             </div>
-            <ul class="credenciales">
-                <li><strong>Full Stack Python</strong><span>Talento Digital y SENCE</span></li>
-                <li><strong>Antropología</strong><span>Universidad Academia de Humanismo Cristiano, en curso</span></li>
-            </ul>
         </div>
     </section>
 
     <section id="ruta" class="seccion contenedor" aria-labelledby="ruta-titulo">
         <div class="seccion-cabeza">
             <h2 id="ruta-titulo">Cómo trabajo</h2>
-            <p>Del primer mensaje a tu sitio en línea, como una subida a la cordillera. Toca cada parada.</p>
+            <p>Cuatro paradas, sin letra chica. Toca cada una para ver qué pasa y qué te llevas.</p>
         </div>
         <div class="ruta" data-ruta>
             <svg class="ruta-svg" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true" focusable="false">
@@ -529,20 +521,20 @@
         </div>
         <div class="ruta-paneles">
             <div class="ruta-panel" role="tabpanel" id="etapa-1" aria-labelledby="hito-1">
-                <div><h3>Conversamos</h3><p>Una conversación para entender tu negocio, a tus clientes y cómo llegan hoy a ti.</p></div>
-                <ul class="recibes"><li>Revisión de cómo te encuentran hoy</li><li>Propuesta y cotización</li></ul>
+                <div><h3>Conversamos</h3><p>Me cuentas qué vendes y yo pregunto lo que casi nadie pregunta: cómo te encuentran hoy, qué duda tiene un cliente antes de escribirte y por qué se va sin comprar. De ahí sale lo que tu sitio tiene que resolver.</p></div>
+                <ul class="recibes"><li>Diagnóstico de cómo te encuentran hoy</li><li>Propuesta y cotización clara</li></ul>
             </div>
             <div class="ruta-panel" role="tabpanel" id="etapa-2" aria-labelledby="hito-2" hidden>
-                <div><h3>Diseño</h3><p>Te muestro cómo se verá tu sitio antes de programarlo, y lo ajustamos juntos.</p></div>
-                <ul class="recibes"><li>Diseño para celular y computador</li><li>Estructura y textos</li></ul>
+                <div><h3>Diseño</h3><p>Ves tu sitio antes de que exista una sola línea de código. Lo recorres en tu celular, opinas y lo ajustamos hasta que se sienta tuyo. Nada de sorpresas al final.</p></div>
+                <ul class="recibes"><li>Diseño navegable en celular y computador</li><li>Textos escritos para vender</li></ul>
             </div>
             <div class="ruta-panel" role="tabpanel" id="etapa-3" aria-labelledby="hito-3" hidden>
-                <div><h3>Desarrollo</h3><p>Programo el sitio, lo conecto con WhatsApp y Google, y lo pruebo en distintos teléfonos y computadores.</p></div>
-                <ul class="recibes"><li>Sitio funcionando para revisar</li><li>Ajustes antes de publicar</li></ul>
+                <div><h3>Desarrollo</h3><p>Lo construyo para que cargue en segundos, para que cada botón abra WhatsApp con el mensaje listo y para que Google entienda qué ofreces y dónde estás.</p></div>
+                <ul class="recibes"><li>Sitio funcionando para que lo pruebes</li><li>Conexión con WhatsApp y Google</li></ul>
             </div>
             <div class="ruta-panel" role="tabpanel" id="etapa-4" aria-labelledby="hito-4" hidden>
-                <div><h3>En línea</h3><p>Lo publico en tu dominio y me quedo para mantenerlo cuando lo necesites.</p></div>
-                <ul class="recibes"><li>Sitio publicado</li><li>Ficha de Google ordenada</li><li>Cambios y mantención</li></ul>
+                <div><h3>En línea</h3><p>Lo publico con tu dominio y no desaparezco. Si cambias precios, horarios o la carta, me escribes y lo actualizo.</p></div>
+                <ul class="recibes"><li>Sitio publicado con tu dominio</li><li>Ficha de Google ordenada</li><li>Cambios y mantención</li></ul>
             </div>
         </div>
     </section>

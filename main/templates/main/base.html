@@ -203,22 +203,47 @@
             }
         }
         .contacto { background: #292F25; color: #DAD6C8; position: relative; overflow: hidden; }
-        .contacto-cuerpo { padding-top: 4rem; padding-bottom: 2.5rem; position: relative; z-index: 1; }
-        .contacto-sello { position: absolute; right: -4%; top: 50%; translate: 0 -50%; width: clamp(240px, 38vw, 520px); height: auto; opacity: 0.09; pointer-events: none; }
-        .contacto h2 { color: #FFFFFF; }
+        .contacto-cuerpo { padding-top: clamp(4rem, 8vw, 6rem); padding-bottom: 2rem; position: relative; z-index: 1; }
+        .contacto-sello { position: absolute; left: -10%; bottom: -20%; width: clamp(260px, 40vw, 560px); height: auto; opacity: 0.07; pointer-events: none; }
+        .contacto h2 { color: #FFFFFF; font-size: clamp(2.3rem, 5.5vw, 4.2rem); letter-spacing: -0.04em; line-height: 1.02; text-wrap: balance; }
         .contacto p { color: #DAD6C8; }
         .contacto a { color: #FFFFFF; }
-        .contacto a:hover { color: #D8B877; }
         .contacto :focus-visible { outline-color: #D8B877; }
+        .contacto-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+        .contacto-lead { font-size: clamp(1.1rem, 1.6vw, 1.3rem); max-width: 34rem; margin-top: 1.25rem; }
+        .contacto-acciones { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+        .boton-correo { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 52px; padding: 0 1.5rem; border-radius: 999px; background: #C9A465; color: #1A1F17 !important; font-weight: 800; text-decoration: none; box-shadow: 0 18px 40px -18px rgba(201, 164, 101, 0.9); transition: transform .25s cubic-bezier(0.2, 0.8, 0.2, 1), background-color .25s ease, box-shadow .25s ease; }
+        .boton-correo svg { width: 20px; height: 20px; }
+        .boton-correo:hover { background: #D8B877; transform: translateY(-2px); box-shadow: 0 22px 46px -18px rgba(201, 164, 101, 1); text-decoration: none; }
         .correo-fila { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1rem; margin-top: 2rem; }
-        .correo-grande { font-size: clamp(1.35rem, 3.4vw, 2.2rem); font-weight: 800; letter-spacing: -0.02em; overflow-wrap: anywhere; }
-        .boton-copiar { font: inherit; font-weight: 600; color: #FFFFFF; background: transparent; border: 1px solid #5C6552; border-radius: 8px; min-height: 44px; padding: 0 1rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; }
-        .boton-copiar:hover { border-color: #FFFFFF; }
-        .boton-copiar svg { width: 18px; height: 18px; }
-        .contacto-redes { list-style: none; display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 1.75rem 0 0; padding: 0; }
-        .contacto .correo-grande:hover { color: #FFFFFF; }
-        .contacto .correo-grande { --acento: #C9A465; }
-        .pie { margin-top: 3.5rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; color: #A9AD9C; font-size: 0.95rem; }
+        .correo-grande { font-size: clamp(1.15rem, 2.2vw, 1.5rem); font-weight: 700; letter-spacing: -0.01em; overflow-wrap: anywhere; --acento: #C9A465; }
+        .boton-copiar { font: inherit; font-size: 0.95rem; font-weight: 600; color: #FFFFFF; background: transparent; border: 1px solid #5C6552; border-radius: 999px; min-height: 44px; padding: 0 1rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.45rem; }
+        .boton-copiar:hover { border-color: #C9A465; }
+        .boton-copiar svg { width: 17px; height: 17px; }
+        .contacto-tarjeta { background: rgba(26, 31, 23, 0.55); border: 1px solid rgba(201, 164, 101, 0.3); border-radius: 24px; padding: clamp(1.5rem, 3vw, 2.25rem); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+        .contacto-tarjeta h3 { color: #C9A465; font-size: 1.3rem; font-weight: 800; letter-spacing: -0.01em; }
+        .contacto-lista { list-style: none; margin: 1.25rem 0 0; padding: 0; display: grid; gap: 0.85rem; }
+        .contacto-lista li { display: flex; align-items: center; gap: 0.8rem; color: #F1EEE4; font-weight: 600; font-size: 1.05rem; }
+        .check { display: grid; place-items: center; width: 28px; height: 28px; flex: none; border-radius: 50%; background: rgba(201, 164, 101, 0.16); color: #C9A465; }
+        .check svg { width: 15px; height: 15px; }
+        .contacto-nota { margin: 1.25rem 0 0; font-size: 0.95rem; color: #A9AD9C !important; }
+        .contacto-redes { list-style: none; display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1.5rem 0 0; padding: 1.5rem 0 0; border-top: 1px solid rgba(241, 238, 228, 0.12); }
+        .pie { margin-top: clamp(3rem, 6vw, 4.5rem); padding-top: 1.5rem; border-top: 1px solid rgba(241, 238, 228, 0.12); display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; color: #A9AD9C; font-size: 0.95rem; }
+        .pie-marca img { display: block; width: 30px; height: auto; }
+
+        /* Burbuja flotante de contacto */
+        .cta-flotante { position: fixed; right: clamp(1rem, 2.5vw, 2rem); bottom: clamp(1rem, 2.5vw, 2rem); z-index: 60; display: inline-flex; align-items: center; gap: 0.7rem; padding: 0.45rem 1.2rem 0.45rem 0.45rem; border-radius: 999px; background: #1A1F17; color: #F1EEE4; font-weight: 800; text-decoration: none; border: 1px solid rgba(201, 164, 101, 0.55); box-shadow: 0 20px 44px -16px rgba(0, 0, 0, 0.55), 0 0 0 6px rgba(201, 164, 101, 0.08); opacity: 0; translate: 0 16px; scale: 0.96; pointer-events: none; transition: opacity .35s ease, translate .45s cubic-bezier(0.2, 0.8, 0.2, 1), scale .45s cubic-bezier(0.2, 0.8, 0.2, 1), background-color .25s ease; }
+        .cta-flotante.ver { opacity: 1; translate: 0 0; scale: 1; pointer-events: auto; }
+        .cta-flotante:hover { background: #222920; color: #FFFFFF; text-decoration: none; }
+        .cta-icono { position: relative; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: #C9A465; color: #1A1F17; flex: none; }
+        .cta-icono svg { width: 20px; height: 20px; }
+        @media (prefers-reduced-motion: no-preference) {
+            .cta-flotante.ver .cta-icono::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid #C9A465; animation: latido 2.4s ease-out 3; }
+            @keyframes latido { from { opacity: 0.8; scale: 1; } to { opacity: 0; scale: 1.7; } }
+        }
+        @media (max-width: 860px) {
+            .contacto-grid { grid-template-columns: 1fr; }
+        }
         .pie p { margin: 0; color: #A9AD9C; }
 
         /* Aviso breve ("correo copiado"), con el Popover API */
@@ -268,27 +293,53 @@
         <div class="contacto">
             <img class="contacto-sello" src="{% static 'main/marca/dlk-dorado.svg' %}" alt="" width="1253" height="1305" loading="lazy" decoding="async">
             <div class="contenedor contacto-cuerpo">
-                <h2 id="contacto-titulo">¿Tu negocio necesita un sitio?</h2>
-                <p>Cuéntame qué vendes y cómo te contactan hoy tus clientes. Te respondo con una propuesta.</p>
                 {% with correo=perfil.correo|default:'delakordillera@proton.me' %}
-                <div class="correo-fila">
-                    <a class="correo-grande enlace-linea" href="mailto:{{ correo }}">{{ correo }}</a>
-                    <button class="boton-copiar" type="button" data-copiar="{{ correo }}">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
-                        Copiar correo
-                    </button>
+                <div class="contacto-grid">
+                    <div class="contacto-texto">
+                        <h2 id="contacto-titulo">¿Tu negocio necesita un sitio?</h2>
+                        <p class="contacto-lead">Escríbeme hoy. Te respondo con una propuesta concreta para tu negocio, sin compromiso.</p>
+                        <div class="contacto-acciones">
+                            <a class="boton-correo" href="mailto:{{ correo }}?subject=Quiero%20un%20sitio%20para%20mi%20negocio">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+                                Escribirme un correo
+                            </a>
+                            <a class="enlace-boton claro" href="/#cotizar">Armar mi proyecto<span class="flecha" aria-hidden="true">{% include 'main/_flecha.html' %}</span></a>
+                        </div>
+                        <div class="correo-fila">
+                            <a class="correo-grande enlace-linea" href="mailto:{{ correo }}">{{ correo }}</a>
+                            <button class="boton-copiar" type="button" data-copiar="{{ correo }}">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                                Copiar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="contacto-tarjeta">
+                        <h3>Para cotizar, cuéntame</h3>
+                        <ul class="contacto-lista">
+                            <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>Qué vendes y a quién</li>
+                            <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>Cómo te contactan hoy tus clientes</li>
+                            <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>Para cuándo lo necesitas</li>
+                        </ul>
+                        <p class="contacto-nota">Con eso basta para empezar. El resto lo vemos conversando.</p>
+                        <ul class="contacto-redes">
+                            <li><a class="enlace-boton claro" href="{{ perfil.link_linkedin|default:'https://linkedin.com/in/alexis-lara-viveros' }}" target="_blank" rel="noopener">{% include 'main/_red_linkedin.html' %}LinkedIn<span class="flecha" aria-hidden="true">{% include 'main/_flecha.html' %}</span></a></li>
+                            <li><a class="enlace-boton claro" href="{{ perfil.link_github|default:'https://github.com/delakordillera' }}" target="_blank" rel="noopener">{% include 'main/_red_github.html' %}GitHub<span class="flecha" aria-hidden="true">{% include 'main/_flecha.html' %}</span></a></li>
+                        </ul>
+                    </div>
                 </div>
                 {% endwith %}
-                <ul class="contacto-redes">
-                    <li><a class="enlace-boton claro" href="{{ perfil.link_linkedin|default:'https://linkedin.com/in/alexis-lara-viveros' }}" target="_blank" rel="noopener">{% include 'main/_red_linkedin.html' %}LinkedIn<span class="flecha" aria-hidden="true">{% include 'main/_flecha.html' %}</span></a></li>
-                    <li><a class="enlace-boton claro" href="{{ perfil.link_github|default:'https://github.com/delakordillera' }}" target="_blank" rel="noopener">{% include 'main/_red_github.html' %}GitHub<span class="flecha" aria-hidden="true">{% include 'main/_flecha.html' %}</span></a></li>
-                </ul>
                 <div class="pie">
+                    <a class="pie-marca" href="/" aria-label="Ir al inicio"><img src="{% static 'main/marca/dlk-dorado.svg' %}" alt="" width="30" height="31"></a>
                     <p>© 2026 delakordillera, desarrollo web en Santiago de Chile.</p>
                 </div>
             </div>
         </div>
     </footer>
+
+    <a class="cta-flotante" href="/#contacto" data-cta>
+        <span class="cta-icono" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a7.5 7.5 0 0 1-11 6.6L4 20l1.6-4.8A7.5 7.5 0 1 1 21 11.5z"/></svg></span>
+        Hablemos de tu sitio
+    </a>
 
     <div id="menu-movil" class="menu-movil" popover aria-label="Menú">
         <div class="menu-cuerpo">
@@ -354,6 +405,17 @@
             clearTimeout(temporizador);
             temporizador = setTimeout(function () { try { aviso.hidePopover(); } catch (err) {} }, 2200);
         };
+
+        /* Burbuja de contacto: aparece al bajar, se esconde junto al pie */
+        var cta = document.querySelector('[data-cta]');
+        var pie = document.getElementById('contacto');
+        if (cta && pie) {
+            var pieVisible = false;
+            var revisar = function () { cta.classList.toggle('ver', window.scrollY > window.innerHeight * 0.6 && !pieVisible); };
+            new IntersectionObserver(function (e) { pieVisible = e[0].isIntersecting; revisar(); }, { rootMargin: '0px 0px -10% 0px' }).observe(pie);
+            window.addEventListener('scroll', revisar, { passive: true });
+            revisar();
+        }
 
         /* Menú móvil: cerrar al elegir un enlace */
         var menu = document.getElementById('menu-movil');
