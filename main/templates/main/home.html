@@ -142,33 +142,25 @@
         .boleta .boton[aria-disabled="true"] { opacity: 0.4; pointer-events: none; }
 
 
-        /* Código y personas: dos círculos que se cruzan en tu sitio */
-        .seccion-stack { padding: clamp(4.5rem, 10vw, 8rem) 0; overflow: hidden; }
-        .venn { position: relative; display: grid; grid-template-columns: 1fr 1fr; align-items: center; max-width: 1060px; margin: 0 auto; }
-        .circulo { position: relative; aspect-ratio: 1; border-radius: 50%; border: 1.5px solid rgba(201, 164, 101, 0.42); background: radial-gradient(circle at 50% 40%, rgba(201, 164, 101, 0.07), transparent 65%); display: flex; flex-direction: column; justify-content: center; gap: 1.25rem; transition: border-color .3s ease, background-color .3s ease; }
-        .circulo:hover { border-color: rgba(201, 164, 101, 0.8); }
-        .codigo { margin-right: -14%; padding: 12% 26% 12% 12%; }
-        .personas { margin-left: -14%; padding: 12% 12% 12% 26%; }
-        .circulo h3 { font-size: clamp(1.3rem, 2.2vw, 1.8rem); font-weight: 800; letter-spacing: -0.02em; }
-        .codigo h3 { text-align: left; }
-        .personas h3 { text-align: right; }
-        .circulo::before { content: ""; position: absolute; inset: -14px; border-radius: 50%; border: 1px dashed rgba(201, 164, 101, 0.22); pointer-events: none; }
-        @media (prefers-reduced-motion: no-preference) {
-            .circulo::before { animation: girar 90s linear infinite; }
-            .personas::before { animation-direction: reverse; }
-            @keyframes girar { to { rotate: 360deg; } }
-        }
-        .logos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(0.4rem, 1vw, 0.75rem); }
-        .personas .logos { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-        .logo { position: relative; aspect-ratio: 1; display: grid; place-items: center; border-radius: 14px; background: rgba(241, 238, 228, 0.05); border: 1px solid rgba(241, 238, 228, 0.1); color: #F1EEE4; cursor: default; transition: background-color .25s ease, color .25s ease, transform .25s cubic-bezier(0.2, 0.8, 0.2, 1), border-color .25s ease; }
-        .logo svg { width: 46%; height: 46%; fill: currentColor; }
-        .logo.metodo svg { fill: none; }
-        .logo:hover, .logo:focus-visible { background: #F1EEE4; color: var(--c, #7A5C2B); border-color: #F1EEE4; transform: translateY(-4px); outline: none; z-index: 3; }
-        .logo::after { content: attr(data-nombre); position: absolute; left: 50%; bottom: calc(100% + 8px); translate: -50% 4px; white-space: nowrap; background: #F1EEE4; color: #1A1F17; font-size: 0.85rem; font-weight: 700; padding: 0.3rem 0.65rem; border-radius: 8px; opacity: 0; pointer-events: none; transition: opacity .2s ease, translate .2s ease; z-index: 4; }
-        .logo:hover::after, .logo:focus-visible::after { opacity: 1; translate: -50% 0; }
-        .interseccion { position: absolute; left: 50%; top: 50%; translate: -50% -50%; z-index: 2; display: grid; justify-items: center; gap: 0.5rem; padding: 1.25rem 1.4rem; border-radius: 20px; background: #1A1F17; border: 1px solid rgba(201, 164, 101, 0.55); box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.9), 0 0 0 8px rgba(201, 164, 101, 0.06); }
-        .interseccion img { width: clamp(44px, 5vw, 64px); height: auto; }
-        .interseccion span { color: #C9A465; font-weight: 800; letter-spacing: -0.01em; white-space: nowrap; }
+        /* Código y personas: qué gana el cliente, con las herramientas al lado */
+        .seccion-stack { padding: clamp(4.5rem, 10vw, 8rem) 0; }
+        .mitades { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1rem, 3vw, 2rem); }
+        .mitad { border: 1px solid var(--s-linea); border-radius: 24px; background: var(--s-superficie); padding: clamp(1.5rem, 3vw, 2.25rem); }
+        .mitad h3 { font-size: clamp(1.3rem, 2vw, 1.6rem); font-weight: 800; letter-spacing: -0.02em; color: #C9A465; margin-bottom: 0.5rem; }
+        .aportes { list-style: none; margin: 0; padding: 0; }
+        .aporte { display: flex; align-items: center; gap: 1.1rem; padding: 1.1rem 0; border-top: 1px solid var(--s-linea); }
+        .aporte:first-child { border-top: 0; }
+        .chips { display: flex; flex: none; width: 6.4rem; }
+        .chip { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: #F1EEE4; color: var(--c, #7A5C2B); box-shadow: 0 0 0 3px var(--s-superficie); transition: transform .25s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .chip + .chip { margin-left: -6px; }
+        .chip svg { width: 22px; height: 22px; fill: currentColor; }
+        .chip.metodo { background: #2B3326; color: #C9A465; box-shadow: 0 0 0 3px var(--s-superficie), inset 0 0 0 1px rgba(201, 164, 101, 0.45); }
+        .chip.metodo svg { fill: none; }
+        .aporte:hover .chip { transform: translateY(-3px); }
+        .aporte:hover .chip + .chip { transform: translateY(-3px) translateX(4px); }
+        .aporte-texto { display: grid; gap: 0.2rem; }
+        .aporte-texto strong { color: var(--s-tinta); font-size: 1.05rem; line-height: 1.35; }
+        .aporte-texto small { color: var(--s-tenue); font-size: 0.9rem; }
         .credenciales { list-style: none; margin: 3.5rem auto 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
         .credenciales li { display: grid; gap: 0.1rem; padding: 0.85rem 1.25rem; border-radius: 14px; border: 1px solid var(--s-linea); background: var(--s-superficie); }
         .credenciales strong { color: var(--s-tinta); }
@@ -231,14 +223,11 @@
             .foco-ancho { grid-column: span 2; }
         }
         @media (max-width: 760px) {
-            .venn { grid-template-columns: 1fr; gap: 1rem; }
-            .circulo, .codigo, .personas { aspect-ratio: auto; border-radius: 28px; margin: 0; padding: 1.5rem; }
-            .circulo::before { display: none; }
-            .codigo h3, .personas h3 { text-align: left; }
-            .interseccion { position: static; translate: none; grid-auto-flow: column; align-items: center; justify-self: center; gap: 0.75rem; padding: 0.75rem 1.1rem; order: 2; }
-            .personas { order: 3; }
-            .interseccion img { width: 36px; }
-            .logos, .personas .logos { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+            .mitades { grid-template-columns: 1fr; }
+            .aporte { flex-direction: column; align-items: flex-start; gap: 0.7rem; }
+            .chips { width: auto; }
+            .chip { width: 38px; height: 38px; }
+            .chip svg { width: 19px; height: 19px; }
             .ruta { aspect-ratio: 1000 / 420; margin-bottom: 1.5rem; }
             .hito-punto { width: 44px; height: 44px; }
             .hito-punto svg { width: 20px; height: 20px; }
@@ -466,44 +455,49 @@
         <div class="contenedor">
             <div class="seccion-cabeza">
                 <h2 id="sobre-titulo">Código y personas</h2>
-                <p>Programo como desarrollador y observo como antropólogo. Esa mezcla es la que hace distinto cada sitio.</p>
+                <p>Programo como desarrollador y observo como antropólogo. Así construyo sitios que funcionan y que tus clientes entienden.</p>
             </div>
-            <div class="venn">
-                <div class="circulo codigo">
-                    <h3>Código</h3>
-                    <ul class="logos" aria-label="Herramientas de desarrollo">
-                        <li class="logo" style="--c: #3776AB" tabindex="0" data-nombre="Python" aria-label="Python"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-python"/></svg></li>
-                        <li class="logo" style="--c: #44B78B" tabindex="0" data-nombre="Django" aria-label="Django"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-django"/></svg></li>
-                        <li class="logo" style="--c: #F7DF1E" tabindex="0" data-nombre="JavaScript" aria-label="JavaScript"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-javascript"/></svg></li>
-                        <li class="logo" style="--c: #E34F26" tabindex="0" data-nombre="HTML" aria-label="HTML"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-html5"/></svg></li>
-                        <li class="logo" style="--c: #663399" tabindex="0" data-nombre="CSS" aria-label="CSS"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-css"/></svg></li>
-                        <li class="logo" style="--c: #7952B3" tabindex="0" data-nombre="Bootstrap" aria-label="Bootstrap"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-bootstrap"/></svg></li>
-                        <li class="logo" style="--c: #0F80CC" tabindex="0" data-nombre="SQLite" aria-label="SQLite"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-sqlite"/></svg></li>
-                        <li class="logo" style="--c: #F03C2E" tabindex="0" data-nombre="Git" aria-label="Git"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-git"/></svg></li>
-                        <li class="logo" style="--c: #181717" tabindex="0" data-nombre="GitHub" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-github"/></svg></li>
-                        <li class="logo" style="--c: #0AE448" tabindex="0" data-nombre="GSAP" aria-label="GSAP"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-gsap"/></svg></li>
-                        <li class="logo" style="--c: #990000" tabindex="0" data-nombre="WebGL" aria-label="WebGL"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-webgl"/></svg></li>
-                        <li class="logo" style="--c: #000000" tabindex="0" data-nombre="Vercel" aria-label="Vercel"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-vercel"/></svg></li>
-                        <li class="logo" style="--c: #1D9FD7" tabindex="0" data-nombre="PythonAnywhere" aria-label="PythonAnywhere"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-pythonanywhere"/></svg></li>
-                        <li class="logo" style="--c: #4285F4" tabindex="0" data-nombre="Google Maps" aria-label="Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-googlemaps"/></svg></li>
-                        <li class="logo" style="--c: #25D366" tabindex="0" data-nombre="WhatsApp" aria-label="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-whatsapp"/></svg></li>
+            <div class="mitades">
+                <div class="mitad">
+                    <h3>Lo que construyo</h3>
+                    <ul class="aportes">
+                    <li class="aporte">
+                        <span class="chips" aria-hidden="true"><span class="chip" style="--c: #3776AB" title="Python"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-python"/></svg></span><span class="chip" style="--c: #092E20" title="Django"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-django"/></svg></span></span>
+                        <span class="aporte-texto"><strong>Un sitio rápido, con panel para que lo edites tú</strong><small>Python y Django</small></span>
+                    </li>
+                    <li class="aporte">
+                        <span class="chips" aria-hidden="true"><span class="chip" style="--c: #E34F26" title="HTML"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-html5"/></svg></span><span class="chip" style="--c: #663399" title="CSS"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-css"/></svg></span><span class="chip" style="--c: #0AE448" title="GSAP"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-gsap"/></svg></span></span>
+                        <span class="aporte-texto"><strong>Se ve bien en el celular y tiene movimiento</strong><small>HTML, CSS y GSAP</small></span>
+                    </li>
+                    <li class="aporte">
+                        <span class="chips" aria-hidden="true"><span class="chip" style="--c: #4285F4" title="Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-googlemaps"/></svg></span><span class="chip" style="--c: #25D366" title="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-whatsapp"/></svg></span></span>
+                        <span class="aporte-texto"><strong>Te encuentran en Google y te escriben directo</strong><small>Google Maps y WhatsApp</small></span>
+                    </li>
+                    <li class="aporte">
+                        <span class="chips" aria-hidden="true"><span class="chip" style="--c: #181717" title="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-github"/></svg></span><span class="chip" style="--c: #1D9FD7" title="PythonAnywhere"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-pythonanywhere"/></svg></span></span>
+                        <span class="aporte-texto"><strong>Queda publicado, respaldado y con mantención</strong><small>GitHub y PythonAnywhere</small></span>
+                    </li>
                     </ul>
                 </div>
-                <div class="interseccion">
-                    <img src="{% static 'main/marca/dlk-dorado.svg' %}" alt="" width="1253" height="1305">
-                    <span>Tu sitio</span>
-                </div>
-                <div class="circulo personas">
-                    <h3>Personas</h3>
-                    <ul class="logos" aria-label="Herramientas y métodos de antropología">
-                        <li class="logo" style="--c: #276DC3" tabindex="0" data-nombre="R" aria-label="R"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-r"/></svg></li>
-                        <li class="logo" style="--c: #75AADB" tabindex="0" data-nombre="RStudio" aria-label="RStudio"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-rstudioide"/></svg></li>
-                        <li class="logo" style="--c: #7C3AED" tabindex="0" data-nombre="Obsidian" aria-label="Obsidian"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-obsidian"/></svg></li>
-                        <li class="logo metodo" tabindex="0" data-nombre="Entrevistas en profundidad" aria-label="Entrevistas en profundidad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a7.5 7.5 0 0 1-11 6.6L4 20l1.6-4.8A7.5 7.5 0 1 1 21 11.5z"/><path d="M8.5 11.5h.01M12.5 11.5h.01M16.5 11.5h.01"/></svg></li>
-                        <li class="logo metodo" tabindex="0" data-nombre="Observación participante" aria-label="Observación participante"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></li>
-                        <li class="logo metodo" tabindex="0" data-nombre="Libreta de campo" aria-label="Libreta de campo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h12a2 2 0 0 1 2 2v16H7a2 2 0 0 1-2-2V3z"/><path d="M9 7h6M9 11h6M9 15h3M5 19a2 2 0 0 1 2-2h12"/></svg></li>
-                        <li class="logo metodo" tabindex="0" data-nombre="Mapeo de recorridos" aria-label="Mapeo de recorridos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H14a3.5 3.5 0 0 0 0-7h-4a3.5 3.5 0 0 1 0-7h5.5"/></svg></li>
-                        <li class="logo metodo" tabindex="0" data-nombre="Análisis cualitativo" aria-label="Análisis cualitativo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h7"/><circle cx="18" cy="16" r="3"/><path d="M20.2 18.2L22 20"/></svg></li>
+                <div class="mitad">
+                    <h3>Lo que investigo</h3>
+                    <ul class="aportes">
+                    <li class="aporte">
+                        <span class="chips" aria-hidden="true"><span class="chip metodo" title="Entrevistas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a7.5 7.5 0 0 1-11 6.6L4 20l1.6-4.8A7.5 7.5 0 1 1 21 11.5z"/></svg></span></span>
+                        <span class="aporte-texto"><strong>Converso con tus clientes antes de diseñar</strong><small>Entrevistas</small></span>
+                    </li>
+                    <li class="aporte">
+                        <span class="chips" aria-hidden="true"><span class="chip metodo" title="Observación en terreno"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span><span class="chip metodo" title="Mapa de recorridos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H14a3.5 3.5 0 0 0 0-7h-4a3.5 3.5 0 0 1 0-7h5.5"/></svg></span></span>
+                        <span class="aporte-texto"><strong>Observo cómo usan tu local y cómo llegan a ti</strong><small>Observación en terreno y Mapa de recorridos</small></span>
+                    </li>
+                    <li class="aporte">
+                        <span class="chips" aria-hidden="true"><span class="chip metodo" title="Libreta de campo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h12a2 2 0 0 1 2 2v16H7a2 2 0 0 1-2-2V3z"/><path d="M9 7h6M9 11h6M9 15h3"/></svg></span><span class="chip" style="--c: #7C3AED" title="Obsidian"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-obsidian"/></svg></span></span>
+                        <span class="aporte-texto"><strong>Ordeno lo que aprendo para decidir qué va en el sitio</strong><small>Libreta de campo y Obsidian</small></span>
+                    </li>
+                    <li class="aporte">
+                        <span class="chips" aria-hidden="true"><span class="chip" style="--c: #276DC3" title="R"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-r"/></svg></span><span class="chip" style="--c: #75AADB" title="RStudio"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#si-rstudioide"/></svg></span></span>
+                        <span class="aporte-texto"><strong>Mido los resultados con tus datos de Google</strong><small>R y RStudio</small></span>
+                    </li>
                     </ul>
                 </div>
             </div>

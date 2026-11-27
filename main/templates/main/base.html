@@ -174,6 +174,7 @@
         .enlace-boton:hover { border-color: var(--acento); color: var(--tinta); box-shadow: 0 14px 30px -20px var(--acento); text-decoration: none; }
         .enlace-boton:hover .flecha { background: var(--acento); color: var(--superficie); }
         .enlace-boton:hover .flecha svg { transform: translate(2px, -2px); }
+        .enlace-boton .red-logo { width: 20px; height: 20px; flex: none; margin-right: -0.35rem; }
         .enlace-boton.atras { padding: 0.35rem 1.2rem 0.35rem 0.4rem; }
         .enlace-boton.atras:hover .flecha svg { transform: translateX(-3px); }
         .enlace-boton.claro { background: transparent; border-color: rgba(241, 238, 228, 0.28); color: #F1EEE4; }
@@ -279,12 +280,11 @@
                 </div>
                 {% endwith %}
                 <ul class="contacto-redes">
-                    <li><a class="enlace-boton claro" href="{{ perfil.link_linkedin|default:'https://linkedin.com/in/alexis-lara-viveros' }}" target="_blank" rel="noopener">LinkedIn<span class="flecha" aria-hidden="true">{% include 'main/_flecha.html' %}</span></a></li>
-                    <li><a class="enlace-boton claro" href="{{ perfil.link_github|default:'https://github.com/delakordillera' }}" target="_blank" rel="noopener">GitHub<span class="flecha" aria-hidden="true">{% include 'main/_flecha.html' %}</span></a></li>
+                    <li><a class="enlace-boton claro" href="{{ perfil.link_linkedin|default:'https://linkedin.com/in/alexis-lara-viveros' }}" target="_blank" rel="noopener">{% include 'main/_red_linkedin.html' %}LinkedIn<span class="flecha" aria-hidden="true">{% include 'main/_flecha.html' %}</span></a></li>
+                    <li><a class="enlace-boton claro" href="{{ perfil.link_github|default:'https://github.com/delakordillera' }}" target="_blank" rel="noopener">{% include 'main/_red_github.html' %}GitHub<span class="flecha" aria-hidden="true">{% include 'main/_flecha.html' %}</span></a></li>
                 </ul>
                 <div class="pie">
                     <p>© 2026 delakordillera, desarrollo web en Santiago de Chile.</p>
-                    <p><a class="enlace-linea" href="/">Volver al inicio</a></p>
                 </div>
             </div>
         </div>
