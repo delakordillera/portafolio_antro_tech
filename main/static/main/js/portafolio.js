@@ -245,7 +245,7 @@
             else if (href.indexOf('#cotizar') !== -1) enviar('cotizar');
             else if (href.indexOf('mailto:') === 0) enviar('correo');
             else if (el.matches('[data-copiar]')) enviar('copiar');
-            else if (/linkedin\.com|github\.com/.test(href)) enviar('red');
+            else if (/linkedin\.com/.test(href)) enviar('red');
             else if (/^https?:/.test(href) && href.indexOf(location.host) === -1) enviar('sitio', href.slice(0, 200));
         }, { capture: true, passive: true });
     }

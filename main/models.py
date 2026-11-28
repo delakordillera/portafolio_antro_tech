@@ -162,7 +162,7 @@ class Proyecto(models.Model):
     @property
     def url_destino(self):
         """A dónde debe apuntar la tarjeta: producción, repositorio, ruta interna o '#'."""
-        return self.url_produccion or self.link_github or self.link_interno or '#'
+        return self.url_produccion or self.link_interno or '#'
 
     @property
     def es_externo(self):
@@ -212,7 +212,7 @@ class Evento(models.Model):
         ('copiar', 'Copió el correo'),
         ('burbuja', 'Clic en la burbuja flotante'),
         ('caso', 'Abrió un caso'),
-        ('red', 'Clic en LinkedIn o GitHub'),
+        ('red', 'Clic en LinkedIn'),
         ('sitio', 'Abrió el sitio de un cliente'),
     ]
     tipo = models.CharField(max_length=20, choices=TIPOS, db_index=True)

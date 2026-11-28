@@ -344,3 +344,9 @@ class MedicionTests(TestCase):
         r = self.client.get('/panel/metricas/')
         self.assertContains(r, 'Métricas del sitio')
         self.assertEqual(r['X-Robots-Tag'], 'noindex')
+
+
+class SinGithubTests(TestCase):
+    def test_no_hay_enlaces_a_github(self):
+        html = self.client.get('/').content.decode()
+        self.assertNotIn('github.com', html)
